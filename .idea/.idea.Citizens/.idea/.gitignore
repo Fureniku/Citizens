@@ -1,0 +1,13 @@
+﻿# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/contentModel.xml
+/projectSettingsUpdater.xml
+/.idea.Citizens.iml
+/modules.xml
+# Datasource local storage ignored files
+/../../../../../../../../../:\University\Year 3\Final Year Project\Unity Project\Citizens\.idea\.idea.Citizens\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
