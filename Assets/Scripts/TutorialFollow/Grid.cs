@@ -25,6 +25,8 @@ public class Grid : MonoBehaviour {
 
     [SerializeField] private GameObject buildingPrefab;
 
+    private bool hasStarted = false;
+
     void Start() {
         prevWidth = width;
         prevHeight = height;
@@ -34,21 +36,27 @@ public class Grid : MonoBehaviour {
 
         grid = new GameObject[height, width];
         
-        Debug.Log("Grid starting...");
-
-        BuildGrid();
+        
     }
 
-    void BuildGrid() {
+    void Update() {
+        if (!hasStarted) {
+            Debug.Log("Grid starting...");
+            StartCoroutine(BuildGrid());
+            hasStarted = true;
+        }
+    }
+
+    IEnumerator BuildGrid() {
         Debug.Log("Starting build grid of total size " + height*width);
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
                 GenerateGridCell(row, col);
+                yield return null;
             }
             Debug.Log("Row complete");
         }
         Debug.Log("Grid generation complete");
-        
     }
 
     private void GenerateGridCell(int row, int col) {

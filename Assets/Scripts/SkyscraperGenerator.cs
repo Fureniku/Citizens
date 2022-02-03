@@ -16,7 +16,7 @@ public class SkyscraperGenerator : MonoBehaviour {
         int segmentHeight = height / segments;
         float scale = Random.Range(0.85f, 1.2f);
         
-        Debug.Log("Generating skyscraper with height " + height + ", " + segments + " segments and a scale of " + scale);
+        //Debug.Log("Generating skyscraper with height " + height + ", " + segments + " segments and a scale of " + scale);
 
         GameObject baseGO = Instantiate(baseSegment, transform);
         baseGO.transform.parent = transform;
