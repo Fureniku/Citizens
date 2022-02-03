@@ -23,6 +23,8 @@ public class Grid : MonoBehaviour {
     [SerializeField] private ShapeTypes shapeType = ShapeTypes.Cube;
     [SerializeField] private string randomShaderTypeName = "Transparent/Diffuse";
 
+    [SerializeField] private GameObject buildingPrefab;
+
     void Start() {
         prevWidth = width;
         prevHeight = height;
@@ -31,62 +33,35 @@ public class Grid : MonoBehaviour {
         prevSeed = randomSeed;
 
         grid = new GameObject[height, width];
+        
+        Debug.Log("Grid starting...");
 
         BuildGrid();
     }
 
     void BuildGrid() {
+        Debug.Log("Starting build grid of total size " + height*width);
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
-                GameObject cell = null;
-                if (grid[row, col] != null) { 
-                    DestroyImmediate(grid[row, col]);
-                }
-                cell = new GameObject($"cell_{row}_{col}");
-                cell.transform.parent = gameObject.transform;
-                grid[row, col] = cell;
-
-                cell.transform.position = new Vector3(shapeWidth * row, 0, shapeDepth * col);
-
-                MeshFilter meshFilter = cell.AddComponent<MeshFilter>();
-                MeshRenderer meshRenderer = cell.AddComponent<MeshRenderer>();
-
-                meshFilter.mesh = new Cube {
-                    Width = shapeWidth,
-                    Height = shapeHeight,
-                    Depth = shapeDepth
-                }.Generate();
-
-                meshRenderer.ApplyRandomMaterial(randomShaderTypeName, cell.name);
-                
-                //meshRenderer.material.EnableKeyword("_BaseMap");
-                //meshRenderer.material.SetTexture("_BaseMap", buildingTexture);
+                GenerateGridCell(row, col);
             }
+            Debug.Log("Row complete");
         }
-    }
-    
-    void Update() {
-        if (prevSeed != randomSeed) {
-            BuildGrid();
-            prevSeed = randomSeed;
-        }
-
-        if (prevWidth != width || prevHeight != height) {
-            ClearAll();
-
-            prevWidth = width;
-            prevHeight = height;
-            grid = new GameObject[height, width];
-        }
+        Debug.Log("Grid generation complete");
+        
     }
 
-    private void ClearAll() {
-        for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width; col++) {
-                if (grid[row, col] != null) {
-                    DestroyImmediate(grid[row, col]);
-                }
-            }
+    private void GenerateGridCell(int row, int col) {
+        GameObject cell = null;
+        if (grid[row, col] != null) { 
+            DestroyImmediate(grid[row, col]);
         }
+
+        cell = Instantiate(buildingPrefab);
+        cell.name = $"cell_{row}_{col}";
+        cell.transform.parent = gameObject.transform;
+        grid[row, col] = cell;
+
+        cell.transform.position = new Vector3(shapeWidth * row, 0, shapeDepth * col);
     }
 }

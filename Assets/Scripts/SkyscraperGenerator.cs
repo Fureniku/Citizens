@@ -8,6 +8,8 @@ public class SkyscraperGenerator : MonoBehaviour {
     [SerializeField] private GameObject midSegment;
     [SerializeField] private GameObject roofSegment;
 
+    private bool generationComplete = false;
+    
     void Start() {
         int segments = Random.Range(1,3);
         int height = Random.Range(30, 60);
@@ -36,5 +38,11 @@ public class SkyscraperGenerator : MonoBehaviour {
         GameObject roofGO = Instantiate(roofSegment, new Vector3(pos.x, pos.y + 8 + (createdSegments*4), pos.z), Quaternion.identity);
         roofGO.transform.parent = transform;
         roofGO.transform.localScale = new Vector3(scale-((segments-1)*0.1f), 1, scale-((segments-1)*0.1f));
+
+        generationComplete = true;
     }
+
+    public bool IsGenerationComplete() {
+        return generationComplete;
+    } 
 }
