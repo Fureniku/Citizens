@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TileGrid : MonoBehaviour {
+public class TileGrid {
     
     private static GameObject[,] tileMap;
     private static int size;
@@ -75,7 +75,7 @@ public class TileGrid : MonoBehaviour {
     public static void ClearSpace(Vector3 pos) {
         Collider[] colliders = Physics.OverlapSphere(pos, 2.0f);
         for (int i = 0; i < colliders.Length; i++) {
-            Destroy(colliders[i].gameObject);
+            GameObject.Destroy(colliders[i].gameObject);
         }
     }
 
@@ -83,7 +83,7 @@ public class TileGrid : MonoBehaviour {
         Collider[] colliders = Physics.OverlapSphere(pos, 2.0f);
         for (int i = 0; i < colliders.Length; i++) {
             Debug.Log("Tile " + i + " of " + colliders.Length);
-            Destroy(colliders[i].gameObject);
+            GameObject.Destroy(colliders[i].gameObject);
         }
     }
 

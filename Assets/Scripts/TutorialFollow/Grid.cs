@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Grid : MonoBehaviour {
-    [SerializeField, Range(1, 200)] private int width = 1;
-    [SerializeField, Range(1, 200)] private int height = 1;
+    [SerializeField, Range(5, 50)] private int width = 25;
+    [SerializeField, Range(5, 50)] private int height = 25;
 
     private int prevWidth = 0;
     private int prevHeight = 0;
@@ -20,7 +20,6 @@ public class Grid : MonoBehaviour {
     [SerializeField, Range(1, 200)] private int randomSeed = 10;
     private int prevSeed = -1;
 
-    [SerializeField] private ShapeTypes shapeType = ShapeTypes.Cube;
     [SerializeField] private string randomShaderTypeName = "Transparent/Diffuse";
 
     [SerializeField] private GameObject buildingPrefab;
@@ -35,8 +34,6 @@ public class Grid : MonoBehaviour {
         prevSeed = randomSeed;
 
         grid = new GameObject[height, width];
-        
-        
     }
 
     void Update() {
@@ -51,7 +48,7 @@ public class Grid : MonoBehaviour {
         Debug.Log("Starting build grid of total size " + height*width);
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
-                GenerateGridCell(row, col);
+                FillGridCell(buildingPrefab, row, col);
                 yield return null;
             }
             Debug.Log("Row complete");
@@ -59,17 +56,20 @@ public class Grid : MonoBehaviour {
         Debug.Log("Grid generation complete");
     }
 
-    private void GenerateGridCell(int row, int col) {
+    private void FillGridCell(GameObject go, int row, int col) {
         GameObject cell = null;
         if (grid[row, col] != null) { 
             DestroyImmediate(grid[row, col]);
         }
 
-        cell = Instantiate(buildingPrefab);
+        cell = Instantiate(go, gameObject.transform, true);
         cell.name = $"cell_{row}_{col}";
-        cell.transform.parent = gameObject.transform;
         grid[row, col] = cell;
 
         cell.transform.position = new Vector3(shapeWidth * row, 0, shapeDepth * col);
+    }
+
+    GameObject GetGridCellContents(int row, int col) {
+        return grid[row, col];
     }
 }

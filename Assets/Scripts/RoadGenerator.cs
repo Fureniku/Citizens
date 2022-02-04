@@ -38,7 +38,6 @@ public class RoadGenerator : MonoBehaviour {
         GenerateRoad(road_straight, new Vector3(lastPos.x,  lastPos.y, lastPos.z), generatorDirection);
 
         StartCoroutine(GeneratorCoroutine());
-        //StartCoroutine(CheckValidityAfterDelay());
     }
 
     IEnumerator CheckValidityAfterDelay() {

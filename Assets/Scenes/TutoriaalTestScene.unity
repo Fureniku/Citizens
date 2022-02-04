@@ -344,7 +344,6 @@ MonoBehaviour:
   shapeDepth: 50
   maxRandomHeight: 7.5
   randomSeed: 39
-  shapeType: 0
   randomShaderTypeName: Transparent/Diffuse
   buildingPrefab: {fileID: 4858921784356234158, guid: 0b6c123ed5d6bc742a8ce2f40d293ebb,
     type: 3}
