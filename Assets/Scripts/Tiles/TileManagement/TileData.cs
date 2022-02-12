@@ -14,8 +14,6 @@ public class TileData : MonoBehaviour {
     
     [SerializeField] private bool halfRotations = false;
 
-    public static TileData tileAir = new TileData();
-
     [SerializeField] private int rotation = 0;
 
     [SerializeField] private int randomUUID = 0;

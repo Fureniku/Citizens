@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class SkyscraperGenerator : MonoBehaviour {
 
-    [SerializeField] private GameObject baseSegment;
-    [SerializeField] private GameObject midSegment;
-    [SerializeField] private GameObject roofSegment;
+    [SerializeField] private GameObject baseSegment = null;
+    [SerializeField] private GameObject midSegment = null;
+    [SerializeField] private GameObject roofSegment = null;
 
     private bool generationComplete = false;
     

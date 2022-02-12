@@ -3,27 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RoadGenerator : MonoBehaviour {
-
-    [SerializeField] private GameObject road_straight;
-    [SerializeField] private GameObject road_corner;
-    [SerializeField] private GameObject road_t_junct;
-    [SerializeField] private GameObject road_crossroad;
-    [SerializeField] private GameObject road_crossroad_controlled;
+    
+    [SerializeField] private GameObject road_straight = null;
+    [SerializeField] private GameObject road_corner = null;
+    [SerializeField] private GameObject road_t_junct = null;
+    [SerializeField] private GameObject road_crossroad = null;
+    [SerializeField] private GameObject road_crossroad_controlled = null;
 
     [SerializeField] private int numberGenerate = 50;
     [SerializeField] private int cornerChance = 10; //as percentage
     [SerializeField] private int minTilesBeforeCorner = 4;
 
     [SerializeField] int generatorDirection = 0;
-    private Vector3 lastPos;
+    private TilePos lastPos;
     private int tilesSinceCorner = 0;
-    
-    private WorldGenerator worldGenerator;
 
-    private float waitTime = 0.05f;
+    private GridManager gridManager;
+    
+    private float waitTime = 0.05f; //for debugging
+
+    private bool generationStarted = false;
     
     void Start() {
-        worldGenerator = WorldGenerator.Instance;
+        gridManager = GridManager.Instance;
         
         TileRegistry.Register(road_straight.GetComponent<TileData>());
         TileRegistry.Register(road_corner.GetComponent<TileData>());
@@ -31,30 +33,31 @@ public class RoadGenerator : MonoBehaviour {
         TileRegistry.Register(road_crossroad.GetComponent<TileData>());
         TileRegistry.Register(road_crossroad_controlled.GetComponent<TileData>());
         
-        lastPos = transform.position;
+        lastPos = TilePos.GetGridPosFromLocation(transform.position, gridManager);
     }
 
+    void Update() {
+        if (gridManager.IsInitialized()) {
+            if (!generationStarted) {
+                BeginRoadGeneration();
+                generationStarted = true;
+            }
+        }
+    }
+    
     public void BeginRoadGeneration() {
-        GenerateRoad(road_straight, new Vector3(lastPos.x,  lastPos.y, lastPos.z), generatorDirection);
+        GenerateRoad(road_straight, TilePos.GetGridPosFromLocation(transform.position, gridManager), generatorDirection);
 
         StartCoroutine(GeneratorCoroutine());
     }
-
-    IEnumerator CheckValidityAfterDelay() {
-        Debug.Log("Checking validity in 5 seconds...");
-        yield return new WaitForSeconds(5.0f);
-        TileGrid.CheckMapValidity();
-    }
-
+    
     //Start generating the road
     IEnumerator GeneratorCoroutine() {
         //Loop for maximum road size
         for (int i = 0; i < numberGenerate; i++) {
-            Vector3 placePos = lastPos + offsetDir(generatorDirection);
-            if (TileGrid.IsValidLocation(new TilePos(placePos))) {
-                
-                GameObject tileAtPos = TileGrid.GetGameObjectAtPos(placePos);
-                TileData tile = TileData.GetFromGameObject(TileGrid.GetGameObjectAtPos(placePos));
+            TilePos placePos = offsetPos(lastPos);
+            if (gridManager.IsValidLocation(placePos)) {
+                TileData tile = TileData.GetFromGameObject(gridManager.GetGridCellContents(placePos));
                 if (tile != null) {
                     int existingId = tile.GetId();
                     GameObject placeTile = road_straight;
@@ -127,28 +130,31 @@ public class RoadGenerator : MonoBehaviour {
         }
 
         Debug.Log("Road generation complete.");
+        yield return null;
     }
-
+    
     //Generate a road tile ready for placement
-    private void GenerateRoad(GameObject type, Vector3 vec3, int rot) {
-        TilePos pos = new TilePos(vec3);
-
-        worldGenerator.PlaceTile(type, vec3, rot, pos);
+    private void GenerateRoad(GameObject type, TilePos pos, int rot) {
+        gridManager.FillGridCell(type, pos.x, pos.z, rot); //.PlaceTile(type, vec3, rot, pos);
     }
 
     //Calculate the direction to move based on rotation
-    Vector3 offsetDir(int rotation) {
-        switch (rotation) {
+    TilePos offsetPos(TilePos initialPos) {
+        switch (generatorDirection) {
             case 0:
-                return new Vector3(0, 0, -10);
+                initialPos.z -= 1;
+                break;
             case 90:
-                return new Vector3(-10, 0, 0);
+                initialPos.x -= 1;
+                break;
             case 180:
-                return new Vector3(0, 0, 10);
+                initialPos.z += 1;
+                break;
             case 270:
-                return new Vector3(10, 0, 0);
+                initialPos.x += 1;
+                break;
         }
-        return new Vector3(0, 0, -10);
+        return initialPos;
     }
 
     //Rotate the generator, keeping within constraints to use elsewhere

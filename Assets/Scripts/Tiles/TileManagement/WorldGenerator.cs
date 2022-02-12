@@ -6,29 +6,16 @@ using UnityEngine.AI;
 
 public class WorldGenerator : MonoBehaviour
 {
-    private static WorldGenerator _instance;
-    public static WorldGenerator Instance {
-        get { return _instance; }
-    }
+    
 
+    /*
     [SerializeField] private GameObject defaultTile;
     [SerializeField] private int mapSize = 100;
     [SerializeField] private GameObject tileParent;
     //[SerializeField] private GameObject roadGenParent;
 
     [SerializeField] private GameObject[] roadGenerators;
-    
-    private static TileGrid grid;
 
-    void Awake() {
-        Debug.Log("Initialize world generator");
-        if (_instance != null && _instance != this) {
-            Destroy(this.gameObject);
-        }
-        else {
-            _instance = this;
-        }
-    }
 
     void Start() {
         grid = GetGrid();
@@ -54,7 +41,7 @@ public class WorldGenerator : MonoBehaviour
                 TilePos pos = new TilePos(i - mapSize / 2, j - mapSize / 2);
                 
                 
-                PlaceTile(defaultTile, pos.GetVector3(), 0, pos);
+                //PlaceTile(defaultTile, pos.GetVector3(), 0, pos);
             }
         }
         Debug.Log("World initialized");
@@ -87,5 +74,5 @@ public class WorldGenerator : MonoBehaviour
 
     public void SeedRoadGenerator() {
         
-    }
+    }*/
 }

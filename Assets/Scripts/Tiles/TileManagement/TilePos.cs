@@ -10,22 +10,19 @@ public class TilePos {
         this.x = x;
         this.z = z;
     }
-
-    public TilePos(Vector3 vec) {
-        this.x = (int) Math.Floor(vec.x / 10);
-        this.z = (int) Math.Floor(vec.z / 10);
-    }
-
-    public Vector3 GetVector3() {
-        return new Vector3(x * 10 + 5, 0, z * 10 + 5);
-    }
-
+    
     public override string ToString() {
         return "[" + x + "," + z + "]";
     }
 
-    //Create a tilepos from tile grid coordinates which must be positive
-    public static TilePos MapOffset(int x, int z) {
-        return new TilePos(x - TileGrid.GetMapSize() / 2, z - TileGrid.GetMapSize() / 2);
+    //Convert a Unity coordinate location into a tilepos location
+    public static TilePos GetGridPosFromLocation(Vector3 worldPos, GridManager gm) {
+        Vector3 gridStartPos = gm.transform.position;
+        float tileSize = gm.GetGridTileSize();
+
+        float xFinal = (worldPos.x - gridStartPos.x) / tileSize;
+        float zFinal = (worldPos.z - gridStartPos.z) / tileSize;
+
+        return new TilePos((int) Math.Floor(xFinal), (int) Math.Floor(zFinal));
     }
 }
