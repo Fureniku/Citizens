@@ -23,6 +23,7 @@ public class RoadGenerator : MonoBehaviour {
     private float waitTime = 0.05f; //for debugging
 
     private bool generationStarted = false;
+    private bool generationComplete = false;
     
     void Start() {
         gridManager = GridManager.Instance;
@@ -130,6 +131,7 @@ public class RoadGenerator : MonoBehaviour {
         }
 
         Debug.Log("Road generation complete.");
+        generationComplete = true;
         yield return null;
     }
     
@@ -167,5 +169,9 @@ public class RoadGenerator : MonoBehaviour {
         if (generatorDirection >= 360) {
             generatorDirection -= 360;
         }
+    }
+
+    public bool IsGenerationComplete() {
+        return generationComplete;
     }
 }

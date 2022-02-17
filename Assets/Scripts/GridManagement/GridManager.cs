@@ -67,7 +67,7 @@ public class GridManager : MonoBehaviour {
     }
 
     public bool IsValidLocation(TilePos pos) {
-        return (pos.x <= width && pos.z <= height);
+        return (pos.x < width && pos.x >= 0 && pos.z < height && pos.z >= 0);
     }
     
     public void FillGridCell(GameObject go, GameObject parent, int row, int col, int rotation) {

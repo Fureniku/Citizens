@@ -21,6 +21,8 @@ public class TileData : MonoBehaviour {
 
     void Start() {
         randomUUID = Random.Range(1, 10000);
+        TilePos tilePos = TilePos.GetGridPosFromLocation(transform.position, GridManager.Instance);
+        SetGridPos(tilePos);
     }
 
     public int GetUUID() {
@@ -33,6 +35,14 @@ public class TileData : MonoBehaviour {
 
     public String GetName() {
         return tileName;
+    }
+
+    public int GetWidth() {
+        return width;
+    }
+
+    public int GetLength() {
+        return length;
     }
 
     public void SetRotation(int rot) {

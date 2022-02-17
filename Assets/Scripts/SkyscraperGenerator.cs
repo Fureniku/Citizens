@@ -7,17 +7,82 @@ public class SkyscraperGenerator : MonoBehaviour {
     [SerializeField] private GameObject baseSegment = null;
     [SerializeField] private GameObject midSegment = null;
     [SerializeField] private GameObject roofSegment = null;
+    [SerializeField] private GameObject roadGen = null;
 
+    private RoadGenerator roadGenerator;
+    
     private bool generationComplete = false;
+    private TileData tileData;
+
+    private int segments;
+    private int height;
+    private int segmentHeight;
+    private float scale;
+
+    private int gridWidth;
+    private int gridLength;
+
+    private bool skyscraperCreated;
+
+    private GridManager gridManager;
+    private TilePos tilePos;
     
     void Start() {
-        int segments = Random.Range(1,3);
-        int height = Random.Range(30, 60);
-        int segmentHeight = height / segments;
-        float scale = Random.Range(0.85f, 1.2f);
-        
-        //Debug.Log("Generating skyscraper with height " + height + ", " + segments + " segments and a scale of " + scale);
+        segments = Random.Range(1,3);
+        height = Random.Range(30, 60);
+        segmentHeight = height / segments;
+        scale = Random.Range(0.85f, 1.2f);
 
+        tileData = GetComponent<TileData>();
+
+        gridWidth = tileData.GetWidth();
+        gridLength = tileData.GetLength();
+        
+        gridManager = GridManager.Instance;
+        tilePos = TilePos.GetGridPosFromLocation(transform.position, gridManager);
+        tileData.SetGridPos(tilePos);
+        roadGenerator = roadGen.GetComponent<RoadGenerator>();
+
+        //Debug.Log("Generating skyscraper with height " + height + ", " + segments + " segments and a scale of " + scale);
+    }
+
+    void Update() {
+        if (gridManager.IsInitialized() && !skyscraperCreated && roadGenerator.IsGenerationComplete()) {
+            Debug.Log("Attempting skyscraper generation");
+            skyscraperCreated = true;
+            if (CheckCanFit()) {
+                Debug.Log("Enough space! Generating...");
+                Generate();
+            }
+        }
+    }
+
+    private bool CheckCanFit() {
+        bool[,] spaceCheck = new bool[gridLength,gridWidth]; 
+        Debug.Log("Checking fit in " + gridLength + ", " + gridWidth);
+        
+        for (int i = 0; i < gridLength; i++) {
+            for (int j = 0; j < gridWidth; j++) {
+                TilePos placeLoc = new TilePos(tilePos.x + j, tilePos.z + i);
+                Debug.Log("Checking tile at " + placeLoc.x + ", " + placeLoc.z);
+                if (gridManager.IsValidLocation(placeLoc)) {
+                    GameObject goTile = gridManager.GetGridCellContents(placeLoc);
+                    TileData tile = TileData.GetFromGameObject(goTile);
+                    if (tile != null) {
+                        Debug.Log("it's a "+ tile.GetName());
+                        if (!(tile is TileGrass)) {
+                            Debug.Log("Tile isn't grass. No space, aborting.");
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        
+        return true;
+    }
+    
+    private void Generate() {
         GameObject baseGO = Instantiate(baseSegment, transform);
         baseGO.transform.parent = transform;
         baseGO.transform.localScale = new Vector3(scale, 1.0f, scale);
