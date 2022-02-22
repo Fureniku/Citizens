@@ -450,8 +450,7 @@ MonoBehaviour:
   width: 25
   height: 25
   gridSlotSize: 50
-  randomSeed: 38
-  randomShaderTypeName: Transparent/Diffuse
+  randomSeed: 47
   defaultTilePrefab: {fileID: 1825546272134706053, guid: dbb8c39e710aea54bb6f669ebfaee4bc,
     type: 3}
 --- !u!4 &1907542591

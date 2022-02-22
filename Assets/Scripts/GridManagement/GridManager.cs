@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Tiles.TileManagement;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -75,7 +76,7 @@ public class GridManager : MonoBehaviour {
         return (pos.x < width && pos.x >= 0 && pos.z < height && pos.z >= 0);
     }
     
-    public bool FillGridCell(GameObject go, GameObject parent, int row, int col, int rotation,  bool placementChecks) {
+    public bool FillGridCell(GameObject go, GameObject parent, int row, int col, EnumTileDirection rotation,  bool placementChecks) {
         GameObject cell = null;
 
         SkyscraperGenerator skyTile = go.GetComponent<SkyscraperGenerator>();
@@ -104,12 +105,12 @@ public class GridManager : MonoBehaviour {
         grid[row, col] = cell;
         
         cell.transform.position = new Vector3(gridSlotSize * row, 0, gridSlotSize * col) + transform.position;
-        cell.transform.rotation = Quaternion.Euler(0,rotation,0);
+        cell.transform.rotation = Quaternion.Euler(0,rotation.GetRotation(),0);
         TilePos.GetGridPosFromLocation(cell.transform.position);
         return true;
     }
 
-    public bool FillGridCell(GameObject go, int row, int col, int rotation, bool placementChecks) {
+    public bool FillGridCell(GameObject go, int row, int col, EnumTileDirection rotation, bool placementChecks) {
         return FillGridCell(go, GetRowParent(row), row, col, rotation, placementChecks);
     }
 
@@ -123,7 +124,6 @@ public class GridManager : MonoBehaviour {
     }
 
     private void RecheckGrid() {
-        Debug.Log("Checking grid for repairs");
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
                 if (grid[row, col] == null) {
@@ -137,7 +137,6 @@ public class GridManager : MonoBehaviour {
         }
 
         recheck = false;
-        Debug.Log("Repairs complete");
     }
 
     private GameObject GetRowParent(int row) {

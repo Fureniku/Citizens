@@ -1,4 +1,5 @@
 ﻿using System;
+using Tiles.TileManagement;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -14,20 +15,13 @@ public abstract class TileData : MonoBehaviour {
     
     [SerializeField] protected bool halfRotations = false;
 
-    [SerializeField] protected int rotation = 0;
+    [SerializeField] protected EnumTileDirection rotation = 0;
 
-    [SerializeField] protected int randomUUID = 0;
-    
     [SerializeField] protected EnumGenerateDirection genDirection = EnumGenerateDirection.NONE;
 
     void Start() {
-        randomUUID = Random.Range(1, 10000);
         TilePos tilePos = TilePos.GetGridPosFromLocation(transform.position);
         SetGridPos(tilePos);
-    }
-
-    public int GetUUID() {
-        return randomUUID;
     }
 
     public int GetId() {
@@ -46,9 +40,9 @@ public abstract class TileData : MonoBehaviour {
         return length;
     }
 
-    public void SetRotation(int rot) {
+    public void SetRotation(EnumTileDirection rot) {
         rotation = rot;
-        transform.rotation = Quaternion.Euler(transform.rotation.x, rot,  transform.rotation.z);
+        transform.rotation = Quaternion.Euler(transform.rotation.x, rot.GetRotation(),  transform.rotation.z);
     }
     
     public void SetGenerationDirection(EnumGenerateDirection dir) {
@@ -60,7 +54,7 @@ public abstract class TileData : MonoBehaviour {
         gridZ = pos.z;
     }
 
-    public int GetRotation() {
+    public EnumTileDirection GetRotation() {
         return rotation;
     }
 
@@ -68,19 +62,19 @@ public abstract class TileData : MonoBehaviour {
         return halfRotations;
     }
 
-    public bool RotationMatch(int otherRot) {
+    public bool RotationMatch(EnumTileDirection otherRot) {
         if (rotation == otherRot) {
             return true;
         }
         if (halfRotations) {
-            return Math.Abs(rotation - otherRot) == 180;
+            return rotation == otherRot.Opposite();
         }
         return false;
     }
 
     //Just used for debugging
     public string GetTileDataForPrint() {
-        return "Tile [" + GetId() + "] (" + GetName() + ") is at [" + gridX + ", " + gridZ + "] with UID " + randomUUID;
+        return "Tile [" + GetId() + "] (" + GetName() + ") is at [" + gridX + ", " + gridZ + "]";
     }
 
     public static TileData GetFromGameObject(GameObject go) {

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Tiles.TileManagement;
 using UnityEngine;
 
 public class RoadGenerator : MonoBehaviour {
@@ -16,7 +17,8 @@ public class RoadGenerator : MonoBehaviour {
     [SerializeField] private int cornerChance = 10; //as percentage
     [SerializeField] private int minTilesBeforeCorner = 4;
 
-    [SerializeField] int generatorDirection = 0;
+    [SerializeField] EnumTileDirection generatorDirection = EnumTileDirection.SOUTH;
+    
     private TilePos lastPos;
     private int tilesSinceCorner = 0;
 
@@ -24,26 +26,20 @@ public class RoadGenerator : MonoBehaviour {
     
     private float baseWeightTime = 0.0f; //for debugging
 
-    private bool generationStarted = false;
-    private bool generationComplete = false;
+    private EnumGenerationStage roadGenStage = EnumGenerationStage.INITIALIZED;
+
+    private int forceCorner = 0; //A corner was attempted to generate, but a building occupies the space. 0 = no force, 1 = force right, 2 = force left
     
     void Start() {
         gridManager = GridManager.Instance;
-        
-        //TileRegistry.Register(road_straight.GetComponent<TileData>());
-        //TileRegistry.Register(road_corner.GetComponent<TileData>());
-        //TileRegistry.Register(road_t_junct.GetComponent<TileData>());
-        //TileRegistry.Register(road_crossroad.GetComponent<TileData>());
-        //TileRegistry.Register(road_crossroad_controlled.GetComponent<TileData>());
-        
         lastPos = TilePos.GetGridPosFromLocation(transform.position);
     }
 
     void Update() {
         if (gridManager.IsInitialized()) {
-            if (!generationStarted) {
+            if (roadGenStage == EnumGenerationStage.INITIALIZED) {
                 BeginRoadGeneration();
-                generationStarted = true;
+                roadGenStage = EnumGenerationStage.STARTED;
             }
         }
     }
@@ -58,14 +54,14 @@ public class RoadGenerator : MonoBehaviour {
     IEnumerator GeneratorCoroutine() {
         //Loop for maximum road size
         for (int i = 0; i < numberGenerate; i++) {
-            TilePos placePos = offsetPos(lastPos);
+            TilePos placePos = OffsetPos(lastPos);
             if (gridManager.IsValidLocation(placePos)) {
                 TileData tile = TileData.GetFromGameObject(gridManager.GetGridCellContents(placePos));
                 float waitTime = 0f;
                 if (tile != null) {
                     int existingId = tile.GetId();
                     GameObject placeTile = road_straight;
-                    int placeRotation = generatorDirection;
+                    EnumTileDirection placeRotation = generatorDirection;
 
                     if (tile is TileRoad) { //there's already a road here so we need to decide what to do.
                         Debug.Log("Existing tile is a road with ID " + existingId);
@@ -75,24 +71,20 @@ public class RoadGenerator : MonoBehaviour {
 
                             if (existingId == road_straight.GetComponent<TileData>().GetId()) {
                                 placeTile = road_t_junct;
-                                placeRotation = generatorDirection + 90;
+                                placeRotation = generatorDirection.RotateCW();
                             }
 
                             if (existingId == road_corner.GetComponent<TileData>().GetId()) {
                                 placeTile = road_t_junct;
-                                placeRotation = generatorDirection + 180;
+                                placeRotation = generatorDirection.Opposite();
                             }
 
                             if (existingId == road_crossroad.GetComponent<TileData>().GetId()) {
                                 placeTile = road_crossroad_controlled;
                                 placeRotation = generatorDirection;
                             }
-                            
-                            if (placeRotation >= 360) {
-                                placeRotation -= 360;
-                            }
                                 
-                            GenerateRoad(placeTile,  placePos,  placeRotation);
+                            GenerateRoad(placeTile, placePos, placeRotation);
                             break;
                         }
                         
@@ -101,14 +93,21 @@ public class RoadGenerator : MonoBehaviour {
                         if (Random.Range(1, 100) <= cornerChance && tilesSinceCorner >= minTilesBeforeCorner) {
                             bool cornerRight = Random.value < 0.5;
                             waitTime = baseWeightTime * 4f;
+                            Debug.Log("Turning!");
                             if (cornerRight) {
-                                GenerateRoad(road_corner, placePos, generatorDirection);
-                                rotate(90);
+                                if (false) { //If there's something occupying the space to the right
+                                    forceCorner = 1;
+                                }
+                                else {
+                                    GenerateRoad(road_corner, placePos, generatorDirection);
+                                    generatorDirection = generatorDirection.RotateCW();
+                                }
                             }
                             else {
-                                GenerateRoad(road_corner, placePos, generatorDirection + 90);
-                                rotate(-90);
+                                generatorDirection = generatorDirection.RotateCCW();
+                                GenerateRoad(road_corner, placePos, generatorDirection);
                             }
+                            Debug.Log("Direction is now " + generatorDirection);
 
                             tilesSinceCorner = 0;
                         }
@@ -134,42 +133,46 @@ public class RoadGenerator : MonoBehaviour {
         }
 
         Debug.Log("Road generation complete.");
-        generationComplete = true;
+        roadGenStage = EnumGenerationStage.COMPLETE;
         yield return null;
     }
     
     //Generate a road tile ready for placement
-    private void GenerateRoad(GameObject type, TilePos pos, int rot) {
+    private void GenerateRoad(GameObject type, TilePos pos, EnumTileDirection rot) {
+        type.GetComponent<TileData>().SetRotation(rot);
         gridManager.FillGridCell(type, pos.x, pos.z, rot, false);
         Debug.Log("Road has been placed. Begin skyscraper placement.");
 
-            switch(rot) {
-                case 0:
-                    TilePos left  = new TilePos(pos.x - 1, pos.z);
-                    TilePos right = new TilePos(pos.x + 1, pos.z);
-                    if (GenerateSkyscraperForPos(right, ref skyscraper)) {
-                        gridManager.FillGridCell(skyscraper, right.x, right.z, 0, true);
-                    }
+        /*switch(rot) {
+            case EnumTileDirection.NORTH:
+                TilePos left  = new TilePos(pos.x - 1, pos.z);
+                TilePos right = new TilePos(pos.x + 1, pos.z);
+                if (GenerateSkyscraperForPos(right, ref skyscraper)) {
+                    GenerateBuilding(skyscraper, right.x, right.z);
+                }
 
-                    if (GenerateSkyscraperForPos(left, ref skyscraper)) {
-                        gridManager.FillGridCell(skyscraper, left.x, left.z, 0, true);
-                    }
-                    break;
-                case 90:
-                    gridManager.FillGridCell(skyscraper, pos.x, pos.z + 1, 0, true);
-                    //gridManager.FillGridCell(skyscraper, pos.x, pos.z - 1, 0, true);
-                    break;
-                case 180:
-                    gridManager.FillGridCell(skyscraper, pos.x + 1, pos.z, 0, true);
-                    //gridManager.FillGridCell(skyscraper, pos.x - 1, pos.z, 0, true);
-                    break;
-                case 270:
-                    gridManager.FillGridCell(skyscraper, pos.x, pos.z + 1, 0, true);
-                    //gridManager.FillGridCell(skyscraper, pos.x, pos.z - 1, 0, true);
-                    break;
-            }
-            Debug.Log("Generation should be complete.");
+                if (GenerateSkyscraperForPos(left, ref skyscraper)) {
+                    GenerateBuilding(skyscraper, left.x, left.z);
+                }
+                break;
+            case EnumTileDirection.EAST:
+                GenerateBuilding(skyscraper, pos.x, pos.z + 1);
+                //gridManager.FillGridCell(skyscraper, pos.x, pos.z - 1, 0, true);
+                break;
+            case EnumTileDirection.SOUTH:
+                GenerateBuilding(skyscraper, pos.x + 1, pos.z);
+                //gridManager.FillGridCell(skyscraper, pos.x - 1, pos.z, 0, true);
+                break;
+            case EnumTileDirection.WEST:
+                GenerateBuilding(skyscraper, pos.x, pos.z + 1);
+                //gridManager.FillGridCell(skyscraper, pos.x, pos.z - 1, 0, true);
+                break;
+        }
+        Debug.Log("Generation should be complete.");*/
+    }
 
+    private void GenerateBuilding(GameObject building, int row, int col) {
+        gridManager.FillGridCell(building, row, col, 0, true);
     }
 
     private bool GenerateSkyscraperForPos(TilePos pos, ref GameObject go) {
@@ -180,38 +183,11 @@ public class RoadGenerator : MonoBehaviour {
         return skyscraperDir != EnumGenerateDirection.NONE; //return true if can generate, return false if not.
     }
 
-    //Calculate the direction to move based on rotation
-    TilePos offsetPos(TilePos initialPos) {
-        switch (generatorDirection) {
-            case 0:
-                initialPos.z -= 1;
-                break;
-            case 90:
-                initialPos.x -= 1;
-                break;
-            case 180:
-                initialPos.z += 1;
-                break;
-            case 270:
-                initialPos.x += 1;
-                break;
-        }
-        return initialPos;
-    }
-
-    //Rotate the generator, keeping within constraints to use elsewhere
-    void rotate(int rot) {
-        generatorDirection += rot;
-        if (generatorDirection < 0) {
-            generatorDirection += 360;
-        }
-
-        if (generatorDirection >= 360) {
-            generatorDirection -= 360;
-        }
+    private TilePos OffsetPos(TilePos prev) { //Where the next tile will be, based on the previous tile and current rotation
+        return new TilePos(prev.x + (1 * generatorDirection.XModify()), prev.z + (1 * generatorDirection.ZModify()));
     }
 
     public bool IsGenerationComplete() {
-        return generationComplete;
+        return roadGenStage == EnumGenerationStage.COMPLETE;
     }
 }
