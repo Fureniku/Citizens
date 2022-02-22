@@ -382,7 +382,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileName: Road_T_Junction
-  tileId: 3
+  tileId: 5
   width: 1
   length: 1
   gridX: 0

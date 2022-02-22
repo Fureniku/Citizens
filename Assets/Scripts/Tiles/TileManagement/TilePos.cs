@@ -16,7 +16,8 @@ public class TilePos {
     }
 
     //Convert a Unity coordinate location into a tilepos location
-    public static TilePos GetGridPosFromLocation(Vector3 worldPos, GridManager gm) {
+    public static TilePos GetGridPosFromLocation(Vector3 worldPos) {
+        GridManager gm = GridManager.Instance;
         Vector3 gridStartPos = gm.transform.position;
         float tileSize = gm.GetGridTileSize();
 
@@ -24,5 +25,9 @@ public class TilePos {
         float zFinal = (worldPos.z - gridStartPos.z) / tileSize;
 
         return new TilePos((int) Math.Floor(xFinal), (int) Math.Floor(zFinal));
+    }
+
+    public static Vector3 GetWorldPosFromTilePos(TilePos pos, GridManager gm) {
+        return new Vector3(pos.x * gm.GetGridTileSize(), 0, pos.z * gm.GetGridTileSize());
     }
 }

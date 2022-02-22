@@ -383,7 +383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileName: Road_Crossroad_Controlled
-  tileId: 5
+  tileId: 7
   width: 1
   length: 1
   gridX: 19

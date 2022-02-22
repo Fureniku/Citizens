@@ -201,7 +201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileName: Road_Crossroad
-  tileId: 4
+  tileId: 6
   width: 1
   length: 1
   gridX: 0

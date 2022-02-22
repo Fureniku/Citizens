@@ -1,16 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-public class SkyscraperGenerator : MonoBehaviour {
+public class SkyscraperGenerator : TileData {
 
     [SerializeField] private GameObject baseSegment = null;
     [SerializeField] private GameObject midSegment = null;
     [SerializeField] private GameObject roofSegment = null;
-    [SerializeField] private GameObject roadGen = null;
-
-    private RoadGenerator roadGenerator;
+    [SerializeField] private GameObject referenceTile = null;
     
+    [SerializeField] private GameObject[,] referenceTiles;
+
     private bool generationComplete = false;
     private TileData tileData;
 
@@ -26,6 +28,8 @@ public class SkyscraperGenerator : MonoBehaviour {
 
     private GridManager gridManager;
     private TilePos tilePos;
+
+    
     
     void Start() {
         segments = Random.Range(1,3);
@@ -39,75 +43,89 @@ public class SkyscraperGenerator : MonoBehaviour {
         gridLength = tileData.GetLength();
         
         gridManager = GridManager.Instance;
-        tilePos = TilePos.GetGridPosFromLocation(transform.position, gridManager);
+        tilePos = TilePos.GetGridPosFromLocation(transform.position);
         tileData.SetGridPos(tilePos);
-        roadGenerator = roadGen.GetComponent<RoadGenerator>();
+        referenceTiles = new GameObject[gridWidth, gridLength];
 
         //Debug.Log("Generating skyscraper with height " + height + ", " + segments + " segments and a scale of " + scale);
     }
 
     void Update() {
-        if (gridManager.IsInitialized() && !skyscraperCreated && roadGenerator.IsGenerationComplete()) {
-            Debug.Log("Attempting skyscraper generation");
+        if (gridManager.IsInitialized() && !skyscraperCreated) {
+            Debug.Log("######### Attempting skyscraper generation ###########");
             skyscraperCreated = true;
-            if (CheckCanFit()) {
-                Debug.Log("Enough space! Generating...");
+            if (genDirection != EnumGenerateDirection.NONE) {
+                Debug.Log("Enough space! Generating in " + genDirection + ". Generating...");
                 Generate();
+            }
+            else {
+                Debug.Log("It all failed! Direction was " + genDirection);
             }
         }
     }
 
-    private bool CheckCanFit() {
-        bool[,] spaceCheck = new bool[gridLength,gridWidth]; 
-        Debug.Log("Checking fit in " + gridLength + ", " + gridWidth);
-        
-        for (int i = 0; i < gridLength; i++) {
-            for (int j = 0; j < gridWidth; j++) {
-                TilePos placeLoc = new TilePos(tilePos.x + j, tilePos.z + i);
-                Debug.Log("Checking tile at " + placeLoc.x + ", " + placeLoc.z);
-                if (gridManager.IsValidLocation(placeLoc)) {
-                    GameObject goTile = gridManager.GetGridCellContents(placeLoc);
-                    TileData tile = TileData.GetFromGameObject(goTile);
-                    if (tile != null) {
-                        Debug.Log("it's a "+ tile.GetName());
-                        if (!(tile is TileGrass)) {
-                            Debug.Log("Tile isn't grass. No space, aborting.");
-                            return false;
-                        }
-                    }
-                }
-            }
-        }
-        
-        return true;
-    }
-    
     private void Generate() {
         GameObject baseGO = Instantiate(baseSegment, transform);
-        baseGO.transform.parent = transform;
-        baseGO.transform.localScale = new Vector3(scale, 1.0f, scale);
-        
+
+        float scaleX = width;
+        float scaleY = Mathf.Max(width, length) - (Mathf.Abs(width - length) / 2);
+        float scaleZ = length;
+
+        float xOffset = (1.5f * gridManager.GetGridTileSize()) * genDirection.GenX();
+        float zOffset = (1.5f * gridManager.GetGridTileSize()) * genDirection.GenZ();
         Vector3 pos = transform.position;
+        baseGO.transform.parent = transform;
+        baseGO.transform.position = new Vector3(pos.x + xOffset, pos.y, pos.z + zOffset);
+        baseGO.transform.localScale = new Vector3(scale * scaleX, 1.0f*scaleY, scale * scaleZ);
 
         int createdSegments = 0;
 
         for (int i = 0; i < segments; i++) {
             for (int j = 0; j < segmentHeight + (i == 0 ? height % segments : 0); j++) {
-                GameObject go = Instantiate(midSegment, new Vector3(pos.x, pos.y + 8 + (createdSegments*4), pos.z), Quaternion.identity);
-                go.transform.localScale = new Vector3(scale-(i*0.1f), 1, scale-(i*0.1f));
+                GameObject go = Instantiate(midSegment, new Vector3(pos.x + xOffset, pos.y + ((8 + (createdSegments*4))*scaleY), pos.z + zOffset), Quaternion.identity);
+                go.transform.localScale = new Vector3((scale-(i*0.1f)) * scaleX, 1*scaleY, (scale-(i*0.1f)) * scaleZ);
                 go.transform.parent = transform;
                 createdSegments++;
             }
         }
 
-        GameObject roofGO = Instantiate(roofSegment, new Vector3(pos.x, pos.y + 8 + (createdSegments*4), pos.z), Quaternion.identity);
+        GameObject roofGO = Instantiate(roofSegment, new Vector3(pos.x + xOffset, pos.y + ((8 + (createdSegments*4))*scaleY), pos.z + zOffset), Quaternion.identity);
         roofGO.transform.parent = transform;
-        roofGO.transform.localScale = new Vector3(scale-((segments-1)*0.1f), 1, scale-((segments-1)*0.1f));
+        roofGO.transform.localScale = new Vector3((scale-((segments-1)*0.1f)) * scaleX, 1*scaleY, (scale-((segments-1)*0.1f)) * scaleZ);
+
+        for (int i = 0; i < gridLength; i++) {
+            for (int j = 0; j < gridWidth; j++) {
+                if (i == 0 && j == 0) continue;
+                //j and i * 1/* - 1
+                Debug.Log("setting reference tiles. Generation is " + genDirection + " AKA " + genDirection.Name() + ", with X mod " + genDirection.GenX() + " and z mod " + genDirection.GenZ());
+                gridManager.FillGridCell(referenceTile, tilePos.x + (j * genDirection.GenX()), tilePos.z + (i * genDirection.GenZ()), 0, false);
+                GameObject rt = gridManager.GetGridCellContents(tilePos.x + j, tilePos.z + i);
+                TileReference reference = rt.GetComponent<TileReference>();
+                if (reference != null) {
+                    rt.GetComponent<TileReference>().SetMasterTile(gameObject);
+                }
+                referenceTiles[j, i] = rt;
+            }
+        }
 
         generationComplete = true;
     }
 
     public bool IsGenerationComplete() {
         return generationComplete;
-    } 
+    }
+
+    private void OnDestroy() {
+        Debug.Log("Goodbye cruel world!");
+        for (int i = 0; i < gridLength; i++) {
+            for (int j = 0; j < gridWidth; j++) {
+                GameObject go = referenceTiles[j, i];
+                if (go != null) {
+                    Debug.Log("Setting " + (tilePos.z + i) + ", " + (tilePos.x + j) + ", to grass");
+                    GameObject grassTile = TileRegistry.GetGrass();
+                    gridManager.FillGridCell(grassTile, tilePos.x + j, tilePos.z + i, 0, false);
+                }
+            }
+        }
+    }
 }

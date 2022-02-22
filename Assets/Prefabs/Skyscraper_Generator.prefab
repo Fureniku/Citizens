@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4858921784356234152}
   - component: {fileID: 4858921784356234159}
-  - component: {fileID: 6827674925757600047}
   - component: {fileID: -7070996090254578737}
   - component: {fileID: -8340403662472237788}
   - component: {fileID: 695186477692560052}
@@ -47,24 +46,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0f3e646e25d21c47a6bf9699ba70a3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseSegment: {fileID: 6841453733244627607, guid: 4f3fc6224f69ade4795e8f92932ef69f,
-    type: 3}
-  midSegment: {fileID: 3279603237343967606, guid: 475f4147d3307d646bdf1c4c4f396e8b,
-    type: 3}
-  roofSegment: {fileID: 5345706435198337567, guid: e91b2e57628b5274da6a2c4a2f091fd0,
-    type: 3}
---- !u!114 &6827674925757600047
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4858921784356234158}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3267933f24e8b9f4ab4171e7d173085c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   tileName: Skyscraper_Generic_1
   tileId: 0
   width: 4
@@ -74,6 +55,14 @@ MonoBehaviour:
   halfRotations: 0
   rotation: 0
   randomUUID: 0
+  baseSegment: {fileID: 6841453733244627607, guid: 4f3fc6224f69ade4795e8f92932ef69f,
+    type: 3}
+  midSegment: {fileID: 3279603237343967606, guid: 475f4147d3307d646bdf1c4c4f396e8b,
+    type: 3}
+  roofSegment: {fileID: 5345706435198337567, guid: e91b2e57628b5274da6a2c4a2f091fd0,
+    type: 3}
+  referenceTile: {fileID: 1825546272134706053, guid: 42af3a0de282f0f4d9548a9de64442f3,
+    type: 3}
 --- !u!114 &-7070996090254578737
 MonoBehaviour:
   m_ObjectHideFlags: 0

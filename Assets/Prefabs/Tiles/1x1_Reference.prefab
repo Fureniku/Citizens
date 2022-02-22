@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 2154224129088489504}
   - component: {fileID: 4359112802176440735}
   - component: {fileID: 6062018808050532540}
-  - component: {fileID: -5393497506020206505}
+  - component: {fileID: 372132436111963333}
   m_Layer: 0
-  m_Name: 1x1 Grass
+  m_Name: 1x1_Reference
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a5a677090d65e8e4e90529b0e7fd3a8d, type: 2}
+  - {fileID: 2100000, guid: e7ab974f602d30b49938f8697834c6c7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -93,7 +93,7 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &-5393497506020206505
+--- !u!114 &372132436111963333
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -102,11 +102,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1825546272134706053}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72e850fd7be0ed748b7da0e3a563ccd8, type: 3}
+  m_Script: {fileID: 11500000, guid: cd3813fd6b020d249aa7c4cab87e15c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileName: Grass
-  tileId: 1
+  tileName: Reference
+  tileId: 2
   width: 1
   length: 1
   gridX: 0
@@ -114,3 +114,4 @@ MonoBehaviour:
   halfRotations: 0
   rotation: 0
   randomUUID: 0
+  masterTile: {fileID: 0}

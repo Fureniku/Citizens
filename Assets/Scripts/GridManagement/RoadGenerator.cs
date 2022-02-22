@@ -9,6 +9,8 @@ public class RoadGenerator : MonoBehaviour {
     [SerializeField] private GameObject road_t_junct = null;
     [SerializeField] private GameObject road_crossroad = null;
     [SerializeField] private GameObject road_crossroad_controlled = null;
+    
+    [SerializeField] private GameObject skyscraper = null;
 
     [SerializeField] private int numberGenerate = 50;
     [SerializeField] private int cornerChance = 10; //as percentage
@@ -20,7 +22,7 @@ public class RoadGenerator : MonoBehaviour {
 
     private GridManager gridManager;
     
-    private float waitTime = 0.05f; //for debugging
+    private float baseWeightTime = 0.0f; //for debugging
 
     private bool generationStarted = false;
     private bool generationComplete = false;
@@ -28,13 +30,13 @@ public class RoadGenerator : MonoBehaviour {
     void Start() {
         gridManager = GridManager.Instance;
         
-        TileRegistry.Register(road_straight.GetComponent<TileData>());
-        TileRegistry.Register(road_corner.GetComponent<TileData>());
-        TileRegistry.Register(road_t_junct.GetComponent<TileData>());
-        TileRegistry.Register(road_crossroad.GetComponent<TileData>());
-        TileRegistry.Register(road_crossroad_controlled.GetComponent<TileData>());
+        //TileRegistry.Register(road_straight.GetComponent<TileData>());
+        //TileRegistry.Register(road_corner.GetComponent<TileData>());
+        //TileRegistry.Register(road_t_junct.GetComponent<TileData>());
+        //TileRegistry.Register(road_crossroad.GetComponent<TileData>());
+        //TileRegistry.Register(road_crossroad_controlled.GetComponent<TileData>());
         
-        lastPos = TilePos.GetGridPosFromLocation(transform.position, gridManager);
+        lastPos = TilePos.GetGridPosFromLocation(transform.position);
     }
 
     void Update() {
@@ -47,7 +49,7 @@ public class RoadGenerator : MonoBehaviour {
     }
     
     public void BeginRoadGeneration() {
-        GenerateRoad(road_straight, TilePos.GetGridPosFromLocation(transform.position, gridManager), generatorDirection);
+        GenerateRoad(road_straight, TilePos.GetGridPosFromLocation(transform.position), generatorDirection);
 
         StartCoroutine(GeneratorCoroutine());
     }
@@ -59,6 +61,7 @@ public class RoadGenerator : MonoBehaviour {
             TilePos placePos = offsetPos(lastPos);
             if (gridManager.IsValidLocation(placePos)) {
                 TileData tile = TileData.GetFromGameObject(gridManager.GetGridCellContents(placePos));
+                float waitTime = 0f;
                 if (tile != null) {
                     int existingId = tile.GetId();
                     GameObject placeTile = road_straight;
@@ -97,7 +100,7 @@ public class RoadGenerator : MonoBehaviour {
                         //Check if we should randomly generate a corner
                         if (Random.Range(1, 100) <= cornerChance && tilesSinceCorner >= minTilesBeforeCorner) {
                             bool cornerRight = Random.value < 0.5;
-                            waitTime = 1.0f;
+                            waitTime = baseWeightTime * 4f;
                             if (cornerRight) {
                                 GenerateRoad(road_corner, placePos, generatorDirection);
                                 rotate(90);
@@ -111,7 +114,7 @@ public class RoadGenerator : MonoBehaviour {
                         }
                         //Generate a straight road
                         else {
-                            waitTime = 0.05f;
+                            waitTime = baseWeightTime;
                             GenerateRoad(road_straight, placePos, generatorDirection);
                             tilesSinceCorner++;
                         }
@@ -137,7 +140,44 @@ public class RoadGenerator : MonoBehaviour {
     
     //Generate a road tile ready for placement
     private void GenerateRoad(GameObject type, TilePos pos, int rot) {
-        gridManager.FillGridCell(type, pos.x, pos.z, rot); //.PlaceTile(type, vec3, rot, pos);
+        gridManager.FillGridCell(type, pos.x, pos.z, rot, false);
+        Debug.Log("Road has been placed. Begin skyscraper placement.");
+
+            switch(rot) {
+                case 0:
+                    TilePos left  = new TilePos(pos.x - 1, pos.z);
+                    TilePos right = new TilePos(pos.x + 1, pos.z);
+                    if (GenerateSkyscraperForPos(right, ref skyscraper)) {
+                        gridManager.FillGridCell(skyscraper, right.x, right.z, 0, true);
+                    }
+
+                    if (GenerateSkyscraperForPos(left, ref skyscraper)) {
+                        gridManager.FillGridCell(skyscraper, left.x, left.z, 0, true);
+                    }
+                    break;
+                case 90:
+                    gridManager.FillGridCell(skyscraper, pos.x, pos.z + 1, 0, true);
+                    //gridManager.FillGridCell(skyscraper, pos.x, pos.z - 1, 0, true);
+                    break;
+                case 180:
+                    gridManager.FillGridCell(skyscraper, pos.x + 1, pos.z, 0, true);
+                    //gridManager.FillGridCell(skyscraper, pos.x - 1, pos.z, 0, true);
+                    break;
+                case 270:
+                    gridManager.FillGridCell(skyscraper, pos.x, pos.z + 1, 0, true);
+                    //gridManager.FillGridCell(skyscraper, pos.x, pos.z - 1, 0, true);
+                    break;
+            }
+            Debug.Log("Generation should be complete.");
+
+    }
+
+    private bool GenerateSkyscraperForPos(TilePos pos, ref GameObject go) {
+        EnumGenerateDirection skyscraperDir = gridManager.GetAvailableGenerateDirection(pos, go.GetComponent<TileData>());
+        go.GetComponent<TileData>().SetGenerationDirection(skyscraperDir);
+        Debug.Log("!!!!!!!!!!! Setting direction to " + skyscraperDir + " - this should be BEFORE any form of skyscraper generation!!");
+        
+        return skyscraperDir != EnumGenerateDirection.NONE; //return true if can generate, return false if not.
     }
 
     //Calculate the direction to move based on rotation

@@ -2,26 +2,27 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class TileData : MonoBehaviour {
+public abstract class TileData : MonoBehaviour {
 
-    [SerializeField] private String tileName = "Air";
-    [SerializeField] private int tileId = 0;
-    [SerializeField] private int width = 1;
-    [SerializeField] private int length = 1;
+    [SerializeField] protected String tileName = "Air";
+    [SerializeField] protected int tileId = 0;
+    [SerializeField] protected int width = 1;
+    [SerializeField] protected int length = 1;
     
-    [SerializeField] private int gridX = 0;
-    [SerializeField] private int gridZ = 0;
+    [SerializeField] protected int gridX = 0;
+    [SerializeField] protected int gridZ = 0;
     
-    [SerializeField] private bool halfRotations = false;
+    [SerializeField] protected bool halfRotations = false;
 
-    [SerializeField] private int rotation = 0;
+    [SerializeField] protected int rotation = 0;
 
-    [SerializeField] private int randomUUID = 0;
+    [SerializeField] protected int randomUUID = 0;
     
+    [SerializeField] protected EnumGenerateDirection genDirection = EnumGenerateDirection.NONE;
 
     void Start() {
         randomUUID = Random.Range(1, 10000);
-        TilePos tilePos = TilePos.GetGridPosFromLocation(transform.position, GridManager.Instance);
+        TilePos tilePos = TilePos.GetGridPosFromLocation(transform.position);
         SetGridPos(tilePos);
     }
 
@@ -48,6 +49,10 @@ public class TileData : MonoBehaviour {
     public void SetRotation(int rot) {
         rotation = rot;
         transform.rotation = Quaternion.Euler(transform.rotation.x, rot,  transform.rotation.z);
+    }
+    
+    public void SetGenerationDirection(EnumGenerateDirection dir) {
+        genDirection = dir;
     }
 
     public void SetGridPos(TilePos pos) {
@@ -84,5 +89,9 @@ public class TileData : MonoBehaviour {
         }
 
         return null;
+    }
+
+    private void OnDestroy() {
+        GridManager.Instance.FlagForRecheck();
     }
 }
