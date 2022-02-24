@@ -1,15 +1,13 @@
-﻿using System;
-using UnityEngine;
+﻿using Tiles.TileManagement;
 
 public class TileGrass : TileData {
     
     void Start() {
         tileName = "Grass";
-        tileId = 100;
+        tileId = TileRegistry.GRASS.GetId();
         width = 1;
         length = 1;
         halfRotations = false;
-        rotation = 0;
+        rotation = EnumTileDirection.SOUTH;
     }
-
 }

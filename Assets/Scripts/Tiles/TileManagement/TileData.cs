@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json.Linq;
 using Tiles.TileManagement;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -19,7 +20,7 @@ public abstract class TileData : MonoBehaviour {
 
     [SerializeField] protected EnumGenerateDirection genDirection = EnumGenerateDirection.NONE;
 
-    void Start() {
+    public void Initialize() {
         TilePos tilePos = TilePos.GetGridPosFromLocation(transform.position);
         SetGridPos(tilePos);
     }
@@ -52,6 +53,10 @@ public abstract class TileData : MonoBehaviour {
     public void SetGridPos(TilePos pos) {
         gridX = pos.x;
         gridZ = pos.z;
+    }
+
+    public TilePos GetGridPos() {
+        return new TilePos(gridX, gridZ);
     }
 
     public EnumTileDirection GetRotation() {
@@ -88,4 +93,10 @@ public abstract class TileData : MonoBehaviour {
     private void OnDestroy() {
         GridManager.Instance.FlagForRecheck();
     }
+
+    public static void SerializeTile() {
+        
+    }
+
+    public abstract TileData DeserializeTile(JObject json);
 }

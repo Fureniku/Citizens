@@ -3,6 +3,8 @@
 namespace Tiles.TileManagement {
 
     public static class Direction {
+        
+        //Get the int rotation from the enum direction. Remember north/west are negative.
         public static int GetRotation(this EnumTileDirection dir) {
             switch (dir) {
                 case EnumTileDirection.NORTH: return 180;
@@ -13,17 +15,18 @@ namespace Tiles.TileManagement {
             }
         }
 
+        //Get the enum direction from a rotation int.
         public static EnumTileDirection GetDirection(int dir) {
             switch (dir) {
-                case 0:   return EnumTileDirection.NORTH;
-                case 90:  return EnumTileDirection.NORTH;
                 case 180: return EnumTileDirection.NORTH;
-                case 270: return EnumTileDirection.NORTH;
+                case 270: return EnumTileDirection.EAST;
+                case 0:   return EnumTileDirection.SOUTH;
+                case 90:  return EnumTileDirection.WEST;
                 default: return EnumTileDirection.NORTH;
             }
         }
 
-        // ReSharper disable once InconsistentNaming
+        //Rotate a direction clockwise by 90 degrees, returning new direction.
         public static EnumTileDirection RotateCW(this EnumTileDirection dirIn) {
             switch (dirIn) {
                 case EnumTileDirection.NORTH: return EnumTileDirection.EAST;
@@ -34,7 +37,7 @@ namespace Tiles.TileManagement {
             }
         }
         
-        // ReSharper disable once InconsistentNaming
+        //Rotate a direction counter-clockwise by 90 degrees, returning new direction
         public static EnumTileDirection RotateCCW(this EnumTileDirection dirIn) {
             switch (dirIn) {
                 case EnumTileDirection.NORTH: return EnumTileDirection.WEST;
@@ -45,6 +48,7 @@ namespace Tiles.TileManagement {
             }
         }
         
+        //Get the opposing direction
         public static EnumTileDirection Opposite(this EnumTileDirection dirIn) {
             switch (dirIn) {
                 case EnumTileDirection.NORTH: return EnumTileDirection.SOUTH;
@@ -55,6 +59,7 @@ namespace Tiles.TileManagement {
             }
         }
 
+        //Get the X modifier value for this direction (To multiply against a modifier for positive/negative)
         public static int XModify(this EnumTileDirection dirIn) {
             switch (dirIn) {
                 case EnumTileDirection.EAST:  return -1;
@@ -63,12 +68,18 @@ namespace Tiles.TileManagement {
             }
         }
         
+        //Get the Z modifier value for this direction (To multiply against a modifier for positive/negative)
         public static int ZModify(this EnumTileDirection dirIn) {
             switch (dirIn) {
                 case EnumTileDirection.NORTH: return -1;
                 case EnumTileDirection.SOUTH: return 1;
                 default: return 0;
             }
+        }
+        
+        //Get the tile position offset X tiles in the direction from the passed position.
+        public static TilePos OffsetPos(this EnumTileDirection dir, TilePos prev, int distance = 1) {
+            return new TilePos(prev.x + (distance * dir.XModify()), prev.z + (distance * dir.ZModify()));
         }
     }
 

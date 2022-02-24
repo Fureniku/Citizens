@@ -112,5 +112,5 @@ MonoBehaviour:
   gridX: 0
   gridZ: 0
   halfRotations: 0
-  rotation: 0
-  randomUUID: 0
+  rotation: 2
+  genDirection: 4

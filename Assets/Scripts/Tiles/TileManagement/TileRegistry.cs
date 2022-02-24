@@ -5,6 +5,16 @@ using UnityEngine;
 public class TileRegistry : MonoBehaviour {
 
     private static GameObject[] registry = new GameObject[255];
+    
+    public static readonly Tile GRASS = new Tile(1);
+    public static readonly Tile REFERENCE = new Tile(2);
+    public static readonly Tile STRAIGHT_ROAD_1x1 = new Tile(4);
+    public static readonly Tile CORNER_ROAD_1x1 = new Tile(5);
+    public static readonly Tile T_JUNCT_ROAD_1x1 = new Tile(6);
+    public static readonly Tile CROSSROAD_ROAD_1x1 = new Tile(7);
+    public static readonly Tile CROSSROAD_CTRL_ROAD_1x1 = new Tile(8);
+
+    public static int maxId = 999;
 
     [SerializeField] private GameObject[] register = null;
     
@@ -13,16 +23,7 @@ public class TileRegistry : MonoBehaviour {
         get { return _instance; }
     }
 
-    public static GameObject GetGrass() { return registry[1]; }
-    
-    //Grass                 1
-    //1x1 Reference Tile    2
-    //1x1 Striaght Road     3
-    //1x1 Corner Road       4
-    //1x1 T-junction        5
-    //1x1 Crossroad         6
-    //1x1 Crossroad Ctrld   7
-    
+    public static GameObject GetGrass() { return registry[GRASS.GetId()]; }
 
     void Start() {
         for (int i = 0; i < register.Length; i++) {
@@ -51,5 +52,17 @@ public class TileRegistry : MonoBehaviour {
 
     public static GameObject GetGameObjectFromID(int id) {
         return registry[id];
+    }
+}
+
+public class Tile {
+    private int id = -1;
+
+    public Tile(int id) {
+        this.id = id;
+    }
+
+    public int GetId() {
+        return id;
     }
 }
