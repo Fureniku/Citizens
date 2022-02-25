@@ -5,6 +5,8 @@ public class TilePos {
 
     public int x;
     public int z;
+    
+    public static TilePos ZERO = new TilePos(0, 0);
 
     public TilePos(int x, int z) {
         this.x = x;
@@ -29,5 +31,12 @@ public class TilePos {
 
     public static Vector3 GetWorldPosFromTilePos(TilePos pos) {
         return new Vector3(pos.x * GridManager.Instance.GetGridTileSize(), 0, pos.z * GridManager.Instance.GetGridTileSize());
+    }
+
+    public static ChunkPos GetParentChunk(TilePos pos) {
+        int xFinal = pos.x / Chunk.size;
+        int zFinal = pos.z / Chunk.size;
+
+        return new ChunkPos(xFinal, zFinal);
     }
 }
