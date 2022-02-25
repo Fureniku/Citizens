@@ -43,12 +43,20 @@ public class Chunk : MonoBehaviour {
     }
     
     IEnumerator BuildChunk() {
-        bool chunkFileExist = false;
+        ChunkPos pos = ChunkPos.GetChunkPosFromLocation(transform.position);
+        bool chunkFileExist = SaveLoadChunk.FileExists(pos);
         if (chunkFileExist) {
             Debug.Log("Attempting to load chunk from save file...");
-            GameObject[,] chunk = SaveLoadChunk.DeserializeChunk(TilePos.GetGridPosFromLocation(transform.position));
+            GameObject[,] chunk = SaveLoadChunk.DeserializeChunk(ChunkPos.GetChunkPosFromLocation(transform.position));
             
             LoadChunk(chunk);
+        }
+        else {
+            Debug.Log("Chunk save file does not exist. Creating new chunk.");
+            foreach (Transform child in transform) {
+                TileData tile = child.gameObject.GetComponent<TileData>();
+                chunk[tile.GetGridPos().x, tile.GetGridPos().z] = child.gameObject;
+            }
         }
 
         stopWatch.Stop();

@@ -448,7 +448,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d49d226f9616a340a1c4cff356bbb63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: 46
+  size: 3
   gridSlotSize: 50
   randomSeed: 54
   defaultChunk: {fileID: 7198038014411388484, guid: 6a99b04337c308a47a0c3e67638b5a41,

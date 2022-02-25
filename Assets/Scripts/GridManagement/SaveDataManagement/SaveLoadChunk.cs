@@ -45,55 +45,64 @@ public class SaveLoadChunk : MonoBehaviour {
         file.Close();
     }
 
-    public static void SerializeChunk() {
+    public static void SerializeChunk(Chunk chunk, int x, int z) {
         JObject jObj = new JObject();
         for (int i = 0; i < 16; i++) {
             for (int j = 0; j < 16; j++) {
-                TileData td = GridManager.Instance.GetGridCellContents(j, i).GetComponent<TileData>();
-                jObj.Add(td.SerializeTile(j, i));
+                TileData td = chunk.GetChunkCellContents(j, i).GetComponent<TileData>();
+                jObj.Add(td.SerializeTile(td, j, i));
             }
         }
         
         JProperty json = new JProperty("chunk", jObj);
-        
-        Debug.Log(json);
+        if (DirectoryExists()) {
+            using (StreamWriter file = File.CreateText(Application.persistentDataPath + $"/{GridManager.Instance.GetWorldName()}/chunk_{x}_{z}.json"))
+            using (JsonWriter writer = new JsonTextWriter(file)) {
+                writer.Formatting = Formatting.Indented;
+                JObject final = new JObject();
+                final.Add(json);
+                final.WriteTo(writer);
 
-        using (StreamWriter file = File.CreateText(Application.persistentDataPath + "/chunk.json"))
-        using (JsonWriter writer = new JsonTextWriter(file)) {
-            writer.Formatting = Formatting.Indented;
-            JObject final = new JObject();
-            final.Add(json);
-            final.WriteTo(writer);
-            
+            }
         }
     }
-    
-    public static GameObject[,] DeserializeChunk(TilePos origin) {
-        GameObject[,] chunk = new GameObject[16, 16];
-        using (StreamReader file = File.OpenText(Application.persistentDataPath + "/chunk.json")) {
-            JObject o = (JObject) JToken.ReadFrom(new JsonTextReader(file));
-            JProperty json = o.Property("chunk");
-            JObject prop = (JObject) json.Value;
 
-            for (int col = 0; col < 16; col++) {
-                for (int row = 0; row < 16; row++) {
-                    GameObject cell = DeserializeTile((JObject) prop.GetValue($"tile_{row}_{col}"), new TilePos(origin.x + row, origin.z + col));
-                    cell.name = $"cell_{row}_{col}";
-                    chunk[row, col] = cell;
+    public static bool FileExists(ChunkPos pos) {
+        if (DirectoryExists()) {
+            return File.Exists(Application.persistentDataPath + $"/{GridManager.Instance.GetWorldName()}/chunk_{pos.x}_{pos.z}.json");
+        }
+
+        return false;
+    }
+
+    public static bool DirectoryExists() {
+        DirectoryInfo dir = Directory.CreateDirectory(Application.persistentDataPath + $"/{GridManager.Instance.GetWorldName()}");
+        return true;
+    }
+    
+    public static GameObject[,] DeserializeChunk(ChunkPos origin) {
+        GameObject[,] chunk = new GameObject[16, 16];
+        if (DirectoryExists()) {
+            using (StreamReader file = File.OpenText(Application.persistentDataPath + $"/{GridManager.Instance.GetWorldName()}/chunk_{origin.x}_{origin.z}.json")) {
+                JObject o = (JObject) JToken.ReadFrom(new JsonTextReader(file));
+                JProperty json = o.Property("chunk");
+                JObject prop = (JObject) json.Value;
+
+                for (int col = 0; col < 16; col++) {
+                    for (int row = 0; row < 16; row++) {
+                        GameObject cell = DeserializeTile((JObject) prop.GetValue($"tile_{row}_{col}"), new TilePos((origin.x*Chunk.size) + row, (origin.z*Chunk.size) + col));
+                        cell.name = $"cell_{row}_{col}";
+                        chunk[row, col] = cell;
+                    }
                 }
             }
         }
-
         return chunk;
     }
 
     public static GameObject DeserializeTile(JObject json, TilePos pos) {
         int id = TileData.ParseInt(json.GetValue("id"));
         GameObject go = Instantiate(TileRegistry.GetGameObjectFromID(id));
-        Debug.Log("Created " + go.name);
-        if (go == null) {
-            Debug.Log("error loading gameobject with id " + id);
-        }
         go.GetComponent<TileData>().DeserializeTile(json);
         go.transform.position = TilePos.GetWorldPosFromTilePos(pos);
         return go;

@@ -20,8 +20,8 @@ public class ChunkPos {
         Vector3 gridStartPos = gm.transform.position;
         float tileSize = gm.GetGridTileSize();
 
-        float xFinal = ((worldPos.x - gridStartPos.x) / tileSize) * Chunk.size;
-        float zFinal = ((worldPos.z - gridStartPos.z) / tileSize) * Chunk.size;
+        float xFinal = ((worldPos.x - gridStartPos.x) / tileSize) / Chunk.size;
+        float zFinal = ((worldPos.z - gridStartPos.z) / tileSize) / Chunk.size;
 
         return new ChunkPos((int) Math.Floor(xFinal), (int) Math.Floor(zFinal));
     }

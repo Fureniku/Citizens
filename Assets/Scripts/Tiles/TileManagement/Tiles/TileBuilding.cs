@@ -97,13 +97,13 @@ public class TileBuilding : TileData {
                 if (i == 0 && j == 0) continue;
                 //j and i * 1/* - 1
                 Debug.Log("setting reference tiles. Generation is " + genDirection + " AKA " + genDirection.Name() + ", with X mod " + genDirection.GenX() + " and z mod " + genDirection.GenZ());
-                gridManager.FillGridCell(referenceTile, tilePos.x + (j * genDirection.GenX()), tilePos.z + (i * genDirection.GenZ()), 0, false);
+                /*TODO gridManager.FillGridCell(referenceTile, tilePos.x + (j * genDirection.GenX()), tilePos.z + (i * genDirection.GenZ()), 0, false);
                 GameObject rt = gridManager.GetGridCellContents(tilePos.x + j, tilePos.z + i);
                 TileReference reference = rt.GetComponent<TileReference>();
                 if (reference != null) {
                     rt.GetComponent<TileReference>().SetMasterTile(gameObject);
                 }
-                referenceTiles[j, i] = rt;
+                referenceTiles[j, i] = rt;*/
             }
         }
 
@@ -122,15 +122,14 @@ public class TileBuilding : TileData {
                 if (go != null) {
                     Debug.Log("Setting " + (tilePos.z + i) + ", " + (tilePos.x + j) + ", to grass");
                     GameObject grassTile = TileRegistry.GetGrass();
-                    gridManager.FillGridCell(grassTile, tilePos.x + j, tilePos.z + i, 0, false);
+                    Debug.Log("Not actually setting right now! Fix the function!!");
+                    //gridManager.FillGridCell(grassTile, tilePos.x + j, tilePos.z + i, 0, false);
                 }
             }
         }
     }
 
-    public override JProperty SerializeTile(int row, int col) {
-        TileData data = GridManager.Instance.GetGridTile(row, col);
-            
+    public override JProperty SerializeTile(TileData data, int row, int col) {
         JObject jObj = new JObject();
 
         jObj.Add(new JProperty("id", data.GetId()));

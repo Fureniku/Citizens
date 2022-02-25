@@ -3,9 +3,7 @@ using Tiles.TileManagement;
 
 public class TileAir : TileData {
     
-    public override JProperty SerializeTile(int row, int col) {
-        TileData data = GridManager.Instance.GetGridTile(row, col);
-            
+    public override JProperty SerializeTile(TileData data, int row, int col) {
         JObject jObj = new JObject();
 
         jObj.Add(new JProperty("id", data.GetId()));

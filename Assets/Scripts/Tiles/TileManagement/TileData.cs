@@ -128,7 +128,7 @@ public abstract class TileData : MonoBehaviour {
         return result;
     }
 
-    public abstract JProperty SerializeTile(int row, int col);
+    public abstract JProperty SerializeTile(TileData td, int row, int col);
 
     public abstract void DeserializeTile(JObject json);
 }

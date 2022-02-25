@@ -44,7 +44,7 @@ public class RoadGenerator : MonoBehaviour {
         }
     }
     
-    public void BeginRoadGeneration() {
+    /*public void BeginRoadGeneration() {
         GenerateRoad(road_straight, TilePos.GetGridPosFromLocation(transform.position), generatorDirection);
 
         StartCoroutine(GeneratorCoroutine());
@@ -199,7 +199,7 @@ public class RoadGenerator : MonoBehaviour {
         Debug.Log("!!!!!!!!!!! Setting direction to " + skyscraperDir + " - this should be BEFORE any form of skyscraper generation!!");
         
         return skyscraperDir != EnumGenerateDirection.NONE; //return true if can generate, return false if not.
-    }
+    }*/
 
     public bool IsGenerationComplete() {
         return roadGenStage == EnumGenerationStage.COMPLETE;
