@@ -27,7 +27,7 @@ public class TilePos {
         return new TilePos((int) Math.Floor(xFinal), (int) Math.Floor(zFinal));
     }
 
-    public static Vector3 GetWorldPosFromTilePos(TilePos pos, GridManager gm) {
-        return new Vector3(pos.x * gm.GetGridTileSize(), 0, pos.z * gm.GetGridTileSize());
+    public static Vector3 GetWorldPosFromTilePos(TilePos pos) {
+        return new Vector3(pos.x * GridManager.Instance.GetGridTileSize(), 0, pos.z * GridManager.Instance.GetGridTileSize());
     }
 }

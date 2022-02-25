@@ -1,18 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using Tiles.TileManagement;
-using UnityEngine;
 
-public class TileReference : TileData {
-    
-    [SerializeField] private GameObject masterTile;
-
-    public void SetMasterTile(GameObject tile) {
-        masterTile = tile;
-    }
-
-    public GameObject GetMasterTile(GameObject tile) {
-        return masterTile;
-    }
+public class TileAir : TileData {
     
     public override JProperty SerializeTile(int row, int col) {
         TileData data = GridManager.Instance.GetGridTile(row, col);
@@ -30,7 +19,6 @@ public class TileReference : TileData {
     public override void DeserializeTile(JObject json) {
         SetId(ParseInt(json.GetValue("id")));
         SetName(tileName);
-        SetRotation(Direction.GetDirection(ParseInt(json.GetValue("rotation"))));
         SetRowCol(ParseInt(json.GetValue("row")), ParseInt(json.GetValue("col")));
     }
 }

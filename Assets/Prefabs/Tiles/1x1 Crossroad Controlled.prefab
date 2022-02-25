@@ -382,15 +382,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f36ed87a48395404286c4ddf9a74a333, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileName: Road_Crossroad_Controlled
-  tileId: 7
   width: 1
   length: 1
   gridX: 19
   gridZ: -5
   halfRotations: 0
   rotation: 0
-  randomUUID: 0
+  enumTile: 7
+  genDirection: 4
+  roadType: 4
 --- !u!1 &8749084030605266575
 GameObject:
   m_ObjectHideFlags: 0

@@ -301,7 +301,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7998429460570019003}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: -0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 50, y: 0, z: 450}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 5636945626537957875}
@@ -381,13 +381,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f36ed87a48395404286c4ddf9a74a333, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileName: Road_Corner
-  tileId: 4
   width: 1
   length: 1
-  gridX: 0
-  gridZ: 0
+  gridX: 1
+  gridZ: 9
   halfRotations: 0
   rotation: 1
+  enumTile: 4
   genDirection: 4
-  roadType: 0
+  roadType: 1

@@ -119,7 +119,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3320656565879782384}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: -0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 50, y: 0, z: 400}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 1094096070895613624}
@@ -198,14 +198,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f36ed87a48395404286c4ddf9a74a333, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileName: Road_Straight
-  tileId: 3
   width: 1
   length: 1
-  gridX: 0
-  gridZ: 0
+  gridX: 1
+  gridZ: 8
   halfRotations: 1
   rotation: 1
+  enumTile: 3
   genDirection: 4
   roadType: 0
 --- !u!1 &6612154628610779005

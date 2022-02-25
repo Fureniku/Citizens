@@ -6,15 +6,13 @@ using Debug = UnityEngine.Debug;
 
 public class Chunk : MonoBehaviour {
     
-    [SerializeField, Range(5, 500)] private int size = 16;
+    public static readonly int size = 16;
 
-    private GameObject[,] chunkArray = null;
+    private GameObject[,] chunk = null;
 
-    [SerializeField, Range(1, 200)] private float gridSlotSize = 50.0f;
-    [SerializeField, Range(1, 200)] private int randomSeed = 10;
-
-    [SerializeField] GameObject defaultTilePrefab = null;
-
+    [SerializeField] private int chunkX = 0; //Chunks coordinate in world grid
+    [SerializeField] private int chunkZ = 0;
+    
     private bool hasStarted = false;
     private bool hasCompletedInit = false;
     private bool recheck = false;
@@ -22,9 +20,7 @@ public class Chunk : MonoBehaviour {
     private Stopwatch stopWatch;
 
     void Start() {
-        Random.InitState(randomSeed);
-
-        chunkArray = new GameObject[size, size];
+        chunk = new GameObject[size, size];
         stopWatch = Stopwatch.StartNew();
     }
 
@@ -40,37 +36,46 @@ public class Chunk : MonoBehaviour {
             RecheckChunk();
         }
     }
+
+    public void SetPosition(int x, int z) {
+        chunkX = x;
+        chunkZ = z;
+    }
     
     IEnumerator BuildChunk() {
-        Debug.Log("Starting build chunk of total size " + size*size);
-        for (int row = 0; row < size; row++) {
-            GameObject rowGo = GetRowParent(row);
-            for (int col = 0; col < size; col++) {
-                FillChunkCell(defaultTilePrefab, rowGo, row, col, 0, false);
-                yield return null;
-            }
-            rowGo.SetActive(false);
+        bool chunkFileExist = false;
+        if (chunkFileExist) {
+            Debug.Log("Attempting to load chunk from save file...");
+            GameObject[,] chunk = SaveLoadChunk.DeserializeChunk(TilePos.GetGridPosFromLocation(transform.position));
+            
+            LoadChunk(chunk);
         }
-        Debug.Log("Chunk generation complete");
 
-        for (int row = 0; row < size; row++) {
-            GameObject rowGo = GetRowParent(row);
-            rowGo.SetActive(true);
-        }
         stopWatch.Stop();
         Debug.Log("Chunk generation took " + stopWatch.Elapsed + " seconds.");
-        Debug.Break();
+  
         hasCompletedInit = true;
+        yield return null;
+    }
+    
+    public void LoadChunk(GameObject[,] chunk) {
+        this.chunk = chunk;
+        for (int row = 0; row < 16; row++) {
+            for (int col = 0; col < 16; col++) {
+                this.chunk[row, col].name = $"cell_{row}_{col}";
+                this.chunk[row, col].transform.parent = transform;
+            }
+        }
     }
 
     public bool IsValidLocation(TilePos pos) {
         return (pos.x < size && pos.x >= 0 && pos.z < size && pos.z >= 0);
     }
     
-    public bool FillChunkCell(GameObject go, GameObject parent, int row, int col, EnumTileDirection rotation,  bool placementChecks) {
+    public bool FillChunkCell(GameObject go, int row, int col, EnumTileDirection rotation,  bool placementChecks) {
         GameObject cell = null;
 
-        SkyscraperGenerator skyTile = go.GetComponent<SkyscraperGenerator>();
+        TileBuilding skyTile = go.GetComponent<TileBuilding>();
         if (skyTile != null) {
             Debug.Log("Filling grid cell with skyscraper! Pos: " + row + ", " + col + ", size: " + skyTile.GetWidth() + ", " + skyTile.GetLength());
         }
@@ -86,27 +91,25 @@ public class Chunk : MonoBehaviour {
             }
         }
         
-        cell = Instantiate(go, parent.transform, true);
+        cell = Instantiate(go, transform, true);
         cell.name = $"cell_{row}_{col}";
 
-        if (chunkArray[row, col] != null) { 
+        if (chunk[row, col] != null) { 
             DeleteChunkCell(row, col);
         }
         
-        chunkArray[row, col] = cell;
+        chunk[row, col] = cell;
         
-        cell.transform.position = new Vector3(gridSlotSize * row, 0, gridSlotSize * col) + transform.position;
+        cell.transform.position = new Vector3(GridManager.Instance.GetGridTileSize() * row, 0, GridManager.Instance.GetGridTileSize() * col) + transform.position;
         cell.transform.rotation = Quaternion.Euler(0,rotation.GetRotation(),0);
         TilePos.GetGridPosFromLocation(cell.transform.position);
+        cell.GetComponent<TileData>().SetInitialPos();
         return true;
     }
 
-    public bool FillChunkCell(GameObject go, int row, int col, EnumTileDirection rotation, bool placementChecks) {
-        return FillChunkCell(go, GetRowParent(row), row, col, rotation, placementChecks);
-    }
 
     public void DeleteChunkCell(int row, int col) {
-        Destroy(chunkArray[row, col]);
+        Destroy(chunk[row, col]);
         recheck = true;
     }
 
@@ -117,11 +120,11 @@ public class Chunk : MonoBehaviour {
     private void RecheckChunk() {
         for (int row = 0; row < size; row++) {
             for (int col = 0; col < size; col++) {
-                if (chunkArray[row, col] == null) {
+                if (chunk[row, col] == null) {
                     Debug.Log("Repairing grid at " + row + ", " + col);
                     FillChunkCell(TileRegistry.GetGrass(), row, col, 0, false);
-                } else if (chunkArray[row, col].GetComponent<TileData>() == null) {
-                    Destroy(chunkArray[row, col]);
+                } else if (chunk[row, col].GetComponent<TileData>() == null) {
+                    Destroy(chunk[row, col]);
                     FillChunkCell(TileRegistry.GetGrass(), row, col, 0, false);
                 }
             }
@@ -130,26 +133,12 @@ public class Chunk : MonoBehaviour {
         recheck = false;
     }
 
-    private GameObject GetRowParent(int row) {
-        Transform rowTransform = transform.Find($"row_{row}");
-        GameObject rowParent = null;
-        if (rowTransform == null) {
-            rowParent = new GameObject($"row_{row}");
-            rowParent.transform.parent = transform;
-        }
-        else {
-            rowParent = rowTransform.gameObject;
-        }
-
-        return rowParent;
-    }
-    
     public GameObject GetChunkCellContents(int row, int col) {
-        return chunkArray[row, col];
+        return chunk[row, col];
     }
 
     public GameObject GetChunkCellContents(TilePos pos) {
-        return chunkArray[pos.x, pos.z];
+        return chunk[pos.x, pos.z];
     }
 
     public TileData GetGridTile(int row, int col) {
@@ -160,14 +149,6 @@ public class Chunk : MonoBehaviour {
     public TileData GetGridTile(TilePos pos) {
         GameObject go = GetChunkCellContents(pos);
         return go.GetComponent<TileData>();
-    }
-    
-    public int GetGridSize() {
-        return size;
-    }
-
-    public float GetGridTileSize() {
-        return gridSlotSize;
     }
 
     public bool IsInitialized() {
@@ -242,4 +223,11 @@ public class Chunk : MonoBehaviour {
 
         return true;
     }
+}
+
+public enum EnumChunkState {
+    UNGENERATED,
+    GENERATING,
+    GENERATED,
+    RECHECK
 }

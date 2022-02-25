@@ -49,8 +49,8 @@ public class SaveLoadChunk : MonoBehaviour {
         JObject jObj = new JObject();
         for (int i = 0; i < 16; i++) {
             for (int j = 0; j < 16; j++) {
-                jObj.Add(SerializeTile(j, i));
-                
+                TileData td = GridManager.Instance.GetGridCellContents(j, i).GetComponent<TileData>();
+                jObj.Add(td.SerializeTile(j, i));
             }
         }
         
@@ -67,22 +67,9 @@ public class SaveLoadChunk : MonoBehaviour {
             
         }
     }
-
-    public static JProperty SerializeTile(int row, int col) {
-        TileData data = GridManager.Instance.GetGridTile(row, col);
-            
-        JObject jObj = new JObject();
-
-        jObj.Add(new JProperty("id", data.GetId()));
-        jObj.Add(new JProperty("rotation", data.GetRotation().GetRotation()));
-        jObj.Add(new JProperty("row", data.GetGridPos().x));
-        jObj.Add(new JProperty("col", data.GetGridPos().z));
-        
-        return new JProperty($"tile_{row}_{col}", jObj);
-    }
-
-
-    public static void DeserializeChunk() {
+    
+    public static GameObject[,] DeserializeChunk(TilePos origin) {
+        GameObject[,] chunk = new GameObject[16, 16];
         using (StreamReader file = File.OpenText(Application.persistentDataPath + "/chunk.json")) {
             JObject o = (JObject) JToken.ReadFrom(new JsonTextReader(file));
             JProperty json = o.Property("chunk");
@@ -90,137 +77,25 @@ public class SaveLoadChunk : MonoBehaviour {
 
             for (int col = 0; col < 16; col++) {
                 for (int row = 0; row < 16; row++) {
-                    Debug.Log("Deserialize " + row + ", " + col);
-                    DeserializeTile((JObject) prop.GetValue($"tile_{row}_{col}"));
+                    GameObject cell = DeserializeTile((JObject) prop.GetValue($"tile_{row}_{col}"), new TilePos(origin.x + row, origin.z + col));
+                    cell.name = $"cell_{row}_{col}";
+                    chunk[row, col] = cell;
                 }
             }
-            
-            
-            /*JsonTextReader reader = new JsonTextReader(file);
-
-            while (reader.Read()) {
-                Debug.Log("Read!");
-                if (reader.Value != null) {
-                    if (reader.Value.ToString().Contains("tile_")) {
-                        Debug.Log("Starting a tile!");
-                    }
-                    Debug.Log("Token type: " + reader.TokenType + ", value: " + reader.Value);
-                }
-                else {
-                    Debug.Log("Token type: " + reader.TokenType);
-                }
-            }*/
         }
+
+        return chunk;
     }
 
-    public static void DeserializeTile(JObject json) {
-        int id = ParseInt(json.GetValue("id"));
-        int rotation = ParseInt(json.GetValue("rotation"));
-        int row = ParseInt(json.GetValue("row"));
-        int col = ParseInt(json.GetValue("col"));
-        
-        Debug.Log("Deserialized tile!");
-        Debug.Log("ID is " + id + ", which is " + TileRegistry.GetTileFromID(id));
-        Debug.Log("Rotation is " + rotation + ", which is " + Direction.GetDirection(rotation));
-        Debug.Log("And the position is " + row + ", " + col);
-    }
-
-    public static int ParseInt(JToken token) {
-        int result = 0;
-
-        if (token != null) {
-            try {
-                result = Int32.Parse(token.ToString());
-            }
-            catch (FormatException) {
-                Debug.Log("SaveLoadChunk failed to parse int from string: " + token);
-            }
+    public static GameObject DeserializeTile(JObject json, TilePos pos) {
+        int id = TileData.ParseInt(json.GetValue("id"));
+        GameObject go = Instantiate(TileRegistry.GetGameObjectFromID(id));
+        Debug.Log("Created " + go.name);
+        if (go == null) {
+            Debug.Log("error loading gameobject with id " + id);
         }
-        else {
-            Debug.Log("SaveLoadChunk: Token was null!");
-        }
-        
-        
-
-        return result;
+        go.GetComponent<TileData>().DeserializeTile(json);
+        go.transform.position = TilePos.GetWorldPosFromTilePos(pos);
+        return go;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    /*public static void DeserializeChunkOld() {
-        FileStream fileStream = new FileStream(Application.persistentDataPath + "/chunk.xml", FileMode.Open);
-        XmlTextReader xml = new XmlTextReader(new StreamReader(fileStream));
-        Debug.Log("Attempting file deserialization");
-        DeserializeTileOld(xml);
-        
-        xml.Close();
-    }
-
-    public static void SerializeChunkOld() {
-        FileStream fileStream = new FileStream(Application.persistentDataPath + "/chunk.xml", FileMode.Create);
-        XmlTextWriter xml = new XmlTextWriter(new StreamWriter(fileStream));
-        xml.Formatting = Formatting.Indented;
-        xml.Indentation = 4;
-        xml.WriteStartElement("chunk");
-        for (int i = 0; i < 16; i++) {
-            for (int j = 0; j < 16; j++) {
-                TileData data = GridManager.Instance.GetGridTile(j, i);
-                SerializeTileOld(data, ref xml);
-            }
-        }
-        xml.WriteEndElement();
-        xml.Flush();
-        xml.Close();
-        Debug.Log("XML created at " + Application.persistentDataPath + "/chunk.xml");
-    }
-
-    public static void SerializeTileOld(TileData tile, ref XmlTextWriter xml) {
-        xml.WriteStartElement("Tile");
-        xml.WriteAttributeString("row", tile.GetGridPos().x.ToString());
-        xml.WriteAttributeString("col", tile.GetGridPos().z.ToString());
-        xml.WriteElementString("id", tile.GetId().ToString());
-        xml.WriteElementString("rotation", tile.GetRotation().GetRotation().ToString());
-            xml.WriteStartElement("building_data");
-            xml.WriteElementString("segments", "3");
-            xml.WriteElementString("height", "91");
-            xml.WriteEndElement();
-        xml.WriteEndElement();
-    }
-
-    public static void DeserializeTileOld(XmlTextReader xml) {
-        //int row = -1;
-        //int col = -1;
-        //int id = TileRegistry.maxId;
-        //int rotation = 0;
-        
-        while (xml.Read()) {
-            if (xml.Name.Equals("Tile") && xml.NodeType == XmlNodeType.Element) {
-                Debug.Log("Reading tile...");
-                string row = xml.GetAttribute("row");
-                string col = xml.GetAttribute("col");
-                string id = xml.ReadElementString("id");//GetAttribute("id");
-                string rot = xml.ReadElementString("rotation");
-                
-                Debug.Log("Got tile with data. Row: " + row + ", col: " + col + ", ID: " + id + ", rot: " + rot);
-                //Debug.Log("The ID suggests its a " + TileRegistry.GetTileFromID(0));
-            }
-        }
-    }*/
 }

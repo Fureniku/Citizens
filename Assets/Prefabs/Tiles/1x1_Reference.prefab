@@ -105,13 +105,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd3813fd6b020d249aa7c4cab87e15c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileName: Reference
-  tileId: 2
   width: 1
   length: 1
   gridX: 0
   gridZ: 0
   halfRotations: 0
   rotation: 0
-  randomUUID: 0
+  enumTile: 2
+  genDirection: 4
   masterTile: {fileID: 0}

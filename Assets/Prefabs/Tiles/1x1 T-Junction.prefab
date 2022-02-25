@@ -381,12 +381,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f36ed87a48395404286c4ddf9a74a333, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileName: Road_T_Junction
-  tileId: 5
   width: 1
   length: 1
   gridX: 0
   gridZ: 0
   halfRotations: 0
   rotation: 2
+  enumTile: 5
   genDirection: 4
+  roadType: 2

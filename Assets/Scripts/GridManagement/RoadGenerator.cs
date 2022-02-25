@@ -38,7 +38,7 @@ public class RoadGenerator : MonoBehaviour {
     void Update() {
         if (gridManager.IsInitialized()) {
             if (roadGenStage == EnumGenerationStage.INITIALIZED) {
-                BeginRoadGeneration();
+                //BeginRoadGeneration();
                 roadGenStage = EnumGenerationStage.STARTED;
             }
         }
@@ -131,8 +131,12 @@ public class RoadGenerator : MonoBehaviour {
                         }
                     }
                 }
-                GameObject tileAt = gridManager.GetGridCellContents(Direction.OffsetPos(generatorDirection, placePos));
-                Debug.Log("Tile ahead is: " + tileAt.GetComponent<TileData>().GetName());
+
+                TilePos ahead = Direction.OffsetPos(generatorDirection, placePos);
+                if (gridManager.IsValidLocation(ahead)) {
+                    GameObject tileAt = gridManager.GetGridCellContents(ahead);
+                    Debug.Log("Tile ahead is: " + tileAt.GetComponent<TileData>().GetName());
+                }
                 GenerateRoad(placeTile, placePos, generatorDirection);
  
                 lastPos = placePos;
@@ -144,6 +148,7 @@ public class RoadGenerator : MonoBehaviour {
         }
 
         Debug.Log("Road generation complete.");
+        SaveLoadChunk.SerializeChunk();
         roadGenStage = EnumGenerationStage.COMPLETE;
         yield return null;
     }
@@ -159,7 +164,6 @@ public class RoadGenerator : MonoBehaviour {
             case EnumTileDirection.NORTH:
                 left  = new TilePos(pos.x - 1, pos.z);
                 right = new TilePos(pos.x + 1, pos.z);
-                
                 break;
             case EnumTileDirection.EAST:
                 left  = new TilePos(pos.x, pos.z - 1);
@@ -176,11 +180,11 @@ public class RoadGenerator : MonoBehaviour {
         }
         
         if (GenerateSkyscraperForPos(right, ref skyscraper)) {
-            GenerateBuilding(skyscraper, right.x, right.z);
+            //GenerateBuilding(skyscraper, right.x, right.z);
         }
 
         if (GenerateSkyscraperForPos(left, ref skyscraper)) {
-            GenerateBuilding(skyscraper, left.x, left.z);
+            //GenerateBuilding(skyscraper, left.x, left.z);
         }
         Debug.Log("Generation should be complete.");
     }

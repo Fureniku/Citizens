@@ -4,10 +4,10 @@ using UnityEngine;
 public class MeshCombiner : MonoBehaviour {
 
     private bool combined = false;
-    private SkyscraperGenerator generator = null;
+    private TileBuilding generator = null;
     
     void Start() {
-        generator = GetComponent<SkyscraperGenerator>();
+        generator = GetComponent<TileBuilding>();
     }
 
     void Update() {

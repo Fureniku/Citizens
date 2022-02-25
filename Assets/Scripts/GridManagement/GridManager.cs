@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.Diagnostics;
 using Tiles.TileManagement;
 using UnityEngine;
@@ -14,14 +12,14 @@ public class GridManager : MonoBehaviour {
         get { return _instance; }
     }
     
-    [SerializeField, Range(5, 500)] private int size = 16;
+    [SerializeField, Range(1, 500)] private int size = 25;
 
     private GameObject[,] grid = null;
 
     [SerializeField, Range(1, 200)] private float gridSlotSize = 50.0f;
     [SerializeField, Range(1, 200)] private int randomSeed = 10;
 
-    [SerializeField] GameObject defaultTilePrefab = null;
+    [SerializeField] GameObject defaultChunk = null;
 
     private bool hasStarted = false;
     private bool hasCompletedInit = false;
@@ -50,25 +48,62 @@ public class GridManager : MonoBehaviour {
         if (!hasStarted) {
             Debug.Log("Grid starting...");
             stopWatch.Start();
-            StartCoroutine(BuildGrid());
+            StartCoroutine(BuildGridNew());
             hasStarted = true;
         }
 
-        if (hasCompletedInit && recheck) {
+        /*if (hasCompletedInit && recheck) {
             RecheckGrid();
+        }*/
+    }
+
+    IEnumerator BuildGridNew() {
+        for (int row = 0; row < size; row++) {
+            for (int col = 0; col < size; col++) {
+                Debug.Log("Filling chunk " + row + ", " + col);
+                FillChunkCell(defaultChunk, row, col);
+                yield return null;
+            }
+            Debug.Log("Row complete");
         }
+        
+        stopWatch.Stop();
+        Debug.Log("World generation took " + stopWatch.Elapsed + " seconds.");
+        
+        yield return null;
     }
     
     IEnumerator BuildGrid() {
-        Debug.Log("Starting build grid of total size " + size*size);
-        for (int row = 0; row < size; row++) {
-            GameObject rowGO = GetRowParent(row);
-            for (int col = 0; col < size; col++) {
-                FillGridCell(TileRegistry.GetGrass(), rowGO, row, col, 0, false);
-                yield return null;
-            }
-            rowGO.SetActive(false);
+        bool chunkFileExist = true;
+        if (chunkFileExist) {
+            Debug.Log("Attempting to load chunk from save file...");
+            GameObject[,] chunk = SaveLoadChunk.DeserializeChunk(TilePos.GetGridPosFromLocation(transform.position));
+            
+            LoadChunk(chunk);
+            /*for (int row = 0; row < size; row++) {
+                GameObject rowGO = GetRowParent(row);
+                for (int col = 0; col < size; col++) {
+                    FillGridCell(chunk[row,col], rowGO, row, col, 0, false);
+                    yield return null;
+                }
+                rowGO.SetActive(false);
+            }*/
+            
+            
         }
+        else {
+            Debug.Log("Attempting to generate new chunk...");
+        
+            for (int row = 0; row < size; row++) {
+                GameObject rowGO = GetRowParent(row);
+                for (int col = 0; col < size; col++) {
+                    FillGridCell(TileRegistry.GetGrass(), rowGO, row, col, 0, false);
+                    yield return null;
+                }
+                rowGO.SetActive(false);
+            }
+        }
+        
         Debug.Log("Grid generation complete");
 
         for (int row = 0; row < size; row++) {
@@ -76,23 +111,41 @@ public class GridManager : MonoBehaviour {
             rowGO.SetActive(true);
         }
         stopWatch.Stop();
-        Debug.Log("Grid generation took " + stopWatch.Elapsed + " seconds.");
-        SaveLoadChunk.DeserializeChunk();
-        //Debug.Log("###################################################################################################");
-        //SaveLoadChunk.DeserializeChunk();
+        Debug.Log("Chunk generation took " + stopWatch.Elapsed + " seconds.");
+        
         Debug.Break();
         
         hasCompletedInit = true;
+        yield return null;
     }
-
+    
     public bool IsValidLocation(TilePos pos) {
         return (pos.x < size && pos.x >= 0 && pos.z < size && pos.z >= 0);
+    }
+
+    public void LoadChunk(GameObject[,] chunk) {
+        grid = chunk;
+
+        for (int row = 0; row < 16; row++) {
+            for (int col = 0; col < 16; col++) {
+                grid[row, col].name = $"cell_{row}_{col}";
+                grid[row, col].transform.parent = transform;
+            }
+        }
+    }
+
+    public void FillChunkCell(GameObject go, int row, int col) {
+        GameObject cell = Instantiate(defaultChunk, transform);
+        cell.name = $"chunk_{row}_{col}";
+        cell.transform.position = new Vector3(gridSlotSize * row * Chunk.size, 0, gridSlotSize * col * Chunk.size) + transform.position;
+        cell.GetComponent<Chunk>().SetPosition(row, col);
+        grid[col, row] = cell;
     }
     
     public bool FillGridCell(GameObject go, GameObject parent, int row, int col, EnumTileDirection rotation,  bool placementChecks) {
         GameObject cell = null;
 
-        SkyscraperGenerator skyTile = go.GetComponent<SkyscraperGenerator>();
+        TileBuilding skyTile = go.GetComponent<TileBuilding>();
         if (skyTile != null) {
             Debug.Log("Filling grid cell with skyscraper! Pos: " + row + ", " + col + ", size: " + skyTile.GetWidth() + ", " + skyTile.GetLength());
         }
@@ -120,7 +173,7 @@ public class GridManager : MonoBehaviour {
         cell.transform.position = new Vector3(gridSlotSize * row, 0, gridSlotSize * col) + transform.position;
         cell.transform.rotation = Quaternion.Euler(0,rotation.GetRotation(),0);
         TilePos.GetGridPosFromLocation(cell.transform.position);
-        cell.GetComponent<TileData>().Initialize();
+        cell.GetComponent<TileData>().SetInitialPos();
         return true;
     }
 

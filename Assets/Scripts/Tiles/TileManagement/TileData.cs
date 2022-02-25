@@ -6,8 +6,8 @@ using Random = UnityEngine.Random;
 
 public abstract class TileData : MonoBehaviour {
 
-    [SerializeField] protected String tileName = "Air";
-    [SerializeField] protected int tileId = 0;
+    protected String tileName = "Air";
+    protected int tileId = 0;
     [SerializeField] protected int width = 1;
     [SerializeField] protected int length = 1;
     
@@ -17,10 +17,18 @@ public abstract class TileData : MonoBehaviour {
     [SerializeField] protected bool halfRotations = false;
 
     [SerializeField] protected EnumTileDirection rotation = 0;
+    [SerializeField] protected EnumTile enumTile;
+    protected Tile tile;
 
     [SerializeField] protected EnumGenerateDirection genDirection = EnumGenerateDirection.NONE;
 
     public void Initialize() {
+        tile = TileRegistry.GetTile(enumTile);
+        tileName = tile.GetName();
+        tileId = tile.GetId();
+    }
+
+    public void SetInitialPos() {
         TilePos tilePos = TilePos.GetGridPosFromLocation(transform.position);
         SetGridPos(tilePos);
     }
@@ -39,6 +47,14 @@ public abstract class TileData : MonoBehaviour {
 
     public int GetLength() {
         return length;
+    }
+
+    protected void SetId(int idIn) => tileId = idIn;
+    protected void SetName(string nameIn) => name = nameIn;
+
+    protected void SetRowCol(int rowIn, int colIn) {
+        gridX = rowIn;
+        gridZ = colIn;
     }
 
     public void SetRotation(EnumTileDirection rot) {
@@ -93,10 +109,26 @@ public abstract class TileData : MonoBehaviour {
     private void OnDestroy() {
         GridManager.Instance.FlagForRecheck();
     }
+    
+    public static int ParseInt(JToken token) {
+        int result = 0;
 
-    public static void SerializeTile() {
+        if (token != null) {
+            try {
+                result = Int32.Parse(token.ToString());
+            }
+            catch (FormatException) {
+                Debug.Log("SaveLoadChunk failed to parse int from string: " + token);
+            }
+        }
+        else {
+            Debug.Log("SaveLoadChunk: Token was null!");
+        }
         
+        return result;
     }
 
-    public abstract TileData DeserializeTile(JObject json);
+    public abstract JProperty SerializeTile(int row, int col);
+
+    public abstract void DeserializeTile(JObject json);
 }

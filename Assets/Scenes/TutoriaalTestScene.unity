@@ -136,7 +136,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &405493445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,12 +210,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   register:
   - {fileID: 1825546272134706053, guid: dbb8c39e710aea54bb6f669ebfaee4bc, type: 3}
+  - {fileID: 1825546272134706053, guid: 42af3a0de282f0f4d9548a9de64442f3, type: 3}
   - {fileID: 3320656565879782384, guid: ed21b74aa0dca2546a428bea6da2e9a7, type: 3}
   - {fileID: 7998429460570019003, guid: 41280604f7abeea489b8c4670db5113f, type: 3}
   - {fileID: 8712018493455539631, guid: 23cf6e38582e15540aad93021c3393d3, type: 3}
   - {fileID: 5177328998724744973, guid: ce039a892b508e94d8fe2a15a83accfb, type: 3}
   - {fileID: 6642161596494348902, guid: d4b8280fafc12fa43977e37aef98ab9e, type: 3}
-  - {fileID: 1825546272134706053, guid: 42af3a0de282f0f4d9548a9de64442f3, type: 3}
+  - {fileID: 1825546272134706053, guid: c96b70891e68f6641966381a7cdb6dc0, type: 3}
 --- !u!4 &983481491
 Transform:
   m_ObjectHideFlags: 0
@@ -447,10 +448,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d49d226f9616a340a1c4cff356bbb63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: 16
+  size: 46
   gridSlotSize: 50
   randomSeed: 54
-  defaultTilePrefab: {fileID: 1825546272134706053, guid: dbb8c39e710aea54bb6f669ebfaee4bc,
+  defaultChunk: {fileID: 7198038014411388484, guid: 6a99b04337c308a47a0c3e67638b5a41,
     type: 3}
 --- !u!4 &1907542591
 Transform:
