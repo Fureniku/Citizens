@@ -50,7 +50,7 @@ public class TileRoad : TileData {
         SetId(ParseInt(json.GetValue("id")));
         SetName(tileName);
         SetRotation(Direction.GetDirection(ParseInt(json.GetValue("rotation"))));
-        SetRowCol(ParseInt(json.GetValue("row")), ParseInt(json.GetValue("col")));
+        SetLocalPos(new LocalPos(ParseInt(json.GetValue("row")), ParseInt(json.GetValue("col"))));
     }
 }
 

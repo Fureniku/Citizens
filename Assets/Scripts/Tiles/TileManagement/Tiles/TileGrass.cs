@@ -25,6 +25,6 @@ public class TileGrass : TileData {
     public override void DeserializeTile(JObject json) {
         SetId(ParseInt(json.GetValue("id")));
         SetName(tileName);
-        SetRowCol(ParseInt(json.GetValue("row")), ParseInt(json.GetValue("col")));
+        SetLocalPos(new LocalPos(ParseInt(json.GetValue("row")), ParseInt(json.GetValue("col"))));
     }
 }

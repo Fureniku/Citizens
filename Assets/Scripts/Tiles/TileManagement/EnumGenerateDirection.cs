@@ -22,14 +22,14 @@ public static class GenerateDirection {
         return 0;
     }
     
-    public static String Name(this EnumGenerateDirection dir) {
-        switch (dir) {
-            case EnumGenerateDirection.NORTH_EAST: return "North East";
-            case EnumGenerateDirection.SOUTH_EAST: return "South East";
-            case EnumGenerateDirection.NORTH_WEST: return "North West";
-            case EnumGenerateDirection.SOUTH_WEST: return "South West";
+    public static EnumGenerateDirection GetFromString(string str) {
+        foreach (EnumGenerateDirection genDir in Enum.GetValues(typeof(EnumGenerateDirection))) {
+            if (str.Equals(genDir.ToString())) {
+                return genDir;
+            }
         }
-        return "None";
+
+        return EnumGenerateDirection.NONE;
     }
 }
 

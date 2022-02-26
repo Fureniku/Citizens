@@ -8,8 +8,8 @@ public class TileAir : TileData {
 
         jObj.Add(new JProperty("id", data.GetId()));
         jObj.Add(new JProperty("rotation", data.GetRotation().GetRotation()));
-        jObj.Add(new JProperty("row", data.GetGridPos().x));
-        jObj.Add(new JProperty("col", data.GetGridPos().z));
+        jObj.Add(new JProperty("row", data.GetLocalPos().x));
+        jObj.Add(new JProperty("col", data.GetLocalPos().z));
         
         return new JProperty($"tile_{row}_{col}", jObj);
     }
@@ -17,6 +17,6 @@ public class TileAir : TileData {
     public override void DeserializeTile(JObject json) {
         SetId(ParseInt(json.GetValue("id")));
         SetName(tileName);
-        SetRowCol(ParseInt(json.GetValue("row")), ParseInt(json.GetValue("col")));
+        SetLocalPos(new LocalPos(ParseInt(json.GetValue("row")), ParseInt(json.GetValue("col"))));
     }
 }

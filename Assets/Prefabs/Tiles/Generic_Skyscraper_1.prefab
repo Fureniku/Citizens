@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -8340403662472237788}
   - component: {fileID: 695186477692560052}
   m_Layer: 0
-  m_Name: Skyscraper_Generator
+  m_Name: Generic_Skyscraper_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,15 +46,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0f3e646e25d21c47a6bf9699ba70a3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileName: Skyscraper_Generic_1
+  tileName: Air
   tileId: 0
   width: 4
   length: 4
-  gridX: 0
-  gridZ: 0
+  worldPos:
+    x: 0
+    z: 0
+  localPos:
+    x: 0
+    z: 0
+  parentChunk:
+    x: 0
+    z: 0
   halfRotations: 0
   rotation: 0
-  randomUUID: 0
+  enumTile: 8
+  genDirection: 4
   baseSegment: {fileID: 6841453733244627607, guid: 4f3fc6224f69ade4795e8f92932ef69f,
     type: 3}
   midSegment: {fileID: 3279603237343967606, guid: 475f4147d3307d646bdf1c4c4f396e8b,

@@ -1,62 +1,22 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using GridManagement;
+﻿using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Tiles.TileManagement;
 using UnityEngine;
 
 public class SaveLoadChunk : MonoBehaviour {
-
-    public void SaveFile() {
-        string dest = Application.persistentDataPath + "/save.dat";
-        FileStream file;
-
-        if (File.Exists(dest)) {
-            file = File.OpenWrite(dest);
-        }
-        else {
-            file = File.Create(dest);
-        }
-
-        ChunkData data = new ChunkData(17, null);
-        BinaryFormatter bf = new BinaryFormatter();
-        bf.Serialize(file, data);
-        file.Close();
-    }
-
-    public void LoadFile() {
-        string dest = Application.persistentDataPath + "/save.dat";
-        FileStream file;
-
-        if (File.Exists(dest)) {
-            file = File.OpenRead(dest);
-        }
-        else {
-            Debug.Log("No save exists");
-            return;
-        }
-
-        BinaryFormatter bf = new BinaryFormatter();
-        ChunkData data = (ChunkData) bf.Deserialize(file);
-        file.Close();
-    }
-
-    public static void SerializeChunk(Chunk chunk, int x, int z) {
+    
+    public static void SerializeChunk(Chunk chunk) {
         JObject jObj = new JObject();
-        for (int i = 0; i < 16; i++) {
-            for (int j = 0; j < 16; j++) {
-                TileData td = chunk.GetChunkCellContents(j, i).GetComponent<TileData>();
-                jObj.Add(td.SerializeTile(td, j, i));
+        for (int row = 0; row < 16; row++) {
+            for (int col = 0; col < 16; col++) {
+                TileData td = chunk.GetChunkCellContents(row, col).GetComponent<TileData>();
+                jObj.Add(td.SerializeTile(td, row, col));
             }
         }
         
         JProperty json = new JProperty("chunk", jObj);
         if (DirectoryExists()) {
-            using (StreamWriter file = File.CreateText(Application.persistentDataPath + $"/{GridManager.Instance.GetWorldName()}/chunk_{x}_{z}.json"))
+            using (StreamWriter file = File.CreateText(Application.persistentDataPath + $"/{World.Instance.GetWorldName()}/chunk_{chunk.GetPosition().x}_{chunk.GetPosition().z}.json"))
             using (JsonWriter writer = new JsonTextWriter(file)) {
                 writer.Formatting = Formatting.Indented;
                 JObject final = new JObject();
@@ -69,27 +29,27 @@ public class SaveLoadChunk : MonoBehaviour {
 
     public static bool FileExists(ChunkPos pos) {
         if (DirectoryExists()) {
-            return File.Exists(Application.persistentDataPath + $"/{GridManager.Instance.GetWorldName()}/chunk_{pos.x}_{pos.z}.json");
+            return File.Exists(Application.persistentDataPath + $"/{World.Instance.GetWorldName()}/chunk_{pos.x}_{pos.z}.json");
         }
 
         return false;
     }
 
     public static bool DirectoryExists() {
-        DirectoryInfo dir = Directory.CreateDirectory(Application.persistentDataPath + $"/{GridManager.Instance.GetWorldName()}");
+        DirectoryInfo dir = Directory.CreateDirectory(Application.persistentDataPath + $"/{World.Instance.GetWorldName()}");
         return true;
     }
     
     public static GameObject[,] DeserializeChunk(ChunkPos origin) {
         GameObject[,] chunk = new GameObject[16, 16];
         if (DirectoryExists()) {
-            using (StreamReader file = File.OpenText(Application.persistentDataPath + $"/{GridManager.Instance.GetWorldName()}/chunk_{origin.x}_{origin.z}.json")) {
+            using (StreamReader file = File.OpenText(Application.persistentDataPath + $"/{World.Instance.GetWorldName()}/chunk_{origin.x}_{origin.z}.json")) {
                 JObject o = (JObject) JToken.ReadFrom(new JsonTextReader(file));
                 JProperty json = o.Property("chunk");
                 JObject prop = (JObject) json.Value;
 
-                for (int col = 0; col < 16; col++) {
-                    for (int row = 0; row < 16; row++) {
+                for (int row = 0; row < 16; row++) {
+                    for (int col = 0; col < 16; col++) {
                         GameObject cell = DeserializeTile((JObject) prop.GetValue($"tile_{row}_{col}"), new TilePos((origin.x*Chunk.size) + row, (origin.z*Chunk.size) + col));
                         cell.name = $"cell_{row}_{col}";
                         chunk[row, col] = cell;

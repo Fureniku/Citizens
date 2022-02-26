@@ -45,3 +45,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chunkX: 0
   chunkZ: 0
+  GenerateFreshChunks: 0

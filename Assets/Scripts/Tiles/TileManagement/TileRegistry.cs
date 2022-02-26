@@ -9,6 +9,7 @@ public class TileRegistry : MonoBehaviour {
     // - initialize registry: tileRegistry[TILE.getId()] = TILE
     // - Get the tile enum (GetTile(EnumTile tile))
     // - Add to EnumTile
+    // - Set EnumTile on the prefab
 
     private static readonly GameObject[] registry = new GameObject[255];
     private static readonly Tile[] tileRegistry = new Tile[255];
@@ -21,6 +22,7 @@ public class TileRegistry : MonoBehaviour {
     public static readonly Tile T_JUNCT_ROAD_1x1 = new Tile(5, "T Junction Road", TileType.ROAD);
     public static readonly Tile CROSSROAD_ROAD_1x1 = new Tile(6, "Crossroad", TileType.ROAD);
     public static readonly Tile CROSSROAD_CTRL_ROAD_1x1 = new Tile(7, "Controlled Crossroad", TileType.ROAD);
+    public static readonly Tile SKYSCRAPER_GENERIC_1 = new Tile(8, "Generic Skyscraper 1", TileType.BUILDING);
 
     public static int maxId = 999;
 
@@ -58,6 +60,7 @@ public class TileRegistry : MonoBehaviour {
         tileRegistry[T_JUNCT_ROAD_1x1.GetId()] = T_JUNCT_ROAD_1x1;
         tileRegistry[CROSSROAD_ROAD_1x1.GetId()] = CROSSROAD_ROAD_1x1;
         tileRegistry[CROSSROAD_CTRL_ROAD_1x1.GetId()] = CROSSROAD_CTRL_ROAD_1x1;
+        tileRegistry[SKYSCRAPER_GENERIC_1.GetId()] = SKYSCRAPER_GENERIC_1;
     }
 
     public static Tile GetTile(int id) {
@@ -106,6 +109,8 @@ public class TileRegistry : MonoBehaviour {
                 return CROSSROAD_ROAD_1x1;
             case EnumTile.CROSSROAD_CTRL_ROAD_1x1:
                 return CROSSROAD_CTRL_ROAD_1x1;
+            case EnumTile.SKYSCRAPER_GENERIC_1:
+                return SKYSCRAPER_GENERIC_1;
             default:
                 Debug.Log("Tile " + tile + " missing from GetTile function");
                 return GRASS;
@@ -146,6 +151,7 @@ public enum EnumTile {
     T_JUNCT_ROAD_1x1,
     CROSSROAD_ROAD_1x1,
     CROSSROAD_CTRL_ROAD_1x1,
+    SKYSCRAPER_GENERIC_1
 }
 
 public enum TileType {

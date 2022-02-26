@@ -1,26 +1,17 @@
 ﻿using System;
 using UnityEngine;
 
-public class ChunkPos {
-    public int x;
-    public int z;
+[System.Serializable]
+public class ChunkPos : Position{
 
     public static ChunkPos ZERO = new ChunkPos(0, 0);
 
-    public ChunkPos(int x, int z) {
-        this.x = x;
-        this.z = z;
-    }
-    
-    public override string ToString() {
-        return "[" + x + "," + z + "]";
-    }
+    public ChunkPos(int x, int z) : base(x,z){}
 
     //Convert a Unity coordinate location into a tilepos location
     public static ChunkPos GetChunkPosFromLocation(Vector3 worldPos) {
-        GridManager gm = GridManager.Instance;
-        Vector3 gridStartPos = gm.transform.position;
-        float tileSize = gm.GetGridTileSize();
+        Vector3 gridStartPos = World.Instance.GetGridManager().transform.position;
+        float tileSize = World.Instance.GetGridManager().GetGridTileSize();
 
         float xFinal = ((worldPos.x - gridStartPos.x) / tileSize) / Chunk.size;
         float zFinal = ((worldPos.z - gridStartPos.z) / tileSize) / Chunk.size;
@@ -29,6 +20,14 @@ public class ChunkPos {
     }
 
     public static Vector3 GetChunkOrigin(ChunkPos pos) {
-        return new Vector3(pos.x * GridManager.Instance.GetGridTileSize(), 0, pos.z * GridManager.Instance.GetGridTileSize());
+        return new Vector3(pos.x * World.Instance.GetGridManager().GetGridTileSize(), 0, pos.z * World.Instance.GetGridManager().GetGridTileSize());
+    }
+
+    public int ChunkTileX(TilePos pos) {
+        return pos.x - x * Chunk.size;
+    }
+    
+    public int ChunkTileZ(TilePos pos) {
+        return pos.z - z * Chunk.size;
     }
 }

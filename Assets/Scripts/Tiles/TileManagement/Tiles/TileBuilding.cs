@@ -10,7 +10,7 @@ public class TileBuilding : TileData {
     [SerializeField] private GameObject roofSegment = null;
     [SerializeField] private GameObject referenceTile = null;
     
-    [SerializeField] private GameObject[,] referenceTiles;
+    private GameObject[,] referenceTiles;
 
     private bool generationComplete = false;
     private TileData tileData;
@@ -25,11 +25,6 @@ public class TileBuilding : TileData {
 
     private bool skyscraperCreated;
 
-    private GridManager gridManager;
-    private TilePos tilePos;
-
-    
-    
     void Start() {
         segments = Random.Range(1,3);
         height = Random.Range(30, 60);
@@ -41,24 +36,20 @@ public class TileBuilding : TileData {
         gridWidth = tileData.GetWidth();
         gridLength = tileData.GetLength();
         
-        gridManager = GridManager.Instance;
-        tilePos = TilePos.GetGridPosFromLocation(transform.position);
-        tileData.SetGridPos(tilePos);
+        Initialize();
+        SetInitialPos();
         referenceTiles = new GameObject[gridWidth, gridLength];
 
         //Debug.Log("Generating skyscraper with height " + height + ", " + segments + " segments and a scale of " + scale);
     }
 
     void Update() {
-        if (gridManager.IsInitialized() && !skyscraperCreated) {
+        if (World.Instance.GetGridManager().IsInitialized() && !skyscraperCreated) {
             Debug.Log("######### Attempting skyscraper generation ###########");
             skyscraperCreated = true;
             if (genDirection != EnumGenerateDirection.NONE) {
                 Debug.Log("Enough space! Generating in " + genDirection + ". Generating...");
                 Generate();
-            }
-            else {
-                Debug.Log("It all failed! Direction was " + genDirection);
             }
         }
     }
@@ -70,8 +61,8 @@ public class TileBuilding : TileData {
         float scaleY = Mathf.Max(width, length) - (Mathf.Abs(width - length) / 2);
         float scaleZ = length;
 
-        float xOffset = (1.5f * gridManager.GetGridTileSize()) * genDirection.GenX();
-        float zOffset = (1.5f * gridManager.GetGridTileSize()) * genDirection.GenZ();
+        float xOffset = (1.5f * World.Instance.GetGridManager().GetGridTileSize()) * genDirection.GenX();
+        float zOffset = (1.5f * World.Instance.GetGridManager().GetGridTileSize()) * genDirection.GenZ();
         Vector3 pos = transform.position;
         baseGO.transform.parent = transform;
         baseGO.transform.position = new Vector3(pos.x + xOffset, pos.y, pos.z + zOffset);
@@ -92,21 +83,23 @@ public class TileBuilding : TileData {
         roofGO.transform.parent = transform;
         roofGO.transform.localScale = new Vector3((scale-((segments-1)*0.1f)) * scaleX, 1*scaleY, (scale-((segments-1)*0.1f)) * scaleZ);
 
-        for (int i = 0; i < gridLength; i++) {
-            for (int j = 0; j < gridWidth; j++) {
-                if (i == 0 && j == 0) continue;
-                //j and i * 1/* - 1
-                Debug.Log("setting reference tiles. Generation is " + genDirection + " AKA " + genDirection.Name() + ", with X mod " + genDirection.GenX() + " and z mod " + genDirection.GenZ());
-                /*TODO gridManager.FillGridCell(referenceTile, tilePos.x + (j * genDirection.GenX()), tilePos.z + (i * genDirection.GenZ()), 0, false);
-                GameObject rt = gridManager.GetGridCellContents(tilePos.x + j, tilePos.z + i);
+        //Place reference tiles
+        for (int row = 0; row < gridLength; row++) {
+            for (int col = 0; col < gridWidth; col++) {
+                if (row == 0 && col == 0) continue;
+                TilePos genPos = new TilePos(worldPos.x + row * genDirection.GenX(), worldPos.z + col * genDirection.GenZ());
+                Chunk chunk = World.Instance.GetGridManager().GetChunk(TilePos.GetParentChunk(genPos));
+                LocalPos lp = LocalPos.FromTilePos(genPos);
+                chunk.FillChunkCell(referenceTile, lp, 0, false);
+                GameObject rt = chunk.GetChunkCellContents(lp.x, lp.z);
                 TileReference reference = rt.GetComponent<TileReference>();
                 if (reference != null) {
-                    rt.GetComponent<TileReference>().SetMasterTile(gameObject);
+                    rt.GetComponent<TileReference>().SetMasterTile(TilePos.GetGridPosFromLocation(gameObject.transform.position));
                 }
-                referenceTiles[j, i] = rt;*/
+                referenceTiles[row, col] = rt;
+                    
             }
         }
-
         generationComplete = true;
     }
 
@@ -116,11 +109,11 @@ public class TileBuilding : TileData {
 
     private void OnDestroy() {
         Debug.Log("Goodbye cruel world!");
-        for (int i = 0; i < gridLength; i++) {
-            for (int j = 0; j < gridWidth; j++) {
-                GameObject go = referenceTiles[j, i];
+        for (int row = 0; row < gridLength; row++) {
+            for (int col = 0; col < gridWidth; col++) {
+                GameObject go = referenceTiles[row, col];
                 if (go != null) {
-                    Debug.Log("Setting " + (tilePos.z + i) + ", " + (tilePos.x + j) + ", to grass");
+                    Debug.Log("Setting " + (worldPos.x + row) + ", " + (worldPos.z + col) + ", to grass");
                     GameObject grassTile = TileRegistry.GetGrass();
                     Debug.Log("Not actually setting right now! Fix the function!!");
                     //gridManager.FillGridCell(grassTile, tilePos.x + j, tilePos.z + i, 0, false);
@@ -137,6 +130,15 @@ public class TileBuilding : TileData {
         jObj.Add(new JProperty("row", data.GetGridPos().x));
         jObj.Add(new JProperty("col", data.GetGridPos().z));
         
+        JObject buildingObj = new JObject();
+        
+        buildingObj.Add(new JProperty("segments", segments));
+        buildingObj.Add(new JProperty("segmentHeight", segmentHeight));
+        buildingObj.Add(new JProperty("height", height));
+        buildingObj.Add(new JProperty("direction", genDirection.ToString()));
+
+        jObj.Add(new JProperty("buildingTile", buildingObj));
+        
         return new JProperty($"tile_{row}_{col}", jObj);
     }
 
@@ -144,6 +146,14 @@ public class TileBuilding : TileData {
         SetId(ParseInt(json.GetValue("id")));
         SetName(tileName);
         SetRotation(Direction.GetDirection(ParseInt(json.GetValue("rotation"))));
-        SetRowCol(ParseInt(json.GetValue("row")), ParseInt(json.GetValue("col")));
+        SetLocalPos(new LocalPos(ParseInt(json.GetValue("row")), ParseInt(json.GetValue("col"))));
+        
+        JObject buildingObj = (JObject) json.GetValue("buildingTile");
+        if (buildingObj != null) {
+            segments = ParseInt(buildingObj.GetValue("segments"));
+            segmentHeight = ParseInt(buildingObj.GetValue("segmentHeight"));
+            height = ParseInt(buildingObj.GetValue("height"));
+            genDirection = GenerateDirection.GetFromString(buildingObj.GetValue("direction").ToString());
+        }
     }
 }
