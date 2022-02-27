@@ -108,7 +108,6 @@ public class TileBuilding : TileData {
     }
 
     private void OnDestroy() {
-        Debug.Log("Goodbye cruel world!");
         for (int row = 0; row < gridLength; row++) {
             for (int col = 0; col < gridWidth; col++) {
                 GameObject go = referenceTiles[row, col];

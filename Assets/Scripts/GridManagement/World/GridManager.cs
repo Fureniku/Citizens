@@ -214,7 +214,7 @@ public class GridManager : MonoBehaviour {
     public bool IsValidChunk(ChunkPos pos) { return pos.x < size && pos.x >= 0 && pos.z < size && pos.z >= 0; }
     public bool IsValidTile(TilePos pos) { return IsValidChunk(TilePos.GetParentChunk(pos)); }
     public void DeleteGridCell(ChunkPos pos) => DeleteGridCell(pos.x, pos.z);
-
+    public int GetSize() { return size; }
     public Chunk GetChunk(int row, int col) { return GetChunk(new ChunkPos(row, col)); }
     public Chunk GetChunk(ChunkPos pos) { return grid[pos.x, pos.z].GetComponent<Chunk>(); }
     public float GetGridTileSize() { return gridSlotSize; }

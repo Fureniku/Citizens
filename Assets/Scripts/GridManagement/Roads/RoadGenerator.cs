@@ -24,7 +24,7 @@ public class RoadGenerator : MonoBehaviour {
 
     private GridManager gridManager;
     
-    private float baseWeightTime = 0.0f; //for debugging
+    private float baseWaitTime = 0.0f; //for debugging
 
     private EnumGenerationStage roadGenStage = EnumGenerationStage.INITIALIZED;
 
@@ -99,7 +99,7 @@ public class RoadGenerator : MonoBehaviour {
                         if ((Random.Range(1, 100) <= cornerChance && tilesSinceCorner >= minTilesBeforeCorner) || forceCorner > 0) {
                             if (forceCorner > 0) Debug.Log("A previous corner was requested but could not be placed. Trying again!");
                             bool cornerRight = forceCorner > 0 ? forceCorner == 1 : Random.value < 0.5;
-                            waitTime = baseWeightTime * 4f;
+                            waitTime = baseWaitTime * 4f;
                             Debug.Log("Turning!");
                             if (cornerRight) {
                                 TileData tileRight = gridManager.GetTile(Direction.OffsetPos(generatorDirection.RotateCW(), placePos)).GetComponent<TileData>();
@@ -134,7 +134,7 @@ public class RoadGenerator : MonoBehaviour {
                         }
                         //Generate a straight road
                         else {
-                            waitTime = baseWeightTime;
+                            waitTime = baseWaitTime;
                             GenerateRoad(road_straight, placePos);
                             tilesSinceCorner++;
                         }
@@ -203,7 +203,7 @@ public class RoadGenerator : MonoBehaviour {
     }
 
     private void GenerateBuilding(GameObject building, TilePos pos, Chunk chunk) {
-        chunk.FillChunkCell(building, LocalPos.FromTilePos(pos), 0, true);
+        //chunk.FillChunkCell(building, LocalPos.FromTilePos(pos), 0, true);
     }
 
     private bool GenerateSkyscraperForPos(TilePos pos, ref GameObject go) {
@@ -215,5 +215,9 @@ public class RoadGenerator : MonoBehaviour {
 
     public bool IsGenerationComplete() {
         return roadGenStage == EnumGenerationStage.COMPLETE;
+    }
+
+    public void SetDirection(EnumTileDirection dir) {
+        generatorDirection = dir;
     }
 }
