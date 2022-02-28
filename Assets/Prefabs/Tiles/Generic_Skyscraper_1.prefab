@@ -62,7 +62,7 @@ MonoBehaviour:
   halfRotations: 0
   rotation: 0
   enumTile: 8
-  genDirection: 4
+  genDirection: 0
   baseSegment: {fileID: 6841453733244627607, guid: 4f3fc6224f69ade4795e8f92932ef69f,
     type: 3}
   midSegment: {fileID: 3279603237343967606, guid: 475f4147d3307d646bdf1c4c4f396e8b,

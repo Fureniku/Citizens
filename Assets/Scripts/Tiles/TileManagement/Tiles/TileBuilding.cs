@@ -9,14 +9,21 @@ public class TileBuilding : TileData {
     [SerializeField] private GameObject midSegment = null;
     [SerializeField] private GameObject roofSegment = null;
     [SerializeField] private GameObject referenceTile = null;
+
+    [SerializeField] private int minSegments = 1;
+    [SerializeField] private int maxSegments = 3;
+    [SerializeField] private int minHeight = 30;
+    [SerializeField] private int maxHeight = 60;
+    
+    
+    [ReadOnly, SerializeField] private int segments = 1;
+    [ReadOnly, SerializeField] private int height = 30;
     
     private GameObject[,] referenceTiles;
 
     private bool generationComplete = false;
     private TileData tileData;
 
-    private int segments;
-    private int height;
     private int segmentHeight;
     private float scale;
 
@@ -26,8 +33,8 @@ public class TileBuilding : TileData {
     private bool skyscraperCreated;
 
     void Start() {
-        segments = Random.Range(1,3);
-        height = Random.Range(30, 60);
+        segments = Random.Range(minSegments, maxSegments);
+        height = Random.Range(minHeight, maxHeight);
         segmentHeight = height / segments;
         scale = Random.Range(0.85f, 1.2f);
 

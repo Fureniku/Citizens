@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2124977563633330291}
   - component: {fileID: 1627827793553308032}
   m_Layer: 0
-  m_Name: pCube9
+  m_Name: glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 3558422239747598829}
   - component: {fileID: 5655015624711079101}
   m_Layer: 0
-  m_Name: pCube10
+  m_Name: accent_bars
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

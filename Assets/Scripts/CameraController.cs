@@ -41,13 +41,15 @@ public class CameraController : MonoBehaviour {
     private void Start() {
         _moveSpeed = Vector3.zero;
         maxMove = MaximumMovementSpeed;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
     private void FixedUpdate() {
-        HandleMouseRotation();
-
-        HandleKeyInput();
+        if (Cursor.lockState == CursorLockMode.Locked) {
+            HandleMouseRotation();
+            HandleKeyInput();
+        }
 
         // clamp the move speed
         maxMove = sprint ? MaximumMovementSpeed * 4 : MaximumMovementSpeed;
@@ -57,6 +59,10 @@ public class CameraController : MonoBehaviour {
         }
 
         transform.Translate(_moveSpeed);
+
+        if (Input.GetKey(KeyCode.Escape)) {
+            Cursor.lockState = CursorLockMode.None;
+        }
     }
 
     private void HandleKeyInput() {

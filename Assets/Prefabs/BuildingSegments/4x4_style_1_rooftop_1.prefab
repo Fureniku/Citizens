@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2813017838555103211}
   - component: {fileID: 8395164130081567201}
   m_Layer: 0
-  m_Name: pCube8
+  m_Name: vent_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -57,7 +57,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 517286532787380774, guid: 9da72c4071d660241a39619629a515d7, type: 3}
+  - {fileID: 2100000, guid: 4938182fac5c20c4ab1c4b58357c0620, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 4760587052971633273}
   - component: {fileID: 3669383812288421597}
   m_Layer: 0
-  m_Name: pCube1
+  m_Name: roof_block
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -166,7 +166,7 @@ GameObject:
   - component: {fileID: 164749184926486792}
   - component: {fileID: 694422509300121851}
   m_Layer: 0
-  m_Name: pCube9
+  m_Name: vent_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -211,7 +211,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -2062263289447944734, guid: 9da72c4071d660241a39619629a515d7, type: 3}
+  - {fileID: 2100000, guid: 4938182fac5c20c4ab1c4b58357c0620, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -243,7 +243,7 @@ GameObject:
   - component: {fileID: 3776117346200837179}
   - component: {fileID: 6283762451132303402}
   m_Layer: 0
-  m_Name: pCube6
+  m_Name: roof_trim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -356,7 +356,7 @@ GameObject:
   - component: {fileID: 2719176292226679141}
   - component: {fileID: 6531588342753307701}
   m_Layer: 0
-  m_Name: pCube10
+  m_Name: vent_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -401,7 +401,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 4563850105680494261, guid: 9da72c4071d660241a39619629a515d7, type: 3}
+  - {fileID: 2100000, guid: 4938182fac5c20c4ab1c4b58357c0620, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -433,7 +433,7 @@ GameObject:
   - component: {fileID: 4105118724516289059}
   - component: {fileID: 2444064236894249280}
   m_Layer: 0
-  m_Name: pCube7
+  m_Name: elevator_block
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -478,7 +478,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8447432995078555523, guid: 9da72c4071d660241a39619629a515d7, type: 3}
+  - {fileID: 2100000, guid: 4938182fac5c20c4ab1c4b58357c0620, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
