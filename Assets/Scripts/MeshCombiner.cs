@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MeshCombiner : MonoBehaviour {
@@ -13,8 +14,52 @@ public class MeshCombiner : MonoBehaviour {
     void Update() {
         if (!combined && generator.IsGenerationComplete()) {
             CombineMeshesMultipleGO();
+            
+            //GetComponentsInChildren<MeshFilter>() = CombineMeshes(GetComponentsInChildren<MeshFilter>());
             combined = true;
         }
+    }
+    
+    
+    Mesh CombineMeshes(MeshFilter[] meshes) {
+        // Key: shared mesh instance ID, Value: arguments to combine meshes
+        var helper = new Dictionary<int, List<CombineInstance>>();
+
+        // Build combine instances for each type of mesh
+        foreach (var m in meshes) {
+            List<CombineInstance> tmp;
+            if (!helper.TryGetValue(m.sharedMesh.GetInstanceID(), out tmp)) {
+                tmp = new List<CombineInstance>();
+                helper.Add(m.sharedMesh.GetInstanceID(), tmp);
+            }
+
+            var ci = new CombineInstance();
+            ci.mesh = m.sharedMesh;
+            ci.transform = m.transform.localToWorldMatrix;
+            tmp.Add(ci);
+        }
+
+        // Combine meshes and build combine instance for combined meshes
+        var list = new List<CombineInstance>();
+        foreach (var e in helper) {
+            var m = new Mesh();
+            m.CombineMeshes(e.Value.ToArray());
+            var ci = new CombineInstance();
+            ci.mesh = m;
+            list.Add(ci);
+        }
+
+        // And now combine everything
+        var result = new Mesh();
+        result.CombineMeshes(list.ToArray(), false, false);
+
+        // It is a good idea to clean unused meshes now
+        foreach (var m in list) {
+            Destroy(m.mesh);
+        }
+
+        return result;
+
     }
 
     void CombineMeshesMultipleGO() {
@@ -32,7 +77,7 @@ public class MeshCombiner : MonoBehaviour {
         transform.rotation = Quaternion.identity;
         transform.position = Vector3.zero;
 
-        for (int i = 0; i < meshFilters.Length; i++) {
+        for (int i = 0; i < meshFilters.Length; i++) { //Iterate through all existing meshes
             MeshFilter filter = meshFilters[i];
             if (filter.transform == transform) { //Don't operate on the parent object (probably unneeded as we delete them anyway)
                 continue;
@@ -68,11 +113,6 @@ public class MeshCombiner : MonoBehaviour {
         CombineInstance[] combineInstances = new CombineInstance[materials.Count];
 
         for (int i = 0; i < materials.Count; i++) {
-            GameObject go = new GameObject();
-            go.name = ((Material) materials[i]).name;
-            go.transform.SetParent(transform);
-            go.transform.position = initialPos;
-            Debug.Log("made new gameobject called " + ((Material) materials[i]).name);
             //Set mesh data etc for each individual material into array
             CombineInstance[] combineInstanceArray = ((ArrayList) combiners[i]).ToArray(typeof(CombineInstance)) as CombineInstance[];
             meshes[i] = new Mesh();
@@ -101,19 +141,6 @@ public class MeshCombiner : MonoBehaviour {
         transform.position = initialPos;
         
         Debug.Log("Completed reducing meshes from " + initialSize + " to " + materials.Count);
-    }
-
-    private void CreateGameObject(int meshId, ArrayList combiners) {
-        GameObject go = new GameObject();
-
-        //Set mesh data etc for each individual material into array
-        CombineInstance[] combineInstanceArray = ((ArrayList) combiners[meshId]).ToArray(typeof(CombineInstance)) as CombineInstance[];
-        Mesh mesh  = new Mesh();
-        mesh.CombineMeshes(combineInstanceArray, true, true);
-
-        CombineInstance ci = new CombineInstance();
-        ci.mesh = mesh;
-        ci.subMeshIndex = 0;
     }
 
     void CombineMeshes() {
