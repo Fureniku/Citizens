@@ -116,6 +116,7 @@ public class MeshCombiner : MonoBehaviour {
             //Set mesh data etc for each individual material into array
             CombineInstance[] combineInstanceArray = ((ArrayList) combiners[i]).ToArray(typeof(CombineInstance)) as CombineInstance[];
             meshes[i] = new Mesh();
+            meshes[i].indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
             meshes[i].CombineMeshes(combineInstanceArray, true, true);
 
             combineInstances[i] = new CombineInstance();

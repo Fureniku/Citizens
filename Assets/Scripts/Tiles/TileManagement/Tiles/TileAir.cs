@@ -1,9 +1,13 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System.Runtime.Serialization.Json;
+using Newtonsoft.Json.Linq;
 using Tiles.TileManagement;
+using UnityEditor;
+using UnityEngine;
 
 public class TileAir : TileData {
     
     public override JProperty SerializeTile(TileData data, int row, int col) {
+        
         JObject jObj = new JObject();
 
         jObj.Add(new JProperty("id", data.GetId()));
