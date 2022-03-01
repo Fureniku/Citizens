@@ -2917,3 +2917,485 @@ AssetImportParameters requested are different than current active one (requested
   custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.104333 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.60 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.856 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.63 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1945 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 84.3 MB.
+System memory in use after: 84.3 MB.
+
+Unloading 50 unused Assets to reduce memory usage. Loaded Objects now: 2637.
+Total: 5.292200 ms (FindLiveObjects: 0.209500 ms CreateObjectMapping: 0.058600 ms MarkObjects: 4.932800 ms  DeleteObjects: 0.090300 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 1716.839346 seconds.
+  path: Assets/Prefabs/RoadGenerator.prefab
+  artifactKey: Guid(b7df54b611314c64291a419a2dc73dae) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/RoadGenerator.prefab using Guid(b7df54b611314c64291a419a2dc73dae) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b472479609ba1655a1e5bc7096d46124') in 0.143746 seconds 
+  Import took 0.205387 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 59.469736 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Corner.prefab
+  artifactKey: Guid(41280604f7abeea489b8c4670db5113f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Corner.prefab using Guid(41280604f7abeea489b8c4670db5113f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f3b0401c299fe0ecca18134da40c4f03') in 0.138584 seconds 
+  Import took 0.258277 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.727464 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Corner.prefab
+  artifactKey: Guid(41280604f7abeea489b8c4670db5113f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Corner.prefab using Guid(41280604f7abeea489b8c4670db5113f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '11ed355454933509b10850b80c458b8f') in 0.075740 seconds 
+  Import took 0.164863 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 4.504597 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Corner.prefab
+  artifactKey: Guid(41280604f7abeea489b8c4670db5113f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Corner.prefab using Guid(41280604f7abeea489b8c4670db5113f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3688ae9f031cda3fb2881d0e57b3c15d') in 0.079349 seconds 
+  Import took 0.147164 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 34.575105 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Corner.prefab
+  artifactKey: Guid(41280604f7abeea489b8c4670db5113f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Corner.prefab using Guid(41280604f7abeea489b8c4670db5113f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '741d5874e9ea3268d4ce0c4f26f89d73') in 0.090172 seconds 
+  Import took 0.144868 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 11.306129 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Corner.prefab
+  artifactKey: Guid(41280604f7abeea489b8c4670db5113f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Corner.prefab using Guid(41280604f7abeea489b8c4670db5113f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '86b25da31730cf52dc1aed4bd9f0fd69') in 0.108097 seconds 
+  Import took 0.159341 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 10.335281 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Corner.prefab
+  artifactKey: Guid(41280604f7abeea489b8c4670db5113f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Corner.prefab using Guid(41280604f7abeea489b8c4670db5113f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '682230224217e2aa770efe04ca256c4e') in 0.090279 seconds 
+  Import took 0.252130 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 9.470972 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Corner.prefab
+  artifactKey: Guid(41280604f7abeea489b8c4670db5113f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Corner.prefab using Guid(41280604f7abeea489b8c4670db5113f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8ae8da9c32aa9626f04c61ecd0411d74') in 0.075370 seconds 
+  Import took 0.104466 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 16.027151 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Corner.prefab
+  artifactKey: Guid(41280604f7abeea489b8c4670db5113f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Corner.prefab using Guid(41280604f7abeea489b8c4670db5113f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2e5613450184d648889c5a54f16740e9') in 0.119954 seconds 
+  Import took 0.156243 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.162014 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Corner.prefab
+  artifactKey: Guid(41280604f7abeea489b8c4670db5113f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Corner.prefab using Guid(41280604f7abeea489b8c4670db5113f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6b06e10cab2c6f014a82ef9de03bb260') in 0.096282 seconds 
+  Import took 0.135899 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 3.162136 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Corner.prefab
+  artifactKey: Guid(41280604f7abeea489b8c4670db5113f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Corner.prefab using Guid(41280604f7abeea489b8c4670db5113f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5beb96905bab39ef55c00c7dbbdb8cbb') in 0.139512 seconds 
+  Import took 0.187091 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 3.842900 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Corner.prefab
+  artifactKey: Guid(41280604f7abeea489b8c4670db5113f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Corner.prefab using Guid(41280604f7abeea489b8c4670db5113f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '336431680f0f79e28e240eb3f691562b') in 0.084940 seconds 
+  Import took 0.114531 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.411956 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Corner.prefab
+  artifactKey: Guid(41280604f7abeea489b8c4670db5113f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Corner.prefab using Guid(41280604f7abeea489b8c4670db5113f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'be7439aba5be4e3652f67164f986b30a') in 0.083795 seconds 
+  Import took 0.112183 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 9.233573 seconds.
+  path: ProjectSettings/TagManager.asset
+  artifactKey: Guid(00000000000000003000000000000000) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing ProjectSettings/TagManager.asset using Guid(00000000000000003000000000000000) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '95df672b4aaba54310d34c83eef51bb8') in 0.063586 seconds 
+  Import took 0.091670 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 31.333706 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Corner.prefab
+  artifactKey: Guid(41280604f7abeea489b8c4670db5113f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Corner.prefab using Guid(41280604f7abeea489b8c4670db5113f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'da3adca11fa8be522437cf0f38c71fef') in 0.076899 seconds 
+  Import took 0.106984 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 5.008929 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Corner.prefab
+  artifactKey: Guid(41280604f7abeea489b8c4670db5113f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Corner.prefab using Guid(41280604f7abeea489b8c4670db5113f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3a5dbd5d29ccdf935fe02fa507e3661a') in 0.069742 seconds 
+  Import took 0.130028 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 14.958173 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Straight Road.prefab
+  artifactKey: Guid(ed21b74aa0dca2546a428bea6da2e9a7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Straight Road.prefab using Guid(ed21b74aa0dca2546a428bea6da2e9a7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'aa0b3c8216a98ed5c71bdeed715e48e5') in 0.116651 seconds 
+  Import took 0.143090 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.609096 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Straight Road.prefab
+  artifactKey: Guid(ed21b74aa0dca2546a428bea6da2e9a7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Straight Road.prefab using Guid(ed21b74aa0dca2546a428bea6da2e9a7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '313d562df8799f51fae6e379c9bd9cf1') in 0.073506 seconds 
+  Import took 0.100008 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 5.110250 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Straight Road.prefab
+  artifactKey: Guid(ed21b74aa0dca2546a428bea6da2e9a7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Straight Road.prefab using Guid(ed21b74aa0dca2546a428bea6da2e9a7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'be74a1247833112450f84fdb33ac8af1') in 0.063956 seconds 
+  Import took 0.092359 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 8.918438 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Straight Road.prefab
+  artifactKey: Guid(ed21b74aa0dca2546a428bea6da2e9a7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Straight Road.prefab using Guid(ed21b74aa0dca2546a428bea6da2e9a7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ca5ee2ff9ed19eebfdce3afbf8674b07') in 0.072943 seconds 
+  Import took 0.142829 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 14.413287 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Straight Road.prefab
+  artifactKey: Guid(ed21b74aa0dca2546a428bea6da2e9a7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Straight Road.prefab using Guid(ed21b74aa0dca2546a428bea6da2e9a7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '853162df6fedee8bed1747a0a05ca55d') in 0.092962 seconds 
+  Import took 0.127402 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 5.640147 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Straight Road.prefab
+  artifactKey: Guid(ed21b74aa0dca2546a428bea6da2e9a7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Straight Road.prefab using Guid(ed21b74aa0dca2546a428bea6da2e9a7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '91fa68017747a74645422a89fe5f71ff') in 0.075798 seconds 
+  Import took 0.105528 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 25.519515 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Straight Road.prefab
+  artifactKey: Guid(ed21b74aa0dca2546a428bea6da2e9a7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Straight Road.prefab using Guid(ed21b74aa0dca2546a428bea6da2e9a7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ae90e9ef788d49367af696887515d838') in 0.085823 seconds 
+  Import took 0.110969 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 4.570384 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Straight Road.prefab
+  artifactKey: Guid(ed21b74aa0dca2546a428bea6da2e9a7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Straight Road.prefab using Guid(ed21b74aa0dca2546a428bea6da2e9a7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '288a6b95ab0e43048f4130c209d85f5f') in 0.064150 seconds 
+  Import took 0.093637 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 22.597286 seconds.
+  path: Assets/Prefabs/Tiles/1x1 T-Junction.prefab
+  artifactKey: Guid(23cf6e38582e15540aad93021c3393d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 T-Junction.prefab using Guid(23cf6e38582e15540aad93021c3393d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b1b70be82732c24894923ab9299ae59f') in 0.131009 seconds 
+  Import took 0.193831 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.577136 seconds.
+  path: Assets/Prefabs/Tiles/1x1 T-Junction.prefab
+  artifactKey: Guid(23cf6e38582e15540aad93021c3393d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 T-Junction.prefab using Guid(23cf6e38582e15540aad93021c3393d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6344dd1c395cbe387e848cba2e6e5c1b') in 0.075888 seconds 
+  Import took 0.107328 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.922521 seconds.
+  path: Assets/Prefabs/Tiles/1x1 T-Junction.prefab
+  artifactKey: Guid(23cf6e38582e15540aad93021c3393d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 T-Junction.prefab using Guid(23cf6e38582e15540aad93021c3393d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '62ea7eb253bdd949cfcb8fb78b1b2f24') in 0.080504 seconds 
+  Import took 0.115883 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 47.576508 seconds.
+  path: Assets/Prefabs/Tiles/1x1 T-Junction.prefab
+  artifactKey: Guid(23cf6e38582e15540aad93021c3393d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 T-Junction.prefab using Guid(23cf6e38582e15540aad93021c3393d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'dc5fc532b6b9cfd9e13bb2aad3f97469') in 0.080469 seconds 
+  Import took 0.104877 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 8.372255 seconds.
+  path: Assets/Prefabs/Tiles/1x1 T-Junction.prefab
+  artifactKey: Guid(23cf6e38582e15540aad93021c3393d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 T-Junction.prefab using Guid(23cf6e38582e15540aad93021c3393d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '61d140a5d9344987f832d50361f804d2') in 0.074316 seconds 
+  Import took 0.101613 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 4.944426 seconds.
+  path: Assets/Prefabs/Tiles/1x1 T-Junction.prefab
+  artifactKey: Guid(23cf6e38582e15540aad93021c3393d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 T-Junction.prefab using Guid(23cf6e38582e15540aad93021c3393d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '871d0276a4c98b2242996a55d689b0ff') in 0.092981 seconds 
+  Import took 0.118646 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.302834 seconds.
+  path: Assets/Prefabs/Tiles/1x1 T-Junction.prefab
+  artifactKey: Guid(23cf6e38582e15540aad93021c3393d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 T-Junction.prefab using Guid(23cf6e38582e15540aad93021c3393d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd969694cec7d57ed68c034e8ef474346') in 0.085844 seconds 
+  Import took 0.128932 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.834684 seconds.
+  path: Assets/Prefabs/Tiles/1x1 T-Junction.prefab
+  artifactKey: Guid(23cf6e38582e15540aad93021c3393d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 T-Junction.prefab using Guid(23cf6e38582e15540aad93021c3393d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b2bf1678afe5d6af14cd1b0e26e527ef') in 0.089588 seconds 
+  Import took 0.130449 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 21.367599 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Crossroad.prefab
+  artifactKey: Guid(ce039a892b508e94d8fe2a15a83accfb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Crossroad.prefab using Guid(ce039a892b508e94d8fe2a15a83accfb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0f124c15772b631c0931d72681d93f96') in 0.123572 seconds 
+  Import took 0.152608 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.257541 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Crossroad.prefab
+  artifactKey: Guid(ce039a892b508e94d8fe2a15a83accfb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Crossroad.prefab using Guid(ce039a892b508e94d8fe2a15a83accfb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0064a16bd0ac920488bf4eddccf6e610') in 0.072698 seconds 
+  Import took 0.116318 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.559985 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Crossroad.prefab
+  artifactKey: Guid(ce039a892b508e94d8fe2a15a83accfb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Crossroad.prefab using Guid(ce039a892b508e94d8fe2a15a83accfb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '37db6b1117d5ba686279f3c6edbdb88a') in 0.090436 seconds 
+  Import took 0.137415 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 45.056209 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Crossroad.prefab
+  artifactKey: Guid(ce039a892b508e94d8fe2a15a83accfb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Crossroad.prefab using Guid(ce039a892b508e94d8fe2a15a83accfb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4cafb778fd927ffefaf9dd0b960b1f06') in 0.090636 seconds 
+  Import took 0.123964 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 9.728605 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Crossroad.prefab
+  artifactKey: Guid(ce039a892b508e94d8fe2a15a83accfb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Crossroad.prefab using Guid(ce039a892b508e94d8fe2a15a83accfb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bb9b55017b07288dd470c7b864fc1a38') in 0.090765 seconds 
+  Import took 0.131309 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 9.981236 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Crossroad.prefab
+  artifactKey: Guid(ce039a892b508e94d8fe2a15a83accfb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Crossroad.prefab using Guid(ce039a892b508e94d8fe2a15a83accfb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e62fa45635558e6f8d3e6195d7030fd1') in 0.080551 seconds 
+  Import took 0.109458 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.463318 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Crossroad.prefab
+  artifactKey: Guid(ce039a892b508e94d8fe2a15a83accfb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Crossroad.prefab using Guid(ce039a892b508e94d8fe2a15a83accfb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'caa2124d500465a17c2249e45c4d1fb2') in 0.080252 seconds 
+  Import took 0.110834 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.110191 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Crossroad.prefab
+  artifactKey: Guid(ce039a892b508e94d8fe2a15a83accfb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Crossroad.prefab using Guid(ce039a892b508e94d8fe2a15a83accfb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e89f273ff7f81208bd85053f630fd417') in 0.065201 seconds 
+  Import took 0.096911 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 24.528605 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Crossroad Controlled.prefab
+  artifactKey: Guid(d4b8280fafc12fa43977e37aef98ab9e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Crossroad Controlled.prefab using Guid(d4b8280fafc12fa43977e37aef98ab9e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fe9ad8bba489320d49ad58dbc9b5cef8') in 0.117201 seconds 
+  Import took 0.141878 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.838885 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Crossroad Controlled.prefab
+  artifactKey: Guid(d4b8280fafc12fa43977e37aef98ab9e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Crossroad Controlled.prefab using Guid(d4b8280fafc12fa43977e37aef98ab9e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4adcac537f4f20220588d652f82ccdba') in 0.091742 seconds 
+  Import took 0.120610 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.780354 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Crossroad Controlled.prefab
+  artifactKey: Guid(d4b8280fafc12fa43977e37aef98ab9e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Crossroad Controlled.prefab using Guid(d4b8280fafc12fa43977e37aef98ab9e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '313fba8c19e9970deb02baaf026457ed') in 0.072272 seconds 
+  Import took 0.127638 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 6.944210 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Crossroad Controlled.prefab
+  artifactKey: Guid(d4b8280fafc12fa43977e37aef98ab9e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Crossroad Controlled.prefab using Guid(d4b8280fafc12fa43977e37aef98ab9e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4e451aae290deb78b36398278b16b921') in 0.081928 seconds 
+  Import took 0.109695 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 7.664089 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Crossroad Controlled.prefab
+  artifactKey: Guid(d4b8280fafc12fa43977e37aef98ab9e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Crossroad Controlled.prefab using Guid(d4b8280fafc12fa43977e37aef98ab9e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a71de86cfe80f37975556980cc5d6608') in 0.069369 seconds 
+  Import took 0.113365 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 5.621197 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Crossroad Controlled.prefab
+  artifactKey: Guid(d4b8280fafc12fa43977e37aef98ab9e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Crossroad Controlled.prefab using Guid(d4b8280fafc12fa43977e37aef98ab9e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '75117ea6c05353f50bbd3518d70f9371') in 0.079386 seconds 
+  Import took 0.113246 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 3.527883 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Crossroad Controlled.prefab
+  artifactKey: Guid(d4b8280fafc12fa43977e37aef98ab9e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Crossroad Controlled.prefab using Guid(d4b8280fafc12fa43977e37aef98ab9e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '91810aa20a277a572bccf8175c5a395a') in 0.075412 seconds 
+  Import took 0.109481 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.273071 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Crossroad Controlled.prefab
+  artifactKey: Guid(d4b8280fafc12fa43977e37aef98ab9e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Crossroad Controlled.prefab using Guid(d4b8280fafc12fa43977e37aef98ab9e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e7de7bb34e63e44aedc7023763128822') in 0.082835 seconds 
+  Import took 0.110923 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 3.698224 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Crossroad Controlled.prefab
+  artifactKey: Guid(d4b8280fafc12fa43977e37aef98ab9e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Crossroad Controlled.prefab using Guid(d4b8280fafc12fa43977e37aef98ab9e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2efcdb1409faf9af9e8d20129eb297e9') in 0.071648 seconds 
+  Import took 0.095853 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 4.365174 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Crossroad Controlled.prefab
+  artifactKey: Guid(d4b8280fafc12fa43977e37aef98ab9e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Crossroad Controlled.prefab using Guid(d4b8280fafc12fa43977e37aef98ab9e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '89b64ddc8d1d310a3a819952e65357ce') in 0.078685 seconds 
+  Import took 0.105583 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 5.782185 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Crossroad.prefab
+  artifactKey: Guid(ce039a892b508e94d8fe2a15a83accfb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Crossroad.prefab using Guid(ce039a892b508e94d8fe2a15a83accfb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'be04e8a4c93adde2cedda362853d50b9') in 0.090687 seconds 
+  Import took 0.118679 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 3.808942 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Crossroad.prefab
+  artifactKey: Guid(ce039a892b508e94d8fe2a15a83accfb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Crossroad.prefab using Guid(ce039a892b508e94d8fe2a15a83accfb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9bc4f468fdc2a8d3701595fbd0fe141a') in 0.087144 seconds 
+  Import took 0.116278 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 10.451369 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Straight Road.prefab
+  artifactKey: Guid(ed21b74aa0dca2546a428bea6da2e9a7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Straight Road.prefab using Guid(ed21b74aa0dca2546a428bea6da2e9a7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9bf8f3e451f7a398afd68a4b124b00fc') in 0.079352 seconds 
+  Import took 0.109276 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 3.875580 seconds.
+  path: Assets/Prefabs/Tiles/1x1 Straight Road.prefab
+  artifactKey: Guid(ed21b74aa0dca2546a428bea6da2e9a7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 Straight Road.prefab using Guid(ed21b74aa0dca2546a428bea6da2e9a7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '03ce8133d31346ca2e76aa356187d4ee') in 0.071388 seconds 
+  Import took 0.100917 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 6.729133 seconds.
+  path: Assets/Prefabs/Tiles/1x1 T-Junction.prefab
+  artifactKey: Guid(23cf6e38582e15540aad93021c3393d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 T-Junction.prefab using Guid(23cf6e38582e15540aad93021c3393d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '39d5cd7a43488fa4a812b63c3a700576') in 0.080158 seconds 
+  Import took 0.105348 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 3.784716 seconds.
+  path: Assets/Prefabs/Tiles/1x1 T-Junction.prefab
+  artifactKey: Guid(23cf6e38582e15540aad93021c3393d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Tiles/1x1 T-Junction.prefab using Guid(23cf6e38582e15540aad93021c3393d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3ec39124b1a4e2375991299c26c26fc9') in 0.079349 seconds 
+  Import took 0.106872 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.909589 seconds.

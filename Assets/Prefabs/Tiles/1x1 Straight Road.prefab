@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9001981266193446847}
   - component: {fileID: 3018226818626048318}
   - component: {fileID: 5191317574993139429}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Left_Sidewalk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31,7 +31,7 @@ Transform:
   m_LocalScale: {x: 1.5, y: 0.25, z: 10}
   m_Children: []
   m_Father: {fileID: 671876715739887401}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &9001981266193446847
 MeshFilter:
@@ -95,7 +95,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &3320656565879782384
+--- !u!1 &2579346961513643114
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -103,49 +103,45 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 671876715739887401}
-  - component: {fileID: 3073042960985653333}
-  - component: {fileID: 810189279348134378}
-  - component: {fileID: 7160845285577672905}
-  - component: {fileID: 7074164369232490046}
-  m_Layer: 0
-  m_Name: 1x1 Straight Road
+  - component: {fileID: 4628502447511108399}
+  - component: {fileID: 2392389421493443276}
+  - component: {fileID: 8530409375503826252}
+  m_Layer: 6
+  m_Name: Road
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &671876715739887401
+--- !u!4 &4628502447511108399
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3320656565879782384}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
-  m_LocalPosition: {x: 50, y: 0, z: 400}
-  m_LocalScale: {x: 5, y: 5, z: 5}
-  m_Children:
-  - {fileID: 1094096070895613624}
-  - {fileID: 885822108838817681}
-  m_Father: {fileID: 0}
+  m_GameObject: {fileID: 2579346961513643114}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 671876715739887401}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &3073042960985653333
+--- !u!33 &2392389421493443276
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3320656565879782384}
+  m_GameObject: {fileID: 2579346961513643114}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &810189279348134378
+--- !u!23 &8530409375503826252
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3320656565879782384}
+  m_GameObject: {fileID: 2579346961513643114}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -180,20 +176,40 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &7160845285577672905
-MeshCollider:
+--- !u!1 &3320656565879782384
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 671876715739887401}
+  - component: {fileID: 7074164369232490046}
+  m_Layer: 0
+  m_Name: 1x1 Straight Road
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &671876715739887401
+Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3320656565879782384}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  m_LocalPosition: {x: 50, y: 0, z: 400}
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_Children:
+  - {fileID: 4628502447511108399}
+  - {fileID: 1094096070895613624}
+  - {fileID: 885822108838817681}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7074164369232490046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,7 +252,7 @@ GameObject:
   - component: {fileID: 16553957043517385}
   - component: {fileID: 3296473740832241063}
   - component: {fileID: 802773792608907984}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Right_Sidewalk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -255,7 +271,7 @@ Transform:
   m_LocalScale: {x: 1.5, y: 0.25, z: 10}
   m_Children: []
   m_Father: {fileID: 671876715739887401}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &16553957043517385
 MeshFilter:
