@@ -23,4 +23,8 @@ public class TileAir : TileData {
         SetName(tileName);
         SetLocalPos(new LocalPos(ParseInt(json.GetValue("row")), ParseInt(json.GetValue("col"))));
     }
+    
+    public override void HideAfterRegistration() {}
+
+    public override void Create() {}
 }

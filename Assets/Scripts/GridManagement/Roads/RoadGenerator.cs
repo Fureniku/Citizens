@@ -5,41 +5,51 @@ using UnityEngine;
 
 public class RoadGenerator : MonoBehaviour {
     
-    [SerializeField] private GameObject road_straight = null;
-    [SerializeField] private GameObject road_corner = null;
-    [SerializeField] private GameObject road_t_junct = null;
-    [SerializeField] private GameObject road_crossroad = null;
-    [SerializeField] private GameObject road_crossroad_controlled = null;
+    private Tile road_straight = TileRegistry.STRAIGHT_ROAD_1x1;
+    private Tile road_corner = TileRegistry.CORNER_ROAD_1x1;
+    private Tile road_t_junct = TileRegistry.T_JUNCT_ROAD_1x1;
+    private Tile road_crossroad = TileRegistry.CROSSROAD_ROAD_1x1;
+    private Tile road_crossroad_controlled = TileRegistry.CROSSROAD_CTRL_ROAD_1x1;
+
+    [ReadOnly, SerializeField] private int nestLevel = 0;
     
     [SerializeField] private GameObject skyscraper = null;
 
     [SerializeField] private int numberGenerate = 50;
-    [SerializeField] private int cornerChance = 10; //as percentage
+    [SerializeField] private int cornerChance; //as percentage
     [SerializeField] private int minTilesBeforeCorner = 4;
 
     [SerializeField] EnumTileDirection generatorDirection = EnumTileDirection.SOUTH;
     
     private TilePos lastPos;
-    private int tilesSinceCorner = 0;
+    [ReadOnly, SerializeField] private int tilesSinceBranch = 0;
+
+    [ReadOnly, SerializeField] private int maxBranches = 5;
+    [ReadOnly, SerializeField] private int branchesMade = 0;
 
     private GridManager gridManager;
     
     private float baseWaitTime = 0.0f; //for debugging
 
     private EnumGenerationStage roadGenStage = EnumGenerationStage.INITIALIZED;
-
-    private int forceCorner = 0; //A corner was attempted to generate, but a building occupies the space. 0 = no force, 1 = force right, 2 = force left
     
     void Start() {
         gridManager = World.Instance.GetGridManager();
         lastPos = TilePos.GetGridPosFromLocation(transform.position);
+        tilesSinceBranch = 0;
+        nestLevel++;
+        if (nestLevel > 1) {
+            cornerChance /= 2; //Half corner chance each sublevel
+        }
+
+        branchesMade = 0;
+        if (maxBranches > 1) maxBranches--;
     }
 
     void Update() {
         if (gridManager.IsInitialized()) {
             if (roadGenStage == EnumGenerationStage.INITIALIZED) {
                 BeginRoadGeneration();
-                roadGenStage = EnumGenerationStage.STARTED;
             }
         }
 
@@ -51,104 +61,91 @@ public class RoadGenerator : MonoBehaviour {
     }
     
     public void BeginRoadGeneration() {
-        road_straight.GetComponent<TileData>().SetRotation(generatorDirection);
-        GenerateRoad(road_straight, TilePos.GetGridPosFromLocation(transform.position));
-
+        GenerateRoad(road_straight, TilePos.GetGridPosFromLocation(transform.position), generatorDirection);
+        roadGenStage = EnumGenerationStage.IN_PROGRESS;
         StartCoroutine(GeneratorCoroutine());
     }
     
     //Start generating the road
     IEnumerator GeneratorCoroutine() {
+        if (roadGenStage != EnumGenerationStage.IN_PROGRESS) {
+            yield return null;
+        }
         //Loop for maximum road size
         for (int i = 0; i < numberGenerate; i++) {
             TilePos placePos = generatorDirection.OffsetPos(lastPos);
             if (gridManager.IsValidTile(placePos)) {
                 TileData tile = gridManager.GetTile(placePos);
                 float waitTime = 0f;
-                GameObject placeTile = road_straight;
-                placeTile.GetComponent<TileData>().SetRotation(generatorDirection);
+                Tile placeTile = road_straight;
+                EnumTileDirection placeRotation = generatorDirection;
                 if (tile != null) {
                     int existingId = tile.GetId();
-
                     if (tile is TileRoad) { //there's already a road here so we need to decide what to do.
                         Debug.Log("Existing tile is a road with ID " + existingId);
                         
-                        if (placeTile.GetComponent<TileData>().GetId() != tile.GetId() || !tile.RotationMatch(generatorDirection)) {
+                        if (placeTile.GetId() != tile.GetId() || !tile.RotationMatch(generatorDirection)) {
                             Debug.Log("Replace! What type?");
 
-                            if (existingId == road_straight.GetComponent<TileData>().GetId()) {
+                            if (existingId == road_straight.GetId()) {
+                                placeTile = road_t_junct;
+                                placeRotation = generatorDirection.RotateCCW();
+                            }
+
+                            if (existingId == road_corner.GetId()) {
                                 placeTile = road_t_junct;
                             }
 
-                            if (existingId == road_corner.GetComponent<TileData>().GetId()) {
-                                placeTile = road_t_junct;
-                                placeTile.GetComponent<TileData>().SetRotation(generatorDirection);
-                            }
-
-                            if (existingId == road_crossroad.GetComponent<TileData>().GetId()) {
+                            if (existingId == road_crossroad.GetId()) {
                                 placeTile = road_crossroad_controlled;
-                                placeTile.GetComponent<TileData>().SetRotation(generatorDirection);
                             }
                                 
-                            GenerateRoad(placeTile, placePos);
+                            GenerateRoad(placeTile, placePos, placeRotation);
                             break;
                         }
                         
                     } else { //No road in the current position, we can continue generation.
                         //Check if we should randomly generate a corner
-                        if ((Random.Range(1, 100) <= cornerChance && tilesSinceCorner >= minTilesBeforeCorner) || forceCorner > 0) {
-                            if (forceCorner > 0) Debug.Log("A previous corner was requested but could not be placed. Trying again!");
-                            bool cornerRight = forceCorner > 0 ? forceCorner == 1 : Random.value < 0.5;
-                            waitTime = baseWaitTime * 4f;
-                            Debug.Log("Turning!");
-                            if (cornerRight) {
-                                TileData tileRight = gridManager.GetTile(Direction.OffsetPos(generatorDirection.RotateCW(), placePos)).GetComponent<TileData>();
-                                if (!(tileRight is TileGrass) && !(tileRight is TileRoad)) { //If there's something occupying the space to the right
-                                    Debug.Log("[Right] Space is occupied. Try again later.");
-                                    forceCorner = 1;
-                                }
-                                else {
-                                    
-                                    placeTile = road_corner;
-                                    placeTile.GetComponent<TileData>().SetRotation(generatorDirection.Opposite());
-                                    generatorDirection = generatorDirection.RotateCW();
-                                    forceCorner = 0;
+                        if ((Random.Range(1, 100) <= cornerChance && tilesSinceBranch >= minTilesBeforeCorner)) {
+                            //Check that there isn't a road in the next two tiles
+                            bool canContinue = false;
+                            TilePos ahead1 = Direction.OffsetPos(generatorDirection, placePos);
+                            TilePos ahead2 = Direction.OffsetPos(generatorDirection, placePos, 2);
+                            if (gridManager.IsValidTile(ahead1) && gridManager.IsValidTile(ahead2)) {
+                                TileData tileAt1 = gridManager.GetTile(ahead1);
+                                TileData tileAt2 = gridManager.GetTile(ahead2);
+                                if (!(tileAt1 is TileRoad || tileAt2 is TileRoad)) {
+                                    canContinue = true;
                                 }
                             }
-                            else {
-                                TileData tileLeft = gridManager.GetTile(Direction.OffsetPos(generatorDirection.RotateCCW(), placePos)).GetComponent<TileData>();
-                                if (!(tileLeft is TileGrass) && !(tileLeft is TileRoad)) { //If there's something occupying the space to the right
-                                    Debug.Log("[Left] Space is occupied. Try again later.");
-                                    forceCorner = 2;
+                            
+                            if (canContinue && branchesMade < maxBranches) {
+                                bool cornerRight = false;
+                                waitTime = baseWaitTime * 4f;
+                                Debug.Log("Creating branch!");
+                                if (cornerRight) {
+                                    placeTile = road_t_junct;
+                                    placeRotation = generatorDirection.Opposite();
+                                    GenerateBranch(Direction.OffsetPos(generatorDirection.RotateCW(), placePos), generatorDirection.RotateCW());
                                 }
                                 else {
-                                    placeTile = road_corner;
-                                    placeTile.GetComponent<TileData>().SetRotation(generatorDirection.RotateCCW());
-                                    generatorDirection = generatorDirection.RotateCCW();
-                                    forceCorner = 0;
+                                    placeTile = road_t_junct;
+                                    GenerateBranch(Direction.OffsetPos(generatorDirection.RotateCCW(), placePos), generatorDirection.RotateCCW());
                                 }
-                            }
-                            Debug.Log("generator direction is now " + generatorDirection);
 
-                            tilesSinceCorner = 0;
+                                tilesSinceBranch = 0;
+                            }
                         }
                         //Generate a straight road
                         else {
                             waitTime = baseWaitTime;
-                            GenerateRoad(road_straight, placePos);
-                            tilesSinceCorner++;
+                            GenerateRoad(road_straight, placePos, placeRotation);
+                            tilesSinceBranch++;
                         }
                     }
                 }
-
-                TilePos ahead = Direction.OffsetPos(generatorDirection, placePos);
-                if (gridManager.IsValidTile(ahead)) {
-                    TileData tileAt = gridManager.GetTile(ahead);
-                    if (tileAt != null) {
-                        Debug.Log("Tile ahead is: " + tileAt.GetName());
-                    }
-                }
-                GenerateRoad(placeTile, placePos);
+                
+                GenerateRoad(placeTile, placePos, placeRotation);
  
                 lastPos = placePos;
                 yield return new WaitForSeconds(waitTime);
@@ -162,13 +159,24 @@ public class RoadGenerator : MonoBehaviour {
         roadGenStage = EnumGenerationStage.DIRTY;
         yield return null;
     }
+
+    private void GenerateBranch(TilePos currentPos, EnumTileDirection direction) {
+        TilePos startPos = Direction.OffsetPos(direction, currentPos);
+        GameObject branch = Instantiate(gameObject, TilePos.GetWorldPosFromTilePos(currentPos), Quaternion.identity, transform);
+        foreach (Transform child in branch.transform) {
+            Destroy(child.gameObject);
+        }
+        branch.name = "Branch Gen";
+        branch.GetComponent<RoadGenerator>().SetDirection(direction);
+        branchesMade++;
+        //branch.GetComponent<RoadGenerator>().IncrementNestLevel(nestLevel);
+    }
     
     //Generate a road tile ready for placement
-    private void GenerateRoad(GameObject type, TilePos pos) {
-        EnumTileDirection rot = type.GetComponent<TileData>().GetRotation();
+    private void GenerateRoad(Tile tile, TilePos pos, EnumTileDirection rot) {
         ChunkPos chunkPos = TilePos.GetParentChunk(pos);
         Chunk chunk = gridManager.GetChunk(chunkPos);
-        chunk.FillChunkCell(type, LocalPos.FromTilePos(pos), rot, false);
+        chunk.FillChunkCell(tile, LocalPos.FromTilePos(pos), rot, false);
 
         //Debug.Log("Road has been placed. Begin skyscraper placement.");
         TilePos left  = new TilePos(pos.x, pos.z);
@@ -219,5 +227,9 @@ public class RoadGenerator : MonoBehaviour {
 
     public void SetDirection(EnumTileDirection dir) {
         generatorDirection = dir;
+    }
+
+    public void IncrementNestLevel(int current) {
+        nestLevel = current+1;
     }
 }

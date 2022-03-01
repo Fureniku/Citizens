@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Diagnostics;
 using Tiles.TileManagement;
 using UnityEngine;
@@ -74,23 +75,22 @@ public class Chunk : MonoBehaviour {
         }
     }
 
-    public bool FillChunkCell(GameObject go, LocalPos pos, EnumTileDirection rotation,  bool placementChecks) {
-        GameObject cell = null;
+    public void FillChunkCell(Tile tile, LocalPos pos, EnumTileDirection rotation, bool placementChecks) {
+        FillChunkCell(tile.GetId(), pos, rotation, placementChecks);
+    }
 
+    public void FillChunkCell(GameObject go, LocalPos pos, EnumTileDirection rotation, bool placementChecks) {
+        int id = TileRegistry.GetIDFromGameObject(go);
+        FillChunkCell(id, pos, rotation, placementChecks);
+    }
+
+    public void FillChunkCell(int id, LocalPos pos, EnumTileDirection rotation,  bool placementChecks) {
         if (!pos.IsValidPos()) {
-            return false;
+            return;
         }
-
-        if (go == null) {
-            Debug.Log("Gameobject is null!");
-            return false;
-        }
-
-        TileBuilding skyTile = go.GetComponent<TileBuilding>();
-        if (skyTile != null) {
-            Debug.Log("Filling grid cell with skyscraper! Pos: " + pos.x + ", " + pos.z + ", size: " + skyTile.GetWidth() + ", " + skyTile.GetLength());
-        }
-
+        
+        GameObject cell = null;
+        
         //If requested, check that the current tile is grass before placement.
         //Used for multi-grid spawner placements.
         //TODO does this still work with tilepos?
@@ -98,25 +98,27 @@ public class Chunk : MonoBehaviour {
             if (IsValidLocation(new TilePos(pos.x, pos.z))) {
                 if (!(GetGridTile(pos.x, pos.z) is TileGrass)) {
                     Debug.Log("Current position tile is not grass! abort!");
-                    return false;
+                    return;
                 }
             }
         }
-        
-        cell = Instantiate(go, transform, true);
-        cell.name = $"cell_{pos.x}_{pos.z}";
 
+        cell = TileRegistry.Instantiate(id);
+        cell.GetComponent<TileData>().SetRotation(rotation);
+        cell.transform.parent = transform;
+        cell.name = $"tile_{pos.x}_{pos.z}";
+        cell.transform.position = new Vector3(World.Instance.GetGridManager().GetGridTileSize() * pos.x, 0, World.Instance.GetGridManager().GetGridTileSize() * pos.z) + transform.position;
+        cell.transform.rotation = Quaternion.Euler(0,rotation.GetRotation(),0);
+        
         if (GetChunkCellContents(pos.x, pos.z) != null) { 
             DeleteChunkCell(pos.x, pos.z, true);
         }
         
         chunk[pos.x, pos.z] = cell;
         
-        cell.transform.position = new Vector3(World.Instance.GetGridManager().GetGridTileSize() * pos.x, 0, World.Instance.GetGridManager().GetGridTileSize() * pos.z) + transform.position;
-        cell.transform.rotation = Quaternion.Euler(0,rotation.GetRotation(),0);
+
         TilePos.GetGridPosFromLocation(cell.transform.position);
         cell.GetComponent<TileData>().SetInitialPos();
-        return true;
     }
 
     public void FillChunkCell(GameObject go, TilePos pos, EnumTileDirection rotation, bool placementChecks) {
@@ -168,7 +170,7 @@ public class Chunk : MonoBehaviour {
     public GameObject GetChunkCellContents(LocalPos pos) { 
         if (!pos.IsValidPos()) {
             //TODO Go to the world and get the relevant chunk for this.
-            Debug.Log("Couldn't get chunk cell contents; out of range: " + pos.x + ", " + pos.z);
+            //Debug.Log("Couldn't get chunk cell contents; out of range: " + pos.x + ", " + pos.z);
             return null;
         }
         return chunk[pos.x, pos.z];

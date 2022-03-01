@@ -14,8 +14,7 @@ public class TileBuilding : TileData {
     [SerializeField] private int maxSegments = 3;
     [SerializeField] private int minHeight = 30;
     [SerializeField] private int maxHeight = 60;
-    
-    
+
     [ReadOnly, SerializeField] private int segments = 1;
     [ReadOnly, SerializeField] private int height = 30;
     
@@ -31,6 +30,7 @@ public class TileBuilding : TileData {
     private int gridLength;
 
     private bool skyscraperCreated;
+    private bool isRegistryEntry = false;
 
     void Start() {
         segments = Random.Range(minSegments, maxSegments);
@@ -54,7 +54,7 @@ public class TileBuilding : TileData {
         if (World.Instance.GetGridManager().IsInitialized() && !skyscraperCreated) {
             Debug.Log("######### Attempting skyscraper generation ###########");
             skyscraperCreated = true;
-            if (genDirection != EnumGenerateDirection.NONE) {
+            if (genDirection != EnumGenerateDirection.NONE && !isRegistryEntry) {
                 Debug.Log("Enough space! Generating in " + genDirection + ". Generating...");
                 Generate();
             }
@@ -161,5 +161,15 @@ public class TileBuilding : TileData {
             height = ParseInt(buildingObj.GetValue("height"));
             genDirection = GenerateDirection.GetFromString(buildingObj.GetValue("direction").ToString());
         }
+    }
+
+    public override void HideAfterRegistration() {
+        HideAfterRegistrationBase();
+        isRegistryEntry = true;
+    }
+
+    public override void Create() {
+        CreateBase();
+        isRegistryEntry = false;
     }
 }

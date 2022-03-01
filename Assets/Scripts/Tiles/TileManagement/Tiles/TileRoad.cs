@@ -52,6 +52,24 @@ public class TileRoad : TileData {
         SetRotation(Direction.GetDirection(ParseInt(json.GetValue("rotation"))));
         SetLocalPos(new LocalPos(ParseInt(json.GetValue("row")), ParseInt(json.GetValue("col"))));
     }
+    
+    public override void HideAfterRegistration() {
+        HideAfterRegistrationBase();
+        for (int i = 0; i < transform.childCount; i++) {
+            if (transform.GetChild(i).GetComponent<MeshRenderer>() != null) {
+                transform.GetChild(i).GetComponent<MeshRenderer>().enabled = false;
+            }
+        }
+    }
+
+    public override void Create() {
+        CreateBase();
+        for (int i = 0; i < transform.childCount; i++) {
+            if (transform.GetChild(i).GetComponent<MeshRenderer>() != null) {
+                transform.GetChild(i).GetComponent<MeshRenderer>().enabled = false;
+            }
+        }
+    }
 }
 
 public enum RoadType {

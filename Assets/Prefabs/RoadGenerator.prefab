@@ -43,16 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bd99e2ffb6f25c4d8a97148eadc0d01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  road_straight: {fileID: 3320656565879782384, guid: ed21b74aa0dca2546a428bea6da2e9a7,
-    type: 3}
-  road_corner: {fileID: 7998429460570019003, guid: 41280604f7abeea489b8c4670db5113f,
-    type: 3}
-  road_t_junct: {fileID: 8712018493455539631, guid: 23cf6e38582e15540aad93021c3393d3,
-    type: 3}
-  road_crossroad: {fileID: 6642161596494348902, guid: d4b8280fafc12fa43977e37aef98ab9e,
-    type: 3}
-  road_crossroad_controlled: {fileID: 5177328998724744973, guid: ce039a892b508e94d8fe2a15a83accfb,
-    type: 3}
+  nestLevel: 0
   skyscraper: {fileID: 4858921784356234158, guid: 0b6c123ed5d6bc742a8ce2f40d293ebb,
     type: 3}
   numberGenerate: 150

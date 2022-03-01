@@ -73,6 +73,7 @@ public class TileRegistry : MonoBehaviour {
     public static void Register(GameObject go) {
         TileData tile = go.GetComponent<TileData>();
         tile.Initialize();
+        tile.HideAfterRegistration();
         
         Debug.Log("Registering tile [" + tile.GetId() + "] (" + tile.GetName() + ")");
 
@@ -89,6 +90,16 @@ public class TileRegistry : MonoBehaviour {
 
     public static GameObject GetGameObjectFromID(int id) {
         return registry[id];
+    }
+
+    public static int GetIDFromGameObject(GameObject go) {
+        return go.GetComponent<TileData>().GetId();
+    }
+
+    public static GameObject Instantiate(int id) {
+        GameObject go = Instantiate(registry[id]);
+        go.GetComponent<TileData>().Create();
+        return go;
     }
 
     public static Tile GetTile(EnumTile tile) {

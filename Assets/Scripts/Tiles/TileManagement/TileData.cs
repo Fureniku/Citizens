@@ -114,7 +114,23 @@ public abstract class TileData : MonoBehaviour {
         return result;
     }
 
+    public void HideAfterRegistrationBase() {
+        if (GetComponent<MeshRenderer>() != null) {
+            GetComponent<MeshRenderer>().enabled = false;
+        }
+    }
+
+    public void CreateBase() {
+        if (GetComponent<MeshRenderer>() != null) {
+            GetComponent<MeshRenderer>().enabled = true;
+        }
+    }
+    
     public abstract JProperty SerializeTile(TileData td, int row, int col);
 
     public abstract void DeserializeTile(JObject json);
+
+    public abstract void HideAfterRegistration();
+    
+    public abstract void Create();
 }

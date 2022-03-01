@@ -46,6 +46,13 @@ public class TileReference : TileData {
         if (referenceObj != null) {
             SetMasterTile(new TilePos(ParseInt(referenceObj.GetValue("masterX")), ParseInt(referenceObj.GetValue("masterZ"))));
         }
-        
+    }
+    
+    public override void HideAfterRegistration() {
+        HideAfterRegistrationBase();
+    }
+
+    public override void Create() {
+        CreateBase();
     }
 }

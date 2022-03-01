@@ -35,25 +35,17 @@ public class RoadSeed : MonoBehaviour {
         ChunkPos chunkPos = TilePos.GetParentChunk(pos);
         Chunk chunk = gridManager.GetChunk(chunkPos);
         chunk.FillChunkCell(type, LocalPos.FromTilePos(pos), rot, false);
+        
+        IndividualPoint(EnumTileDirection.NORTH, pos);
+        IndividualPoint(EnumTileDirection.EAST,  pos);
+        IndividualPoint(EnumTileDirection.SOUTH, pos);
+        IndividualPoint(EnumTileDirection.WEST,  pos);
+    }
 
-        TilePos north = Direction.OffsetPos(EnumTileDirection.NORTH, pos);
-        TilePos east  = Direction.OffsetPos(EnumTileDirection.EAST,  pos);
-        TilePos south = Direction.OffsetPos(EnumTileDirection.SOUTH, pos);
-        TilePos west  = Direction.OffsetPos(EnumTileDirection.WEST,  pos);
-
-        GameObject genNorth = Instantiate(roadGenerator, TilePos.GetWorldPosFromTilePos(north), Quaternion.identity, transform);
-        GameObject genEast  = Instantiate(roadGenerator, TilePos.GetWorldPosFromTilePos(east), Quaternion.identity, transform);
-        GameObject genSouth = Instantiate(roadGenerator, TilePos.GetWorldPosFromTilePos(south), Quaternion.identity, transform);
-        GameObject genWest  = Instantiate(roadGenerator, TilePos.GetWorldPosFromTilePos(west), Quaternion.identity, transform);
-
-        genNorth.name = "North InitGen";
-        genEast.name = "East InitGen";
-        genSouth.name = "South InitGen";
-        genWest.name = "West InitGen";
-
-        genNorth.GetComponent<RoadGenerator>().SetDirection(EnumTileDirection.NORTH);
-        genEast.GetComponent<RoadGenerator>().SetDirection(EnumTileDirection.EAST);
-        genSouth.GetComponent<RoadGenerator>().SetDirection(EnumTileDirection.SOUTH);
-        genWest.GetComponent<RoadGenerator>().SetDirection(EnumTileDirection.WEST);
+    public void IndividualPoint(EnumTileDirection dir, TilePos currentPos) {
+        TilePos startPos = Direction.OffsetPos(dir, currentPos);
+        GameObject genNorth = Instantiate(roadGenerator, TilePos.GetWorldPosFromTilePos(startPos), Quaternion.identity, transform);
+        genNorth.name = dir + " InitGen";
+        genNorth.GetComponent<RoadGenerator>().SetDirection(dir);
     }
 }
