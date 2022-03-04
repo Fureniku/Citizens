@@ -2,7 +2,6 @@
 using Newtonsoft.Json.Linq;
 using Tiles.TileManagement;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public abstract class TileData : MonoBehaviour {
 
@@ -79,11 +78,6 @@ public abstract class TileData : MonoBehaviour {
 
         return null;
     }
-
-    private void OnDestroy() { //TODO just the chunk, not the whole grid.
-        World.Instance.GetGridManager().FlagForRecheck();
-    }
-    
     
     public int GetId() { return tileId; }
     public String GetName() { return tileName; }
@@ -93,6 +87,7 @@ public abstract class TileData : MonoBehaviour {
     protected void SetName(string nameIn) => name = nameIn;
     public void SetGenerationDirection(EnumGenerateDirection dir) { genDirection = dir; }
     public EnumTileDirection GetRotation() { return rotation; }
+    public Tile GetTile() { return TileRegistry.GetTile(enumTile); }
 
     //////////////// Used for load/save
     

@@ -61,8 +61,6 @@ public class Chunk : MonoBehaviour {
         World.Instance.GetGridManager().SetChunkCell(gameObject, pos.x, pos.z);
         
         stopWatch.Stop();
-        Debug.Log("Chunk generation took " + stopWatch.Elapsed + " seconds.");
-
         state = EnumChunkState.READY;
     }
     
@@ -116,7 +114,6 @@ public class Chunk : MonoBehaviour {
         
         chunk[pos.x, pos.z] = cell;
         
-
         TilePos.GetGridPosFromLocation(cell.transform.position);
         cell.GetComponent<TileData>().SetInitialPos();
     }

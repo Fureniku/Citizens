@@ -51,6 +51,8 @@ public class TileRoad : TileData {
         SetName(tileName);
         SetRotation(Direction.GetDirection(ParseInt(json.GetValue("rotation"))));
         SetLocalPos(new LocalPos(ParseInt(json.GetValue("row")), ParseInt(json.GetValue("col"))));
+        
+        SetInitialPos();
     }
     
     public override void HideAfterRegistration() {

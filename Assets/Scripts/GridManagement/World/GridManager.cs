@@ -5,7 +5,7 @@ using UnityEngine;
 using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
 
-public class GridManager : MonoBehaviour {
+public class GridManager : GenerationSystem {
     
     [SerializeField, Range(1, 500)] private int size = 25;
 
@@ -17,7 +17,12 @@ public class GridManager : MonoBehaviour {
     [SerializeField] GameObject defaultChunk = null;
     [SerializeField] GameObject emptyChunk = null;
 
-    private GridManagerState state = GridManagerState.UNINITIALIZED;
+    private int currentChunks = 0;
+    private int maxChunks = 0;
+    
+    public readonly float defaultScale = 50f;
+
+    [ReadOnly, SerializeField] private GridManagerState state = GridManagerState.UNINITIALIZED;
 
     private Stopwatch stopWatch;
 
@@ -30,68 +35,67 @@ public class GridManager : MonoBehaviour {
 
         grid = new GameObject[size, size];
         stopWatch = Stopwatch.StartNew();
-
-        //transform.position = new Vector3(-(size*gridSlotSize*Chunk.size/2.0f), 0, -(size*gridSlotSize*Chunk.size/2.0f));
+        maxChunks = size * size;
     }
 
-    void Update() {
-        if (state == GridManagerState.INITIALIZED) {
+    void FixedUpdate() {
+        if (state == GridManagerState.INITIALIZED && World.Instance.GetWorldState() == EnumWorldState.GEN_CHUNKS) {
             state = GridManagerState.LOADING;
             Debug.Log("Grid starting...");
             stopWatch.Start();
             StartCoroutine(BuildGrid());
         }
-
-        if (state == GridManagerState.SAVING) {
-            SaveWorld();
+        
+        if (state == GridManagerState.ENABLED && World.Instance.GetWorldState() == EnumWorldState.GEN_CHUNKS) {
+            if (World.Instance.DoesWorldExist()) {
+                World.Instance.SetWorldState(EnumWorldState.GEN_NAVMESH);
+            }
+            else {
+                World.Instance.SetWorldState(EnumWorldState.GEN_ROADS);
+            }
+            state = GridManagerState.READY;
+        }
+        
+        if (state == GridManagerState.ENABLING) { //Enabled must be set for the next frame, not current.
+            EnableWorld();
         }
 
-        if (state == GridManagerState.RECHECK) {
-            RecheckGrid();
-        }
+        GetGenerationPercentage();
+        GetGenerationString();
     }
 
     IEnumerator BuildGrid() {
         for (int row = 0; row < size; row++) {
             for (int col = 0; col < size; col++) {
                 if (SaveLoadChunk.FileExists(new ChunkPos(row, col))) {
+                    World.Instance.SetWorldExists();
                     FillChunkCell(emptyChunk, row, col);
                 }
                 else {
                     FillChunkCell(defaultChunk, row, col);
                 }
                 
+                grid[row,col].SetActive(false);
+                currentChunks++;
+
                 yield return null;
             }
         }
-        
-        stopWatch.Stop();
-        Debug.Log("World generation took " + stopWatch.Elapsed + " seconds.");
-        state = GridManagerState.READY;
+
+        state = GridManagerState.ENABLING;
 
         yield return null;
     }
 
-    void SaveWorld() {
-        for (int row = 0; row < size; row++) {
-            for (int col = 0; col < size; col++) {
-                SaveLoadChunk.SerializeChunk(GetChunk(row, col));
-            }
+    void EnableWorld() {
+        for (int i = 0; i < transform.childCount; i++) {
+            transform.GetChild(i).gameObject.SetActive(true);
+            //yield return null;
         }
         stopWatch.Stop();
-        Debug.Log("World saving complete! Took " + stopWatch.Elapsed + " seconds.");
-        state = GridManagerState.READY;
-    }
-
-    public void LoadChunk(GameObject[,] chunk) {
-        grid = chunk;
-
-        for (int row = 0; row < 16; row++) {
-            for (int col = 0; col < 16; col++) {
-                grid[row, col].name = $"cell_{row}_{col}";
-                grid[row, col].transform.parent = transform;
-            }
-        }
+        Debug.Log("World generation took " + stopWatch.Elapsed + " seconds.");
+        state = GridManagerState.ENABLED;
+        //yield return null;
     }
 
     public void FillChunkCell(GameObject go, int row, int col) {
@@ -104,22 +108,6 @@ public class GridManager : MonoBehaviour {
 
     public void SetChunkCell(GameObject go, int row, int col) => grid[row, col] = go;
 
-    private void RecheckGrid() {
-        /*for (int row = 0; row < size; row++) {
-            for (int col = 0; col < size; col++) {
-                if (grid[row, col] == null) {
-                    Debug.Log("Repairing grid at " + row + ", " + col);
-                    FillChunkCell(defaultChunk, row, col);
-                } else if (grid[row, col].GetComponent<Chunk>() == null) {
-                    Destroy(grid[row, col]);
-                    FillChunkCell(defaultChunk, row, col);
-                }
-            }
-        }*/
-
-        state = GridManagerState.READY;
-    }
-    
     public EnumGenerateDirection GetAvailableGenerateDirection(TilePos startPos, TileData data) {
         int gridX = data.GetWidth();
         int gridZ = data.GetLength();
@@ -194,34 +182,47 @@ public class GridManager : MonoBehaviour {
         Chunk chunk = GetChunk(pos);
         return chunk.GetGridTile(x, z);
     }
-    
-    public void TriggerSave() {
-        if (World.Instance.SavingEnabled()) {
-            state = GridManagerState.SAVING;
-            stopWatch = Stopwatch.StartNew();
-        }
-    }
-    
-    public void DeleteGridCell(int row, int col) {
-        Destroy(grid[row, col]);
-        FlagForRecheck();
-    }
-
-    public void FlagForRecheck() {
-        if (state == GridManagerState.READY) state = GridManagerState.RECHECK;
-    }
 
     public bool IsValidChunk(ChunkPos pos) { return pos.x < size && pos.x >= 0 && pos.z < size && pos.z >= 0; }
     public bool IsValidTile(TilePos pos) { return IsValidChunk(TilePos.GetParentChunk(pos)); }
-    public void DeleteGridCell(ChunkPos pos) => DeleteGridCell(pos.x, pos.z);
     public int GetSize() { return size; }
     public Chunk GetChunk(int row, int col) { return GetChunk(new ChunkPos(row, col)); }
     public Chunk GetChunk(ChunkPos pos) { return grid[pos.x, pos.z].GetComponent<Chunk>(); }
     public float GetGridTileSize() { return gridSlotSize; }
+    public bool IsInitialized() { return state == GridManagerState.READY; }
+    
+    /////////////////////////////////// Abstract inheritence stuff ///////////////////////////////////
+    public override int GetGenerationPercentage() {
+        int add = 0;
+        if (state == GridManagerState.ENABLING) {
+            add = 5;
+        } else if (state == GridManagerState.ENABLED) {
+            add = 10;
+        }
+        percentage = (currentChunks / maxChunks) * 90 + add;
+        return percentage;
+    }
 
-    public bool IsInitialized() { return state == GridManagerState.READY || state == GridManagerState.SAVING || state == GridManagerState.RECHECK; }
+    public override string GetGenerationString() {
+        switch (state) {
+            case GridManagerState.LOADING:
+                message = "Chunks generating...";
+                break;
+            case GridManagerState.ENABLING:
+                message = "Chunks enabling...";
+                break;
+            case GridManagerState.ENABLED:
+                message = "Chunks are ready!";
+                break;
+            default:
+                message = "STATE: " + state;
+                break;
+        }
 
-    ////////////////////////////////////////// Editor stuff ///////////////////////////////////////
+        return message;
+    }
+
+    ////////////////////////////////////////// Editor stuff //////////////////////////////////////////
     private void OnDrawGizmos() {
         Gizmos.color = Color.yellow;
         
@@ -253,7 +254,7 @@ public enum GridManagerState {
     UNINITIALIZED,
     INITIALIZED,
     LOADING,
-    READY,
-    RECHECK,
-    SAVING
+    ENABLING,
+    ENABLED,
+    READY
 }

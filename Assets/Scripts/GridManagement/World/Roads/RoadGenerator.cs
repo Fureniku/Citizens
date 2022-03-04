@@ -28,8 +28,7 @@ public class RoadGenerator : MonoBehaviour {
     [ReadOnly, SerializeField] private int branchesMade = 0;
 
     private GridManager gridManager;
-    
-    private float baseWaitTime = 0.0f; //for debugging
+    private RoadSeed roadSeed = null;
 
     private EnumGenerationStage roadGenStage = EnumGenerationStage.INITIALIZED;
     
@@ -44,19 +43,16 @@ public class RoadGenerator : MonoBehaviour {
 
         branchesMade = 0;
         if (maxBranches > 1) maxBranches--;
+
+        roadSeed = FindObjectOfType<RoadSeed>();
     }
 
     void Update() {
         if (gridManager.IsInitialized()) {
             if (roadGenStage == EnumGenerationStage.INITIALIZED) {
+                roadSeed.AddRoadGen();
                 BeginRoadGeneration();
             }
-        }
-
-        if (roadGenStage == EnumGenerationStage.DIRTY) {
-            Debug.Log("Triggering save");
-            gridManager.TriggerSave();
-            roadGenStage = EnumGenerationStage.COMPLETE;
         }
     }
     
@@ -76,20 +72,19 @@ public class RoadGenerator : MonoBehaviour {
             TilePos placePos = generatorDirection.OffsetPos(lastPos);
             if (gridManager.IsValidTile(placePos)) {
                 TileData tile = gridManager.GetTile(placePos);
-                float waitTime = 0f;
                 Tile placeTile = road_straight;
                 EnumTileDirection placeRotation = generatorDirection;
                 if (tile != null) {
                     int existingId = tile.GetId();
                     if (tile is TileRoad) { //there's already a road here so we need to decide what to do.
-                        Debug.Log("Existing tile is a road with ID " + existingId);
-                        
                         if (placeTile.GetId() != tile.GetId() || !tile.RotationMatch(generatorDirection)) {
-                            Debug.Log("Replace! What type?");
-
                             if (existingId == road_straight.GetId()) {
                                 placeTile = road_t_junct;
                                 placeRotation = generatorDirection.RotateCCW();
+                            }
+
+                            if (existingId == road_t_junct.GetId()) {
+                                placeTile = road_crossroad;
                             }
 
                             if (existingId == road_corner.GetId()) {
@@ -120,25 +115,13 @@ public class RoadGenerator : MonoBehaviour {
                             }
                             
                             if (canContinue && branchesMade < maxBranches) {
-                                bool cornerRight = false;
-                                waitTime = baseWaitTime * 4f;
-                                Debug.Log("Creating branch!");
-                                if (cornerRight) {
-                                    placeTile = road_t_junct;
-                                    placeRotation = generatorDirection.Opposite();
-                                    GenerateBranch(Direction.OffsetPos(generatorDirection.RotateCW(), placePos), generatorDirection.RotateCW());
-                                }
-                                else {
-                                    placeTile = road_t_junct;
-                                    GenerateBranch(Direction.OffsetPos(generatorDirection.RotateCCW(), placePos), generatorDirection.RotateCCW());
-                                }
-
+                                placeTile = road_t_junct;
+                                GenerateBranch(Direction.OffsetPos(generatorDirection.RotateCCW(), placePos), generatorDirection.RotateCCW());
                                 tilesSinceBranch = 0;
                             }
                         }
                         //Generate a straight road
                         else {
-                            waitTime = baseWaitTime;
                             GenerateRoad(road_straight, placePos, placeRotation);
                             tilesSinceBranch++;
                         }
@@ -148,20 +131,18 @@ public class RoadGenerator : MonoBehaviour {
                 GenerateRoad(placeTile, placePos, placeRotation);
  
                 lastPos = placePos;
-                yield return new WaitForSeconds(waitTime);
+                yield return null;
             } else {
-                Debug.Log("Invalid location. Time to handle that I guess.");
+                //TODO Turn road into despawner
                 break;
             }
         }
-
-        Debug.Log("Road generation complete.");
-        roadGenStage = EnumGenerationStage.DIRTY;
+        roadSeed.AddRoadGenComplete();
+        roadGenStage = EnumGenerationStage.COMPLETE;
         yield return null;
     }
 
     private void GenerateBranch(TilePos currentPos, EnumTileDirection direction) {
-        TilePos startPos = Direction.OffsetPos(direction, currentPos);
         GameObject branch = Instantiate(gameObject, TilePos.GetWorldPosFromTilePos(currentPos), Quaternion.identity, transform);
         foreach (Transform child in branch.transform) {
             Destroy(child.gameObject);
@@ -169,13 +150,16 @@ public class RoadGenerator : MonoBehaviour {
         branch.name = "Branch Gen";
         branch.GetComponent<RoadGenerator>().SetDirection(direction);
         branchesMade++;
-        //branch.GetComponent<RoadGenerator>().IncrementNestLevel(nestLevel);
     }
     
     //Generate a road tile ready for placement
     private void GenerateRoad(Tile tile, TilePos pos, EnumTileDirection rot) {
         ChunkPos chunkPos = TilePos.GetParentChunk(pos);
         Chunk chunk = gridManager.GetChunk(chunkPos);
+        if (!chunk.gameObject.activeSelf) {
+            Debug.Log("Chunk is inactive! Enabling!");
+            chunk.gameObject.SetActive(true);
+        }
         chunk.FillChunkCell(tile, LocalPos.FromTilePos(pos), rot, false);
 
         //Debug.Log("Road has been placed. Begin skyscraper placement.");

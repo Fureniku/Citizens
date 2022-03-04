@@ -23,6 +23,10 @@ public class TilePos : Position {
         return new Vector3(pos.x * World.Instance.GetGridManager().GetGridTileSize(), 0, pos.z * World.Instance.GetGridManager().GetGridTileSize());
     }
 
+    public Vector3 GetWorldPos() {
+        return GetWorldPosFromTilePos(this);
+    }
+
     public static ChunkPos GetParentChunk(TilePos pos) {
         int xFinal = pos.x / Chunk.size;
         int zFinal = pos.z / Chunk.size;

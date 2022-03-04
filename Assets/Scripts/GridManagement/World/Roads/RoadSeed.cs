@@ -9,6 +9,8 @@ public class RoadSeed : MonoBehaviour {
     private EnumGenerationStage roadGenStage = EnumGenerationStage.INITIALIZED;
 
     [SerializeField] private GameObject roadGenerator = null;
+    [ReadOnly, SerializeField] private int roadGeneratorInstances = 0;
+    [ReadOnly, SerializeField] private int roadGeneratorsComplete = 0;
 
     void Start() {
         gridManager = World.Instance.GetGridManager();
@@ -18,34 +20,39 @@ public class RoadSeed : MonoBehaviour {
     
     void Update() {
         if (gridManager.IsInitialized()) {
-            if (roadGenStage == EnumGenerationStage.INITIALIZED) {
+            if (roadGenStage == EnumGenerationStage.STARTED && roadGeneratorInstances > 0) {
+                if (roadGeneratorInstances == roadGeneratorsComplete && World.Instance.GetWorldState() == EnumWorldState.GEN_ROADS) {
+                    World.Instance.SetWorldState(EnumWorldState.GEN_BUILDING);
+                }
+            }
+            
+            if (World.Instance.GetWorldState() == EnumWorldState.GEN_ROADS && roadGenStage != EnumGenerationStage.STARTED) {
                 BeginRoadGeneration();
                 roadGenStage = EnumGenerationStage.STARTED;
             }
         }
     }
     
-    public void BeginRoadGeneration() {
-        GameObject road = TileRegistry.GetGameObjectFromID(TileRegistry.CROSSROAD_CTRL_ROAD_1x1.GetId());
-        GenerateStartPoint(road, TilePos.GetGridPosFromLocation(transform.position));
-    }
-    
-    public void GenerateStartPoint(GameObject type, TilePos pos) {
-        EnumTileDirection rot = type.GetComponent<TileData>().GetRotation();
-        ChunkPos chunkPos = TilePos.GetParentChunk(pos);
-        Chunk chunk = gridManager.GetChunk(chunkPos);
-        chunk.FillChunkCell(type, LocalPos.FromTilePos(pos), rot, false);
-        
+    private void BeginRoadGeneration() {
+        Debug.Log("Generating start point for road generation");
+        TilePos pos = TilePos.GetGridPosFromLocation(transform.position);
         IndividualPoint(EnumTileDirection.NORTH, pos);
         IndividualPoint(EnumTileDirection.EAST,  pos);
         IndividualPoint(EnumTileDirection.SOUTH, pos);
         IndividualPoint(EnumTileDirection.WEST,  pos);
+        
+        ChunkPos chunkPos = TilePos.GetParentChunk(pos);
+        Chunk chunk = gridManager.GetChunk(chunkPos);
+        chunk.FillChunkCell(TileRegistry.CROSSROAD_CTRL_ROAD_1x1.GetId(), LocalPos.FromTilePos(pos), EnumTileDirection.NORTH, false);
     }
 
-    public void IndividualPoint(EnumTileDirection dir, TilePos currentPos) {
+    private void IndividualPoint(EnumTileDirection dir, TilePos currentPos) {
         TilePos startPos = Direction.OffsetPos(dir, currentPos);
         GameObject genNorth = Instantiate(roadGenerator, TilePos.GetWorldPosFromTilePos(startPos), Quaternion.identity, transform);
         genNorth.name = dir + " InitGen";
         genNorth.GetComponent<RoadGenerator>().SetDirection(dir);
     }
+    
+    public void AddRoadGen() { roadGeneratorInstances++; }
+    public void AddRoadGenComplete() => roadGeneratorsComplete++;
 }

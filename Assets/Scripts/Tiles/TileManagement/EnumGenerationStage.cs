@@ -3,7 +3,6 @@
         INITIALIZED,
         STARTED,
         IN_PROGRESS,
-        DIRTY,
         COMPLETE
     }
 }
