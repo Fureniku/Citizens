@@ -2922,7 +2922,6 @@ MonoBehaviour:
   Up: 32
   Down: 306
   Sprint: 304
-  canvas: {fileID: 233511224}
 --- !u!114 &1065513274
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -26,7 +26,7 @@ public class SelectionInfo : MonoBehaviour {
         SetText(localPosX, data.GetLocalPos().x);
         SetText(localPosZ, data.GetLocalPos().z);
 
-        rotation.GetComponent<Text>().text = data.GetRotation().ToString() + "(" + data.GetRotation().GetRotation() + ")";
+        rotation.GetComponent<Text>().text = data.GetRotation() + " (" + data.GetRotation().GetRotation() + ")";
     }
 
     private void SetText(GameObject go, string txt) {
