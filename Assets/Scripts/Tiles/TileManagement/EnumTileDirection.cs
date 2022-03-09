@@ -81,6 +81,16 @@ namespace Tiles.TileManagement {
         public static TilePos OffsetPos(this EnumTileDirection dir, TilePos prev, int distance = 1) {
             return new TilePos(prev.x + (distance * dir.XModify()), prev.z + (distance * dir.ZModify()));
         }
+
+        public static string ToString(this EnumTileDirection dirIn) {
+            switch (dirIn) {
+                case EnumTileDirection.NORTH: return "North";
+                case EnumTileDirection.EAST:  return "East";
+                case EnumTileDirection.SOUTH: return "South";
+                case EnumTileDirection.WEST:  return "West";
+                default: return "Unknown";
+            }
+        }
     }
 
     public enum EnumTileDirection {

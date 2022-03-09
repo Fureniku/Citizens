@@ -37,7 +37,7 @@ public class CameraController : MonoBehaviour {
 
     private Vector3 _moveSpeed;
     private bool sprint;
-    
+
     private void Start() {
         _moveSpeed = Vector3.zero;
         maxMove = MaximumMovementSpeed;
@@ -59,10 +59,6 @@ public class CameraController : MonoBehaviour {
         }
 
         transform.Translate(_moveSpeed);
-
-        if (Input.GetKey(KeyCode.Escape)) {
-            Cursor.lockState = CursorLockMode.None;
-        }
     }
 
     private void HandleKeyInput() {

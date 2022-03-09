@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 2371158599738767509}
   - component: {fileID: 8883508846620052471}
   - component: {fileID: 5277633408222997565}
+  - component: {fileID: 2927779251538935156}
   m_Layer: 7
   m_Name: Top_Sidewalk
   m_TagString: Untagged
@@ -139,6 +140,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2927779251538935156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1337903325700714927}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: 0
+  eraseRenderer: 0
 --- !u!1 &1672048272479572875
 GameObject:
   m_ObjectHideFlags: 0
@@ -150,6 +165,7 @@ GameObject:
   - component: {fileID: 7802548136917022537}
   - component: {fileID: 41131985500533317}
   - component: {fileID: 408111032892425013}
+  - component: {fileID: 7313087962011714868}
   m_Layer: 0
   m_Name: Road
   m_TagString: Untagged
@@ -220,6 +236,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7313087962011714868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1672048272479572875}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: 0
+  eraseRenderer: 0
 --- !u!1 &1933839880309327926
 GameObject:
   m_ObjectHideFlags: 0
@@ -232,6 +262,7 @@ GameObject:
   - component: {fileID: 4697176373556025474}
   - component: {fileID: 7830101537294375660}
   - component: {fileID: 5346177621831769499}
+  - component: {fileID: 2421082780841010110}
   m_Layer: 7
   m_Name: Right_Sidewalk
   m_TagString: Untagged
@@ -315,6 +346,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2421082780841010110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1933839880309327926}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: 0
+  eraseRenderer: 0
 --- !u!1 &3377680941371639742
 GameObject:
   m_ObjectHideFlags: 0
@@ -371,6 +416,7 @@ GameObject:
   - component: {fileID: 4465320122771364084}
   - component: {fileID: 7563676787450707573}
   - component: {fileID: 657021344179550638}
+  - component: {fileID: 5840017118580564748}
   m_Layer: 7
   m_Name: Left_Sidewalk
   m_TagString: Untagged
@@ -454,6 +500,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5840017118580564748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5352368051482728530}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: 0
+  eraseRenderer: 0
 --- !u!1 &7262142054253943350
 GameObject:
   m_ObjectHideFlags: 0
@@ -508,7 +568,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5208284232754305122}
   - component: {fileID: 6868474390940191698}
-  m_Layer: 0
+  - component: {fileID: 5422547799886574761}
+  m_Layer: 8
   m_Name: 1x1 Corner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -567,6 +628,19 @@ MonoBehaviour:
   enumTile: 4
   genDirection: 4
   roadType: 1
+--- !u!65 &5422547799886574761
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7998429460570019003}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10, y: 0.2, z: 10}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8193618017619850245
 GameObject:
   m_ObjectHideFlags: 0

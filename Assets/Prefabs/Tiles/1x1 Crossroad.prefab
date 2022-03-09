@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8757723885126837865}
   - component: {fileID: 1020935439060299078}
   - component: {fileID: 7822578373395313311}
+  - component: {fileID: 1888040604902654569}
   m_Layer: 0
   m_Name: Road
   m_TagString: Untagged
@@ -81,6 +82,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1888040604902654569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2343231936195221541}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: 0
+  eraseRenderer: 0
 --- !u!1 &3306369056066931816
 GameObject:
   m_ObjectHideFlags: 0
@@ -181,6 +196,7 @@ GameObject:
   - component: {fileID: 7635300641085111092}
   - component: {fileID: 4932474722290071898}
   - component: {fileID: 7127157810474155565}
+  - component: {fileID: 2516695396545095903}
   m_Layer: 7
   m_Name: Top_Right_Sidewalk
   m_TagString: Untagged
@@ -264,6 +280,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2516695396545095903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3607332022404049792}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: 0
+  eraseRenderer: 0
 --- !u!1 &5177328998724744973
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,7 +304,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6962066492406643668}
   - component: {fileID: -889125371821205834}
-  m_Layer: 0
+  - component: {fileID: 9072904730401831670}
+  m_Layer: 8
   m_Name: 1x1 Crossroad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -334,6 +365,19 @@ MonoBehaviour:
   enumTile: 6
   genDirection: 4
   roadType: 3
+--- !u!65 &9072904730401831670
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5177328998724744973}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10, y: 0.2, z: 10}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5831923332258822976
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,6 +434,7 @@ GameObject:
   - component: {fileID: 1833920448713203409}
   - component: {fileID: 635393392751189054}
   - component: {fileID: 1857400280730787017}
+  - component: {fileID: 1466456753332479042}
   m_Layer: 7
   m_Name: Bottom_Left_Sidewalk
   m_TagString: Untagged
@@ -473,6 +518,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1466456753332479042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6631005799670960137}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: 0
+  eraseRenderer: 0
 --- !u!1 &6921848246459517213
 GameObject:
   m_ObjectHideFlags: 0
@@ -485,6 +544,7 @@ GameObject:
   - component: {fileID: 8239099797702422379}
   - component: {fileID: 8868583755476013280}
   - component: {fileID: 6783063164415693914}
+  - component: {fileID: 1023665019828695136}
   m_Layer: 7
   m_Name: Bottom_Right_Sidewalk
   m_TagString: Untagged
@@ -568,6 +628,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1023665019828695136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6921848246459517213}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: 0
+  eraseRenderer: 0
 --- !u!1 &7106361486089239524
 GameObject:
   m_ObjectHideFlags: 0
@@ -580,6 +654,7 @@ GameObject:
   - component: {fileID: 1522692225281719106}
   - component: {fileID: 4624672944709656003}
   - component: {fileID: 2434060439692335640}
+  - component: {fileID: 8538132223265520559}
   m_Layer: 7
   m_Name: Top_Left_Sidewalk
   m_TagString: Untagged
@@ -663,6 +738,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8538132223265520559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7106361486089239524}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: 0
+  eraseRenderer: 0
 --- !u!1 &7126190648133927274
 GameObject:
   m_ObjectHideFlags: 0

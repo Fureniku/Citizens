@@ -10,9 +10,10 @@ public class TileRegistry : MonoBehaviour {
     // - Get the tile enum (GetTile(EnumTile tile))
     // - Add to EnumTile
     // - Set EnumTile on the prefab
+    // - Increment registryCount
 
     private static readonly GameObject[] registry = new GameObject[255];
-    private static readonly Tile[] tileRegistry = new Tile[255];
+    private static readonly List<Tile> tileRegistry = new List<Tile>();
     
     public static readonly Tile AIR = new Tile(0, "Air", TileType.AIR);
     public static readonly Tile GRASS = new Tile(1, "Grass", TileType.GRASS);
@@ -27,18 +28,12 @@ public class TileRegistry : MonoBehaviour {
     public static int maxId = 999;
 
     [SerializeField] private GameObject[] register = null;
-    
-    private static TileRegistry _instance = null;
-    public static TileRegistry Instance {
-        get { return _instance; }
-    }
 
     public static GameObject GetGrass() { return registry[GRASS.GetId()]; }
 
     void Start() {
         InitializeRegistry();
         
-        //SET OBJECT TO NOT EXIST IN THE WORLD SOMEHOW
         for (int i = 0; i < register.Length; i++) {
             if (register[i].GetComponent<TileData>() != null) {
                 GameObject reg = Instantiate(register[i]);
@@ -49,18 +44,26 @@ public class TileRegistry : MonoBehaviour {
         }
         
         Debug.Log("Registration complete");
+
+        if (World.Instance.GetWorldState() == EnumWorldState.UNSTARTED) {
+            World.Instance.AdvanceWorldState();
+        }
     }
 
     void InitializeRegistry() {
-        tileRegistry[AIR.GetId()] = AIR;
-        tileRegistry[GRASS.GetId()] = GRASS;
-        tileRegistry[REFERENCE.GetId()] = REFERENCE;
-        tileRegistry[STRAIGHT_ROAD_1x1.GetId()] = STRAIGHT_ROAD_1x1;
-        tileRegistry[CORNER_ROAD_1x1.GetId()] = CORNER_ROAD_1x1;
-        tileRegistry[T_JUNCT_ROAD_1x1.GetId()] = T_JUNCT_ROAD_1x1;
-        tileRegistry[CROSSROAD_ROAD_1x1.GetId()] = CROSSROAD_ROAD_1x1;
-        tileRegistry[CROSSROAD_CTRL_ROAD_1x1.GetId()] = CROSSROAD_CTRL_ROAD_1x1;
-        tileRegistry[SKYSCRAPER_GENERIC_1.GetId()] = SKYSCRAPER_GENERIC_1;
+        tileRegistry.Add(AIR);
+        tileRegistry.Add(GRASS);
+        tileRegistry.Add(REFERENCE);
+        tileRegistry.Add(STRAIGHT_ROAD_1x1);
+        tileRegistry.Add(CORNER_ROAD_1x1);
+        tileRegistry.Add(T_JUNCT_ROAD_1x1);
+        tileRegistry.Add(CROSSROAD_ROAD_1x1);
+        tileRegistry.Add(CROSSROAD_CTRL_ROAD_1x1);
+        tileRegistry.Add(SKYSCRAPER_GENERIC_1);
+    }
+
+    public static int GetSize() {
+        return tileRegistry.Count;
     }
 
     public static Tile GetTile(int id) {

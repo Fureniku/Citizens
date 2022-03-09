@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Diagnostics;
+using Tiles.TileManagement;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
@@ -181,6 +182,12 @@ public class GridManager : GenerationSystem {
     public TileData GetTile(ChunkPos pos, int x, int z) {
         Chunk chunk = GetChunk(pos);
         return chunk.GetGridTile(x, z);
+    }
+
+    public void SetTile(TilePos pos, int id, EnumTileDirection rot) {
+        Chunk chunk = GetChunk(ChunkPos.GetChunkPosFromLocation(pos.GetWorldPos()));
+        LocalPos lp = LocalPos.FromTilePos(pos);
+        chunk.FillChunkCell(id, lp, rot, false);
     }
 
     public bool IsValidChunk(ChunkPos pos) { return pos.x < size && pos.x >= 0 && pos.z < size && pos.z >= 0; }

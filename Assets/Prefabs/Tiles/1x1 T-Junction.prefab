@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 6253484033954320790}
   - component: {fileID: 8884885466972509176}
   - component: {fileID: 6761626688807392399}
+  - component: {fileID: 2192969953717624350}
   m_Layer: 7
   m_Name: Top_Right_Sidewalk
   m_TagString: Untagged
@@ -139,6 +140,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2192969953717624350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950557209099813154}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: 0
+  eraseRenderer: 0
 --- !u!1 &1299602237055960876
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,6 +254,7 @@ GameObject:
   - component: {fileID: 6785706817023137357}
   - component: {fileID: 8925801971262202930}
   - component: {fileID: 2007316536197216457}
+  - component: {fileID: 7799435325689273322}
   m_Layer: 7
   m_Name: Bottom_Right_Sidewalk
   m_TagString: Untagged
@@ -322,6 +338,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7799435325689273322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6320839501512096303}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: 0
+  eraseRenderer: 0
 --- !u!1 &6746394426370789702
 GameObject:
   m_ObjectHideFlags: 0
@@ -334,6 +364,7 @@ GameObject:
   - component: {fileID: 3035267134452552160}
   - component: {fileID: 9156095566363195233}
   - component: {fileID: 2231915080011575482}
+  - component: {fileID: 7794283516894438859}
   m_Layer: 7
   m_Name: Left_Sidewalk
   m_TagString: Untagged
@@ -417,6 +448,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7794283516894438859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6746394426370789702}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: 0
+  eraseRenderer: 0
 --- !u!1 &6973194098157792111
 GameObject:
   m_ObjectHideFlags: 0
@@ -472,6 +517,7 @@ GameObject:
   - component: {fileID: 5178796725426359979}
   - component: {fileID: 4498072664844179213}
   - component: {fileID: 879268176022626968}
+  - component: {fileID: 8186446716806948074}
   m_Layer: 0
   m_Name: Road
   m_TagString: Untagged
@@ -542,6 +588,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8186446716806948074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7430114055224713707}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: 0
+  eraseRenderer: 0
 --- !u!1 &8712018493455539631
 GameObject:
   m_ObjectHideFlags: 0
@@ -552,7 +612,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6890759720077889910}
   - component: {fileID: -6288659941711463350}
-  m_Layer: 0
+  - component: {fileID: 3263266475552311421}
+  m_Layer: 8
   m_Name: 1x1 T-Junction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -611,3 +672,16 @@ MonoBehaviour:
   enumTile: 5
   genDirection: 4
   roadType: 2
+--- !u!65 &3263266475552311421
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8712018493455539631}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10, y: 0.2, z: 10}
+  m_Center: {x: 0, y: 0, z: 0}
