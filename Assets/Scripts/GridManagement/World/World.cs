@@ -38,6 +38,12 @@ public class World : MonoBehaviour {
 
         gridManager.Initialize();
         worldData = WorldData.Instance;
+        if (worldData == null) {
+            Debug.Log("World data is null! Must create new instance!");
+            GameObject go = new GameObject();
+            go.AddComponent<WorldData>();
+            worldData = go.GetComponent<WorldData>();
+        }
         worldData.SetState(EnumWorldState.GEN_CHUNKS);
 
         worldData.SetNavMeshRoad(navMeshRoad);
@@ -138,13 +144,16 @@ public class World : MonoBehaviour {
         switch (worldData.GetState()) {
             case EnumWorldState.UNSTARTED:
                 worldData.SetState(EnumWorldState.INITIALIZED);
+                LoadingManager.initializedEvent.Invoke();
                 break;
             case EnumWorldState.INITIALIZED:
                 if (worldData.DoesWorldExist()) {
                     worldData.SetState(EnumWorldState.LOAD_WORLD);
+                    LoadingManager.loadWorldStartEvent.Invoke();
                 }
                 else {
                     worldData.SetState(EnumWorldState.GEN_CHUNKS);
+                    LoadingManager.genChunksStartEvent.Invoke();
                 }
                 break;
             case EnumWorldState.GEN_CHUNKS:

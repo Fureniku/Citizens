@@ -910,6 +910,52 @@ RectTransform:
   m_AnchoredPosition: {x: 110, y: 0}
   m_SizeDelta: {x: 60, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &412810092
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 412810094}
+  - component: {fileID: 412810093}
+  m_Layer: 0
+  m_Name: LoadingManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &412810093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412810092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25c6371fb1317fb4a8f645c3405fb815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roadSeed: {fileID: 472280706}
+  roadNavMesh: {fileID: 1055781744}
+  sidewalkNavMesh: {fileID: 1938235342}
+--- !u!4 &412810094
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412810092}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &414777523
 GameObject:
   m_ObjectHideFlags: 0
@@ -1230,7 +1276,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &472280707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2021,7 +2067,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &796400370
 Transform:
   m_ObjectHideFlags: 0
@@ -2764,7 +2810,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1055781745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5295,7 +5341,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   percentage: 0
   message: 
-  size: 12
   gridSlotSize: 50
   randomSeed: 17
   defaultChunk: {fileID: 451823858289824494, guid: 7d1db9eac591a5842a37a5213d84acdc,
@@ -5333,8 +5378,8 @@ MonoBehaviour:
   testAgent: {fileID: 8945190466146426157, guid: 472c2a24ef19ddf49ad4228b79c2bbf8,
     type: 3}
   vehicleAgentCount: 1
-  navMeshRoad: {fileID: 0}
-  navMeshSidewalk: {fileID: 0}
+  navMeshRoad: {fileID: 1055781744}
+  navMeshSidewalk: {fileID: 1938235342}
 --- !u!1 &1913008544
 GameObject:
   m_ObjectHideFlags: 0
@@ -5588,7 +5633,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1938235343
 MonoBehaviour:
   m_ObjectHideFlags: 0

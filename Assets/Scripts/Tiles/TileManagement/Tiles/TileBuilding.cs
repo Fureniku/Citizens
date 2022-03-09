@@ -52,10 +52,8 @@ public class TileBuilding : TileData {
 
     void Update() {
         if (World.Instance.GetGridManager().IsInitialized() && !skyscraperCreated) {
-            Debug.Log("######### Attempting skyscraper generation ###########");
             skyscraperCreated = true;
             if (genDirection != EnumGenerateDirection.NONE && !isRegistryEntry) {
-                Debug.Log("Enough space! Generating in " + genDirection + ". Generating...");
                 Generate();
             }
         }

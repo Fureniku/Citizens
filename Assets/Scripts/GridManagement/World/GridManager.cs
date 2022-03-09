@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 
 public class GridManager : GenerationSystem {
     
-    [SerializeField, Range(1, 500)] private int size = 25;
+    private int size = 25;
 
     private GameObject[,] grid = null;
 
@@ -33,6 +33,8 @@ public class GridManager : GenerationSystem {
     
     void Start() {
         Random.InitState(randomSeed);
+        size = WorldData.Instance.GetWorldSize();
+        Debug.Log("Constructing world with size " + size);
 
         grid = new GameObject[size, size];
         stopWatch = Stopwatch.StartNew();
