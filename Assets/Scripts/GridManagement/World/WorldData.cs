@@ -1,6 +1,12 @@
 ﻿using UnityEngine;
 
 public class WorldData : MonoBehaviour {
+    
+    private static WorldData _instance;
+
+    public static WorldData Instance {
+        get { return _instance; }
+    }
 
     //Settings
     [SerializeField] private string worldName = ""; //Name of the world
@@ -19,6 +25,17 @@ public class WorldData : MonoBehaviour {
 
     [SerializeField] private int worldRoadSpawnTiles;
     [SerializeField] private int worldRoadDestTiles;
+    
+    void Awake() {
+        if (_instance != null && _instance != this) {
+            Destroy(this.gameObject);
+        }
+        else {
+            _instance = this;
+        }
+
+        DontDestroyOnLoad(gameObject);
+    }
 
     public void SetWorldName(string wName) => worldName = wName;
     public void SetWorldSaving(bool save) => saving = save;
@@ -26,6 +43,8 @@ public class WorldData : MonoBehaviour {
     
     public void SetWorldSize(int size) => worldSize = size;
     public void SetChunkGenPercent(int percent) => chunkGenPercent = percent;
+    public void SetNavMeshRoad(GameObject nm) => navMeshRoad = nm;
+    public void SetNavMeshSidewalk(GameObject nm) => navMeshSidewalk = nm;
     
     public GameObject GetNavMeshRoad() { return navMeshRoad; }
     public GameObject GetNavMeshSidewalk() { return navMeshSidewalk; }

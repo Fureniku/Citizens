@@ -14,11 +14,13 @@ public class World : MonoBehaviour {
     }
     
     [SerializeField] private GridManager gridManager = null;
-    [SerializeField] private GameObject worldDataObj = null;
     private WorldData worldData = null;
 
     [SerializeField] private GameObject testAgent = null;
     [SerializeField] private int vehicleAgentCount;
+    
+    [SerializeField] private GameObject navMeshRoad = null; //Road navmesh
+    [SerializeField] private GameObject navMeshSidewalk = null; //Sidewalk navmesh
 
     private ArrayList agents = new ArrayList();
 
@@ -35,8 +37,11 @@ public class World : MonoBehaviour {
         }
 
         gridManager.Initialize();
-        worldData = worldDataObj.GetComponent<WorldData>();
+        worldData = WorldData.Instance;
         worldData.SetState(EnumWorldState.GEN_CHUNKS);
+
+        worldData.SetNavMeshRoad(navMeshRoad);
+        worldData.SetNavMeshSidewalk(navMeshSidewalk);
     }
 
     public void SetWorldExists() => worldData.SetWorldExists();
