@@ -8,6 +8,8 @@ public class TestAgent : MonoBehaviour {
     [SerializeField] private TilePos destination = new TilePos(0, 0);
     private bool isDestinationSet = false;
 
+    [SerializeField] private GameObject camPos = null;
+
     private float accelerationSave = 0; //Saved acceleration value used for delaying vehicle motion start.
 
     public bool ready = false;
@@ -39,6 +41,10 @@ public class TestAgent : MonoBehaviour {
 
     public NavMeshAgent GetAgent() {
         return GetComponent<NavMeshAgent>();
+    }
+
+    public GameObject GetCamPos() {
+        return camPos;
     }
 
     /*private void Update() {

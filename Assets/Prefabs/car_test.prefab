@@ -288,6 +288,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   color: 7341
   eraseRenderer: 0
+--- !u!1 &6401645003767420602
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3232414095716164105}
+  m_Layer: 8
+  m_Name: CamPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3232414095716164105
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6401645003767420602}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 3, z: -7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5366296848284299070}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6445628971092375617
 GameObject:
   m_ObjectHideFlags: 0
@@ -515,6 +545,7 @@ Transform:
   - {fileID: 7073427437105892402}
   - {fileID: 5172174692592419468}
   - {fileID: 3850849400048487946}
+  - {fileID: 3232414095716164105}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -555,11 +586,7 @@ MonoBehaviour:
   destination:
     x: 55
     z: 53
-  pathPending: 0
-  pathStatus: 0
-  remainingDistance: 0
-  hasPath: 0
-  isStopped: 0
+  camPos: {fileID: 6401645003767420602}
   ready: 0
 --- !u!65 &3387516486235566404
 BoxCollider:

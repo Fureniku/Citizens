@@ -75,10 +75,10 @@ public class GameProperties : MonoBehaviour {
     private void SetCamFollow(bool follow, GameObject obj = null) {
         camFollow = follow;
         if (follow && obj != null) {
-            camera.transform.rotation = Quaternion.identity;
-            camera.transform.parent = obj.transform;
-            Vector3 position = obj.transform.position;
-            camera.transform.position = new Vector3(position.x, position.y+15, position.z-35);
+            GameObject camPos = obj.GetComponent<TestAgent>().GetCamPos();
+            camera.transform.parent = camPos.transform;
+            camera.transform.rotation = camPos.transform.rotation;
+            camera.transform.position = camPos.transform.position;
         } else {
             camera.transform.parent = transform;
         }
