@@ -33,4 +33,11 @@ public class TilePos : Position {
 
         return new ChunkPos(xFinal, zFinal);
     }
+
+    public static int TileDistance(TilePos posA, TilePos posB) {
+        int x = Math.Abs(posA.x - posB.x);
+        int z = Math.Abs(posA.z - posB.z);
+        
+        return x+z;
+    }
 }

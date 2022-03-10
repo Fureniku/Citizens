@@ -22,8 +22,6 @@ public class World : MonoBehaviour {
     [SerializeField] private GameObject navMeshRoad = null; //Road navmesh
     [SerializeField] private GameObject navMeshSidewalk = null; //Sidewalk navmesh
 
-    private ArrayList agents = new ArrayList();
-
     private bool isDirty = false;
 
     void Awake() {
@@ -66,19 +64,6 @@ public class World : MonoBehaviour {
             Debug.Log("NavMesh generated");
             SetWorldState(EnumWorldState.GEN_VEHICLES);
             if (!worldData.DoesWorldExist()) MarkDirty();
-        }
-
-        if (worldData.GetState() == EnumWorldState.GEN_VEHICLES) {
-            Debug.Log("Given agent a target.");
-
-            for (int i = 0; i < vehicleAgentCount; i++) {
-                Vector3 spawnPos = DestinationRegistration.RoadSpawnerRegistry.GetAtRandom().GetWorldPos();
-                agents.Add(Instantiate(testAgent, new Vector3(spawnPos.x - 7, spawnPos.y, spawnPos.z - 12),
-                    Quaternion.identity));
-                ((GameObject) agents[i]).GetComponent<TestAgent>().MoveToLocation();
-            }
-
-            SetWorldState(EnumWorldState.COMPLETE);
         }
 
         if (worldData.GetState() == EnumWorldState.COMPLETE && isDirty) {

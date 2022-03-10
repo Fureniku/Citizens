@@ -9,12 +9,15 @@ public class GameProperties : MonoBehaviour {
     [SerializeField] private GameObject mainCanvas;
     [SerializeField] private GameObject selectionInfo;
     [SerializeField] private GameObject selectionInfoBuilding;
+    [SerializeField] private GameObject selectionInfoVehicle;
 
     private InputHandler inputHandler;
     private CameraController cameraController;
     private World world;
 
     private bool mouseMenu;
+    private bool camFollow = false;
+    private bool fDown = false;
 
     void Start() {
         inputHandler = camera.GetComponent<InputHandler>();
@@ -24,28 +27,77 @@ public class GameProperties : MonoBehaviour {
 
     private void FixedUpdate() {
         if (Input.GetKey(KeyCode.E)) {
-            Cursor.lockState = CursorLockMode.None;
+            Cursor.lockState = CursorLockMode.Confined;
             editCanvas.SetActive(true);
             mouseMenu = true;
         }
 
         if (inputHandler.SelectedObject() != null) {
-            TileData td = inputHandler.SelectedObject().GetComponent<TileData>();
-            if (td is TileBuilding) {
-                selectionInfoBuilding.SetActive(true);
-                selectionInfoBuilding.GetComponent<SelectionInfo>().SetSelectionInfo(td);
-            } else {
-                selectionInfo.SetActive(true);
-                selectionInfo.GetComponent<SelectionInfo>().SetSelectionInfo(td);
+            if (inputHandler.SelectedObject().GetComponent<TileData>() != null) {
+                TileData td = inputHandler.SelectedObject().GetComponent<TileData>();
+                SetCamFollow(false);
+                if (td is TileBuilding) {
+                    SetPanelEnabled(SelectionType.BUILDING);
+                    selectionInfoBuilding.GetComponent<SelectionInfo>().SetSelectionInfo(td);
+                } else {
+                    SetPanelEnabled(SelectionType.STANDARD);
+                    selectionInfo.GetComponent<SelectionInfo>().SetSelectionInfo(td);
+                }
+                
+            } else if (inputHandler.SelectedObject().GetComponent<UnityEngine.AI.NavMeshAgent>() != null) {
+                SetPanelEnabled(SelectionType.VEHICLE);
+                selectionInfoVehicle.GetComponent<VehicleSelectionInfo>().SetSelectionInfo(inputHandler.SelectedObject().GetComponent<TestAgent>());
+                if (Input.GetKeyDown(KeyCode.F) && !fDown) {
+                    Debug.Log("Key down :)");
+                    fDown = true;
+                    if (!camFollow) {
+                        SetCamFollow(true, inputHandler.SelectedObject());
+                    }
+                    else {
+                        SetCamFollow(false);
+                    }
+                }
             }
-            
         }
         else {
-            selectionInfo.SetActive(false);
-            selectionInfoBuilding.SetActive(false);
+            SetCamFollow(false);
+            SetPanelEnabled(SelectionType.NONE);
             if (Input.GetKey(KeyCode.Escape)) {
                 Cursor.lockState = CursorLockMode.None;
             }
+        }
+
+        if (Input.GetKeyUp(KeyCode.F)) {
+            fDown = false;
+        }
+    }
+    
+    private void SetCamFollow(bool follow, GameObject obj = null) {
+        camFollow = follow;
+        if (follow && obj != null) {
+            camera.transform.rotation = Quaternion.identity;
+            camera.transform.parent = obj.transform;
+            Vector3 position = obj.transform.position;
+            camera.transform.position = new Vector3(position.x, position.y+15, position.z-35);
+        } else {
+            camera.transform.parent = transform;
+        }
+    }
+
+    private void SetPanelEnabled(SelectionType type) {
+        selectionInfo.SetActive(false);
+        selectionInfoBuilding.SetActive(false);
+        selectionInfoVehicle.SetActive(false);
+        switch (type) {
+            case SelectionType.STANDARD:
+                selectionInfo.SetActive(true);
+                break;
+            case SelectionType.BUILDING:
+                selectionInfoBuilding.SetActive(true);
+                break;
+            case SelectionType.VEHICLE:
+                selectionInfoVehicle.SetActive(true);
+                break;
         }
     }
     
@@ -58,4 +110,12 @@ public class GameProperties : MonoBehaviour {
     public void EditMode() {
         inputHandler.EditMode();
     }
+}
+
+public enum SelectionType {
+    STANDARD,
+    BUILDING,
+    VEHICLE,
+    PEDESTRIAN,
+    NONE
 }

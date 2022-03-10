@@ -1,7 +1,7 @@
 ﻿using Tiles.TileManagement;
 using UnityEngine;
 
-public class RoadSeed : MonoBehaviour {
+public class RoadSeed : GenerationSystem {
     
     private TilePos lastPos;
     private GridManager gridManager;
@@ -55,4 +55,17 @@ public class RoadSeed : MonoBehaviour {
     
     public void AddRoadGen() { roadGeneratorInstances++; }
     public void AddRoadGenComplete() => roadGeneratorsComplete++;
+    
+    /////////////////////////////////// Abstract inheritence stuff ///////////////////////////////////
+    public override int GetGenerationPercentage() {
+        if (roadGeneratorInstances > 0) {
+            return roadGeneratorsComplete / roadGeneratorInstances * 100;
+        }
+
+        return 0;
+    }
+
+    public override string GetGenerationString() {
+        return "Complete / Total road gen instances: " + roadGeneratorsComplete + "/" + roadGeneratorInstances;
+    }
 }

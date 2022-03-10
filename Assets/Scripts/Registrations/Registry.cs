@@ -26,7 +26,6 @@ public class Registry {
 
     public TilePos GetAtRandom() {
         int rnd = Random.Range(0, arrayList.Count);
-        Debug.Log("Going to location " + rnd + " which is " + (TilePos) arrayList[rnd]);
         return GetFromList(rnd);
     }
 }

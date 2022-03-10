@@ -20,6 +20,7 @@ public class InputHandler : MonoBehaviour {
             int layerMask = LayerMask.GetMask("Clickable");
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out var hit, 10000, layerMask)) {
+                Debug.Log("Clicked " + hit.transform.gameObject.name);
                 ToggleHighlight(false); //Turn off previous selection
 
                 selectedGo = hit.transform.gameObject;
@@ -30,11 +31,18 @@ public class InputHandler : MonoBehaviour {
         if (Input.GetKey(KeyCode.Escape)) {
             ClearSelection();
         }
+
+        if (Input.GetKeyDown(KeyCode.F1)) {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 
     public void ToggleHighlight(bool highlight) {
         tileList.SetActive(false);
         if (selectedGo != null) {
+            if (selectedGo.GetComponent<Outline>() != null) {
+                selectedGo.GetComponent<Outline>().enabled = highlight;
+            }
             for (int i = 0; i < selectedGo.transform.childCount; i++) {
                 GameObject child = selectedGo.transform.GetChild(i).gameObject;
                 if (child.GetComponent<Outline>() != null) {
