@@ -59,7 +59,7 @@ public class RoadSeed : GenerationSystem {
     /////////////////////////////////// Abstract inheritence stuff ///////////////////////////////////
     public override int GetGenerationPercentage() {
         if (roadGeneratorInstances > 0) {
-            return roadGeneratorsComplete / roadGeneratorInstances * 100;
+            return (int) (((float) roadGeneratorsComplete / roadGeneratorInstances) * 100);
         }
 
         return 0;
