@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+// ReSharper disable MemberCanBePrivate.Global
 
 public class TileRegistry : MonoBehaviour {
     
@@ -10,7 +11,6 @@ public class TileRegistry : MonoBehaviour {
     // - Get the tile enum (GetTile(EnumTile tile))
     // - Add to EnumTile
     // - Set EnumTile on the prefab
-    // - Increment registryCount
 
     private static readonly GameObject[] registry = new GameObject[255];
     private static readonly List<Tile> tileRegistry = new List<Tile>();
@@ -23,7 +23,14 @@ public class TileRegistry : MonoBehaviour {
     public static readonly Tile T_JUNCT_ROAD_1x1 = new Tile(5, "T Junction Road", TileType.ROAD);
     public static readonly Tile CROSSROAD_ROAD_1x1 = new Tile(6, "Crossroad", TileType.ROAD);
     public static readonly Tile CROSSROAD_CTRL_ROAD_1x1 = new Tile(7, "Controlled Crossroad", TileType.ROAD);
-    public static readonly Tile SKYSCRAPER_GENERIC_1 = new Tile(8, "Generic Skyscraper 1", TileType.BUILDING);
+    public static readonly Tile T_JUNCT_ROAD_1x1_SINGLE_IN = new Tile(8, "T Junction Single In", TileType.ROAD);
+    public static readonly Tile T_JUNCT_ROAD_1x1_SINGLE_OUT = new Tile(9, "T Junction Single Out", TileType.ROAD);
+    public static readonly Tile CAR_PARK_ENTRANCE = new Tile(10, "Car Park Entrance", TileType.BUILDING_PART);
+    public static readonly Tile CAR_PARK_RAMP_BASE = new Tile(11, "Car Park Ramp", TileType.BUILDING_PART);
+    public static readonly Tile CAR_PARK_EDGE_BASE = new Tile(12, "Car Park Edge", TileType.BUILDING_PART);
+    public static readonly Tile CAR_PARK_CORNER_BASE = new Tile(13, "Car Park Corner", TileType.BUILDING_PART);
+    public static readonly Tile CAR_PARK_INNER_BASE = new Tile(14, "Car Park Inner", TileType.BUILDING_PART);
+    public static readonly Tile SKYSCRAPER_GENERIC_1 = new Tile(15, "Generic Skyscraper 1", TileType.BUILDING);
 
     public static int maxId = 999;
 
@@ -36,9 +43,9 @@ public class TileRegistry : MonoBehaviour {
         
         for (int i = 0; i < register.Length; i++) {
             if (register[i].GetComponent<TileData>() != null) {
-                GameObject reg = Instantiate(register[i]);
-                reg.transform.parent = transform;
+                GameObject reg = Instantiate(register[i], transform, true);
                 reg.transform.position = new Vector3(0, -100, 0);
+                reg.SetActive(false);
                 Register(reg); //Instantiate to create a copy, instead of using original. Preserves original prefab.
             }
         }
@@ -59,6 +66,13 @@ public class TileRegistry : MonoBehaviour {
         tileRegistry.Add(T_JUNCT_ROAD_1x1);
         tileRegistry.Add(CROSSROAD_ROAD_1x1);
         tileRegistry.Add(CROSSROAD_CTRL_ROAD_1x1);
+        tileRegistry.Add(T_JUNCT_ROAD_1x1_SINGLE_IN);
+        tileRegistry.Add(T_JUNCT_ROAD_1x1_SINGLE_OUT);
+        tileRegistry.Add(CAR_PARK_ENTRANCE);
+        tileRegistry.Add(CAR_PARK_RAMP_BASE);
+        tileRegistry.Add(CAR_PARK_EDGE_BASE);
+        tileRegistry.Add(CAR_PARK_CORNER_BASE);
+        tileRegistry.Add(CAR_PARK_INNER_BASE);
         tileRegistry.Add(SKYSCRAPER_GENERIC_1);
     }
 
@@ -101,6 +115,7 @@ public class TileRegistry : MonoBehaviour {
 
     public static GameObject Instantiate(int id) {
         GameObject go = Instantiate(registry[id]);
+        go.SetActive(true);
         go.GetComponent<TileData>().Create();
         return go;
     }
@@ -123,6 +138,20 @@ public class TileRegistry : MonoBehaviour {
                 return CROSSROAD_ROAD_1x1;
             case EnumTile.CROSSROAD_CTRL_ROAD_1x1:
                 return CROSSROAD_CTRL_ROAD_1x1;
+            case EnumTile.T_JUNCT_ROAD_1x1_SINGLE_IN:
+                return T_JUNCT_ROAD_1x1_SINGLE_IN;
+            case EnumTile.T_JUNCT_ROAD_1x1_SINGLE_OUT:
+                return T_JUNCT_ROAD_1x1_SINGLE_OUT;
+            case EnumTile.CAR_PARK_ENTRANCE:
+                return CAR_PARK_ENTRANCE;
+            case EnumTile.CAR_PARK_RAMP_BASE:
+                return CAR_PARK_RAMP_BASE;
+            case EnumTile.CAR_PARK_EDGE_BASE:
+                return CAR_PARK_EDGE_BASE;
+            case EnumTile.CAR_PARK_CORNER_BASE:
+                return CAR_PARK_CORNER_BASE;
+            case EnumTile.CAR_PARK_INNER_BASE:
+                return CAR_PARK_INNER_BASE;
             case EnumTile.SKYSCRAPER_GENERIC_1:
                 return SKYSCRAPER_GENERIC_1;
             default:
@@ -165,6 +194,13 @@ public enum EnumTile {
     T_JUNCT_ROAD_1x1,
     CROSSROAD_ROAD_1x1,
     CROSSROAD_CTRL_ROAD_1x1,
+    T_JUNCT_ROAD_1x1_SINGLE_IN,
+    T_JUNCT_ROAD_1x1_SINGLE_OUT,
+    CAR_PARK_ENTRANCE,
+    CAR_PARK_RAMP_BASE,
+    CAR_PARK_EDGE_BASE,
+    CAR_PARK_CORNER_BASE,
+    CAR_PARK_INNER_BASE,
     SKYSCRAPER_GENERIC_1
 }
 
@@ -173,5 +209,6 @@ public enum TileType {
     GRASS,
     REFERENCE,
     ROAD,
-    BUILDING
+    BUILDING,
+    BUILDING_PART
 }

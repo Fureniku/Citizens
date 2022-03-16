@@ -1133,60 +1133,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 378619915}
   m_CullTransparentMesh: 1
---- !u!1 &412810092
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 412810094}
-  - component: {fileID: 412810093}
-  m_Layer: 0
-  m_Name: LoadingManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &412810093
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 412810092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25c6371fb1317fb4a8f645c3405fb815, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  roadSeed: {fileID: 472280706}
-  agentManager: {fileID: 1611462137}
-  roadNavMesh: {fileID: 1055781744}
-  sidewalkNavMesh: {fileID: 1938235342}
-  loadingCanvas: {fileID: 1791033748}
-  stageMessageText: {fileID: 1653051649}
-  stagePercentText: {fileID: 1326446603}
-  stageBar: {fileID: 217568768}
-  overallBar: {fileID: 906484195}
-  overallText: {fileID: 1676005001}
-  overallPercentText: {fileID: 1029845296}
---- !u!4 &412810094
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 412810092}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &414777523
 GameObject:
   m_ObjectHideFlags: 0
@@ -3270,59 +3216,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 959654569}
   m_CullTransparentMesh: 1
---- !u!1 &983481489
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 983481491}
-  - component: {fileID: 983481490}
-  m_Layer: 0
-  m_Name: TileRegistryManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &983481490
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 983481489}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ff0b823bee21364e94afb91978c4e14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  register:
-  - {fileID: 1825546272134706053, guid: c96b70891e68f6641966381a7cdb6dc0, type: 3}
-  - {fileID: 1825546272134706053, guid: dbb8c39e710aea54bb6f669ebfaee4bc, type: 3}
-  - {fileID: 1825546272134706053, guid: 42af3a0de282f0f4d9548a9de64442f3, type: 3}
-  - {fileID: 3320656565879782384, guid: ed21b74aa0dca2546a428bea6da2e9a7, type: 3}
-  - {fileID: 7998429460570019003, guid: 41280604f7abeea489b8c4670db5113f, type: 3}
-  - {fileID: 8712018493455539631, guid: 23cf6e38582e15540aad93021c3393d3, type: 3}
-  - {fileID: 5177328998724744973, guid: ce039a892b508e94d8fe2a15a83accfb, type: 3}
-  - {fileID: 6642161596494348902, guid: d4b8280fafc12fa43977e37aef98ab9e, type: 3}
-  - {fileID: 4858921784356234158, guid: 0b6c123ed5d6bc742a8ce2f40d293ebb, type: 3}
---- !u!4 &983481491
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 983481489}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1029845296
 GameObject:
   m_ObjectHideFlags: 0
@@ -5308,7 +5201,7 @@ MonoBehaviour:
   message: 
   vehicleParent: {fileID: 796400369}
   pedestrianParent: {fileID: 0}
-  initialVehicleCount: 50
+  initialVehicleCount: 500
   maxVehicleCount: 500
   testVehicle: {fileID: 8945190466146426157, guid: 472c2a24ef19ddf49ad4228b79c2bbf8,
     type: 3}
@@ -5328,7 +5221,7 @@ Transform:
   m_Children:
   - {fileID: 796400370}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1620019339
 GameObject:
@@ -7149,6 +7042,7 @@ GameObject:
   - component: {fileID: 1907542591}
   - component: {fileID: 1907542592}
   - component: {fileID: 1907542590}
+  - component: {fileID: 1907542593}
   m_Layer: 0
   m_Name: World
   m_TagString: Untagged
@@ -7209,6 +7103,29 @@ MonoBehaviour:
   vehicleAgentCount: 50
   navMeshRoad: {fileID: 1055781744}
   navMeshSidewalk: {fileID: 1938235342}
+--- !u!114 &1907542593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907542589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25c6371fb1317fb4a8f645c3405fb815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roadSeed: {fileID: 472280706}
+  agentManager: {fileID: 1611462137}
+  roadNavMesh: {fileID: 1055781744}
+  sidewalkNavMesh: {fileID: 1938235342}
+  loadingCanvas: {fileID: 1791033748}
+  stageMessageText: {fileID: 1653051649}
+  stagePercentText: {fileID: 1326446603}
+  stageBar: {fileID: 217568768}
+  overallBar: {fileID: 906484195}
+  overallText: {fileID: 1676005001}
+  overallPercentText: {fileID: 1029845296}
 --- !u!1 &1913008544
 GameObject:
   m_ObjectHideFlags: 0
@@ -8304,3 +8221,72 @@ RectTransform:
   m_AnchoredPosition: {x: 110, y: 0}
   m_SizeDelta: {x: 60, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1001 &8291326659848128537
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8291326659201070216, guid: be661445192d79f4bb273d9defb4ba2a,
+        type: 3}
+      propertyPath: m_Name
+      value: TileRegistryManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8291326659201070218, guid: be661445192d79f4bb273d9defb4ba2a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8291326659201070218, guid: be661445192d79f4bb273d9defb4ba2a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8291326659201070218, guid: be661445192d79f4bb273d9defb4ba2a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8291326659201070218, guid: be661445192d79f4bb273d9defb4ba2a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8291326659201070218, guid: be661445192d79f4bb273d9defb4ba2a,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8291326659201070218, guid: be661445192d79f4bb273d9defb4ba2a,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8291326659201070218, guid: be661445192d79f4bb273d9defb4ba2a,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8291326659201070218, guid: be661445192d79f4bb273d9defb4ba2a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8291326659201070218, guid: be661445192d79f4bb273d9defb4ba2a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8291326659201070218, guid: be661445192d79f4bb273d9defb4ba2a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8291326659201070218, guid: be661445192d79f4bb273d9defb4ba2a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: be661445192d79f4bb273d9defb4ba2a, type: 3}

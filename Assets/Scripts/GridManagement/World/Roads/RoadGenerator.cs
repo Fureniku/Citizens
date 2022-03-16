@@ -163,7 +163,7 @@ public class RoadGenerator : MonoBehaviour {
         chunk.FillChunkCell(tile, LocalPos.FromTilePos(pos), rot, false);
 
         //Debug.Log("Road has been placed. Begin skyscraper placement.");
-        TilePos left  = new TilePos(pos.x, pos.z);
+        /*TilePos left  = new TilePos(pos.x, pos.z);
         TilePos right = new TilePos(pos.x, pos.z);
         switch(rot) {
             case EnumTileDirection.NORTH:
@@ -191,7 +191,7 @@ public class RoadGenerator : MonoBehaviour {
         if (GenerateSkyscraperForPos(left, ref skyscraper)) {
             GenerateBuilding(skyscraper, left, chunk);
         }
-        //Debug.Log("Generation should be complete.");
+        //Debug.Log("Generation should be complete.");*/
     }
 
     private void GenerateBuilding(GameObject building, TilePos pos, Chunk chunk) {

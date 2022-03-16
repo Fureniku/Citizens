@@ -669,9 +669,9 @@ MonoBehaviour:
     z: 0
   halfRotations: 0
   rotation: 2
-  enumTile: 5
+  enumTile: 8
   genDirection: 4
-  roadType: 2
+  roadType: 5
 --- !u!65 &3263266475552311421
 BoxCollider:
   m_ObjectHideFlags: 0

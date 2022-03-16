@@ -93,9 +93,9 @@ public class LoadingManager : MonoBehaviour {
             percent = 0;
         }
 
-        stageMessageText.GetComponent<Text>().text = message;
-        stagePercentText.GetComponent<Text>().text = percent + "%";
-        stageBar.GetComponent<Image>().fillAmount = percent / 100.0f;
+        if (stageMessageText != null) { stageMessageText.GetComponent<Text>().text = message; }
+        if (stagePercentText != null) { stagePercentText.GetComponent<Text>().text = percent + "%"; }
+        if (stageBar != null) { stageBar.GetComponent<Image>().fillAmount = percent / 100.0f; }
     }
 
     private void SetOverallProgress() {
@@ -148,9 +148,9 @@ public class LoadingManager : MonoBehaviour {
                 break;
         }
 
-        overallBar.GetComponent<Image>().fillAmount = (float) overallPercent / 100.0f;
-        overallPercentText.GetComponent<Text>().text = ((int) World.Instance.GetWorldState()) + "/11 (" + ((int)overallPercent) + "%)";
-        overallText.GetComponent<Text>().text = stateStr;
+        if (overallBar != null) { overallBar.GetComponent<Image>().fillAmount = (float) overallPercent / 100.0f; }
+        if (overallPercentText != null) { overallPercentText.GetComponent<Text>().text = ((int) World.Instance.GetWorldState()) + "/11 (" + ((int)overallPercent) + "%)"; }
+        if (overallText != null) { overallText.GetComponent<Text>().text = stateStr; }
     }
     
 #region EVENTS
@@ -164,11 +164,17 @@ public class LoadingManager : MonoBehaviour {
         
     private void OnGenRoads() {
         Debug.Log("###### Gen Roads Event called ######");
-        roadSeed.SetActive(true);
+        if (roadSeed != null) {
+            roadSeed.SetActive(true);
+        }
+        else {
+            World.Instance.AdvanceWorldState();
+        }
     }
         
     private void OnGenBuildings() {
-        Debug.Log("###### Gen Buildings Event called ######");
+        Debug.Log("###### Gen Buildings Event called ###### (SKIPPING!)");
+        World.Instance.AdvanceWorldState();//TODO temporary
     }
         
     private void OnLoadWorld() {
@@ -176,29 +182,48 @@ public class LoadingManager : MonoBehaviour {
     }
         
     private void OnCombineMesh() {
-        Debug.Log("###### Combine Mesh Event called ######");
+        Debug.Log("###### Combine Mesh Event called ###### (SKIPPING!)");
+        World.Instance.AdvanceWorldState();//TODO temporary
     }
         
     private void OnGenNavmesh() {
         Debug.Log("###### Gen Navmesh Event called ######");
-        roadNavMesh.SetActive(true);
-        sidewalkNavMesh.SetActive(true);
+        if (roadNavMesh != null) {
+            roadNavMesh.SetActive(true);
+        }
+
+        if (sidewalkNavMesh != null) {
+            sidewalkNavMesh.SetActive(true);
+        }
+
+        if (roadNavMesh == null && sidewalkNavMesh == null) {
+            World.Instance.AdvanceWorldState();
+        }
     }
         
     private void OnPopulateRegistries() {
-        Debug.Log("###### Populate Registries Event called ######");
+        Debug.Log("###### Populate Registries Event called ###### (SKIPPING)");
+        World.Instance.AdvanceWorldState();//TODO temporary
     }
         
     private void OnGenVehicles() {
         Debug.Log("###### Gen Vehicles Event called ######");
+        if (agentManager == null) {
+            World.Instance.AdvanceWorldState();
+        }
     }
         
     private void OnGenCivilians() {
         Debug.Log("###### Gen Civilians Event called ######");
+        if (agentManager == null) {
+            World.Instance.AdvanceWorldState();
+        }
     }
 
     private void OnComplete() {
-        loadingCanvas.SetActive(false);
+        if (loadingCanvas != null) {
+            loadingCanvas.SetActive(false);
+        }
         Debug.Log("###### Complete Load Event called ######");
     }
     

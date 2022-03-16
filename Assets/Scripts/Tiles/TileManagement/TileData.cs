@@ -24,6 +24,8 @@ public abstract class TileData : MonoBehaviour {
     protected Tile tile;
 
     [SerializeField] protected EnumGenerateDirection genDirection = EnumGenerateDirection.NONE;
+    
+    protected bool isRegistryEntry = false; //Whether this copy of the object is for registration, preventing procedural generations.
 
     public void Initialize() {
         tile = TileRegistry.GetTile(enumTile);
@@ -113,12 +115,14 @@ public abstract class TileData : MonoBehaviour {
         if (GetComponent<MeshRenderer>() != null) {
             GetComponent<MeshRenderer>().enabled = false;
         }
+        isRegistryEntry = true;
     }
 
     public void CreateBase() {
         if (GetComponent<MeshRenderer>() != null) {
             GetComponent<MeshRenderer>().enabled = true;
         }
+        isRegistryEntry = false;
     }
     
     public abstract JProperty SerializeTile(TileData td, int row, int col);

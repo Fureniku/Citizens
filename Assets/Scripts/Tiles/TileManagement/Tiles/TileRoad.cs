@@ -30,6 +30,14 @@ public class TileRoad : TileData {
                 tileId = TileRegistry.CROSSROAD_CTRL_ROAD_1x1.GetId();
                 name = TileRegistry.CROSSROAD_CTRL_ROAD_1x1.GetName();
                 break;
+            case RoadType.T_JUNCT_ROAD_1x1_SINGLE_IN:
+                tileId = TileRegistry.T_JUNCT_ROAD_1x1_SINGLE_IN.GetId();
+                name = TileRegistry.T_JUNCT_ROAD_1x1_SINGLE_IN.GetName();
+                break;
+            case RoadType.T_JUNCT_ROAD_1x1_SINGLE_OUT:
+                tileId = TileRegistry.T_JUNCT_ROAD_1x1_SINGLE_OUT.GetId();
+                name = TileRegistry.T_JUNCT_ROAD_1x1_SINGLE_OUT.GetName();
+                break;
         }
         width = 1;
         length = 1;
@@ -79,5 +87,7 @@ public enum RoadType {
     ROAD_CORNER,
     ROAD_T_JUNCT,
     ROAD_CROSSROAD,
-    ROAD_CROSSROAD_CONTROLLED
+    ROAD_CROSSROAD_CONTROLLED,
+    T_JUNCT_ROAD_1x1_SINGLE_IN,
+    T_JUNCT_ROAD_1x1_SINGLE_OUT
 }
