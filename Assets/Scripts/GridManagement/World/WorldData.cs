@@ -11,7 +11,7 @@ public class WorldData : MonoBehaviour {
     //Settings
     [SerializeField] private string worldName = "Default World"; //Name of the world
     [SerializeField] private bool saving = false; //Whether saving is enabled
-    [SerializeField] private int worldSize = 9; //World's size in chunks
+    [SerializeField] private int worldSize = 3; //World's size in chunks
 
     //Objects
     [SerializeField] private GameObject navMeshRoad = null; //Road navmesh

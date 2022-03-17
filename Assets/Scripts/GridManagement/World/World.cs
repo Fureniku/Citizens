@@ -23,6 +23,7 @@ public class World : MonoBehaviour {
     [SerializeField] private GameObject navMeshSidewalk = null; //Sidewalk navmesh
 
     private bool isDirty = false;
+    [SerializeField] private bool internalGeneratedWorld = false; //If the world was made and is a prefab now, set this to true to stop any attempts at generation.
 
     void Awake() {
         GC.Collect();
@@ -33,20 +34,28 @@ public class World : MonoBehaviour {
         else {
             _instance = this;
         }
+        if (!internalGeneratedWorld) {
+            gridManager.Initialize();
+            worldData = WorldData.Instance;
+            if (worldData == null) {
+                Debug.Log("World data is null! Must create new instance!");
+                GameObject go = new GameObject();
+                go.AddComponent<WorldData>();
+                go.name = "WorldData";
+                worldData = go.GetComponent<WorldData>();
+            }
+            worldData.SetState(EnumWorldState.GEN_CHUNKS);
 
-        gridManager.Initialize();
-        worldData = WorldData.Instance;
-        if (worldData == null) {
-            Debug.Log("World data is null! Must create new instance!");
-            GameObject go = new GameObject();
-            go.AddComponent<WorldData>();
-            worldData = go.GetComponent<WorldData>();
+            worldData.SetNavMeshRoad(navMeshRoad);
+            worldData.SetNavMeshSidewalk(navMeshSidewalk);
         }
-        worldData.SetState(EnumWorldState.GEN_CHUNKS);
-
-        worldData.SetNavMeshRoad(navMeshRoad);
-        worldData.SetNavMeshSidewalk(navMeshSidewalk);
+        else {
+            Debug.Log("Confirmed as internal world. Skipping generation.");
+            worldData.SetState(EnumWorldState.COMPLETE);
+        }
     }
+
+    public bool IsInternalGenWorld() { return internalGeneratedWorld; }
 
     public void SetWorldExists() => worldData.SetWorldExists();
 

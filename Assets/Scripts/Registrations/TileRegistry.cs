@@ -30,6 +30,7 @@ public class TileRegistry : MonoBehaviour {
     public static readonly Tile CAR_PARK_EDGE_BASE = new Tile(12, "Car Park Edge", TileType.BUILDING_PART);
     public static readonly Tile CAR_PARK_CORNER_BASE = new Tile(13, "Car Park Corner", TileType.BUILDING_PART);
     public static readonly Tile CAR_PARK_INNER_BASE = new Tile(14, "Car Park Inner", TileType.BUILDING_PART);
+    public static readonly Tile CAR_PARK_EXIT = new Tile(15, "Car Park Exit", TileType.BUILDING_PART);
     public static readonly Tile SKYSCRAPER_GENERIC_1 = new Tile(15, "Generic Skyscraper 1", TileType.BUILDING);
 
     public static int maxId = 999;
@@ -52,7 +53,7 @@ public class TileRegistry : MonoBehaviour {
         
         Debug.Log("Registration complete");
 
-        if (World.Instance.GetWorldState() == EnumWorldState.UNSTARTED) {
+        if (World.Instance != null && World.Instance.GetWorldState() == EnumWorldState.UNSTARTED) {
             World.Instance.AdvanceWorldState();
         }
     }
@@ -73,6 +74,7 @@ public class TileRegistry : MonoBehaviour {
         tileRegistry.Add(CAR_PARK_EDGE_BASE);
         tileRegistry.Add(CAR_PARK_CORNER_BASE);
         tileRegistry.Add(CAR_PARK_INNER_BASE);
+        tileRegistry.Add(CAR_PARK_EXIT);
         tileRegistry.Add(SKYSCRAPER_GENERIC_1);
     }
 
@@ -152,6 +154,8 @@ public class TileRegistry : MonoBehaviour {
                 return CAR_PARK_CORNER_BASE;
             case EnumTile.CAR_PARK_INNER_BASE:
                 return CAR_PARK_INNER_BASE;
+            case EnumTile.CAR_PARK_EXIT:
+                return CAR_PARK_EXIT;
             case EnumTile.SKYSCRAPER_GENERIC_1:
                 return SKYSCRAPER_GENERIC_1;
             default:
@@ -201,6 +205,7 @@ public enum EnumTile {
     CAR_PARK_EDGE_BASE,
     CAR_PARK_CORNER_BASE,
     CAR_PARK_INNER_BASE,
+    CAR_PARK_EXIT,
     SKYSCRAPER_GENERIC_1
 }
 

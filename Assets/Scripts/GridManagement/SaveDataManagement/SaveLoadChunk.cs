@@ -36,8 +36,12 @@ public class SaveLoadChunk : MonoBehaviour {
     }
 
     public static bool DirectoryExists() {
-        DirectoryInfo dir = Directory.CreateDirectory(Application.persistentDataPath + $"/{World.Instance.GetWorldName()}");
-        return true;
+        if (World.Instance != null && !World.Instance.IsInternalGenWorld()) {
+            DirectoryInfo dir = Directory.CreateDirectory(Application.persistentDataPath + $"/{World.Instance.GetWorldName()}");
+            return true;
+        }
+
+        return false;
     }
     
     public static GameObject[,] DeserializeChunk(ChunkPos origin) {
