@@ -9,7 +9,7 @@ public class TileGrass : TileData {
         width = 1;
         length = 1;
         halfRotations = false;
-        rotation = EnumTileDirection.SOUTH;
+        rotation = EnumDirection.SOUTH;
     }
     
     public override JProperty SerializeTile(TileData data, int row, int col) {

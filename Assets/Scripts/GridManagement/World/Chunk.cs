@@ -11,7 +11,7 @@ public class Chunk : MonoBehaviour {
 
     private GameObject[,] chunk = null;
 
-    [SerializeField] private ChunkPos chunkPos = ChunkPos.ZERO; //Chunks coordinate in world grid
+    [SerializeField] private ChunkPos chunkPos; //Chunks coordinate in world grid
 
     [SerializeField] private bool GenerateFreshChunks = false;
 
@@ -20,8 +20,23 @@ public class Chunk : MonoBehaviour {
     private Stopwatch stopWatch;
 
     void Start() {
-        chunk = new GameObject[size, size];
+        if (chunk == null) {
+            chunk = new GameObject[size, size];
+            if (World.Instance.IsInternalGenWorld()) {
+                SetInternalWorldChunks();
+            }
+        }
         stopWatch = Stopwatch.StartNew();
+    }
+    
+    public void SetInternalWorldChunks() {
+        for (int i = 0; i < transform.childCount; i++) {
+            TileData child = transform.GetChild(i).GetComponent<TileData>();
+            if (child != null) {
+                chunk[child.GetLocalPos().x, child.GetLocalPos().z] = transform.GetChild(i).gameObject;
+            }
+        }
+        state = EnumChunkState.GENERATING;
     }
 
     void Update() {
@@ -73,16 +88,16 @@ public class Chunk : MonoBehaviour {
         }
     }
 
-    public void FillChunkCell(Tile tile, LocalPos pos, EnumTileDirection rotation, bool placementChecks) {
+    public void FillChunkCell(Tile tile, LocalPos pos, EnumDirection rotation, bool placementChecks) {
         FillChunkCell(tile.GetId(), pos, rotation, placementChecks);
     }
 
-    public void FillChunkCell(GameObject go, LocalPos pos, EnumTileDirection rotation, bool placementChecks) {
+    public void FillChunkCell(GameObject go, LocalPos pos, EnumDirection rotation, bool placementChecks) {
         int id = TileRegistry.GetIDFromGameObject(go);
         FillChunkCell(id, pos, rotation, placementChecks);
     }
 
-    public void FillChunkCell(int id, LocalPos pos, EnumTileDirection rotation,  bool placementChecks) {
+    public void FillChunkCell(int id, LocalPos pos, EnumDirection rotation,  bool placementChecks) {
         if (!pos.IsValidPos()) {
             return;
         }
@@ -118,7 +133,7 @@ public class Chunk : MonoBehaviour {
         cell.GetComponent<TileData>().SetInitialPos();
     }
 
-    public void FillChunkCell(GameObject go, TilePos pos, EnumTileDirection rotation, bool placementChecks) {
+    public void FillChunkCell(GameObject go, TilePos pos, EnumDirection rotation, bool placementChecks) {
         FillChunkCell(go, LocalPos.FromTilePos(pos), rotation, placementChecks);
     }
 
@@ -164,7 +179,7 @@ public class Chunk : MonoBehaviour {
         return GetChunkCellContents(new LocalPos(row, col));
     }
     
-    public GameObject GetChunkCellContents(LocalPos pos) { 
+    public GameObject GetChunkCellContents(LocalPos pos) {
         if (!pos.IsValidPos()) {
             //TODO Go to the world and get the relevant chunk for this.
             //Debug.Log("Couldn't get chunk cell contents; out of range: " + pos.x + ", " + pos.z);

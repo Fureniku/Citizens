@@ -53,8 +53,10 @@ public class TileRegistry : MonoBehaviour {
         
         Debug.Log("Registration complete");
 
-        if (World.Instance != null && World.Instance.GetWorldState() == EnumWorldState.UNSTARTED) {
-            World.Instance.AdvanceWorldState();
+        if (World.Instance != null) {
+            if (World.Instance.GetWorldState() == EnumWorldState.UNSTARTED) {
+                World.Instance.AdvanceWorldState();
+            }
         }
     }
 

@@ -19,7 +19,7 @@ public abstract class TileData : MonoBehaviour {
     [SerializeField] protected ChunkPos parentChunk;
     [SerializeField] protected bool halfRotations = false;
 
-    [SerializeField] protected EnumTileDirection rotation = EnumTileDirection.NORTH;
+    [SerializeField] protected EnumDirection rotation = EnumDirection.NORTH;
     [SerializeField] protected EnumTile enumTile;
     protected Tile tile;
 
@@ -41,7 +41,7 @@ public abstract class TileData : MonoBehaviour {
         transform.rotation = Quaternion.Euler(0, Direction.GetRotation(rotation), 0);
     }
     
-    public void SetRotation(EnumTileDirection rot, bool debug = false) {
+    public void SetRotation(EnumDirection rot, bool debug = false) {
         if (debug) Debug.Log("setting rotation from " + rotation + " to  " + rot);
         rotation = rot;
         transform.rotation = Quaternion.Euler(transform.rotation.x, rot.GetRotation(),  transform.rotation.z);
@@ -58,7 +58,7 @@ public abstract class TileData : MonoBehaviour {
         return halfRotations;
     }
 
-    public bool RotationMatch(EnumTileDirection otherRot) {
+    public bool RotationMatch(EnumDirection otherRot) {
         if (rotation == otherRot) {
             return true;
         }
@@ -88,7 +88,7 @@ public abstract class TileData : MonoBehaviour {
     protected void SetId(int idIn) => tileId = idIn;
     protected void SetName(string nameIn) => name = nameIn;
     public void SetGenerationDirection(EnumGenerateDirection dir) { genDirection = dir; }
-    public EnumTileDirection GetRotation() { return rotation; }
+    public EnumDirection GetRotation() { return rotation; }
     public Tile GetTile() { return TileRegistry.GetTile(enumTile); }
 
     //////////////// Used for load/save

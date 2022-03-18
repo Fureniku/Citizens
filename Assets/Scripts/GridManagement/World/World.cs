@@ -38,11 +38,7 @@ public class World : MonoBehaviour {
             gridManager.Initialize();
             worldData = WorldData.Instance;
             if (worldData == null) {
-                Debug.Log("World data is null! Must create new instance!");
-                GameObject go = new GameObject();
-                go.AddComponent<WorldData>();
-                go.name = "WorldData";
-                worldData = go.GetComponent<WorldData>();
+                CreateWorldData();
             }
             worldData.SetState(EnumWorldState.GEN_CHUNKS);
 
@@ -51,8 +47,20 @@ public class World : MonoBehaviour {
         }
         else {
             Debug.Log("Confirmed as internal world. Skipping generation.");
+            worldData = FindObjectOfType<WorldData>();
+            if (worldData == null) {
+                CreateWorldData();
+            }
             worldData.SetState(EnumWorldState.COMPLETE);
         }
+    }
+
+    private void CreateWorldData() {
+        Debug.Log("World data is null! Must create new instance!");
+        GameObject go = new GameObject();
+        go.AddComponent<WorldData>();
+        go.name = "WorldData";
+        worldData = go.GetComponent<WorldData>();
     }
 
     public bool IsInternalGenWorld() { return internalGeneratedWorld; }

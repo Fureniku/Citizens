@@ -36,17 +36,17 @@ public class RoadSeed : GenerationSystem {
     private void BeginRoadGeneration() {
         Debug.Log("Generating start point for road generation");
         TilePos pos = TilePos.GetGridPosFromLocation(transform.position);
-        IndividualPoint(EnumTileDirection.NORTH, pos);
-        IndividualPoint(EnumTileDirection.EAST,  pos);
-        IndividualPoint(EnumTileDirection.SOUTH, pos);
-        IndividualPoint(EnumTileDirection.WEST,  pos);
+        IndividualPoint(EnumDirection.NORTH, pos);
+        IndividualPoint(EnumDirection.EAST,  pos);
+        IndividualPoint(EnumDirection.SOUTH, pos);
+        IndividualPoint(EnumDirection.WEST,  pos);
         
         ChunkPos chunkPos = TilePos.GetParentChunk(pos);
         Chunk chunk = gridManager.GetChunk(chunkPos);
-        chunk.FillChunkCell(TileRegistry.CROSSROAD_CTRL_ROAD_1x1.GetId(), LocalPos.FromTilePos(pos), EnumTileDirection.NORTH, false);
+        chunk.FillChunkCell(TileRegistry.CROSSROAD_CTRL_ROAD_1x1.GetId(), LocalPos.FromTilePos(pos), EnumDirection.NORTH, false);
     }
 
-    private void IndividualPoint(EnumTileDirection dir, TilePos currentPos) {
+    private void IndividualPoint(EnumDirection dir, TilePos currentPos) {
         TilePos startPos = Direction.OffsetPos(dir, currentPos);
         GameObject genNorth = Instantiate(roadGenerator, TilePos.GetWorldPosFromTilePos(startPos), Quaternion.identity, transform);
         genNorth.name = dir + " InitGen";

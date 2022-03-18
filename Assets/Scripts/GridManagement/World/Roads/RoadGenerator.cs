@@ -19,7 +19,7 @@ public class RoadGenerator : MonoBehaviour {
     [SerializeField] private int cornerChance; //as percentage
     [SerializeField] private int minTilesBeforeCorner = 4;
 
-    [SerializeField] EnumTileDirection generatorDirection = EnumTileDirection.SOUTH;
+    [SerializeField] EnumDirection generatorDirection = EnumDirection.SOUTH;
     
     private TilePos lastPos;
     [ReadOnly, SerializeField] private int tilesSinceBranch = 0;
@@ -73,7 +73,7 @@ public class RoadGenerator : MonoBehaviour {
             if (gridManager.IsValidTile(placePos)) {
                 TileData tile = gridManager.GetTile(placePos);
                 Tile placeTile = road_straight;
-                EnumTileDirection placeRotation = generatorDirection;
+                EnumDirection placeRotation = generatorDirection;
                 if (tile != null) {
                     int existingId = tile.GetId();
                     if (tile is TileRoad) { //there's already a road here so we need to decide what to do.
@@ -142,7 +142,7 @@ public class RoadGenerator : MonoBehaviour {
         yield return null;
     }
 
-    private void GenerateBranch(TilePos currentPos, EnumTileDirection direction) {
+    private void GenerateBranch(TilePos currentPos, EnumDirection direction) {
         GameObject branch = Instantiate(gameObject, TilePos.GetWorldPosFromTilePos(currentPos), Quaternion.identity, transform);
         foreach (Transform child in branch.transform) {
             Destroy(child.gameObject);
@@ -153,7 +153,7 @@ public class RoadGenerator : MonoBehaviour {
     }
     
     //Generate a road tile ready for placement
-    private void GenerateRoad(Tile tile, TilePos pos, EnumTileDirection rot) {
+    private void GenerateRoad(Tile tile, TilePos pos, EnumDirection rot) {
         ChunkPos chunkPos = TilePos.GetParentChunk(pos);
         Chunk chunk = gridManager.GetChunk(chunkPos);
         if (!chunk.gameObject.activeSelf) {
@@ -209,7 +209,7 @@ public class RoadGenerator : MonoBehaviour {
         return roadGenStage == EnumGenerationStage.COMPLETE;
     }
 
-    public void SetDirection(EnumTileDirection dir) {
+    public void SetDirection(EnumDirection dir) {
         generatorDirection = dir;
     }
 

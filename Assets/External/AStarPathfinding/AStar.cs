@@ -5,37 +5,44 @@ using System.Diagnostics;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using Debug = UnityEngine.Debug;
 
-//A-star pathfinding code taken from IMAT2904 AI For Simulation provided code.
+//A-star pathfinding code taken from IMAT2904 AI For Simulation provided code. Modified for use case.
 //All credit Salim Hasshu
 
 public class AStar : MonoBehaviour
 {
 
-    Node[,] grid;
-    Vector2 gridSize;
-    LayerMask obstacleLayer;
-    float nodeSize = 3f;
-    Heap<Node> openSet;
-    HashSet<Node> closedSet;
-    Node currentNode;
-    Vector2 gridNodes;
-    List<Node> path;
-    bool pathFound;
-    bool searching = false;
-    Vector3 rootNodePos, goalNodePos;
+    [SerializeField, ReadOnly] private Node[,] grid;
+    [SerializeField, ReadOnly] private Vector2 gridSize;
+    [SerializeField, ReadOnly] private LayerMask roadLayer;
+    [SerializeField, ReadOnly] private float nodeSize = 50f;
+    [SerializeField, ReadOnly] private Heap<Node> openSet;
+    [SerializeField, ReadOnly] private HashSet<Node> closedSet;
+    [SerializeField, ReadOnly] private Node currentNode;
+    [SerializeField, ReadOnly] private Vector2 gridNodes;
+    [SerializeField, ReadOnly] private List<Node> path;
+    [SerializeField, ReadOnly] private bool pathFound;
+    [SerializeField, ReadOnly] private bool searching = false;
+    [SerializeField, ReadOnly] private Vector3 rootNodePos, goalNodePos;
 
-    private void Start()
-    {
+    private void Start() {
+        int worldSize = World.Instance.GetGridManager().GetSize();
+        nodeSize = World.Instance.GetGridManager().GetGridTileSize();
+        float size = worldSize * nodeSize * Chunk.size;
+        transform.localScale = new Vector3(5 * worldSize * Chunk.size, 1, 5 * worldSize * Chunk.size);
+        transform.position = new Vector3(size / 2, 0.5f, size / 2);
         //Set grid size based on Gameobject scale (plane)
-        gridSize = transform.localScale * 10f;
+        gridSize = new Vector2(size, size);
         //Set gridNodes, how many nodes along x, how many along y
         gridNodes = new Vector2(Mathf.RoundToInt(gridSize.x / nodeSize), Mathf.RoundToInt(gridSize.y / nodeSize));
         //layermark for obstacle search
-        obstacleLayer = LayerMask.GetMask("Obstacle");
+        roadLayer = LayerMask.GetMask("Road");
         //Create grid function
         CreateGrid();
+        Debug.Log("A Star created!");
     }
+
 
     //returns the path from objectA to objectB
     public List<Node> RequestPath(GameObject objectA, GameObject objectB)
@@ -75,7 +82,7 @@ public class AStar : MonoBehaviour
 
                 //cheack for obstacles, is it traverable?
                 //Adjacancy Matrix could also be used to add traversability
-                bool traversable = !(Physics.CheckSphere(nodePos, nodeSize / 2, obstacleLayer));
+                bool traversable = (Physics.CheckSphere(nodePos, nodeSize / 2, roadLayer));
 
                 //Add node to grid.
                 grid[i, j] = new Node(nodePos, traversable, i, j);
@@ -84,24 +91,18 @@ public class AStar : MonoBehaviour
     }
 
     //Function uses transform.position to return node in grid matrix.
-    public Node NodePositionInGrid(Vector3 gridPosition)
-    {
-        float pX = Mathf.Clamp01((gridPosition.x - ((gridSize.x / gridNodes.x) / 2) + (gridSize.x / 2)) / gridSize.x);
-        float pY = Mathf.Clamp01((gridPosition.z - ((gridSize.y / gridNodes.y) / 2) + (gridSize.y / 2)) / gridSize.y);
+    //Edited to use tile pos functionality instead, more accurate for tiles in a star grid.
+    public Node NodePositionInGrid(Vector3 gridPosition) {
+        TilePos pos = TilePos.GetGridPosFromLocation(gridPosition);
 
-        int nX = (int)Mathf.Clamp(Mathf.RoundToInt(gridNodes.x * pX), 0, gridNodes.x - 1);
-        int nY = (int)Mathf.Clamp(Mathf.RoundToInt(gridNodes.y * pY), 0, gridNodes.y - 1);
-
-        return grid[nX, nY];
+        return grid[pos.x, pos.z];
     }
 
 
 
     void AStarPathFind()
     {
-        //Get Root Node (ship)
         Node rootNode = NodePositionInGrid(rootNodePos);
-        //Get Target Node (Player)
         Node goalNode = NodePositionInGrid(goalNodePos);
         //Create set for open nodes
         openSet = new Heap<Node>(grid.Length);
@@ -191,30 +192,25 @@ public class AStar : MonoBehaviour
         }
     }
 
-    //searchs neighbours
-    public List<Node> GetNeighbours(Node node)
-    {
+    //searchs neighbours (Changed to only be cardinal directions, no diagonals)
+    public List<Node> GetNeighbours(Node node) {
         List<Node> neighbours = new List<Node>();
 
-        for (int i = -1; i <= 1; i++)
-        {
-            for (int j = -1; j <= 1; j++)
-            {
-                if (i == 0 && j == 0)
-                {
-                    continue;
-                }
-
-                int pX = node.x + i;
-                int pY = node.y + j;
-
-                if (pX >= 0 && pX < gridNodes.x && pY >= 0 && pY < gridNodes.y)
-                {
-                    neighbours.Add(grid[pX, pY]);
-                }
-            }
-        }
+        int left  = node.x-1;
+        int right = node.x+1;
+        int up    = node.y-1;
+        int down  = node.y+1;
+        
+        if (ValidNeighbour(left, node.y)) neighbours.Add(grid[left, node.y]);
+        if (ValidNeighbour(right, node.y)) neighbours.Add(grid[right, node.y]);
+        if (ValidNeighbour(node.x, up)) neighbours.Add(grid[node.x, up]);
+        if (ValidNeighbour(node.x, down)) neighbours.Add(grid[node.x, down]);
+        
         return neighbours;
+    }
+
+    private bool ValidNeighbour(int x, int y) {
+        return x >= 0 && x < gridNodes.x && y >= 0 && y < gridNodes.y;
     }
 
     //returns distance between nodeA and nodeB based on heuristic class
@@ -228,42 +224,39 @@ public class AStar : MonoBehaviour
 
 
 
-    //private void OnDrawGizmos()
-    //{
+    private void OnDrawGizmos()
+    {
 
-    //    if (grid != null)
-    //    {
-
-
-    //        foreach (Node node in grid)
-    //        {
-
-    //            if (node.traversable)
-    //            {
-    //            }
-    //            else
-    //            {
-    //                Gizmos.DrawCube(node.nodePos, new Vector3(nodeSize * 0.9f, 0.1f, nodeSize * 0.9f));
-
-    //                Gizmos.color = Color.red;
-    //            }
+        if (grid != null)
+        {
 
 
-    //            if (path != null && pathFound)
-    //            {
-    //                foreach (var item in path)
-    //                {
-    //                    if (item == node)
-    //                    {
-    //                        Gizmos.color = new Color(0, 0, 0.5f, 0.5f);
-    //                        Gizmos.DrawCube(node.nodePos, new Vector3(nodeSize * 0.9f, 0.1f, nodeSize * 0.9f));
-    //                    }
-    //                }
-    //            }
-    //        }
-    //    }
-    //}
+            foreach (Node node in grid)
+            {
+
+                if (node.traversable)
+                {
+                }
+                else
+                {
+                    Gizmos.DrawCube(node.nodePos, new Vector3(nodeSize * 0.9f, 0.1f, nodeSize * 0.9f));
+
+                    Gizmos.color = Color.red;
+                }
 
 
-
+                if (path != null && pathFound)
+                {
+                    foreach (var item in path)
+                    {
+                        if (item == node)
+                        {
+                            Gizmos.color = new Color(0, 0, 0.5f, 0.5f);
+                            Gizmos.DrawCube(node.nodePos, new Vector3(nodeSize * 0.9f, 0.1f, nodeSize * 0.9f));
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

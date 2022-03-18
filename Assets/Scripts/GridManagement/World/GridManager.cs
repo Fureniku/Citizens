@@ -12,7 +12,7 @@ public class GridManager : GenerationSystem {
 
     private GameObject[,] grid = null;
 
-    [SerializeField, Range(1, 200)] private float gridSlotSize = 50.0f;
+    private float gridSlotSize = 50.0f;
     [SerializeField, Range(1, 200)] private int randomSeed = 10;
 
     [SerializeField] GameObject defaultChunk = null;
@@ -39,6 +39,9 @@ public class GridManager : GenerationSystem {
         grid = new GameObject[size, size];
         stopWatch = Stopwatch.StartNew();
         maxChunks = size * size;
+        if (World.Instance.IsInternalGenWorld()) {
+            SetInternalWorldChunks();
+        }
     }
 
     void FixedUpdate() {
@@ -67,14 +70,23 @@ public class GridManager : GenerationSystem {
         GetGenerationString();
     }
 
+    public void SetInternalWorldChunks() {
+        Debug.Log("Building grid from internal world. World has " + transform.childCount + " children.");
+        for (int i = 0; i < transform.childCount; i++) {
+            Chunk child = transform.GetChild(i).GetComponent<Chunk>();
+            if (child != null) {
+                grid[child.GetPosition().x, child.GetPosition().z] = transform.GetChild(i).gameObject;
+            }
+        }
+    }
+
     IEnumerator BuildGrid() {
         for (int row = 0; row < size; row++) {
             for (int col = 0; col < size; col++) {
                 if (SaveLoadChunk.FileExists(new ChunkPos(row, col))) {
                     World.Instance.SetWorldExists();
                     FillChunkCell(emptyChunk, row, col);
-                }
-                else {
+                } else {
                     FillChunkCell(defaultChunk, row, col);
                 }
                 
@@ -186,7 +198,7 @@ public class GridManager : GenerationSystem {
         return chunk.GetGridTile(x, z);
     }
 
-    public void SetTile(TilePos pos, int id, EnumTileDirection rot) {
+    public void SetTile(TilePos pos, int id, EnumDirection rot) {
         Chunk chunk = GetChunk(ChunkPos.GetChunkPosFromLocation(pos.GetWorldPos()));
         LocalPos lp = LocalPos.FromTilePos(pos);
         chunk.FillChunkCell(id, lp, rot, false);

@@ -13,6 +13,9 @@ public class VehicleJunctionNode : MonoBehaviour {
         road = transform.parent.GetComponent<TileRoad>();
     }
     
+    public void SetGiveWay(bool b) => giveWay = b;
+    public void SetIsIn(bool b) => isIn = b;
+    
     public bool GiveWay() {
         return giveWay;
     }

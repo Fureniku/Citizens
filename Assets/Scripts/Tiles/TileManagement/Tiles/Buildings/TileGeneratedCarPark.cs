@@ -48,7 +48,7 @@ public class TileGeneratedCarPark : MonoBehaviour {
             for (int w = 0; w < width; w++) {
                 TilePos worldPos = TilePos.GetGridPosFromLocation(transform.position);
                 TilePos placePos = new TilePos(worldPos.x + l, worldPos.z + w);
-                EnumTileDirection rot = EnumTileDirection.NORTH;
+                EnumDirection rot = EnumDirection.NORTH;
                 int id = SelectGameObject(l, w, ref rot);
                 World.Instance.GetGridManager().SetTile(placePos, id, rot);
                 World.Instance.GetGridManager().GetTile(placePos).GetComponent<TileBuildingSegment>().MakeReady(height);
@@ -58,7 +58,7 @@ public class TileGeneratedCarPark : MonoBehaviour {
         generated = true;
     }
 
-    private int SelectGameObject(int l, int w, ref EnumTileDirection rot) {
+    private int SelectGameObject(int l, int w, ref EnumDirection rot) {
         //ok this is gonna be fun
         //Check for entrance, at the front of the building
         if (l == 0) {
@@ -90,27 +90,27 @@ public class TileGeneratedCarPark : MonoBehaviour {
 
         if (w == 0) {
             if (l == 0) {
-                rot = EnumTileDirection.WEST;
+                rot = EnumDirection.WEST;
                 return TileRegistry.GetTile(corner).GetId();
             }
             if (l == length-1) {
-                rot = EnumTileDirection.SOUTH;
+                rot = EnumDirection.SOUTH;
                 return TileRegistry.GetTile(corner).GetId();
             }
 
-            rot = EnumTileDirection.WEST;
+            rot = EnumDirection.WEST;
             return TileRegistry.GetTile(edge).GetId();
         }
         if (w == width-1) {
             if (l == 0) {
-                rot = EnumTileDirection.NORTH;
+                rot = EnumDirection.NORTH;
                 return TileRegistry.GetTile(corner).GetId();
             }
             if (l == length-1) {
-                rot = EnumTileDirection.EAST;
+                rot = EnumDirection.EAST;
                 return TileRegistry.GetTile(corner).GetId();
             }
-            rot = EnumTileDirection.EAST;
+            rot = EnumDirection.EAST;
             return TileRegistry.GetTile(edge).GetId();
         }
 
@@ -119,7 +119,7 @@ public class TileGeneratedCarPark : MonoBehaviour {
         }
 
         if (l == length - 1) {
-            rot = EnumTileDirection.SOUTH;
+            rot = EnumDirection.SOUTH;
             return TileRegistry.GetTile(edge).GetId();
         }
         
