@@ -43,7 +43,7 @@ public class AgentManager : GenerationSystem {
         for (int i = 0; i < initialVehicleCount; i++) {
             Vector3 spawnPos = DestinationRegistration.RoadSpawnerRegistry.GetAtRandom().GetWorldPos();
             agents.Add(Instantiate(testVehicle, new Vector3(spawnPos.x - 7, spawnPos.y, spawnPos.z - 12), Quaternion.identity));
-            agents[i].GetComponent<TestAgent>().MoveToLocation();
+            agents[i].GetComponent<TestAgent>().Init();
             agents[i].GetComponent<TestAgent>().SaveAcceleration(agents[i].GetComponent<NavMeshAgent>().acceleration);
             agents[i].transform.parent = vehicleParent.transform;
             agents[i].name = "Vehicle Agent " + (i+1);

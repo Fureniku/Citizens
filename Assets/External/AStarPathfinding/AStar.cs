@@ -10,8 +10,7 @@ using Debug = UnityEngine.Debug;
 //A-star pathfinding code taken from IMAT2904 AI For Simulation provided code. Modified for use case.
 //All credit Salim Hasshu
 
-public class AStar : MonoBehaviour
-{
+public class AStar : MonoBehaviour {
 
     [SerializeField, ReadOnly] private Node[,] grid;
     [SerializeField, ReadOnly] private Vector2 gridSize;

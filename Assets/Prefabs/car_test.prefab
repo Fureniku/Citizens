@@ -583,11 +583,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d55c55dc6b6db494dbef090c625f4bbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destination:
-    x: 55
-    z: 53
   camPos: {fileID: 6401645003767420602}
-  ready: 0
+  currentDest: 0
+  shouldStop: 0
+  stopTime: 0
+  aStar: {fileID: 8633899636366837553, guid: c24ff386abadcf54aac7a2d9d8a755d0, type: 3}
+  finalDest: {fileID: 0}
 --- !u!65 &3387516486235566404
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -21,6 +21,7 @@ public class World : MonoBehaviour {
     
     [SerializeField] private GameObject navMeshRoad = null; //Road navmesh
     [SerializeField] private GameObject navMeshSidewalk = null; //Sidewalk navmesh
+    [SerializeField] private GameObject AStarPlane = null; //Sidewalk navmesh
 
     private bool isDirty = false;
     [SerializeField] private bool internalGeneratedWorld = false; //If the world was made and is a prefab now, set this to true to stop any attempts at generation.
@@ -135,6 +136,10 @@ public class World : MonoBehaviour {
         } else {
             worldData.SetState(stateIn);
         }
+    }
+
+    public GameObject GetAStarPlane() {
+        return AStarPlane;
     }
 
     public bool PassedState(EnumWorldState stateIn) {

@@ -5,25 +5,81 @@ using UnityEngine;
 
 public class VehicleJunctionController : MonoBehaviour {
 
-    [SerializeField] private RoadConnectionType north = RoadConnectionType.NOTHING;
-    [SerializeField] private RoadConnectionType east  = RoadConnectionType.NOTHING;
-    [SerializeField] private RoadConnectionType south = RoadConnectionType.NOTHING;
-    [SerializeField] private RoadConnectionType west  = RoadConnectionType.NOTHING;
+    [SerializeField] private RoadConnectionType up = RoadConnectionType.NOTHING;
+    [SerializeField] private RoadConnectionType right  = RoadConnectionType.NOTHING;
+    [SerializeField] private RoadConnectionType down = RoadConnectionType.NOTHING;
+    [SerializeField] private RoadConnectionType left  = RoadConnectionType.NOTHING;
 
-    private GameObject northIn;
-    private GameObject northOut;
-    private GameObject eastIn;
-    private GameObject eastOut;
-    private GameObject southIn;
-    private GameObject southOut;
-    private GameObject westIn;
-    private GameObject westOut;
+    private GameObject upIn;
+    private GameObject upOut;
+    private GameObject rightIn;
+    private GameObject rightOut;
+    private GameObject downIn;
+    private GameObject downOut;
+    private GameObject leftIn;
+    private GameObject leftOut;
+
+    [SerializeField] private bool prefabNodes = false;
+    [SerializeField] private GameObject[] nodes;
+
+    private GameObject nodeParent;
 
     void Start() {
-        if (north != RoadConnectionType.NOTHING) { CreateNode(EnumDirection.NORTH, north); }
-        if (east  != RoadConnectionType.NOTHING) { CreateNode(EnumDirection.EAST,  east);  }
-        if (south != RoadConnectionType.NOTHING) { CreateNode(EnumDirection.SOUTH, south); }
-        if (west  != RoadConnectionType.NOTHING) { CreateNode(EnumDirection.WEST,  west);  }
+        nodeParent = new GameObject();
+        nodeParent.transform.position = transform.position;
+        nodeParent.transform.parent = transform;
+        
+        nodeParent.name = "Node Parent";
+        if (prefabNodes) {
+            for (int i = 0; i < nodes.Length; i++) {
+                switch (nodes[i].name) {
+                    case "UP In": 
+                        upIn = nodes[i];
+                        upIn.transform.parent = nodeParent.transform;
+                        break;
+                    case "UP Out":
+                        upOut = nodes[i];
+                        upOut.transform.parent = nodeParent.transform;
+                        break;
+                    case "RIGHT In":
+                        rightIn = nodes[i];
+                        rightIn.transform.parent = nodeParent.transform;
+                        break;
+                    case "RIGHT Out":
+                        rightOut = nodes[i];
+                        rightOut.transform.parent = nodeParent.transform;
+                        break;
+                    case "DOWN In":
+                        downIn = nodes[i];
+                        downIn.transform.parent = nodeParent.transform;
+                        break;
+                    case "DOWN Out":
+                        downOut = nodes[i];
+                        downOut.transform.parent = nodeParent.transform;
+                        break;
+                    case "LEFT In":
+                        leftIn = nodes[i];
+                        leftIn.transform.parent = nodeParent.transform;
+                        break;
+                    case "LEFT Out":
+                        leftOut = nodes[i];
+                        leftOut.transform.parent = nodeParent.transform;
+                        break;
+                    
+                    default:
+                        Debug.Log("Unknown node " + nodes[i].name);
+                        break;
+                }
+            }
+        }
+        else {
+            if (up    != RoadConnectionType.NOTHING) { CreateNode(EnumDirection.NORTH, up);    }
+            if (right != RoadConnectionType.NOTHING) { CreateNode(EnumDirection.EAST,  right); }
+            if (down  != RoadConnectionType.NOTHING) { CreateNode(EnumDirection.SOUTH, down);  }
+            if (left  != RoadConnectionType.NOTHING) { CreateNode(EnumDirection.WEST,  left);  }
+        }
+        
+        nodeParent.transform.localRotation = Quaternion.identity;
     }
 
     //Create in/out nodes on the given side for the given type
@@ -56,20 +112,20 @@ public class VehicleJunctionController : MonoBehaviour {
         
         switch (dir) {
             case EnumDirection.NORTH:
-                northIn = nodeIn;
-                northOut = nodeOut;
+                upIn = nodeIn;
+                upOut = nodeOut;
                 break;
             case EnumDirection.EAST:
-                eastIn = nodeIn;
-                eastOut = nodeOut;
+                rightIn = nodeIn;
+                rightOut = nodeOut;
                 break;
             case EnumDirection.SOUTH:
-                southIn = nodeIn;
-                southOut = nodeOut;
+                downIn = nodeIn;
+                downOut = nodeOut;
                 break;
             case EnumDirection.WEST:
-                westIn = nodeIn;
-                westOut = nodeOut;
+                leftIn = nodeIn;
+                leftOut = nodeOut;
                 break;
         }
     }
@@ -117,8 +173,8 @@ public class VehicleJunctionController : MonoBehaviour {
         
         GameObject node = new GameObject();
         node.transform.position = transform.position + (isIn ? new Vector3(xL, y, zL) : new Vector3(xR, y, zR));
-        node.transform.parent = transform;
-        node.name = dir + (isIn ? " In" : " Out");
+        node.transform.parent = nodeParent.transform;
+        node.name = dir.GetLocalFromGlobal() + (isIn ? " In" : " Out");
         node.AddComponent<VehicleJunctionNode>();
         VehicleJunctionNode vjNode = node.GetComponent<VehicleJunctionNode>();
         vjNode.SetIsIn(isIn);
@@ -127,37 +183,103 @@ public class VehicleJunctionController : MonoBehaviour {
     }
 
     public GameObject GetInNode(EnumDirection dir) {
-        switch (dir) {
-            case EnumDirection.NORTH:
-                return northIn;
-            case EnumDirection.EAST:
-                return eastIn;
-            case EnumDirection.SOUTH:
-                return southIn;
-            case EnumDirection.WEST:
-                return westIn;
+        EnumLocalDirection localDir = GetLocalFromEntryPoint(dir, GetComponent<TileData>().GetRotation());
+        Debug.Log("Getting inward node from standard dir " + dir + "/local dir " + localDir);
+        switch (localDir) {
+            case EnumLocalDirection.UP:
+                return upIn;
+            case EnumLocalDirection.RIGHT:
+                return rightIn;
+            case EnumLocalDirection.DOWN:
+                return downIn;
+            case EnumLocalDirection.LEFT:
+                return leftIn;
         }
 
-        return northIn;
+        return upIn;
     }
     
     public GameObject GetOutNode(EnumDirection dir) {
-        switch (dir) {
-            case EnumDirection.NORTH:
-                return northOut;
-            case EnumDirection.EAST:
-                return eastOut;
-            case EnumDirection.SOUTH:
-                return southOut;
-            case EnumDirection.WEST:
-                return westOut;
+        EnumLocalDirection localDir = GetLocalFromExitPoint(dir, GetComponent<TileData>().GetRotation());
+        Debug.Log("Getting outward node from standard dir " + dir + "/local dir " + localDir);
+        switch (localDir) {
+            case EnumLocalDirection.UP:
+                return upOut;
+            case EnumLocalDirection.RIGHT:
+                return rightOut;
+            case EnumLocalDirection.DOWN:
+                return downOut;
+            case EnumLocalDirection.LEFT:
+                return leftOut;
         }
 
-        return northOut;
+        return upOut;
     }
 
     private bool ShouldGiveWay(VehicleJunctionNode nodeIn, VehicleJunctionNode nodeOut) {
         return false;
+    }
+    
+    private EnumLocalDirection GetLocalFromEntryPoint(EnumDirection entryDirection, EnumDirection tileRotation) {
+        switch (entryDirection) {
+            case EnumDirection.NORTH:
+                if (tileRotation == EnumDirection.NORTH) { return EnumLocalDirection.UP; }
+                if (tileRotation == EnumDirection.EAST)  { return EnumLocalDirection.LEFT; }
+                if (tileRotation == EnumDirection.SOUTH) { return EnumLocalDirection.DOWN; }
+                if (tileRotation == EnumDirection.WEST)  { return EnumLocalDirection.RIGHT; }
+                break;
+            case EnumDirection.EAST:
+                if (tileRotation == EnumDirection.NORTH) { return EnumLocalDirection.LEFT; }
+                if (tileRotation == EnumDirection.EAST)  { return EnumLocalDirection.DOWN; }
+                if (tileRotation == EnumDirection.SOUTH) { return EnumLocalDirection.RIGHT; }
+                if (tileRotation == EnumDirection.WEST)  { return EnumLocalDirection.UP; }
+                break;
+            case EnumDirection.SOUTH:
+                if (tileRotation == EnumDirection.NORTH) { return EnumLocalDirection.DOWN; }
+                if (tileRotation == EnumDirection.EAST)  { return EnumLocalDirection.RIGHT; }
+                if (tileRotation == EnumDirection.SOUTH) { return EnumLocalDirection.UP; }
+                if (tileRotation == EnumDirection.WEST)  { return EnumLocalDirection.LEFT; }
+                break;
+            case EnumDirection.WEST:
+                if (tileRotation == EnumDirection.NORTH) { return EnumLocalDirection.RIGHT; }
+                if (tileRotation == EnumDirection.EAST)  { return EnumLocalDirection.UP; }
+                if (tileRotation == EnumDirection.SOUTH) { return EnumLocalDirection.LEFT; }
+                if (tileRotation == EnumDirection.WEST)  { return EnumLocalDirection.DOWN; }
+                break;
+        }
+
+        return EnumLocalDirection.UP;
+    }
+    
+    private EnumLocalDirection GetLocalFromExitPoint(EnumDirection exitDirection, EnumDirection tileRotation) {
+        switch (exitDirection) {
+            case EnumDirection.NORTH:
+                if (tileRotation == EnumDirection.NORTH) { return EnumLocalDirection.DOWN; }
+                if (tileRotation == EnumDirection.EAST)  { return EnumLocalDirection.RIGHT; }
+                if (tileRotation == EnumDirection.SOUTH) { return EnumLocalDirection.UP; }
+                if (tileRotation == EnumDirection.WEST)  { return EnumLocalDirection.LEFT; }
+                break;
+            case EnumDirection.EAST:
+                if (tileRotation == EnumDirection.NORTH) { return EnumLocalDirection.RIGHT; }
+                if (tileRotation == EnumDirection.EAST)  { return EnumLocalDirection.UP; }
+                if (tileRotation == EnumDirection.SOUTH) { return EnumLocalDirection.LEFT; }
+                if (tileRotation == EnumDirection.WEST)  { return EnumLocalDirection.DOWN; }
+                break;
+            case EnumDirection.SOUTH:
+                if (tileRotation == EnumDirection.NORTH) { return EnumLocalDirection.UP; }
+                if (tileRotation == EnumDirection.EAST)  { return EnumLocalDirection.LEFT; }
+                if (tileRotation == EnumDirection.SOUTH) { return EnumLocalDirection.DOWN; }
+                if (tileRotation == EnumDirection.WEST)  { return EnumLocalDirection.RIGHT; }
+                break;
+            case EnumDirection.WEST:
+                if (tileRotation == EnumDirection.NORTH) { return EnumLocalDirection.LEFT; }
+                if (tileRotation == EnumDirection.EAST)  { return EnumLocalDirection.DOWN; }
+                if (tileRotation == EnumDirection.SOUTH) { return EnumLocalDirection.RIGHT; }
+                if (tileRotation == EnumDirection.WEST)  { return EnumLocalDirection.UP; }
+                break;
+        }
+
+        return EnumLocalDirection.UP;
     }
 }
 

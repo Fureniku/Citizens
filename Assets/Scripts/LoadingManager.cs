@@ -10,6 +10,7 @@ public class LoadingManager : MonoBehaviour {
     [SerializeField] private GameObject agentManager = null;
     [SerializeField] private GameObject roadNavMesh = null;
     [SerializeField] private GameObject sidewalkNavMesh = null;
+    [SerializeField] private GameObject aStarGrid = null;
     
     [Space(20)]
     
@@ -188,6 +189,10 @@ public class LoadingManager : MonoBehaviour {
         
     private void OnGenNavmesh() {
         Debug.Log("###### Gen Navmesh Event called ######");
+        if (aStarGrid != null) {
+            aStarGrid.SetActive(true);
+        }
+        
         if (roadNavMesh != null) {
             roadNavMesh.SetActive(true);
         }
@@ -208,6 +213,7 @@ public class LoadingManager : MonoBehaviour {
         
     private void OnGenVehicles() {
         Debug.Log("###### Gen Vehicles Event called ######");
+        
         if (agentManager == null) {
             World.Instance.AdvanceWorldState();
         }

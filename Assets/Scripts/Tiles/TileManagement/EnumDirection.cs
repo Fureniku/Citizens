@@ -117,6 +117,14 @@ namespace Tiles.TileManagement {
                 default: return "Unknown";
             }
         }
+
+        public static EnumLocalDirection GetLocalFromGlobal(this EnumDirection dirIn) {
+            if (dirIn == EnumDirection.NORTH) { return EnumLocalDirection.UP; }
+            if (dirIn == EnumDirection.WEST)  { return EnumLocalDirection.LEFT; }
+            if (dirIn == EnumDirection.SOUTH) { return EnumLocalDirection.DOWN; }
+
+            return EnumLocalDirection.RIGHT;
+        }
     }
 
     public enum EnumDirection {
@@ -124,5 +132,12 @@ namespace Tiles.TileManagement {
         EAST,
         SOUTH,
         WEST
+    }
+
+    public enum EnumLocalDirection {
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT
     }
 }

@@ -603,10 +603,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f89c10ecc0dd52b46bcf7ae5698d1e79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  north: 3
-  east: 3
-  south: 3
-  west: 3
+  up: 3
+  right: 3
+  down: 3
+  left: 3
 --- !u!1 &7483014383035059543
 GameObject:
   m_ObjectHideFlags: 0

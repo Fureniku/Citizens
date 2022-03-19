@@ -3729,6 +3729,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1126807510}
   m_CullTransparentMesh: 1
+--- !u!1 &1136820589 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8633899636366837552, guid: c24ff386abadcf54aac7a2d9d8a755d0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1603819050}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1164084942
 GameObject:
   m_ObjectHideFlags: 0
@@ -5089,6 +5095,80 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1573709642}
   m_CullTransparentMesh: 1
+--- !u!1001 &1603819050
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8633899636366837552, guid: c24ff386abadcf54aac7a2d9d8a755d0,
+        type: 3}
+      propertyPath: m_Name
+      value: AStarPlane
+      objectReference: {fileID: 0}
+    - target: {fileID: 8633899636366837552, guid: c24ff386abadcf54aac7a2d9d8a755d0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8633899636366837557, guid: c24ff386abadcf54aac7a2d9d8a755d0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8633899636366837557, guid: c24ff386abadcf54aac7a2d9d8a755d0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8633899636366837557, guid: c24ff386abadcf54aac7a2d9d8a755d0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8633899636366837557, guid: c24ff386abadcf54aac7a2d9d8a755d0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8633899636366837557, guid: c24ff386abadcf54aac7a2d9d8a755d0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8633899636366837557, guid: c24ff386abadcf54aac7a2d9d8a755d0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8633899636366837557, guid: c24ff386abadcf54aac7a2d9d8a755d0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8633899636366837557, guid: c24ff386abadcf54aac7a2d9d8a755d0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8633899636366837557, guid: c24ff386abadcf54aac7a2d9d8a755d0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8633899636366837557, guid: c24ff386abadcf54aac7a2d9d8a755d0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8633899636366837557, guid: c24ff386abadcf54aac7a2d9d8a755d0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c24ff386abadcf54aac7a2d9d8a755d0, type: 3}
 --- !u!1 &1605651967
 GameObject:
   m_ObjectHideFlags: 0
@@ -5201,7 +5281,7 @@ MonoBehaviour:
   message: 
   vehicleParent: {fileID: 796400369}
   pedestrianParent: {fileID: 0}
-  initialVehicleCount: 0
+  initialVehicleCount: 2
   maxVehicleCount: 500
   testVehicle: {fileID: 8945190466146426157, guid: 472c2a24ef19ddf49ad4228b79c2bbf8,
     type: 3}
@@ -5221,7 +5301,7 @@ Transform:
   m_Children:
   - {fileID: 796400370}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1620019339
 GameObject:
@@ -7064,7 +7144,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   percentage: 0
   message: 
-  gridSlotSize: 50
   randomSeed: 17
   defaultChunk: {fileID: 451823858289824494, guid: 7d1db9eac591a5842a37a5213d84acdc,
     type: 3}
@@ -7083,7 +7162,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1907542592
 MonoBehaviour:
@@ -7103,6 +7182,8 @@ MonoBehaviour:
   vehicleAgentCount: 50
   navMeshRoad: {fileID: 1055781744}
   navMeshSidewalk: {fileID: 1938235342}
+  AStarPlane: {fileID: 1136820589}
+  internalGeneratedWorld: 0
 --- !u!114 &1907542593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7119,6 +7200,7 @@ MonoBehaviour:
   agentManager: {fileID: 1611462137}
   roadNavMesh: {fileID: 1055781744}
   sidewalkNavMesh: {fileID: 1938235342}
+  aStarGrid: {fileID: 1136820589}
   loadingCanvas: {fileID: 1791033748}
   stageMessageText: {fileID: 1653051649}
   stagePercentText: {fileID: 1326446603}
@@ -7361,7 +7443,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1938235342
 GameObject:
