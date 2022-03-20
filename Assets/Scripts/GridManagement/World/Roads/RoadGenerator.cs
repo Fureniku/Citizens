@@ -10,6 +10,7 @@ public class RoadGenerator : MonoBehaviour {
     private Tile road_t_junct = TileRegistry.T_JUNCT_ROAD_1x1;
     private Tile road_crossroad = TileRegistry.CROSSROAD_ROAD_1x1;
     private Tile road_crossroad_controlled = TileRegistry.CROSSROAD_CTRL_ROAD_1x1;
+    private Tile road_world_exit = TileRegistry.ROAD_WORLD_EXIT;
 
     [ReadOnly, SerializeField] private int nestLevel = 0;
     
@@ -129,11 +130,10 @@ public class RoadGenerator : MonoBehaviour {
                 }
                 
                 GenerateRoad(placeTile, placePos, placeRotation);
- 
                 lastPos = placePos;
                 yield return null;
             } else {
-                //TODO Turn road into despawner
+                GenerateRoad(road_world_exit, lastPos, generatorDirection.Opposite());
                 break;
             }
         }
@@ -154,6 +154,7 @@ public class RoadGenerator : MonoBehaviour {
     
     //Generate a road tile ready for placement
     private void GenerateRoad(Tile tile, TilePos pos, EnumDirection rot) {
+        pos = TilePos.Clamp(pos);
         ChunkPos chunkPos = TilePos.GetParentChunk(pos);
         Chunk chunk = gridManager.GetChunk(chunkPos);
         if (!chunk.gameObject.activeSelf) {

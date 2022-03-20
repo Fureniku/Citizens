@@ -40,4 +40,17 @@ public class TilePos : Position {
         
         return x+z;
     }
+
+    public static TilePos Clamp(TilePos tpIn) {
+        int x = tpIn.x;
+        int z = tpIn.z;
+        int size = World.Instance.GetGridManager().GetSize() * Chunk.size;
+
+        if (x < 0) x = 0;
+        if (z < 0) z = 0;
+        if (x > size) x = size;
+        if (z > size) z = size;
+
+        return new TilePos(x, z);
+    }
 }

@@ -42,11 +42,13 @@ public class AgentManager : GenerationSystem {
         Debug.Log("Starting vehicle generation");
         for (int i = 0; i < initialVehicleCount; i++) {
             Vector3 spawnPos = DestinationRegistration.RoadSpawnerRegistry.GetAtRandom().GetWorldPos();
-            agents.Add(Instantiate(testVehicle, new Vector3(spawnPos.x - 7, spawnPos.y, spawnPos.z - 12), Quaternion.identity));
-            agents[i].GetComponent<TestAgent>().Init();
-            agents[i].GetComponent<TestAgent>().SaveAcceleration(agents[i].GetComponent<NavMeshAgent>().acceleration);
+            float offset = World.Instance.GetGridManager().GetGridTileSize() / 2;
+            agents.Add(Instantiate(testVehicle, new Vector3(spawnPos.x + offset, spawnPos.y, spawnPos.z + offset), Quaternion.identity));
             agents[i].transform.parent = vehicleParent.transform;
             agents[i].name = "Vehicle Agent " + (i+1);
+            agents[i].GetComponent<TestAgent>().Init();
+            agents[i].GetComponent<TestAgent>().SaveAcceleration(agents[i].GetComponent<NavMeshAgent>().acceleration);
+            
             message = "Created vehicle " + i + " of " + initialVehicleCount;
         }
 

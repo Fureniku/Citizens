@@ -83,11 +83,11 @@ namespace Tiles.TileManagement {
         }
 
         //Get which direction tile B is from tile A
-        public static EnumDirection GetDirectionOffset(TilePos tileA, TilePos tileB) {
-            bool n = tileB.z < tileA.z;
-            bool e = tileB.x > tileA.x;
-            bool s = tileB.z > tileA.z;
-            bool w = tileB.x < tileA.x;
+        public static EnumDirection GetDirectionOffset(TilePos origin, TilePos destination) {
+            bool n = destination.z < origin.z;
+            bool e = destination.x > origin.x;
+            bool s = destination.z > origin.z;
+            bool w = destination.x < origin.x;
 
             if (n && !e && !s && !w) return EnumDirection.NORTH;
             if (!n && e && !s && !w) return EnumDirection.EAST;

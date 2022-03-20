@@ -31,7 +31,8 @@ public class TileRegistry : MonoBehaviour {
     public static readonly Tile CAR_PARK_CORNER_BASE = new Tile(13, "Car Park Corner", TileType.BUILDING_PART);
     public static readonly Tile CAR_PARK_INNER_BASE = new Tile(14, "Car Park Inner", TileType.BUILDING_PART);
     public static readonly Tile CAR_PARK_EXIT = new Tile(15, "Car Park Exit", TileType.BUILDING_PART);
-    public static readonly Tile SKYSCRAPER_GENERIC_1 = new Tile(15, "Generic Skyscraper 1", TileType.BUILDING);
+    public static readonly Tile ROAD_WORLD_EXIT = new Tile(16, "Road World Exit", TileType.ROAD);
+    public static readonly Tile SKYSCRAPER_GENERIC_1 = new Tile(17, "Generic Skyscraper 1", TileType.BUILDING);
 
     public static int maxId = 999;
 
@@ -78,6 +79,7 @@ public class TileRegistry : MonoBehaviour {
         tileRegistry.Add(CAR_PARK_INNER_BASE);
         tileRegistry.Add(CAR_PARK_EXIT);
         tileRegistry.Add(SKYSCRAPER_GENERIC_1);
+        tileRegistry.Add(ROAD_WORLD_EXIT);
     }
 
     public static int GetSize() {
@@ -158,6 +160,8 @@ public class TileRegistry : MonoBehaviour {
                 return CAR_PARK_INNER_BASE;
             case EnumTile.CAR_PARK_EXIT:
                 return CAR_PARK_EXIT;
+            case EnumTile.ROAD_WORLD_EXIT:
+                return ROAD_WORLD_EXIT;
             case EnumTile.SKYSCRAPER_GENERIC_1:
                 return SKYSCRAPER_GENERIC_1;
             default:
@@ -208,6 +212,7 @@ public enum EnumTile {
     CAR_PARK_CORNER_BASE,
     CAR_PARK_INNER_BASE,
     CAR_PARK_EXIT,
+    ROAD_WORLD_EXIT,
     SKYSCRAPER_GENERIC_1
 }
 

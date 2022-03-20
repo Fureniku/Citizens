@@ -184,7 +184,6 @@ public class VehicleJunctionController : MonoBehaviour {
 
     public GameObject GetInNode(EnumDirection dir) {
         EnumLocalDirection localDir = GetLocalFromEntryPoint(dir, GetComponent<TileData>().GetRotation());
-        Debug.Log("Getting inward node from standard dir " + dir + "/local dir " + localDir);
         switch (localDir) {
             case EnumLocalDirection.UP:
                 return upIn;
@@ -201,7 +200,6 @@ public class VehicleJunctionController : MonoBehaviour {
     
     public GameObject GetOutNode(EnumDirection dir) {
         EnumLocalDirection localDir = GetLocalFromExitPoint(dir, GetComponent<TileData>().GetRotation());
-        Debug.Log("Getting outward node from standard dir " + dir + "/local dir " + localDir);
         switch (localDir) {
             case EnumLocalDirection.UP:
                 return upOut;

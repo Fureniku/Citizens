@@ -25,6 +25,8 @@ public class AStar : MonoBehaviour {
     [SerializeField, ReadOnly] private bool searching = false;
     [SerializeField, ReadOnly] private Vector3 rootNodePos, goalNodePos;
 
+    [SerializeField] private bool showGizmo = false;
+
     private void Start() {
         int worldSize = World.Instance.GetGridManager().GetSize();
         nodeSize = World.Instance.GetGridManager().GetGridTileSize();
@@ -225,33 +227,30 @@ public class AStar : MonoBehaviour {
 
     private void OnDrawGizmos()
     {
-
-        if (grid != null)
-        {
-
-
-            foreach (Node node in grid)
+        if (showGizmo) {
+            if (grid != null)
             {
-
-                if (node.traversable)
+                foreach (Node node in grid)
                 {
-                }
-                else
-                {
-                    Gizmos.DrawCube(node.nodePos, new Vector3(nodeSize * 0.9f, 0.1f, nodeSize * 0.9f));
-
-                    Gizmos.color = Color.red;
-                }
-
-
-                if (path != null && pathFound)
-                {
-                    foreach (var item in path)
+                    if (node.traversable)
                     {
-                        if (item == node)
+                    }
+                    else
+                    {
+                        Gizmos.DrawCube(node.nodePos, new Vector3(nodeSize * 0.9f, 0.1f, nodeSize * 0.9f));
+
+                        Gizmos.color = Color.red;
+                    }
+                    
+                    if (path != null && pathFound)
+                    {
+                        foreach (var item in path)
                         {
-                            Gizmos.color = new Color(0, 0, 0.5f, 0.5f);
-                            Gizmos.DrawCube(node.nodePos, new Vector3(nodeSize * 0.9f, 0.1f, nodeSize * 0.9f));
+                            if (item == node)
+                            {
+                                Gizmos.color = new Color(0, 0, 0.5f, 0.5f);
+                                Gizmos.DrawCube(node.nodePos, new Vector3(nodeSize * 0.9f, 0.1f, nodeSize * 0.9f));
+                            }
                         }
                     }
                 }
