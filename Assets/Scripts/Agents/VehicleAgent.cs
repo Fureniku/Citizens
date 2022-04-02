@@ -1,100 +1,13 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Tiles.TileManagement;
 using UnityEngine;
-using UnityEngine.AI;
 
-public class TestAgent : MonoBehaviour {
+public class VehicleAgent : BaseAgent {
 
-    private NavMeshAgent agent;
-
-    [SerializeField] private GameObject camPos = null;
-
-    private float accelerationSave = 0; //Saved acceleration value used for delaying vehicle motion start.
-
-    [SerializeField] private int currentDest = 0;
-    [SerializeField] private GameObject currentDestGO;
-
-    [SerializeField] private bool destroyOnArrival = false;
-    [SerializeField] private bool shouldStop = false;
-    [SerializeField] private int stopTime = 0;
-
-    private AStar aStar;
-
-    private bool initialized = false;
-
-    private List<GameObject> dests;
-    [SerializeField, ReadOnly] private int totalDestinations;
-    
-    //[SerializeField] private GameObject finalDest;
-    
-    void Awake() {
-        agent = GetComponent<NavMeshAgent>();
-        dests = new List<GameObject>();
-        aStar = World.Instance.GetAStarPlane().GetComponent<AStar>();
-    }
-
-    void FixedUpdate() {
-        totalDestinations = dests.Count;
-        if (initialized) {
-            if (dests[currentDest] != null) {
-                currentDestGO = dests[currentDest];
-                float dist = Vector3.Distance(transform.position, dests[currentDest].transform.position);
-                if (dist < 5) {
-                    if (currentDest < dests.Count - 1) {
-                        if (shouldStop) {
-                            if (stopTime < 90) {
-                                stopTime++;
-                            }
-                            else {
-                                IncrementDestination();
-                            }
-                        }
-                        else {
-                            IncrementDestination();
-                        }
-                    }
-                    else {
-                        ReachedDestination();
-                    }
-                }
-            }
-            else {
-                Debug.Log("Destination " + currentDest + " is null for " + gameObject.name);
-            }
-        }
-    }
-
-    //Save the initiial acceleration value and temporarily set to zero to stop vehicle moving until we're ready.
-    public void SaveAcceleration(float acc) {
-        accelerationSave = acc;
-        GetComponent<NavMeshAgent>().acceleration = 0;
-    }
-
-    private void ReachedDestination() {
-        if (destroyOnArrival) {
-            Destroy(gameObject);
-        }
-    }
-    
-    public void RestoreAcceleration() => GetComponent<NavMeshAgent>().acceleration = accelerationSave;
-
-    public bool IsAgentReady() {
-        return initialized && GetComponent<NavMeshAgent>().hasPath;
-    }
-
-    public NavMeshAgent GetAgent() {
-        return GetComponent<NavMeshAgent>();
-    }
-
-    public GameObject GetCamPos() {
-        return camPos;
-    }
-
-    //Initialize vehicle, setting node paths.
-    public void Init() {
+    public override void Init() {
         GameObject finalDest = World.Instance.GetGridManager().GetTile(DestinationRegistration.RoadDestinationRegistry.GetAtRandom()).gameObject;
-        
         
         List<Node> path = aStar.RequestPath(gameObject, finalDest);
 
@@ -177,8 +90,6 @@ public class TestAgent : MonoBehaviour {
             dests.Add(finalDest);
         }
         
-        
-        
         Debug.Log("Generated final route with " + dests.Count + " nodes");
         
         agent.destination = dests[0].transform.position;
@@ -186,23 +97,83 @@ public class TestAgent : MonoBehaviour {
         VehicleJunctionNode node = dests[currentDest].GetComponent<VehicleJunctionNode>();
         if (node != null) {
             shouldStop = node.GiveWay();
-            stopTime = 0;
         }
         initialized = true;
     }
-    
-    private bool NodeInRange(int node, int range) {
-        return node > 0 && node < range;
+
+    protected override void InitStateMachine() {
+        stateMachine = GetComponent<StateMachine>();
+        Dictionary<Type, BaseState> states = new Dictionary<Type, BaseState>();
+        
+        states.Add(typeof(DriveState), new DriveState(this));
+        states.Add(typeof(ObstructionSpottedState), new ObstructionSpottedState(this));
+        states.Add(typeof(CrashedState), new CrashedState(this));
+        states.Add(typeof(JunctionExitWaitState), new JunctionExitWaitState(this));
+        
+        stateMachine.SetStates(states);
     }
-    
-    void IncrementDestination() {
+
+    protected override void AgentUpdate() {
+        
+    }
+
+    protected override void AgentNavigate() {
+        if (dests[currentDest] != null) {
+            currentDestGO = dests[currentDest];
+            float dist = Vector3.Distance(transform.position, dests[currentDest].transform.position);
+            if (dist < 5) {
+                if (currentDest < dests.Count - 1) {
+                    if (shouldStop) {
+                        stateMachine.SwitchToState(typeof(JunctionExitWaitState));
+                        IncrementDestination();
+                    }
+                    else {
+                        IncrementDestination();
+                    }
+                }
+                else {
+                    ReachedDestination();
+                }
+            }
+        }
+        else {
+            Debug.Log("Destination " + currentDest + " is null for " + gameObject.name);
+        }
+    }
+
+    protected override void IncrementDestination() {
         currentDest++;
         agent.destination = dests[currentDest].transform.position;
 
         VehicleJunctionNode node = dests[currentDest].GetComponent<VehicleJunctionNode>();
         if (node != null) {
             shouldStop = node.GiveWay();
-            stopTime = 0;
+        }
+    }
+
+    protected override void AgentCollideEnter(Collision collision) {
+        PrintText("Crashed into " + collision.collider.transform.gameObject.name);
+        stateMachine.SwitchToState(typeof(CrashedState));
+    }
+
+    protected override void AgentCollideExit(Collision collision) { }
+
+    protected override void AgentTriggerEnter(Collider other) {
+        PrintText("Trigger enter into " + other.transform.gameObject.name);
+        stateMachine.SwitchToState(typeof(CrashedState));
+    }
+    
+    protected override void AgentTriggerExit(Collider other) { }
+
+    private void OnDrawGizmos() {
+        if (drawGizmos) {
+            Gizmos.color = Color.red;
+            if (eyePos != null) {
+                Gizmos.DrawRay(eyePos.transform.position, lookDirection * objectDistance);
+            }
+            else {
+                Gizmos.DrawRay(transform.position, lookDirection * objectDistance);
+            }
         }
     }
 }

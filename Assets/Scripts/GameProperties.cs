@@ -46,7 +46,7 @@ public class GameProperties : MonoBehaviour {
                 
             } else if (inputHandler.SelectedObject().GetComponent<UnityEngine.AI.NavMeshAgent>() != null) {
                 SetPanelEnabled(SelectionType.VEHICLE);
-                selectionInfoVehicle.GetComponent<VehicleSelectionInfo>().SetSelectionInfo(inputHandler.SelectedObject().GetComponent<TestAgent>());
+                selectionInfoVehicle.GetComponent<VehicleSelectionInfo>().SetSelectionInfo(inputHandler.SelectedObject().GetComponent<VehicleAgent>());
                 if (Input.GetKeyDown(KeyCode.F) && !fDown) {
                     Debug.Log("Key down :)");
                     fDown = true;
@@ -75,7 +75,7 @@ public class GameProperties : MonoBehaviour {
     private void SetCamFollow(bool follow, GameObject obj = null) {
         camFollow = follow;
         if (follow && obj != null) {
-            GameObject camPos = obj.GetComponent<TestAgent>().GetCamPos();
+            GameObject camPos = obj.GetComponent<VehicleAgent>().GetCamPos();
             camera.transform.parent = camPos.transform;
             camera.transform.rotation = camPos.transform.rotation;
             camera.transform.position = camPos.transform.position;

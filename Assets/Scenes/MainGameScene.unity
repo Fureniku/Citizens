@@ -5281,7 +5281,7 @@ MonoBehaviour:
   message: 
   vehicleParent: {fileID: 796400369}
   pedestrianParent: {fileID: 0}
-  initialVehicleCount: 2
+  initialVehicleCount: 8
   maxVehicleCount: 500
   testVehicle: {fileID: 8945190466146426157, guid: 472c2a24ef19ddf49ad4228b79c2bbf8,
     type: 3}

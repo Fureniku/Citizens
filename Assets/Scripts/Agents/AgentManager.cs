@@ -46,8 +46,8 @@ public class AgentManager : GenerationSystem {
             agents.Add(Instantiate(testVehicle, new Vector3(spawnPos.x + offset, spawnPos.y, spawnPos.z + offset), Quaternion.identity));
             agents[i].transform.parent = vehicleParent.transform;
             agents[i].name = "Vehicle Agent " + (i+1);
-            agents[i].GetComponent<TestAgent>().Init();
-            agents[i].GetComponent<TestAgent>().SaveAcceleration(agents[i].GetComponent<NavMeshAgent>().acceleration);
+            agents[i].GetComponent<VehicleAgent>().Init();
+            agents[i].GetComponent<VehicleAgent>().SaveAcceleration(agents[i].GetComponent<NavMeshAgent>().acceleration);
             
             message = "Created vehicle " + i + " of " + initialVehicleCount;
         }
@@ -58,7 +58,7 @@ public class AgentManager : GenerationSystem {
     int AllVehiclesReady() {
         if (!spawningVehiclesValidated && spawnVehiclesCreated) {
             for (int i = 0; i < agents.Count; i++) {
-                if (!agents[i].GetComponent<TestAgent>().IsAgentReady()) {
+                if (!agents[i].GetComponent<VehicleAgent>().IsAgentReady()) {
                     return i;
                 }
             }
@@ -70,8 +70,8 @@ public class AgentManager : GenerationSystem {
 
     void EnableVehicles() {
         for (int i = 0; i < agents.Count; i++) {
-            if (agents[i].GetComponent<TestAgent>().IsAgentReady()) {
-                agents[i].GetComponent<TestAgent>().RestoreAcceleration();
+            if (agents[i].GetComponent<VehicleAgent>().IsAgentReady()) {
+                agents[i].GetComponent<VehicleAgent>().RestoreAcceleration();
             }
         }
     }

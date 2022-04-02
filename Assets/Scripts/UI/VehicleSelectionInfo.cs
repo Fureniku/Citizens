@@ -17,7 +17,7 @@ public class VehicleSelectionInfo : MonoBehaviour {
     [SerializeField] private GameObject distance;
 
 
-    public void SetSelectionInfo(TestAgent agent) {
+    public void SetSelectionInfo(VehicleAgent agent) {
         SetText(nameTag, agent.gameObject.name);
         SetText(vehicleType, "Car");
         TilePos destinationPos = TilePos.GetGridPosFromLocation(agent.GetAgent().destination);
