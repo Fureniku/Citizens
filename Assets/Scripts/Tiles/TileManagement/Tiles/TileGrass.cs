@@ -3,6 +3,7 @@ using Tiles.TileManagement;
 using UnityEngine;
 
 public class TileGrass : TileData {
+    private bool inSection = false;
     
     void Start() {
         Initialize();
@@ -35,4 +36,10 @@ public class TileGrass : TileData {
     public override void Create() {
         CreateBase();
     }
+
+    public bool IsInSection() {
+        return inSection;
+    }
+
+    public void AddToSection() => inSection = true;
 }

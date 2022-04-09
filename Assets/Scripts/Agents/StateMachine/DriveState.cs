@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class DriveState : BaseState {
+public class DriveState : AgentBaseState {
     
     private float lookOffset = 0f;
     private bool reverseDir = false;

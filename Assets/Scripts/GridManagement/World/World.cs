@@ -129,13 +129,7 @@ public class World : MonoBehaviour {
     }
     
     public void SetWorldState(EnumWorldState stateIn) {
-        Debug.Log("Setting state to " + stateIn);
-        if (stateIn == EnumWorldState.GEN_BUILDING) {
-            Debug.Log("Building not implemented; skipping to navmesh");
-            worldData.SetState(EnumWorldState.GEN_NAVMESH);
-        } else {
-            worldData.SetState(stateIn);
-        }
+        worldData.SetState(stateIn);
     }
 
     public GameObject GetAStarPlane() {

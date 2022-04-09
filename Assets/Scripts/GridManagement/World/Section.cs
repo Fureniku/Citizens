@@ -1,6 +1,7 @@
 ﻿//A class which holds info on a detected section of grass
 
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Section {
@@ -22,7 +23,7 @@ public class Section {
         return false;
     }
 
-    public void Rescan(ref ArrayList sections) {
+    public void Rescan(ref List<Section> sections) {
         int minX = sizeX;
         int minZ = sizeZ;
         for (int row = 0; row < sizeX; row++) {

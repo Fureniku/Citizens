@@ -25,7 +25,7 @@ public abstract class BaseAgent : MonoBehaviour {
 
     [SerializeField] private string currentState;
 
-    protected StateMachine stateMachine;
+    protected AgentStateMachine stateMachine;
     
     protected Vector3 lookDirection;
 

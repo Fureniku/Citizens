@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class CrashedState : BaseState {
+public class CrashedState : AgentBaseState {
 
     public CrashedState(BaseAgent agent) {
         this.stateName = "Crashed State";

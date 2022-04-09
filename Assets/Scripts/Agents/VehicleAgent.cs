@@ -18,8 +18,6 @@ public class VehicleAgent : BaseAgent {
             EnumDirection startingDirection = Direction.GetDirectionOffset(tdStart.GetGridPos(), tdNext.GetGridPos());
 
             if (tdStart.GetTile() == TileRegistry.STRAIGHT_ROAD_1x1) {
-                Debug.Log("Offsetting " + gameObject.name + " for direction " + startingDirection);
-                Debug.Log("Startingt at " + transform.position);
                 switch (startingDirection) {
                     case EnumDirection.NORTH:
                         transform.position += new Vector3(-10f, 0, 0);
@@ -36,7 +34,6 @@ public class VehicleAgent : BaseAgent {
                 }
 
                 agent.Warp(transform.position);
-                Debug.Log("Now at " + transform.position);
             }
         }
 
@@ -102,8 +99,8 @@ public class VehicleAgent : BaseAgent {
     }
 
     protected override void InitStateMachine() {
-        stateMachine = GetComponent<StateMachine>();
-        Dictionary<Type, BaseState> states = new Dictionary<Type, BaseState>();
+        stateMachine = GetComponent<AgentStateMachine>();
+        Dictionary<Type, AgentBaseState> states = new Dictionary<Type, AgentBaseState>();
         
         states.Add(typeof(DriveState), new DriveState(this));
         states.Add(typeof(ObstructionSpottedState), new ObstructionSpottedState(this));

@@ -1,8 +1,9 @@
 ﻿using System;
 
-public abstract class BaseState {
+public abstract class LoadBaseState : BaseState {
     
     protected BaseAgent agent;
+    protected Type nextState;
     protected string stateName;
 
     public string GetName() {
@@ -13,7 +14,9 @@ public abstract class BaseState {
         return agent;
     }
 
-    public abstract Type StateUpdate();
-    public abstract Type StateEnter();
-    public abstract Type StateExit();
+    public Type GetNextState() {
+        return nextState;
+    }
+
+    public abstract bool StateProgress();
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class JunctionExitWaitState : BaseState {
+public class JunctionExitWaitState : AgentBaseState {
     
     private float lookOffset = 0f;
     private bool reverseDir = false;

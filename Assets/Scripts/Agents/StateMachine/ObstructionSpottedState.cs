@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class ObstructionSpottedState : BaseState {
+public class ObstructionSpottedState : AgentBaseState {
     
     private int waitTime = 10;
     

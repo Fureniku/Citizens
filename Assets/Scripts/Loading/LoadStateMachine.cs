@@ -3,23 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class StateMachine : MonoBehaviour {
+public class LoadStateMachine : MonoBehaviour {
     
-    private Dictionary<Type, BaseState> states;
-    private BaseState currentState;
-    private BaseState lastState;
+    private Dictionary<Type, LoadBaseState> states;
+    private LoadBaseState currentState;
     private bool debug = false; //State switch voicelines can be a bit spammy
 
-    public BaseState CurrentState {
+    public LoadBaseState CurrentState {
         get { return currentState; }
         set { currentState = value; }
     }
 
-    public void SetStates(Dictionary<Type, BaseState> states) {
+    public void SetStates(Dictionary<Type, LoadBaseState> states) {
         this.states = states;
     }
 
-    public Dictionary<Type, BaseState> GetStates() {
+    public Dictionary<Type, LoadBaseState> GetStates() {
         return states;
     }
 
@@ -30,10 +29,8 @@ public class StateMachine : MonoBehaviour {
             CurrentState.StateEnter();
         }
         else {
-            Type nextState = CurrentState.StateUpdate();
-            
-            if (nextState != null && nextState != CurrentState.GetType()) {
-                SwitchToState(nextState);
+            if (CurrentState.StateProgress()) {
+                SwitchToState(CurrentState.GetNextState());
             }
         }
     }
@@ -41,12 +38,7 @@ public class StateMachine : MonoBehaviour {
     //Switch states, and update rule based system
     public void SwitchToState(Type nextState) {
         CurrentState.StateExit();
-        lastState = CurrentState;
         CurrentState = states[nextState];
         CurrentState.StateEnter();
-    }
-
-    public BaseState LastState() {
-        return lastState;
     }
 }

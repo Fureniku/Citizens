@@ -1,10 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Loading.States;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class LoadingManager : MonoBehaviour {
+    
+    private SectionManager sectionManager = null;
+
+    protected LoadStateMachine stateMachine;
     
     [SerializeField] private GameObject roadSeed = null;
     [SerializeField] private GameObject agentManager = null;
@@ -52,6 +58,31 @@ public class LoadingManager : MonoBehaviour {
         completedLoadEvent.AddListener(OnComplete);
     }
 
+    void Awake() {
+        sectionManager = GetComponent<SectionManager>();
+        //InitStateMachine();
+    }
+
+    protected void InitStateMachine() {
+        stateMachine = GetComponent<LoadStateMachine>();
+        Dictionary<Type, LoadBaseState> states = new Dictionary<Type, LoadBaseState>();
+
+        int id = 0;
+        
+        states.Add(typeof(InitializeLoadState), new InitializeLoadState(typeof(GenChunksLoadState)));
+        states.Add(typeof(GenChunksLoadState), new GenChunksLoadState(typeof(GenRoadsLoadState)));
+        states.Add(typeof(GenRoadsLoadState), new GenRoadsLoadState(typeof(GenBuildingsLoadState)));
+        states.Add(typeof(GenBuildingsLoadState), new GenBuildingsLoadState(typeof(ComebineMeshLoadState)));
+        states.Add(typeof(ComebineMeshLoadState), new ComebineMeshLoadState(typeof(GenNavMeshLoadState)));
+        states.Add(typeof(GenNavMeshLoadState), new GenNavMeshLoadState(typeof(PopulateRegistryLoadState)));
+        states.Add(typeof(PopulateRegistryLoadState), new PopulateRegistryLoadState(typeof(GenVehicleLoadState)));
+        states.Add(typeof(GenVehicleLoadState), new GenVehicleLoadState(typeof(GenCiviliansLoadState)));
+        states.Add(typeof(GenCiviliansLoadState), new GenCiviliansLoadState(typeof(CompletedLoadState)));
+        states.Add(typeof(CompletedLoadState), new CompletedLoadState(typeof(CompletedLoadState)));
+        
+        stateMachine.SetStates(states);
+    }
+    
     void Update() {
         SetOverallProgress();
         SetStageProgress();
@@ -174,7 +205,9 @@ public class LoadingManager : MonoBehaviour {
     }
         
     private void OnGenBuildings() {
-        Debug.Log("###### Gen Buildings Event called ###### (SKIPPING!)");
+        Debug.Log("###### Gen Buildings Event called ######");
+        Debug.Log("###### Starting world scan for sections ######");
+        sectionManager.Scan();
         World.Instance.AdvanceWorldState();//TODO temporary
     }
         
