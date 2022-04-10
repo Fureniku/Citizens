@@ -54,7 +54,7 @@ public class LoadingManager : MonoBehaviour {
         states.Add(typeof(ComebineMeshLoadState), new ComebineMeshLoadState(4, "Combine Meshes", typeof(GenNavMeshLoadState))); //Unimplemented
         states.Add(typeof(GenNavMeshLoadState), new GenNavMeshLoadState(5, "NavMesh Generation", typeof(PopulateRegistryLoadState), aStar, roadMesh, sidewalkMesh)); //Part implemented
         states.Add(typeof(PopulateRegistryLoadState), new PopulateRegistryLoadState(6, "Populate Registries", typeof(GenVehicleLoadState)));
-        states.Add(typeof(GenVehicleLoadState), new GenVehicleLoadState(7, "Generate Vehicles", typeof(GenCiviliansLoadState), agentManager.GetComponent<AgentManager>()));
+        states.Add(typeof(GenVehicleLoadState), new GenVehicleLoadState(7, "Generate Vehicles", typeof(GenCiviliansLoadState), agentManager.GetComponent<VehicleAgentManager>()));
         states.Add(typeof(GenCiviliansLoadState), new GenCiviliansLoadState(8, "Generate Civilians", typeof(CompletedLoadState)));
         states.Add(typeof(CompletedLoadState), new CompletedLoadState(9, "Completed", typeof(CompletedLoadState), loadingCanvas));
         
