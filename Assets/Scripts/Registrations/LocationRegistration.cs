@@ -9,11 +9,11 @@ public static class DestinationRegistration {
 
     public static void BuildLists() {
         Debug.Log("Building list...");
-        int size = World.Instance.GetGridManager().GetSize() * Chunk.size;
+        int size = World.Instance.GetChunkManager().GetSize() * Chunk.size;
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 TilePos tilePos = new TilePos(i, j);
-                TileData tileData = World.Instance.GetGridManager().GetTile(tilePos);
+                TileData tileData = World.Instance.GetChunkManager().GetTile(tilePos);
                 if (tileData is TileRoad) {
                     if (i == 0 || j == 0 || i == size || j == size) {
                         RoadDestinationRegistry.AddToList(tilePos);

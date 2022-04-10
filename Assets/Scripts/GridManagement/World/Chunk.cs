@@ -73,7 +73,7 @@ public class Chunk : MonoBehaviour {
             }
         }
 
-        World.Instance.GetGridManager().SetChunkCell(gameObject, pos.x, pos.z);
+        World.Instance.GetChunkManager().SetChunkCell(gameObject, pos.x, pos.z);
         
         stopWatch.Stop();
         state = EnumChunkState.READY;
@@ -120,7 +120,7 @@ public class Chunk : MonoBehaviour {
         cell.GetComponent<TileData>().SetRotation(rotation);
         cell.transform.parent = transform;
         cell.name = $"tile_{pos.x}_{pos.z}";
-        cell.transform.position = new Vector3(World.Instance.GetGridManager().GetGridTileSize() * pos.x, 0, World.Instance.GetGridManager().GetGridTileSize() * pos.z) + transform.position;
+        cell.transform.position = new Vector3(World.Instance.GetChunkManager().GetGridTileSize() * pos.x, 0, World.Instance.GetChunkManager().GetGridTileSize() * pos.z) + transform.position;
         cell.transform.rotation = Quaternion.Euler(0,rotation.GetRotation(),0);
         
         if (GetChunkCellContents(pos.x, pos.z) != null) { 

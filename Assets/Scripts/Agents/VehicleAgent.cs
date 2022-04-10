@@ -7,13 +7,13 @@ using UnityEngine;
 public class VehicleAgent : BaseAgent {
 
     public override void Init() {
-        GameObject finalDest = World.Instance.GetGridManager().GetTile(DestinationRegistration.RoadDestinationRegistry.GetAtRandom()).gameObject;
+        GameObject finalDest = World.Instance.GetChunkManager().GetTile(DestinationRegistration.RoadDestinationRegistry.GetAtRandom()).gameObject;
         
         List<Node> path = aStar.RequestPath(gameObject, finalDest);
 
         if (path.Count > 2) {
-            TileData tdStart = World.Instance.GetGridManager().GetTile(new TilePos(path[0].x, path[0].y));
-            TileData tdNext = World.Instance.GetGridManager().GetTile(new TilePos(path[1].x, path[1].y));
+            TileData tdStart = World.Instance.GetChunkManager().GetTile(new TilePos(path[0].x, path[0].y));
+            TileData tdNext = World.Instance.GetChunkManager().GetTile(new TilePos(path[1].x, path[1].y));
 
             EnumDirection startingDirection = Direction.GetDirectionOffset(tdStart.GetGridPos(), tdNext.GetGridPos());
 
@@ -38,13 +38,13 @@ public class VehicleAgent : BaseAgent {
         }
 
         for (int i = 0; i < path.Count; i++) {
-            TileData td = World.Instance.GetGridManager().GetTile(new TilePos(path[i].x, path[i].y));
+            TileData td = World.Instance.GetChunkManager().GetTile(new TilePos(path[i].x, path[i].y));
             if (td.gameObject.GetComponent<VehicleJunctionController>() != null) {
                 VehicleJunctionController vjController = td.gameObject.GetComponent<VehicleJunctionController>();
                 TileData entryTd = null;
                 TileData exitTd = null;
-                if (NodeInRange(i - 1, path.Count)) entryTd = World.Instance.GetGridManager().GetTile(new TilePos(path[i-1].x, path[i-1].y));
-                if (NodeInRange(i + 1, path.Count)) exitTd = World.Instance.GetGridManager().GetTile(new TilePos(path[i+1].x, path[i+1].y));
+                if (NodeInRange(i - 1, path.Count)) entryTd = World.Instance.GetChunkManager().GetTile(new TilePos(path[i-1].x, path[i-1].y));
+                if (NodeInRange(i + 1, path.Count)) exitTd = World.Instance.GetChunkManager().GetTile(new TilePos(path[i+1].x, path[i+1].y));
 
                 if (entryTd != null && exitTd != null) {
                     EnumDirection entry = Direction.GetDirectionOffset(entryTd.GetGridPos(), td.GetGridPos()); //Entry to current

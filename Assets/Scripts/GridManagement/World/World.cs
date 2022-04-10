@@ -13,7 +13,7 @@ public class World : MonoBehaviour {
         get { return _instance; }
     }
     
-    [SerializeField] private GridManager gridManager = null;
+    [SerializeField] private ChunkManager chunkManager = null;
     private WorldData worldData = null;
 
     [SerializeField] private GameObject testAgent = null;
@@ -39,7 +39,7 @@ public class World : MonoBehaviour {
         }
         
         if (!internalGeneratedWorld) {
-            gridManager.Initialize();
+            chunkManager.Initialize();
             worldData = WorldData.Instance;
             if (worldData == null) {
                 CreateWorldData();
@@ -81,7 +81,7 @@ public class World : MonoBehaviour {
 
 #if UNITY_EDITOR
 
-        worldData.SetChunkGenPercent(gridManager.GetGenerationPercentage());
+        worldData.SetChunkGenPercent(chunkManager.GetGenerationPercentage());
 #endif
     }
 
@@ -89,8 +89,8 @@ public class World : MonoBehaviour {
         return worldData;
     }
     
-    public GridManager GetGridManager() {
-        return gridManager;
+    public ChunkManager GetChunkManager() {
+        return chunkManager;
     }
 
     public string GetWorldName() {
@@ -105,9 +105,9 @@ public class World : MonoBehaviour {
         if (SavingEnabled()) {
             Stopwatch stopWatch = Stopwatch.StartNew();
             Debug.Log("Starting world save...");
-            for (int row = 0; row < gridManager.GetSize(); row++) {
-                for (int col = 0; col < gridManager.GetSize(); col++) {
-                    SaveLoadChunk.SerializeChunk(gridManager.GetChunk(row, col));
+            for (int row = 0; row < chunkManager.GetSize(); row++) {
+                for (int col = 0; col < chunkManager.GetSize(); col++) {
+                    SaveLoadChunk.SerializeChunk(chunkManager.GetChunk(row, col));
                 }
             }
 

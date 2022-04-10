@@ -6,7 +6,7 @@ using UnityEngine;
 using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
 
-public class GridManager : GenerationSystem {
+public class ChunkManager : GenerationSystem {
     
     private int size = 25;
 

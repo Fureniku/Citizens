@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class RoadSeed : GenerationSystem {
     
-    private GridManager gridManager;
+    private ChunkManager chunkManager;
     
     private EnumGenerationStage roadGenStage = EnumGenerationStage.INITIALIZED;
 
@@ -12,13 +12,13 @@ public class RoadSeed : GenerationSystem {
     [ReadOnly, SerializeField] private int roadGeneratorsComplete = 0;
 
     public override void Initialize() {
-        gridManager = World.Instance.GetGridManager();
-        float halfPos = (gridManager.GetGridTileSize() * World.Instance.GetGridManager().GetSize() * Chunk.size) / 2;
-        transform.position = World.Instance.GetGridManager().transform.position + new Vector3(halfPos, 0, halfPos);
+        chunkManager = World.Instance.GetChunkManager();
+        float halfPos = (chunkManager.GetGridTileSize() * chunkManager.GetSize() * Chunk.size) / 2;
+        transform.position = chunkManager.transform.position + new Vector3(halfPos, 0, halfPos);
     }
     
     public override void Process() {
-        if (gridManager.IsComplete()) {
+        if (chunkManager.IsComplete()) {
             if (roadGenStage == EnumGenerationStage.STARTED && roadGeneratorInstances > 0) {
                 if (roadGeneratorInstances == roadGeneratorsComplete) {
                     SetComplete();
@@ -41,7 +41,7 @@ public class RoadSeed : GenerationSystem {
         IndividualPoint(EnumDirection.WEST,  pos);
         
         ChunkPos chunkPos = TilePos.GetParentChunk(pos);
-        Chunk chunk = gridManager.GetChunk(chunkPos);
+        Chunk chunk = chunkManager.GetChunk(chunkPos);
         chunk.FillChunkCell(TileRegistry.CROSSROAD_CTRL_ROAD_1x1.GetId(), LocalPos.FromTilePos(pos), EnumDirection.NORTH, false);
     }
 

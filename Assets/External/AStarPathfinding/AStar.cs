@@ -28,8 +28,8 @@ public class AStar : MonoBehaviour {
     [SerializeField] private bool showGizmo = false;
 
     public void Initialize() {
-        int worldSize = World.Instance.GetGridManager().GetSize();
-        nodeSize = World.Instance.GetGridManager().GetGridTileSize();
+        int worldSize = World.Instance.GetChunkManager().GetSize();
+        nodeSize = World.Instance.GetChunkManager().GetGridTileSize();
         float size = worldSize * nodeSize * Chunk.size;
         transform.localScale = new Vector3(5 * worldSize * Chunk.size, 1, 5 * worldSize * Chunk.size);
         transform.position = new Vector3(size / 2, 0.5f, size / 2);

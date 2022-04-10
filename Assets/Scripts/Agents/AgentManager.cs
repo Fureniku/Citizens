@@ -45,7 +45,7 @@ public class AgentManager : GenerationSystem {
         Debug.Log("Starting vehicle generation");
         for (int i = 0; i < initialVehicleCount; i++) {
             Vector3 spawnPos = DestinationRegistration.RoadSpawnerRegistry.GetAtRandom().GetWorldPos();
-            float offset = World.Instance.GetGridManager().GetGridTileSize() / 2;
+            float offset = World.Instance.GetChunkManager().GetGridTileSize() / 2;
             agents.Add(Instantiate(testVehicle, new Vector3(spawnPos.x + offset, spawnPos.y, spawnPos.z + offset), Quaternion.identity));
             agents[i].transform.parent = vehicleParent.transform;
             agents[i].name = "Vehicle Agent " + (i+1);

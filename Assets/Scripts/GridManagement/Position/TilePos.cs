@@ -10,8 +10,8 @@ public class TilePos : Position {
 
     //Convert a Unity coordinate location into a tilepos location
     public static TilePos GetGridPosFromLocation(Vector3 worldPos) {
-        Vector3 gridStartPos = World.Instance.GetGridManager().transform.position;
-        float tileSize = World.Instance.GetGridManager().GetGridTileSize();
+        Vector3 gridStartPos = World.Instance.GetChunkManager().transform.position;
+        float tileSize = World.Instance.GetChunkManager().GetGridTileSize();
 
         float xFinal = (worldPos.x - gridStartPos.x) / tileSize;
         float zFinal = (worldPos.z - gridStartPos.z) / tileSize;
@@ -20,7 +20,7 @@ public class TilePos : Position {
     }
 
     public static Vector3 GetWorldPosFromTilePos(TilePos pos) {
-        return new Vector3(pos.x * World.Instance.GetGridManager().GetGridTileSize(), 0, pos.z * World.Instance.GetGridManager().GetGridTileSize());
+        return new Vector3(pos.x * World.Instance.GetChunkManager().GetGridTileSize(), 0, pos.z * World.Instance.GetChunkManager().GetGridTileSize());
     }
 
     public Vector3 GetWorldPos() {
@@ -44,7 +44,7 @@ public class TilePos : Position {
     public static TilePos Clamp(TilePos tpIn) {
         int x = tpIn.x;
         int z = tpIn.z;
-        int size = World.Instance.GetGridManager().GetSize() * Chunk.size;
+        int size = World.Instance.GetChunkManager().GetSize() * Chunk.size;
 
         if (x < 0) x = 0;
         if (z < 0) z = 0;

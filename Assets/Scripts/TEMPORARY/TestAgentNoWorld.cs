@@ -37,13 +37,13 @@ public class TestAgentNoWorld : MonoBehaviour {
         initialized = true;
 
         for (int i = 0; i < path.Count; i++) {
-            TileData td = World.Instance.GetGridManager().GetTile(new TilePos(path[i].x, path[i].y));
+            TileData td = World.Instance.GetChunkManager().GetTile(new TilePos(path[i].x, path[i].y));
             if (td.gameObject.GetComponent<VehicleJunctionController>() != null) {
                 VehicleJunctionController vjController = td.gameObject.GetComponent<VehicleJunctionController>();
                 TileData entryTd = null;
                 TileData exitTd = null;
-                if (NodeInRange(i - 1, path.Count)) entryTd = World.Instance.GetGridManager().GetTile(new TilePos(path[i-1].x, path[i-1].y));
-                if (NodeInRange(i + 1, path.Count)) exitTd = World.Instance.GetGridManager().GetTile(new TilePos(path[i+1].x, path[i+1].y));
+                if (NodeInRange(i - 1, path.Count)) entryTd = World.Instance.GetChunkManager().GetTile(new TilePos(path[i-1].x, path[i-1].y));
+                if (NodeInRange(i + 1, path.Count)) exitTd = World.Instance.GetChunkManager().GetTile(new TilePos(path[i+1].x, path[i+1].y));
 
                 if (entryTd != null && exitTd != null) {
                     EnumDirection entry = Direction.GetDirectionOffset(entryTd.GetGridPos(), td.GetGridPos()); //Entry to current

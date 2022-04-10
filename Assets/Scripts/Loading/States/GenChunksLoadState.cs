@@ -7,7 +7,7 @@ namespace Loading.States {
             this.progressId = progressId;
             this.stateName = name;
             this.nextState = nextState;
-            this.system = World.Instance.GetGridManager();
+            this.system = World.Instance.GetChunkManager();
         }
 
         public override bool StateProgress() {

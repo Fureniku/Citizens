@@ -28,13 +28,13 @@ public class RoadGenerator : MonoBehaviour {
     [ReadOnly, SerializeField] private int maxBranches = 5;
     [ReadOnly, SerializeField] private int branchesMade = 0;
 
-    private GridManager gridManager;
+    private ChunkManager chunkManager;
     private RoadSeed roadSeed = null;
 
     private EnumGenerationStage roadGenStage = EnumGenerationStage.INITIALIZED;
     
     void Start() {
-        gridManager = World.Instance.GetGridManager();
+        chunkManager = World.Instance.GetChunkManager();
         lastPos = TilePos.GetGridPosFromLocation(transform.position);
         tilesSinceBranch = 0;
         nestLevel++;
@@ -49,7 +49,7 @@ public class RoadGenerator : MonoBehaviour {
     }
 
     void Update() {
-        if (gridManager.IsComplete()) {
+        if (chunkManager.IsComplete()) {
             if (roadGenStage == EnumGenerationStage.INITIALIZED) {
                 roadSeed.AddRoadGen();
                 BeginRoadGeneration();
@@ -71,8 +71,8 @@ public class RoadGenerator : MonoBehaviour {
         //Loop for maximum road size
         for (int i = 0; i < numberGenerate; i++) {
             TilePos placePos = generatorDirection.OffsetPos(lastPos);
-            if (gridManager.IsValidTile(placePos)) {
-                TileData tile = gridManager.GetTile(placePos);
+            if (chunkManager.IsValidTile(placePos)) {
+                TileData tile = chunkManager.GetTile(placePos);
                 Tile placeTile = road_straight;
                 EnumDirection placeRotation = generatorDirection;
                 if (tile != null) {
@@ -107,9 +107,9 @@ public class RoadGenerator : MonoBehaviour {
                             bool canContinue = false;
                             TilePos ahead1 = Direction.OffsetPos(generatorDirection, placePos);
                             TilePos ahead2 = Direction.OffsetPos(generatorDirection, placePos, 2);
-                            if (gridManager.IsValidTile(ahead1) && gridManager.IsValidTile(ahead2)) {
-                                TileData tileAt1 = gridManager.GetTile(ahead1);
-                                TileData tileAt2 = gridManager.GetTile(ahead2);
+                            if (chunkManager.IsValidTile(ahead1) && chunkManager.IsValidTile(ahead2)) {
+                                TileData tileAt1 = chunkManager.GetTile(ahead1);
+                                TileData tileAt2 = chunkManager.GetTile(ahead2);
                                 if (!(tileAt1 is TileRoad || tileAt2 is TileRoad)) {
                                     canContinue = true;
                                 }
@@ -156,7 +156,7 @@ public class RoadGenerator : MonoBehaviour {
     private void GenerateRoad(Tile tile, TilePos pos, EnumDirection rot) {
         pos = TilePos.Clamp(pos);
         ChunkPos chunkPos = TilePos.GetParentChunk(pos);
-        Chunk chunk = gridManager.GetChunk(chunkPos);
+        Chunk chunk = chunkManager.GetChunk(chunkPos);
         if (!chunk.gameObject.activeSelf) {
             Debug.Log("Chunk is inactive! Enabling!");
             chunk.gameObject.SetActive(true);
@@ -200,7 +200,7 @@ public class RoadGenerator : MonoBehaviour {
     }
 
     private bool GenerateSkyscraperForPos(TilePos pos, ref GameObject go) {
-        EnumGenerateDirection skyscraperDir = gridManager.GetAvailableGenerateDirection(pos, go.GetComponent<TileData>());
+        EnumGenerateDirection skyscraperDir = chunkManager.GetAvailableGenerateDirection(pos, go.GetComponent<TileData>());
         go.GetComponent<TileData>().SetGenerationDirection(skyscraperDir);
         
         return skyscraperDir != EnumGenerateDirection.NONE; //return true if can generate, return false if not.

@@ -51,8 +51,8 @@ public class TileGeneratedCarPark : MonoBehaviour {
                 TilePos placePos = new TilePos(worldPos.x + l, worldPos.z + w);
                 EnumDirection rot = EnumDirection.NORTH;
                 int id = SelectGameObject(l, w, ref rot);
-                World.Instance.GetGridManager().SetTile(placePos, id, rot);
-                World.Instance.GetGridManager().GetTile(placePos).GetComponent<TileBuildingSegment>().MakeReady(height);
+                World.Instance.GetChunkManager().SetTile(placePos, id, rot);
+                World.Instance.GetChunkManager().GetTile(placePos).GetComponent<TileBuildingSegment>().MakeReady(height);
             }
         }
 

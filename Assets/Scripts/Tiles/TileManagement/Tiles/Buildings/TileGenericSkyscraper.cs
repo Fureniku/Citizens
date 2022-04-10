@@ -40,7 +40,7 @@ public class TileGenericSkyscraper : TileBuilding {
     }
 
     void Update() {
-        if (World.Instance.GetGridManager().IsComplete() && !skyscraperCreated) {
+        if (World.Instance.GetChunkManager().IsComplete() && !skyscraperCreated) {
             skyscraperCreated = true;
             if (genDirection != EnumGenerateDirection.NONE && !isRegistryEntry) {
                 Generate();
@@ -55,8 +55,8 @@ public class TileGenericSkyscraper : TileBuilding {
         float scaleY = Mathf.Max(width, length) - (Mathf.Abs(width - length) / 2);
         float scaleZ = length;
 
-        float xOffset = (1.5f * World.Instance.GetGridManager().GetGridTileSize()) * genDirection.GenX();
-        float zOffset = (1.5f * World.Instance.GetGridManager().GetGridTileSize()) * genDirection.GenZ();
+        float xOffset = (1.5f * World.Instance.GetChunkManager().GetGridTileSize()) * genDirection.GenX();
+        float zOffset = (1.5f * World.Instance.GetChunkManager().GetGridTileSize()) * genDirection.GenZ();
         Vector3 pos = transform.position;
         baseGO.transform.parent = transform;
         baseGO.transform.position = new Vector3(pos.x + xOffset, pos.y, pos.z + zOffset);
@@ -82,7 +82,7 @@ public class TileGenericSkyscraper : TileBuilding {
             for (int col = 0; col < width; col++) {
                 if (row == 0 && col == 0) continue;
                 TilePos genPos = new TilePos(worldPos.x + row * genDirection.GenX(), worldPos.z + col * genDirection.GenZ());
-                Chunk chunk = World.Instance.GetGridManager().GetChunk(TilePos.GetParentChunk(genPos));
+                Chunk chunk = World.Instance.GetChunkManager().GetChunk(TilePos.GetParentChunk(genPos));
                 LocalPos lp = LocalPos.FromTilePos(genPos);
                 chunk.FillChunkCell(referenceTile, lp, 0, false);
                 GameObject rt = chunk.GetChunkCellContents(lp.x, lp.z);

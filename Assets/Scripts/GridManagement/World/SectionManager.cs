@@ -6,12 +6,12 @@ public class SectionManager : GenerationSystem {
     private List<Section> sections = new List<Section>();
 
     public void Scan() {
-        int worldSize = World.Instance.GetGridManager().GetSize();
+        int worldSize = World.Instance.GetChunkManager().GetSize();
 
         for (int row = 0; row < worldSize; row++) {
             for (int col = 0; col < worldSize; col++) {
                 TilePos tilePos = new TilePos(row, col);
-                TileData tileData = World.Instance.GetGridManager().GetTile(tilePos);
+                TileData tileData = World.Instance.GetChunkManager().GetTile(tilePos);
                 if (tileData.GetTile() == TileRegistry.GRASS) {
                     TileGrass grass = (TileGrass) tileData;
 
@@ -25,14 +25,15 @@ public class SectionManager : GenerationSystem {
     }
     
     Section NewSection(TilePos startPos) {
-        int maxX = World.Instance.GetGridManager().GetSize() - startPos.x;
-        int maxZ = World.Instance.GetGridManager().GetSize() - startPos.z;
+        ChunkManager chunkManager = World.Instance.GetChunkManager();
+        int maxX = chunkManager.GetSize() - startPos.x;
+        int maxZ = chunkManager.GetSize() - startPos.z;
         int sizeX = 0;
         int sizeZ = 0;
 
         for (int row = 0; row < maxX; row++) {
             TilePos tilePos = new TilePos(row, startPos.z);
-            TileData tileData = World.Instance.GetGridManager().GetTile(tilePos);
+            TileData tileData = chunkManager.GetTile(tilePos);
             if (tileData.GetTile() == TileRegistry.GRASS) {
                 TileGrass grass = (TileGrass) tileData;
                 if (sizeX < row) sizeX = row;
@@ -45,7 +46,7 @@ public class SectionManager : GenerationSystem {
         
         for (int col = 0; col < maxZ; col++) {
             TilePos tilePos = new TilePos(startPos.x, col);
-            TileData tileData = World.Instance.GetGridManager().GetTile(tilePos);
+            TileData tileData = chunkManager.GetTile(tilePos);
             if (tileData.GetTile() == TileRegistry.GRASS) {
                 TileGrass grass = (TileGrass) tileData;
                 if (sizeZ < col) sizeZ = col;
