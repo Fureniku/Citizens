@@ -37,7 +37,8 @@ public class TileGeneratedCarPark : MonoBehaviour {
     public void SetHeight(int h) => height = h;
     
     void Update() {
-        if (World.Instance.GetWorldState() == EnumWorldState.COMPLETE && !generated) {
+        Debug.Log("TileGenCarPark needs to process during generating building stage. Go fix that!");
+        if (!generated) {
             Debug.Log("Generating");
             Generate();
         }

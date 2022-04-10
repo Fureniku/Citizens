@@ -2,21 +2,27 @@
 
 public abstract class LoadBaseState : BaseState {
     
-    protected BaseAgent agent;
     protected Type nextState;
     protected string stateName;
+    protected int progressId = 0;
+    protected GenerationSystem system = null;
 
     public string GetName() {
         return stateName;
-    }
-
-    public BaseAgent GetAgent() {
-        return agent;
     }
 
     public Type GetNextState() {
         return nextState;
     }
 
+    public int GetProgressId() {
+        return progressId;
+    }
+
+    public GenerationSystem GetSystem() {
+        return system;
+    }
+    
     public abstract bool StateProgress();
+    public abstract string GetProgressString();
 }

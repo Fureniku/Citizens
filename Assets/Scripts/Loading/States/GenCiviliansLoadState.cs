@@ -3,20 +3,26 @@
 namespace Loading.States {
     public class GenCiviliansLoadState : LoadBaseState {
         
-        public GenCiviliansLoadState(Type nextState) {
+        public GenCiviliansLoadState(int progressId, string name, Type nextState) {
+            this.progressId = progressId;
+            this.stateName = name;
             this.nextState = nextState;
         }
 
         public override bool StateProgress() {
-            return false;
+            return true;
         }
 
         public override Type StateEnter() {
-            throw new NotImplementedException();
+            return null;
         }
 
         public override Type StateExit() {
-            throw new NotImplementedException();
+            return null;
+        }
+        
+        public override string GetProgressString() {
+            return "Generating Pedestrian Agents";
         }
     }
 }

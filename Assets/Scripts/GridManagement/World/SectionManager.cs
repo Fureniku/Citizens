@@ -64,23 +64,19 @@ public class SectionManager : GenerationSystem {
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     public override int GetGenerationPercentage() {
         throw new System.NotImplementedException();
     }
 
     public override string GetGenerationString() {
+        throw new System.NotImplementedException();
+    }
+
+    public override void Initialize() {
+        throw new System.NotImplementedException();
+    }
+
+    public override void Process() {
         throw new System.NotImplementedException();
     }
 }

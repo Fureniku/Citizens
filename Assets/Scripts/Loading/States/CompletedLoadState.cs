@@ -1,22 +1,33 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Loading.States {
     public class CompletedLoadState : LoadBaseState {
         
-        public CompletedLoadState(Type nextState) {
+        private GameObject loadingCanvas;
+        
+        public CompletedLoadState(int progressId, string name, Type nextState, GameObject loadingCanvas) {
+            this.progressId = progressId;
+            this.stateName = name;
             this.nextState = nextState;
+            this.loadingCanvas = loadingCanvas;
         }
 
         public override bool StateProgress() {
-            return false;
+            return true;
         }
 
         public override Type StateEnter() {
-            throw new NotImplementedException();
+            loadingCanvas.SetActive(false);
+            return null;
         }
 
         public override Type StateExit() {
-            throw new NotImplementedException();
+            return null;
+        }
+        
+        public override string GetProgressString() {
+            return "Load Complete";
         }
     }
 }

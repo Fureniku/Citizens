@@ -17,8 +17,6 @@ public class WorldData : MonoBehaviour {
     [SerializeField] private GameObject navMeshRoad = null; //Road navmesh
     [SerializeField] private GameObject navMeshSidewalk = null; //Sidewalk navmesh
 
-    //Readable data
-    [ReadOnly, SerializeField] private EnumWorldState state; //Current world state
     [ReadOnly, SerializeField] private bool existingWorld = false; //Whether a world can be loaded
 
     [SerializeField] private int chunkGenPercent = 0; //Percentage of chunk generation completed.
@@ -37,49 +35,8 @@ public class WorldData : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
     }
 
-    public void SetState(EnumWorldState stateIn) {
-        state = stateIn;
-
-        switch (stateIn) {
-            case EnumWorldState.INITIALIZED:
-                LoadingManager.initializedEvent.Invoke();
-                break;
-            case EnumWorldState.GEN_CHUNKS:
-                LoadingManager.genChunksStartEvent.Invoke();
-                break;
-            case EnumWorldState.GEN_ROADS:
-                LoadingManager.genRoadsStartEvent.Invoke();
-                break;
-            case EnumWorldState.GEN_BUILDING:
-                LoadingManager.genBuildingsStartEvent.Invoke();
-                break;
-            case EnumWorldState.LOAD_WORLD:
-                LoadingManager.loadWorldStartEvent.Invoke();
-                break;
-            case EnumWorldState.COMBINE_MESH:
-                LoadingManager.combineMeshStartEvent.Invoke();
-                break;
-            case EnumWorldState.GEN_NAVMESH:
-                LoadingManager.genNavMeshStartEvent.Invoke();
-                break;
-            case EnumWorldState.POPULATE_REGISTRIES:
-                LoadingManager.populateRegistryStartEvent.Invoke();
-                break;
-            case EnumWorldState.GEN_VEHICLES:
-                LoadingManager.genVehiclesStartEvent.Invoke();
-                break;
-            case EnumWorldState.GEN_CIVILIANS:
-                LoadingManager.genCiviliansStartEvent.Invoke();
-                break;
-            case EnumWorldState.COMPLETE:
-                LoadingManager.completedLoadEvent.Invoke();
-                break;
-        }
-    }
-
-public void SetWorldName(string wName) => worldName = wName;
+    public void SetWorldName(string wName) => worldName = wName;
     public void SetWorldSaving(bool save) => saving = save;
-    public void SetWorldState(EnumWorldState s) => state = s;
     
     public void SetWorldSize(int size) => worldSize = size;
     public void SetChunkGenPercent(int percent) => chunkGenPercent = percent;
@@ -91,7 +48,6 @@ public void SetWorldName(string wName) => worldName = wName;
     public string GetWorldName() { return worldName; }
     public int GetWorldSize() { return worldSize; }
     public bool SavingEnabled() { return saving; }
-    public EnumWorldState GetState() { return state; }
     public bool DoesWorldExist() { return existingWorld; }
     public void SetWorldExists() => existingWorld = true;
 

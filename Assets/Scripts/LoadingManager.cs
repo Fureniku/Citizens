@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Loading.States;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
@@ -11,7 +12,8 @@ public class LoadingManager : MonoBehaviour {
     private SectionManager sectionManager = null;
 
     protected LoadStateMachine stateMachine;
-    
+
+    [SerializeField] private GameObject tileRegistry = null;
     [SerializeField] private GameObject roadSeed = null;
     [SerializeField] private GameObject agentManager = null;
     [SerializeField] private GameObject roadNavMesh = null;
@@ -32,53 +34,29 @@ public class LoadingManager : MonoBehaviour {
 
     private double overallPercent;
 
-    public static readonly UnityEvent initializedEvent = new UnityEvent();
-    public static readonly UnityEvent genChunksStartEvent = new UnityEvent();
-    public static readonly UnityEvent genRoadsStartEvent = new UnityEvent();
-    public static readonly UnityEvent genBuildingsStartEvent = new UnityEvent();
-    public static readonly UnityEvent loadWorldStartEvent = new UnityEvent();
-    public static readonly UnityEvent combineMeshStartEvent = new UnityEvent();
-    public static readonly UnityEvent genNavMeshStartEvent = new UnityEvent();
-    public static readonly UnityEvent populateRegistryStartEvent = new UnityEvent();
-    public static readonly UnityEvent genVehiclesStartEvent = new UnityEvent();
-    public static readonly UnityEvent genCiviliansStartEvent = new UnityEvent();
-    public static readonly UnityEvent completedLoadEvent = new UnityEvent();
-    
-    void Start() {
-        initializedEvent.AddListener(OnInitialized);
-        genChunksStartEvent.AddListener(OnGenChunks);
-        genRoadsStartEvent.AddListener(OnGenRoads);
-        genBuildingsStartEvent.AddListener(OnGenBuildings);
-        loadWorldStartEvent.AddListener(OnLoadWorld);
-        combineMeshStartEvent.AddListener(OnCombineMesh);
-        genNavMeshStartEvent.AddListener(OnGenNavmesh);
-        populateRegistryStartEvent.AddListener(OnPopulateRegistries);
-        genVehiclesStartEvent.AddListener(OnGenVehicles);
-        genCiviliansStartEvent.AddListener(OnGenCivilians);
-        completedLoadEvent.AddListener(OnComplete);
-    }
-
     void Awake() {
         sectionManager = GetComponent<SectionManager>();
-        //InitStateMachine();
+        InitStateMachine();
     }
 
     protected void InitStateMachine() {
         stateMachine = GetComponent<LoadStateMachine>();
         Dictionary<Type, LoadBaseState> states = new Dictionary<Type, LoadBaseState>();
 
-        int id = 0;
+        AStar aStar = aStarGrid.GetComponent<AStar>();
+        NavMeshSurface roadMesh = roadNavMesh.GetComponent<NavMeshSurface>();
+        NavMeshSurface sidewalkMesh = sidewalkNavMesh.GetComponent<NavMeshSurface>();
         
-        states.Add(typeof(InitializeLoadState), new InitializeLoadState(typeof(GenChunksLoadState)));
-        states.Add(typeof(GenChunksLoadState), new GenChunksLoadState(typeof(GenRoadsLoadState)));
-        states.Add(typeof(GenRoadsLoadState), new GenRoadsLoadState(typeof(GenBuildingsLoadState)));
-        states.Add(typeof(GenBuildingsLoadState), new GenBuildingsLoadState(typeof(ComebineMeshLoadState)));
-        states.Add(typeof(ComebineMeshLoadState), new ComebineMeshLoadState(typeof(GenNavMeshLoadState)));
-        states.Add(typeof(GenNavMeshLoadState), new GenNavMeshLoadState(typeof(PopulateRegistryLoadState)));
-        states.Add(typeof(PopulateRegistryLoadState), new PopulateRegistryLoadState(typeof(GenVehicleLoadState)));
-        states.Add(typeof(GenVehicleLoadState), new GenVehicleLoadState(typeof(GenCiviliansLoadState)));
-        states.Add(typeof(GenCiviliansLoadState), new GenCiviliansLoadState(typeof(CompletedLoadState)));
-        states.Add(typeof(CompletedLoadState), new CompletedLoadState(typeof(CompletedLoadState)));
+        states.Add(typeof(InitializeLoadState), new InitializeLoadState(0, "Initialization", typeof(GenChunksLoadState), tileRegistry.GetComponent<TileRegistry>()));
+        states.Add(typeof(GenChunksLoadState), new GenChunksLoadState(1, "Chunk Generation", typeof(GenRoadsLoadState)));
+        states.Add(typeof(GenRoadsLoadState), new GenRoadsLoadState(2, "Road Generation", typeof(GenBuildingsLoadState), roadSeed.GetComponent<RoadSeed>()));
+        states.Add(typeof(GenBuildingsLoadState), new GenBuildingsLoadState(3, "Gen Buildings", typeof(ComebineMeshLoadState))); //Unimplemented
+        states.Add(typeof(ComebineMeshLoadState), new ComebineMeshLoadState(4, "Combine Meshes", typeof(GenNavMeshLoadState))); //Unimplemented
+        states.Add(typeof(GenNavMeshLoadState), new GenNavMeshLoadState(5, "NavMesh Generation", typeof(PopulateRegistryLoadState), aStar, roadMesh, sidewalkMesh)); //Part implemented
+        states.Add(typeof(PopulateRegistryLoadState), new PopulateRegistryLoadState(6, "Populate Registries", typeof(GenVehicleLoadState)));
+        states.Add(typeof(GenVehicleLoadState), new GenVehicleLoadState(7, "Generate Vehicles", typeof(GenCiviliansLoadState), agentManager.GetComponent<AgentManager>()));
+        states.Add(typeof(GenCiviliansLoadState), new GenCiviliansLoadState(8, "Generate Civilians", typeof(CompletedLoadState)));
+        states.Add(typeof(CompletedLoadState), new CompletedLoadState(9, "Completed", typeof(CompletedLoadState), loadingCanvas));
         
         stateMachine.SetStates(states);
     }
@@ -91,30 +69,18 @@ public class LoadingManager : MonoBehaviour {
     private void SetStageProgress() {
         string message = "";
         int percent = 0;
-        GenerationSystem sys = null;
-        switch (World.Instance.GetWorldState()) {
-            case EnumWorldState.GEN_CHUNKS:
-                sys = World.Instance.GetGridManager();
-                break;
-            case EnumWorldState.GEN_ROADS:
-                sys = roadSeed.GetComponent<RoadSeed>();
-                break;
-            case EnumWorldState.GEN_BUILDING:
-                break;
-            case EnumWorldState.LOAD_WORLD:
-                break;
-            case EnumWorldState.COMBINE_MESH:
-                break;
-            case EnumWorldState.GEN_NAVMESH:
-                break;
-            case EnumWorldState.POPULATE_REGISTRIES:
-                break;
-            case EnumWorldState.GEN_VEHICLES:
-                sys = agentManager.GetComponent<AgentManager>();
-                break;
-            case EnumWorldState.GEN_CIVILIANS:
-                break;
-        }
+        GenerationSystem sys = stateMachine.CurrentState.GetSystem();
+        
+        // System      InitializeLoadState
+        // System      GenChunksLoadState
+        // System      GenRoadsLoadState
+        // NOT SYSTEM  GenBuildingsLoadState
+        // NOT SYSTEM  ComebineMeshLoadState
+        // NOT SYSTEM  GenNavMeshLoadState
+        // NOT SYSTEM  PopulateRegistryLoadState
+        // System      GenVehicleLoadState
+        // NOT SYSTEM  GenCiviliansLoadState
+        // N/A         CompletedLoadState
 
         if (sys != null) {
             message = sys.GetGenerationString();
@@ -132,140 +98,12 @@ public class LoadingManager : MonoBehaviour {
 
     private void SetOverallProgress() {
         double part = 100.0 / 10.0;
-        string stateStr = "";
-        switch (World.Instance.GetWorldState()) {
-            case EnumWorldState.INITIALIZED:
-                overallPercent = part * 0;
-                stateStr = "Initializing World";
-                break;
-            case EnumWorldState.GEN_CHUNKS:
-                overallPercent = part * 1;
-                stateStr = "Generating Chunks";
-                break;
-            case EnumWorldState.GEN_ROADS:
-                overallPercent = part * 2;
-                stateStr = "Generating Roads";
-                break;
-            case EnumWorldState.GEN_BUILDING:
-                overallPercent = part * 3;
-                stateStr = "Generating Buildings";
-                break;
-            case EnumWorldState.LOAD_WORLD:
-                overallPercent = part * 4;
-                stateStr = "Loading World";
-                break;
-            case EnumWorldState.COMBINE_MESH:
-                overallPercent = part * 5;
-                stateStr = "Combining Meshes";
-                break;
-            case EnumWorldState.GEN_NAVMESH:
-                overallPercent = part * 6;
-                stateStr = "Generating NavMeshes";
-                break;
-            case EnumWorldState.POPULATE_REGISTRIES:
-                overallPercent = part * 7;
-                stateStr = "Populating Registries";
-                break;
-            case EnumWorldState.GEN_VEHICLES:
-                overallPercent = part * 8;
-                stateStr = "Generating Vehicle Agents";
-                break;
-            case EnumWorldState.GEN_CIVILIANS:
-                overallPercent = part * 9;
-                stateStr = "Generating Pedestrian Agents";
-                break;
-            case EnumWorldState.COMPLETE:
-                overallPercent = part * 10;
-                stateStr = "Load Complete";
-                break;
-        }
+        
+        string stateStr = stateMachine.CurrentState.GetProgressString();
+        overallPercent = part * stateMachine.CurrentState.GetProgressId();
 
         if (overallBar != null) { overallBar.GetComponent<Image>().fillAmount = (float) overallPercent / 100.0f; }
-        if (overallPercentText != null) { overallPercentText.GetComponent<Text>().text = ((int) World.Instance.GetWorldState()) + "/11 (" + ((int)overallPercent) + "%)"; }
+        if (overallPercentText != null) { overallPercentText.GetComponent<Text>().text = stateMachine.GetStates().Count + "/11 (" + ((int)overallPercent) + "%)"; }
         if (overallText != null) { overallText.GetComponent<Text>().text = stateStr; }
     }
-    
-#region EVENTS
-    private void OnInitialized() {
-        Debug.Log("###### Initiialized Event called ######");
-    }
-        
-    private void OnGenChunks() {
-        Debug.Log("###### Gen Chunks Event called ######");
-    }
-        
-    private void OnGenRoads() {
-        Debug.Log("###### Gen Roads Event called ######");
-        if (roadSeed != null) {
-            roadSeed.SetActive(true);
-        }
-        else {
-            World.Instance.AdvanceWorldState();
-        }
-    }
-        
-    private void OnGenBuildings() {
-        Debug.Log("###### Gen Buildings Event called ######");
-        Debug.Log("###### Starting world scan for sections ######");
-        sectionManager.Scan();
-        World.Instance.AdvanceWorldState();//TODO temporary
-    }
-        
-    private void OnLoadWorld() {
-        Debug.Log("###### Load World Event called ######");
-    }
-        
-    private void OnCombineMesh() {
-        Debug.Log("###### Combine Mesh Event called ###### (SKIPPING!)");
-        World.Instance.AdvanceWorldState();//TODO temporary
-    }
-        
-    private void OnGenNavmesh() {
-        Debug.Log("###### Gen Navmesh Event called ######");
-        if (aStarGrid != null) {
-            aStarGrid.SetActive(true);
-        }
-        
-        if (roadNavMesh != null) {
-            roadNavMesh.SetActive(true);
-        }
-
-        if (sidewalkNavMesh != null) {
-            sidewalkNavMesh.SetActive(true);
-        }
-
-        if (roadNavMesh == null && sidewalkNavMesh == null) {
-            World.Instance.AdvanceWorldState();
-        }
-    }
-        
-    private void OnPopulateRegistries() {
-        Debug.Log("###### Populate Registries Event called ###### (SKIPPING)");
-        World.Instance.AdvanceWorldState();//TODO temporary
-    }
-        
-    private void OnGenVehicles() {
-        Debug.Log("###### Gen Vehicles Event called ######");
-        
-        if (agentManager == null) {
-            World.Instance.AdvanceWorldState();
-        }
-    }
-        
-    private void OnGenCivilians() {
-        Debug.Log("###### Gen Civilians Event called ######");
-        if (agentManager == null) {
-            World.Instance.AdvanceWorldState();
-        }
-    }
-
-    private void OnComplete() {
-        if (loadingCanvas != null) {
-            loadingCanvas.SetActive(false);
-        }
-        Debug.Log("###### Complete Load Event called ######");
-    }
-    
-
-#endregion
 }

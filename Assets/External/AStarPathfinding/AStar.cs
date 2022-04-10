@@ -27,7 +27,7 @@ public class AStar : MonoBehaviour {
 
     [SerializeField] private bool showGizmo = false;
 
-    private void Start() {
+    public void Initialize() {
         int worldSize = World.Instance.GetGridManager().GetSize();
         nodeSize = World.Instance.GetGridManager().GetGridTileSize();
         float size = worldSize * nodeSize * Chunk.size;

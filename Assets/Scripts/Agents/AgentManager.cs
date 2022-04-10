@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -22,15 +23,13 @@ public class AgentManager : GenerationSystem {
     private List<GameObject> agents = new List<GameObject>();
 
     void Start() {
-        LoadingManager.genVehiclesStartEvent.AddListener(GenVehicles);
     }
 
-    void Update() {
-        if (spawnVehiclesCreated && World.Instance.GetWorldState() != EnumWorldState.COMPLETE) {
+    public override void Process() {
+        if (spawnVehiclesCreated) {
             int avr = AllVehiclesReady();
             if (avr == -1) {
                 EnableVehicles();
-                World.Instance.SetWorldState(EnumWorldState.COMPLETE);
             }
             else {
                 message = "Plotting vehicle paths (" + avr + " of " + agents.Count + ")";
@@ -38,7 +37,11 @@ public class AgentManager : GenerationSystem {
         }
     }
 
-    void GenVehicles() {
+    public override void Initialize() {
+        StartCoroutine(GenAgents());
+    }
+
+    public IEnumerator GenAgents() {
         Debug.Log("Starting vehicle generation");
         for (int i = 0; i < initialVehicleCount; i++) {
             Vector3 spawnPos = DestinationRegistration.RoadSpawnerRegistry.GetAtRandom().GetWorldPos();
@@ -50,9 +53,11 @@ public class AgentManager : GenerationSystem {
             agents[i].GetComponent<VehicleAgent>().SaveAcceleration(agents[i].GetComponent<NavMeshAgent>().acceleration);
             
             message = "Created vehicle " + i + " of " + initialVehicleCount;
+            yield return null;
         }
 
         spawnVehiclesCreated = true;
+        yield return null;
     }
 
     int AllVehiclesReady() {
@@ -74,6 +79,7 @@ public class AgentManager : GenerationSystem {
                 agents[i].GetComponent<VehicleAgent>().RestoreAcceleration();
             }
         }
+        SetComplete();
     }
 
     void GenPedestrians() {

@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class RoadSeed : GenerationSystem {
     
-    private TilePos lastPos;
     private GridManager gridManager;
     
     private EnumGenerationStage roadGenStage = EnumGenerationStage.INITIALIZED;
@@ -12,21 +11,21 @@ public class RoadSeed : GenerationSystem {
     [ReadOnly, SerializeField] private int roadGeneratorInstances = 0;
     [ReadOnly, SerializeField] private int roadGeneratorsComplete = 0;
 
-    void Start() {
+    public override void Initialize() {
         gridManager = World.Instance.GetGridManager();
         float halfPos = (gridManager.GetGridTileSize() * World.Instance.GetGridManager().GetSize() * Chunk.size) / 2;
         transform.position = World.Instance.GetGridManager().transform.position + new Vector3(halfPos, 0, halfPos);
     }
     
-    void Update() {
-        if (gridManager.IsInitialized()) {
+    public override void Process() {
+        if (gridManager.IsComplete()) {
             if (roadGenStage == EnumGenerationStage.STARTED && roadGeneratorInstances > 0) {
-                if (roadGeneratorInstances == roadGeneratorsComplete && World.Instance.GetWorldState() == EnumWorldState.GEN_ROADS) {
-                    World.Instance.SetWorldState(EnumWorldState.GEN_BUILDING);
+                if (roadGeneratorInstances == roadGeneratorsComplete) {
+                    SetComplete();
                 }
             }
             
-            if (World.Instance.GetWorldState() == EnumWorldState.GEN_ROADS && roadGenStage != EnumGenerationStage.STARTED) {
+            if (roadGenStage != EnumGenerationStage.STARTED) {
                 BeginRoadGeneration();
                 roadGenStage = EnumGenerationStage.STARTED;
             }

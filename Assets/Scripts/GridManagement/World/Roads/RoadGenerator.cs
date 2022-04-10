@@ -49,7 +49,7 @@ public class RoadGenerator : MonoBehaviour {
     }
 
     void Update() {
-        if (gridManager.IsInitialized()) {
+        if (gridManager.IsComplete()) {
             if (roadGenStage == EnumGenerationStage.INITIALIZED) {
                 roadSeed.AddRoadGen();
                 BeginRoadGeneration();

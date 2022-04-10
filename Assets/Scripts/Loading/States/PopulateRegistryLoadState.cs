@@ -3,20 +3,27 @@
 namespace Loading.States {
     public class PopulateRegistryLoadState : LoadBaseState {
         
-        public PopulateRegistryLoadState(Type nextState) {
+        public PopulateRegistryLoadState(int progressId, string name, Type nextState) {
+            this.progressId = progressId;
+            this.stateName = name;
             this.nextState = nextState;
         }
 
         public override bool StateProgress() {
-            return false;
+            return true;
         }
 
         public override Type StateEnter() {
-            throw new NotImplementedException();
+            DestinationRegistration.BuildLists();
+            return null;
         }
 
         public override Type StateExit() {
-            throw new NotImplementedException();
+            return null;
+        }
+        
+        public override string GetProgressString() {
+            return "Populating Registries";
         }
     }
 }

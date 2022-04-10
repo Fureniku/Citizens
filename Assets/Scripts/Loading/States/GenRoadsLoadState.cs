@@ -2,21 +2,30 @@
 
 namespace Loading.States {
     public class GenRoadsLoadState : LoadBaseState {
-        
-        public GenRoadsLoadState(Type nextState) {
+
+        public GenRoadsLoadState(int progressId, string name, Type nextState, RoadSeed roadGen) {
+            this.progressId = progressId;
+            this.stateName = name;
             this.nextState = nextState;
+            this.system = roadGen;
         }
 
         public override bool StateProgress() {
-            return false;
+            system.Process();
+            return system.IsComplete();
         }
 
         public override Type StateEnter() {
-            throw new NotImplementedException();
+            system.Initialize();
+            return null;
         }
 
         public override Type StateExit() {
-            throw new NotImplementedException();
+            return null;
+        }
+        
+        public override string GetProgressString() {
+            return "Generating Roads";
         }
     }
 }

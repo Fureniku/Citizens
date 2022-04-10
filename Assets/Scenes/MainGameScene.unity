@@ -1609,7 +1609,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &472280707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1624,6 +1624,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   percentage: 0
   message: 
+  complete: 0
   roadGenerator: {fileID: 1332230695835356993, guid: b7df54b611314c64291a419a2dc73dae,
     type: 3}
   roadGeneratorInstances: 0
@@ -2122,6 +2123,12 @@ RectTransform:
   m_AnchoredPosition: {x: 80, y: 0}
   m_SizeDelta: {x: 200, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &619757297 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8291326659201070216, guid: be661445192d79f4bb273d9defb4ba2a,
+    type: 3}
+  m_PrefabInstance: {fileID: 8291326659848128537}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &672348451
 GameObject:
   m_ObjectHideFlags: 0
@@ -5279,6 +5286,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   percentage: 0
   message: 
+  complete: 0
   vehicleParent: {fileID: 796400369}
   pedestrianParent: {fileID: 0}
   initialVehicleCount: 8
@@ -7123,6 +7131,8 @@ GameObject:
   - component: {fileID: 1907542592}
   - component: {fileID: 1907542590}
   - component: {fileID: 1907542593}
+  - component: {fileID: 1907542594}
+  - component: {fileID: 1907542595}
   m_Layer: 0
   m_Name: World
   m_TagString: Untagged
@@ -7144,6 +7154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   percentage: 0
   message: 
+  complete: 0
   randomSeed: 17
   defaultChunk: {fileID: 451823858289824494, guid: 7d1db9eac591a5842a37a5213d84acdc,
     type: 3}
@@ -7196,6 +7207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25c6371fb1317fb4a8f645c3405fb815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tileRegistry: {fileID: 619757297}
   roadSeed: {fileID: 472280706}
   agentManager: {fileID: 1611462137}
   roadNavMesh: {fileID: 1055781744}
@@ -7208,6 +7220,34 @@ MonoBehaviour:
   overallBar: {fileID: 906484195}
   overallText: {fileID: 1676005001}
   overallPercentText: {fileID: 1029845296}
+--- !u!114 &1907542594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907542589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a26d36f5358e49329352425e2c9392f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  percentage: 0
+  message: 
+  complete: 0
+--- !u!114 &1907542595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907542589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 502db4594969425080ea64f842f33566, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stateName: 
 --- !u!1 &1913008544
 GameObject:
   m_ObjectHideFlags: 0

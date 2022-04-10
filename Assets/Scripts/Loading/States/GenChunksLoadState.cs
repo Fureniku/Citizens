@@ -3,20 +3,29 @@
 namespace Loading.States {
     public class GenChunksLoadState : LoadBaseState {
         
-        public GenChunksLoadState(Type nextState) {
+        public GenChunksLoadState(int progressId, string name, Type nextState) {
+            this.progressId = progressId;
+            this.stateName = name;
             this.nextState = nextState;
+            this.system = World.Instance.GetGridManager();
         }
 
         public override bool StateProgress() {
-            return false;
+            system.Process();
+            return system.IsComplete();
         }
 
         public override Type StateEnter() {
-            throw new NotImplementedException();
+            system.Initialize();
+            return null;
         }
 
         public override Type StateExit() {
-            throw new NotImplementedException();
+            return null;
+        }
+        
+        public override string GetProgressString() {
+            return "Generating Chunks";
         }
     }
 }

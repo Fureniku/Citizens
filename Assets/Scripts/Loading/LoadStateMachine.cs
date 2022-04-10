@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using Loading.States;
 using UnityEngine;
 
 public class LoadStateMachine : MonoBehaviour {
     
     private Dictionary<Type, LoadBaseState> states;
     private LoadBaseState currentState;
-    private bool debug = false; //State switch voicelines can be a bit spammy
+    [SerializeField] private string stateName;
 
     public LoadBaseState CurrentState {
         get { return currentState; }
@@ -24,19 +26,26 @@ public class LoadStateMachine : MonoBehaviour {
 
     // Update is called once per frame
     void FixedUpdate() {
+
         if (CurrentState == null) {
             CurrentState = states.Values.First();
             CurrentState.StateEnter();
+        }
+        if (CurrentState.GetType() == typeof(CompletedLoadState)) { //Dont do anything once state machine is finished
+            return;
         }
         else {
             if (CurrentState.StateProgress()) {
                 SwitchToState(CurrentState.GetNextState());
             }
         }
+
+        stateName = currentState.GetName();
     }
 
     //Switch states, and update rule based system
     public void SwitchToState(Type nextState) {
+        Debug.Log("MOVING FROM STATE [" + CurrentState.GetName() + "] TO [" + states[nextState].GetName() + "].");
         CurrentState.StateExit();
         CurrentState = states[nextState];
         CurrentState.StateEnter();

@@ -27,7 +27,7 @@ public class GridManager : GenerationSystem {
 
     private Stopwatch stopWatch;
 
-    public void Initialize() {
+    public override void Initialize() {
         state = GridManagerState.INITIALIZED;
     }
     
@@ -44,24 +44,14 @@ public class GridManager : GenerationSystem {
         }
     }
 
-    void FixedUpdate() {
-        if (state == GridManagerState.INITIALIZED && World.Instance.GetWorldState() == EnumWorldState.GEN_CHUNKS) {
+    public override void Process() {
+        if (state == GridManagerState.INITIALIZED) {
             state = GridManagerState.LOADING;
             Debug.Log("Grid starting...");
             stopWatch.Start();
             StartCoroutine(BuildGrid());
         }
-        
-        if (state == GridManagerState.ENABLED && World.Instance.GetWorldState() == EnumWorldState.GEN_CHUNKS) {
-            if (World.Instance.DoesWorldExist()) {
-                World.Instance.SetWorldState(EnumWorldState.GEN_NAVMESH);
-            }
-            else {
-                World.Instance.SetWorldState(EnumWorldState.GEN_ROADS);
-            }
-            state = GridManagerState.READY;
-        }
-        
+
         if (state == GridManagerState.ENABLING) { //Enabled must be set for the next frame, not current.
             EnableWorld();
         }
@@ -96,7 +86,7 @@ public class GridManager : GenerationSystem {
                 yield return null;
             }
         }
-
+        Debug.Log("Grid building should be complete");
         state = GridManagerState.ENABLING;
 
         yield return null;
@@ -105,12 +95,11 @@ public class GridManager : GenerationSystem {
     void EnableWorld() {
         for (int i = 0; i < transform.childCount; i++) {
             transform.GetChild(i).gameObject.SetActive(true);
-            //yield return null;
         }
         stopWatch.Stop();
         Debug.Log("World generation took " + stopWatch.Elapsed + " seconds.");
-        state = GridManagerState.ENABLED;
-        //yield return null;
+        state = GridManagerState.READY;
+        SetComplete();
     }
 
     public void FillChunkCell(GameObject go, int row, int col) {
@@ -210,15 +199,12 @@ public class GridManager : GenerationSystem {
     public Chunk GetChunk(int row, int col) { return GetChunk(new ChunkPos(row, col)); }
     public Chunk GetChunk(ChunkPos pos) { return grid[pos.x, pos.z].GetComponent<Chunk>(); }
     public float GetGridTileSize() { return gridSlotSize; }
-    public bool IsInitialized() { return state == GridManagerState.READY; }
-    
+
     /////////////////////////////////// Abstract inheritence stuff ///////////////////////////////////
     public override int GetGenerationPercentage() {
         int add = 0;
         if (state == GridManagerState.ENABLING) {
             add = 5;
-        } else if (state == GridManagerState.ENABLED) {
-            add = 10;
         }
         percentage = (currentChunks / maxChunks) * 90 + add;
         return percentage;
@@ -231,9 +217,6 @@ public class GridManager : GenerationSystem {
                 break;
             case GridManagerState.ENABLING:
                 message = "Chunks enabling...";
-                break;
-            case GridManagerState.ENABLED:
-                message = "Chunks are ready!";
                 break;
             default:
                 message = "STATE: " + state;
@@ -276,6 +259,5 @@ public enum GridManagerState {
     INITIALIZED,
     LOADING,
     ENABLING,
-    ENABLED,
     READY
 }

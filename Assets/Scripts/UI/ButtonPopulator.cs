@@ -8,14 +8,8 @@ public class ButtonPopulator : MonoBehaviour {
     private bool populated = false;
     [SerializeField] private GameObject button;
     
-    // Start is called before the first frame update
-    void Start() {
-        
-    }
-
-    // Update is called once per frame
-    void Update() {
-        if (!populated && World.Instance.PassedState(EnumWorldState.INITIALIZED)) {
+    public void Process() {
+        if (!populated) {
             Debug.Log("Creating " + TileRegistry.GetSize() + " buttons");
             for (int i = 0; i < TileRegistry.GetSize(); i++) {
                 GameObject newBtn = Instantiate(button, transform);

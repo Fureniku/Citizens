@@ -2,21 +2,31 @@
 
 namespace Loading.States {
     public class GenVehicleLoadState : LoadBaseState {
+
         
-        public GenVehicleLoadState(Type nextState) {
+        public GenVehicleLoadState(int progressId, string name, Type nextState, AgentManager agentManager) {
+            this.progressId = progressId;
+            this.stateName = name;
+            this.system = agentManager;
             this.nextState = nextState;
         }
 
         public override bool StateProgress() {
-            return false;
+            system.Process();
+            return system.IsComplete();
         }
 
         public override Type StateEnter() {
-            throw new NotImplementedException();
+            system.Initialize();
+            return null;
         }
 
         public override Type StateExit() {
-            throw new NotImplementedException();
+            return null;
+        }
+        
+        public override string GetProgressString() {
+            return "Generating Vehicle Agents";
         }
     }
 }

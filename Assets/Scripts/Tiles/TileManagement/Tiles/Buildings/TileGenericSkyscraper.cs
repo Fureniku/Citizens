@@ -40,7 +40,7 @@ public class TileGenericSkyscraper : TileBuilding {
     }
 
     void Update() {
-        if (World.Instance.GetGridManager().IsInitialized() && !skyscraperCreated) {
+        if (World.Instance.GetGridManager().IsComplete() && !skyscraperCreated) {
             skyscraperCreated = true;
             if (genDirection != EnumGenerateDirection.NONE && !isRegistryEntry) {
                 Generate();

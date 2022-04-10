@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 // ReSharper disable MemberCanBePrivate.Global
 
-public class TileRegistry : MonoBehaviour {
+public class TileRegistry : GenerationSystem {
     
     //To add a new tile:
     // - create tile: public static readonly Tile NAME (id, local name, tiletype)
@@ -40,25 +40,26 @@ public class TileRegistry : MonoBehaviour {
 
     public static GameObject GetGrass() { return registry[GRASS.GetId()]; }
 
-    void Start() {
+    public override void Initialize() {
         InitializeRegistry();
-        
+        StartCoroutine(Register());
+    }
+    
+    public override void Process() {}
+
+    IEnumerator Register() {
         for (int i = 0; i < register.Length; i++) {
             if (register[i].GetComponent<TileData>() != null) {
                 GameObject reg = Instantiate(register[i], transform, true);
                 reg.transform.position = new Vector3(0, -100, 0);
                 reg.SetActive(false);
                 Register(reg); //Instantiate to create a copy, instead of using original. Preserves original prefab.
+                yield return null;
             }
         }
-        
         Debug.Log("Registration complete");
-
-        if (World.Instance != null) {
-            if (World.Instance.GetWorldState() == EnumWorldState.UNSTARTED) {
-                World.Instance.AdvanceWorldState();
-            }
-        }
+        SetComplete();
+        yield return null;
     }
 
     void InitializeRegistry() {
@@ -168,6 +169,15 @@ public class TileRegistry : MonoBehaviour {
                 Debug.Log("Tile " + tile + " missing from GetTile function");
                 return GRASS;
         }
+    }
+
+    //TODO
+    public override int GetGenerationPercentage() {
+        return 0;
+    }
+
+    public override string GetGenerationString() {
+        return "";
     }
 }
 
