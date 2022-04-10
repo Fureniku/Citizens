@@ -50,7 +50,7 @@ public class LoadingManager : MonoBehaviour {
         states.Add(typeof(InitializeLoadState), new InitializeLoadState(0, "Initialization", typeof(GenChunksLoadState), tileRegistry.GetComponent<TileRegistry>()));
         states.Add(typeof(GenChunksLoadState), new GenChunksLoadState(1, "Chunk Generation", typeof(GenRoadsLoadState)));
         states.Add(typeof(GenRoadsLoadState), new GenRoadsLoadState(2, "Road Generation", typeof(GenBuildingsLoadState), roadSeed.GetComponent<RoadSeed>()));
-        states.Add(typeof(GenBuildingsLoadState), new GenBuildingsLoadState(3, "Gen Buildings", typeof(ComebineMeshLoadState))); //Unimplemented
+        states.Add(typeof(GenBuildingsLoadState), new GenBuildingsLoadState(3, "Gen Buildings", typeof(ComebineMeshLoadState), sectionManager.GetComponent<SectionManager>())); //Unimplemented
         states.Add(typeof(ComebineMeshLoadState), new ComebineMeshLoadState(4, "Combine Meshes", typeof(GenNavMeshLoadState))); //Unimplemented
         states.Add(typeof(GenNavMeshLoadState), new GenNavMeshLoadState(5, "NavMesh Generation", typeof(PopulateRegistryLoadState), aStar, roadMesh, sidewalkMesh)); //Part implemented
         states.Add(typeof(PopulateRegistryLoadState), new PopulateRegistryLoadState(6, "Populate Registries", typeof(GenVehicleLoadState)));

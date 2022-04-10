@@ -3,7 +3,7 @@ using Tiles.TileManagement;
 using UnityEngine;
 
 public class TileGrass : TileData {
-    private bool inSection = false;
+    [SerializeField] private bool inSection = false;
     
     void Start() {
         Initialize();

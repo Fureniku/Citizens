@@ -635,7 +635,7 @@ MonoBehaviour:
   shouldStop: 0
   drawGizmos: 1
   eyePos: {fileID: 3816089802287828521}
-  visualRange: 2
+  visualRange: 50
   objectDistance: 50
   currentState: 
   totalDestinations: 0

@@ -5281,21 +5281,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1611462137}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ab9db0bdfbe4407a6b1cd705765fe3d, type: 3}
+  m_Script: {fileID: 11500000, guid: f5e60be5d59f49df9499f442dec79790, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   percentage: 0
   message: 
   complete: 0
-  vehicleParent: {fileID: 796400369}
-  pedestrianParent: {fileID: 0}
-  initialVehicleCount: 8
-  maxVehicleCount: 500
-  testVehicle: {fileID: 8945190466146426157, guid: 472c2a24ef19ddf49ad4228b79c2bbf8,
+  agentParent: {fileID: 796400369}
+  initialAgentCount: 25
+  maxAgentCount: 500
+  testAgent: {fileID: 8945190466146426157, guid: 472c2a24ef19ddf49ad4228b79c2bbf8,
     type: 3}
-  initialPedestrianCount: 0
-  maxPedestrianCount: 0
-  testPedestrian: {fileID: 0}
 --- !u!4 &1611462139
 Transform:
   m_ObjectHideFlags: 0

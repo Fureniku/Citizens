@@ -15,12 +15,10 @@ public class JunctionExitWaitState : AgentBaseState {
     public override Type StateUpdate() {
         ScanJunction();
         if (agent.SeenAgent(agent.GetSeenObject())) {
-            agent.PrintText("Agent spotted, waiting.");
             check = 0; //restart checking
         }
 
         if (check > 2) {
-            agent.PrintText("Leaving junction");
             return typeof(DriveState);
         }
         return null;

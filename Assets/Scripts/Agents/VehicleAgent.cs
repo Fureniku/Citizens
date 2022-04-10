@@ -63,32 +63,25 @@ public class VehicleAgent : BaseAgent {
             LocationNodeController lnc = finalDest.GetComponent<LocationNodeController>();
 
             if (lnc.CanDestroyAfterDestination()) {
-                Debug.Log("Destination and destruction");
                 dests.Add(lnc.GetDestinationNode());
                 dests.Add(lnc.GetDespawnerNode());
                 destroyOnArrival = true;
             }
             else if (lnc.GetDestinationNode() != null) {
-                Debug.Log("Destination only");
                 dests.Add(lnc.GetDestinationNode());
             }
             else if (lnc.GetDespawnerNode() != null) {
-                Debug.Log("Destruction only");
                 dests.Add(lnc.GetDespawnerNode());
                 destroyOnArrival = true;
             }
             else {
-                Debug.Log("Node controller with no node");
                 dests.Add(finalDest);
             }
         }
         else {
-            Debug.Log("No node controller");
             dests.Add(finalDest);
         }
-        
-        Debug.Log("Generated final route with " + dests.Count + " nodes");
-        
+
         agent.destination = dests[0].transform.position;
         
         VehicleJunctionNode node = dests[currentDest].GetComponent<VehicleJunctionNode>();

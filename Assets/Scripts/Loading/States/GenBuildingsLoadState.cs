@@ -3,17 +3,19 @@
 namespace Loading.States {
     public class GenBuildingsLoadState : LoadBaseState {
         
-        public GenBuildingsLoadState(int progressId, string name, Type nextState) {
+        public GenBuildingsLoadState(int progressId, string name, Type nextState, SectionManager sectionManager) {
             this.progressId = progressId;
             this.stateName = name;
             this.nextState = nextState;
+            this.system = sectionManager;
         }
 
         public override bool StateProgress() {
-            return true;
+            return system.IsComplete();
         }
 
         public override Type StateEnter() {
+            system.Initialize();
             return null;
         }
 

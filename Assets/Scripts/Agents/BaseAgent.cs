@@ -52,9 +52,7 @@ public abstract class BaseAgent : MonoBehaviour {
 
         GetSeenObject();
 
-        if (stateMachine.CurrentState == null) {
-            PrintText("Current state is null");
-        } else {
+        if (stateMachine.CurrentState != null) {
             currentState = stateMachine.CurrentState.GetName();
         }
     }
