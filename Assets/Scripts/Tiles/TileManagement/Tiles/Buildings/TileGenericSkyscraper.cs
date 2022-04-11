@@ -84,7 +84,7 @@ public class TileGenericSkyscraper : TileBuilding {
                 TilePos genPos = new TilePos(worldPos.x + row * genDirection.GenX(), worldPos.z + col * genDirection.GenZ());
                 Chunk chunk = World.Instance.GetChunkManager().GetChunk(TilePos.GetParentChunk(genPos));
                 LocalPos lp = LocalPos.FromTilePos(genPos);
-                chunk.FillChunkCell(referenceTile, lp, 0, false);
+                chunk.FillChunkCell(referenceTile, lp, 0);
                 GameObject rt = chunk.GetChunkCellContents(lp.x, lp.z);
                 TileReference reference = rt.GetComponent<TileReference>();
                 if (reference != null) {

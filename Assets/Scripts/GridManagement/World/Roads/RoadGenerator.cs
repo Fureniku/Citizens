@@ -161,7 +161,7 @@ public class RoadGenerator : MonoBehaviour {
             Debug.Log("Chunk is inactive! Enabling!");
             chunk.gameObject.SetActive(true);
         }
-        chunk.FillChunkCell(tile, LocalPos.FromTilePos(pos), rot, false);
+        chunk.FillChunkCell(tile, LocalPos.FromTilePos(pos), rot);
 
         //Debug.Log("Road has been placed. Begin skyscraper placement.");
         /*TilePos left  = new TilePos(pos.x, pos.z);

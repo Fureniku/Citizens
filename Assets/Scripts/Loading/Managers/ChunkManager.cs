@@ -190,7 +190,13 @@ public class ChunkManager : GenerationSystem {
     public void SetTile(TilePos pos, int id, EnumDirection rot) {
         Chunk chunk = GetChunk(ChunkPos.GetChunkPosFromLocation(pos.GetWorldPos()));
         LocalPos lp = LocalPos.FromTilePos(pos);
-        chunk.FillChunkCell(id, lp, rot, false);
+        chunk.FillChunkCell(id, lp, rot);
+    }
+    
+    public void SetTile(TilePos pos, int id, EnumDirection rot, Transform parent) {
+        Chunk chunk = GetChunk(ChunkPos.GetChunkPosFromLocation(pos.GetWorldPos()));
+        LocalPos lp = LocalPos.FromTilePos(pos);
+        chunk.FillChunkCell(id, lp, rot, parent);
     }
 
     public bool IsValidChunk(ChunkPos pos) { return pos.x < size && pos.x >= 0 && pos.z < size && pos.z >= 0; }

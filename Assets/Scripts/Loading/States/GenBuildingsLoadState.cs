@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine.ParticleSystemJobs;
 
 namespace Loading.States {
     public class GenBuildingsLoadState : LoadBaseState {
@@ -11,6 +12,7 @@ namespace Loading.States {
         }
 
         public override bool StateProgress() {
+            system.Process();
             return system.IsComplete();
         }
 

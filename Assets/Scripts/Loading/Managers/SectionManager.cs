@@ -8,10 +8,37 @@ public class SectionManager : GenerationSystem {
     private int worldSize;
 
     private int progressZ;
+
+    private bool scanComplete = false;
+    private bool genStarted = false;
+    private bool genComplete = false;
     
     public override void Initialize() {
         worldSize = World.Instance.GetChunkManager().GetSize() * Chunk.size;
         StartCoroutine(Scan());
+    }
+    
+    public override void Process() {
+        if (scanComplete && genComplete) {
+            SetComplete();
+        }
+        
+        if (scanComplete && !genStarted) {
+            Debug.Log("Generating buildings");
+            StartCoroutine(Populate());
+            genStarted = true;
+        }
+    }
+
+    private IEnumerator Populate() {
+        for (int i = 0; i < sections.Count; i++) {
+            Section s = sections[i];
+            GenerateCarPark genCP = new GenerateCarPark(s.GetTilePos(), s.GetSizeX(), 2, 7, s.GetSizeZ());
+            genCP.Generate();
+            yield return null;
+        }
+        genComplete = true;
+        yield return null;
     }
 
     public IEnumerator Scan() {
@@ -31,12 +58,11 @@ public class SectionManager : GenerationSystem {
             yield return null;
         }
         Debug.Log("section scanning complete. Created " + sections.Count + " sections.");
-        SetComplete();
+        scanComplete = true;
         yield return null;
     }
     
     Section NewSection(TilePos startPos) {
-        Debug.Log("Starting new section at " + startPos);
         
         int maxX = worldSize - startPos.x;
         int maxZ = worldSize - startPos.z;
@@ -77,7 +103,6 @@ public class SectionManager : GenerationSystem {
             }
         }
         
-        Debug.Log("Creating new section from " + startPos + " with size " + sizeX + ", " + sizeZ);
         return new Section(startPos, sizeX, sizeZ);
     }
 
@@ -93,9 +118,7 @@ public class SectionManager : GenerationSystem {
 
         return false;
     }
-    
-    
-    
+
     public override int GetGenerationPercentage() {
         return (int)(progressZ / (float)worldSize * 100);
     }
@@ -104,7 +127,14 @@ public class SectionManager : GenerationSystem {
         return "Generating building sections";
     }
 
-    public override void Process() {
-        
-    }
+    /*private void OnDrawGizmos() {
+        for (int i = 0; i < sections.Count; i++) {
+            Gizmos.color = new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f));
+            Section s = sections[i];
+            Vector3 pos = s.GetTilePos().GetWorldPos();
+            float tileSize = World.Instance.GetChunkManager().GetGridTileSize();
+            Vector3 drawPos = new Vector3(pos.x + (s.GetSizeX()*tileSize/2), 10.0f, pos.z + (s.GetSizeZ()*tileSize/2));
+            Gizmos.DrawCube(drawPos, new Vector3(s.GetSizeX()*tileSize, 0.1f, s.GetSizeZ()*tileSize));
+        }
+    }*/
 }

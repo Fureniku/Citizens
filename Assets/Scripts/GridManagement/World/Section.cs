@@ -32,4 +32,8 @@ public class Section {
             }
         }
     }
+    
+    public TilePos GetTilePos() { return startPos; }
+    public int GetSizeX() { return sizeX; }
+    public int GetSizeZ() { return sizeZ; }
 }

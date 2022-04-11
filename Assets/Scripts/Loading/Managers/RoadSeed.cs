@@ -42,7 +42,7 @@ public class RoadSeed : GenerationSystem {
         
         ChunkPos chunkPos = TilePos.GetParentChunk(pos);
         Chunk chunk = chunkManager.GetChunk(chunkPos);
-        chunk.FillChunkCell(TileRegistry.CROSSROAD_CTRL_ROAD_1x1.GetId(), LocalPos.FromTilePos(pos), EnumDirection.NORTH, false);
+        chunk.FillChunkCell(TileRegistry.CROSSROAD_CTRL_ROAD_1x1.GetId(), LocalPos.FromTilePos(pos), EnumDirection.NORTH);
     }
 
     private void IndividualPoint(EnumDirection dir, TilePos currentPos) {

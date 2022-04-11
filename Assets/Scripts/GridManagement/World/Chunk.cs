@@ -83,42 +83,34 @@ public class Chunk : MonoBehaviour {
         this.chunk = chunk;
         for (int row = 0; row < 16; row++) {
             for (int col = 0; col < 16; col++) {
-                FillChunkCell(chunk[row, col], new LocalPos(row, col), 0, false);
+                FillChunkCell(chunk[row, col], new LocalPos(row, col), 0);
             }
         }
     }
 
-    public void FillChunkCell(Tile tile, LocalPos pos, EnumDirection rotation, bool placementChecks) {
-        FillChunkCell(tile.GetId(), pos, rotation, placementChecks);
+    public void FillChunkCell(Tile tile, LocalPos pos, EnumDirection rotation) {
+        FillChunkCell(tile.GetId(), pos, rotation);
     }
 
-    public void FillChunkCell(GameObject go, LocalPos pos, EnumDirection rotation, bool placementChecks) {
+    public void FillChunkCell(GameObject go, LocalPos pos, EnumDirection rotation) {
         int id = TileRegistry.GetIDFromGameObject(go);
-        FillChunkCell(id, pos, rotation, placementChecks);
+        FillChunkCell(id, pos, rotation);
     }
 
-    public void FillChunkCell(int id, LocalPos pos, EnumDirection rotation,  bool placementChecks) {
+    public void FillChunkCell(int id, LocalPos pos, EnumDirection rotation) {
+        FillChunkCell(id, pos, rotation, transform);
+    }
+
+    public void FillChunkCell(int id, LocalPos pos, EnumDirection rotation, Transform parent) {
         if (!pos.IsValidPos()) {
             return;
         }
         
-        GameObject cell = null;
-        
-        //If requested, check that the current tile is grass before placement.
-        //Used for multi-grid spawner placements.
-        //TODO does this still work with tilepos?
-        if (placementChecks) {
-            if (IsValidLocation(new TilePos(pos.x, pos.z))) {
-                if (!(GetGridTile(pos.x, pos.z) is TileGrass)) {
-                    Debug.Log("Current position tile is not grass! abort!");
-                    return;
-                }
-            }
-        }
+        GameObject cell;
 
         cell = TileRegistry.Instantiate(id);
         cell.GetComponent<TileData>().SetRotation(rotation);
-        cell.transform.parent = transform;
+        cell.transform.parent = parent;
         cell.name = $"tile_{pos.x}_{pos.z}";
         cell.transform.position = new Vector3(World.Instance.GetChunkManager().GetGridTileSize() * pos.x, 0, World.Instance.GetChunkManager().GetGridTileSize() * pos.z) + transform.position;
         cell.transform.rotation = Quaternion.Euler(0,rotation.GetRotation(),0);
@@ -133,8 +125,8 @@ public class Chunk : MonoBehaviour {
         cell.GetComponent<TileData>().SetInitialPos();
     }
 
-    public void FillChunkCell(GameObject go, TilePos pos, EnumDirection rotation, bool placementChecks) {
-        FillChunkCell(go, LocalPos.FromTilePos(pos), rotation, placementChecks);
+    public void FillChunkCell(GameObject go, TilePos pos, EnumDirection rotation) {
+        FillChunkCell(go, LocalPos.FromTilePos(pos), rotation);
     }
 
     private void RecheckChunk() {
@@ -142,10 +134,10 @@ public class Chunk : MonoBehaviour {
             for (int col = 0; col < size; col++) {
                 if (chunk[row, col] == null) {
                     Debug.Log("Repairing grid at " + row + ", " + col);
-                    FillChunkCell(TileRegistry.GetGrass(), new LocalPos(row, col), 0, false);
+                    FillChunkCell(TileRegistry.GetGrass(), new LocalPos(row, col), 0);
                 } else if (chunk[row, col].GetComponent<TileData>() == null) {
                     Destroy(chunk[row, col]);
-                    FillChunkCell(TileRegistry.GetGrass(), new LocalPos(row, col), 0, false);
+                    FillChunkCell(TileRegistry.GetGrass(), new LocalPos(row, col), 0);
                 }
             }
         }
@@ -199,7 +191,7 @@ public class Chunk : MonoBehaviour {
         for (int row = 0; row < 16; row++) {
             for (int col = 0; col < 16; col++) {
                 DeleteChunkCell(row, col, false);
-                FillChunkCell(TileRegistry.GetGrass(), new LocalPos(row, col), 0, false);
+                FillChunkCell(TileRegistry.GetGrass(), new LocalPos(row, col), 0);
             }
         }
         state = EnumChunkState.READY;

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Diagnostics;
 using UnityEngine;
-using UnityEngine.AI;
 using Debug = UnityEngine.Debug;
 
 public class World : MonoBehaviour {
@@ -24,6 +22,12 @@ public class World : MonoBehaviour {
     [SerializeField] private GameObject AStarPlane = null; //A-star plane
 
     [SerializeField] private int worldSize = 3;
+
+    [SerializeField] private GameObject buildingParentPrefab = null;
+
+    public GameObject GetNewBuildingParent() {
+        return Instantiate(buildingParentPrefab);
+    }
 
     private bool isDirty = false;
     [SerializeField] private bool internalGeneratedWorld = false; //If the world was made and is a prefab now, set this to true to stop any attempts at generation.

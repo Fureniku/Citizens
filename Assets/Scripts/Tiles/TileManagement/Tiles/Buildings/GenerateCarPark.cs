@@ -1,62 +1,55 @@
 ﻿using System;
+using Loading.States;
 using Newtonsoft.Json.Linq;
 using Tiles.TileManagement;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class TileGeneratedCarPark : MonoBehaviour {
+public class GenerateCarPark {
     
-    [SerializeField] private EnumTile entrance;
-    [SerializeField] private EnumTile edge;
-    [SerializeField] private EnumTile corner;
-    [SerializeField] private EnumTile inner;
-    [SerializeField] private EnumTile ramp;
+    private EnumTile entrance = EnumTile.CAR_PARK_ENTRANCE;
+    private EnumTile edge = EnumTile.CAR_PARK_EDGE_BASE;
+    private EnumTile corner = EnumTile.CAR_PARK_CORNER_BASE;
+    private EnumTile inner = EnumTile.CAR_PARK_INNER_BASE;
+    private EnumTile ramp = EnumTile.CAR_PARK_RAMP_BASE;
 
-    private bool generated = false;
-    [SerializeField] protected int minWidth = 4;
-    [SerializeField] protected int maxWidth = 10;
+    private int width;
+    private int length;
+    private int height;
+
+    private TilePos startPos;
+    private GameObject buildingParent;
+
+    public GenerateCarPark(TilePos startPos, int width, int minHeight, int maxHeight, int length) {
+        Init(startPos, width, width, minHeight, maxHeight, length, length);
+    }
     
-    [SerializeField] protected int minLength = 3;
-    [SerializeField] protected int maxLength = 10;
-
-    [SerializeField] private int minHeight = 2;
-    [SerializeField] private int maxnHeight = 20;
-    
-    [SerializeField, ReadOnly] protected int width = 1;
-    [SerializeField, ReadOnly] protected int length = 1;
-    [SerializeField, ReadOnly] protected int height = 1;
-
-    void Start() {
-        width = Random.Range(minWidth, maxWidth);
-        length = Random.Range(minLength, maxLength);
-        height = Random.Range(minHeight, maxnHeight);
+    public GenerateCarPark(TilePos startPos, int minWidth, int maxWidth, int minHeight, int maxHeight, int minLength, int maxLength) {
+        Init(startPos, minWidth, maxWidth, minHeight, maxHeight, minLength, maxLength);
     }
 
-    public void SetWidth(int w) => width = w;
-    public void SetLength(int l) => length = l;
-    public void SetHeight(int h) => height = h;
-    
-    void Update() {
-        Debug.Log("TileGenCarPark needs to process during generating building stage. Go fix that!");
-        if (!generated) {
-            Debug.Log("Generating");
-            Generate();
-        }
+    private void Init(TilePos startPos, int minWidth, int maxWidth, int minHeight, int maxHeight, int minLength, int maxLength) {
+        this.startPos = startPos;
+        
+        this.width = Random.Range(minWidth, maxWidth);
+        this.length = Random.Range(minLength, maxLength);
+        this.height = Random.Range(minHeight, maxHeight);
+
+        buildingParent = World.Instance.GetNewBuildingParent();
+        
+        ComebineMeshLoadState.RegisterMeshCombiner(buildingParent);
     }
 
-    private void Generate() {
-        for (int l = 0; l < length; l++) {
-            for (int w = 0; w < width; w++) {
-                TilePos worldPos = TilePos.GetGridPosFromLocation(transform.position);
-                TilePos placePos = new TilePos(worldPos.x + l, worldPos.z + w);
+    public void Generate() {
+        for (int w = 0; w < width; w++) {
+            for (int l = 0; l < length; l++) {
+                TilePos placePos = new TilePos(startPos.x + w, startPos.z + l);
                 EnumDirection rot = EnumDirection.NORTH;
-                int id = SelectGameObject(l, w, ref rot);
-                World.Instance.GetChunkManager().SetTile(placePos, id, rot);
+                int id = SelectGameObject(w, l, ref rot);
+                World.Instance.GetChunkManager().SetTile(placePos, id, rot, buildingParent.transform);
                 World.Instance.GetChunkManager().GetTile(placePos).GetComponent<TileBuildingSegment>().MakeReady(height);
             }
         }
-
-        generated = true;
     }
 
     private int SelectGameObject(int l, int w, ref EnumDirection rot) {
