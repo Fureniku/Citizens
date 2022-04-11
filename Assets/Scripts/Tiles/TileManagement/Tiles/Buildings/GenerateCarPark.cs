@@ -30,12 +30,16 @@ public class GenerateCarPark {
 
     private void Init(TilePos startPos, int minWidth, int maxWidth, int minHeight, int maxHeight, int minLength, int maxLength) {
         this.startPos = startPos;
+
+        ChunkPos chunkpos = ChunkPos.GetChunkPosFromLocation(startPos.GetWorldPos());
+        GameObject chunkParent = GameObject.Find($"chunk_{chunkpos.x}_{chunkpos.z}");
         
         this.width = Random.Range(minWidth, maxWidth);
         this.length = Random.Range(minLength, maxLength);
         this.height = Random.Range(minHeight, maxHeight);
         
         buildingParent = new GameObject("BuildingParent");
+        buildingParent.transform.parent = chunkParent.transform;
         buildingParent.AddComponent<MeshCombiner>();
         buildingParent.AddComponent<MeshFilter>();
         buildingParent.AddComponent<MeshRenderer>();

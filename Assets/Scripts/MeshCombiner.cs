@@ -8,8 +8,6 @@ public class MeshCombiner : MonoBehaviour {
         ArrayList combiners = new ArrayList();
         ArrayList materials = new ArrayList();
         int initialSize = meshFilters.Length;
-        
-        Debug.Log("Preparing to combine " + initialSize + " meshes.");
 
         //Save current position/rotation
         Quaternion initialRot = transform.rotation;
@@ -21,7 +19,7 @@ public class MeshCombiner : MonoBehaviour {
         for (int i = 0; i < meshFilters.Length; i++) { //Iterate through all existing meshes
             MeshFilter filter = meshFilters[i];
             if (filter.transform == transform) { //Don't operate on the parent object (probably unneeded as we delete them anyway)
-                Debug.Log("Skipping parent");
+                //Debug.Log("Skipping parent");
                 continue;
             }
             
@@ -31,7 +29,7 @@ public class MeshCombiner : MonoBehaviour {
                 //Check if the current material is in our array, and if not, add it.
                 int matArrayIndex = Contains(materials, subRenderer.sharedMaterials[j].name);
                 if (matArrayIndex == -1) {
-                    Debug.Log("Added material " + subRenderer.sharedMaterials[j].name);
+                    //Debug.Log("Added material " + subRenderer.sharedMaterials[j].name);
                     materials.Add(subRenderer.sharedMaterials[j]);
                     matArrayIndex = materials.Count - 1;
                 }
@@ -87,7 +85,6 @@ public class MeshCombiner : MonoBehaviour {
         transform.position = initialPos;
         
         Debug.Log("Completed reducing meshes from " + initialSize + " to " + materials.Count);
-        Debug.Break();
     }
 
     //From https://answers.unity.com/questions/196649/combinemeshes-with-different-materials.html

@@ -33,7 +33,7 @@ public class SectionManager : GenerationSystem {
     private IEnumerator Populate() {
         for (int i = 0; i < sections.Count; i++) {
             Section s = sections[i];
-            GenerateCarPark genCP = new GenerateCarPark(s.GetTilePos(), s.GetSizeX(), 2, 7, s.GetSizeZ());
+            GenerateCarPark genCP = new GenerateCarPark(s.GetTilePos(), s.GetSizeX(), 25, 70, s.GetSizeZ());
             genCP.Generate();
             yield return null;
         }
