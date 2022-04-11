@@ -34,28 +34,44 @@ public class LoadingManager : MonoBehaviour {
 
     private double overallPercent;
 
-    void Awake() {
+    public void Initialize() {
         sectionManager = GetComponent<SectionManager>();
         InitStateMachine();
     }
 
-    protected void InitStateMachine() {
+    private void InitStateMachine() {
         stateMachine = GetComponent<LoadStateMachine>();
         Dictionary<Type, LoadBaseState> states = new Dictionary<Type, LoadBaseState>();
 
         AStar aStar = aStarGrid.GetComponent<AStar>();
-        NavMeshSurface roadMesh = roadNavMesh.GetComponent<NavMeshSurface>();
-        NavMeshSurface sidewalkMesh = sidewalkNavMesh.GetComponent<NavMeshSurface>();
+
+        NavMeshSurface roadMesh = null;
+        NavMeshSurface sidewalkMesh = null;
         
-        states.Add(typeof(InitializeLoadState), new InitializeLoadState(0, "Initialization", typeof(GenChunksLoadState), tileRegistry.GetComponent<TileRegistry>()));
-        states.Add(typeof(GenChunksLoadState), new GenChunksLoadState(1, "Chunk Generation", typeof(GenRoadsLoadState)));
-        states.Add(typeof(GenRoadsLoadState), new GenRoadsLoadState(2, "Road Generation", typeof(GenBuildingsLoadState), roadSeed.GetComponent<RoadSeed>()));
-        states.Add(typeof(GenBuildingsLoadState), new GenBuildingsLoadState(3, "Gen Buildings", typeof(ComebineMeshLoadState), sectionManager.GetComponent<SectionManager>())); //Unimplemented
+        if (roadNavMesh != null)  roadMesh = roadNavMesh.GetComponent<NavMeshSurface>();
+        if (sidewalkNavMesh != null) sidewalkMesh = sidewalkNavMesh.GetComponent<NavMeshSurface>();
+
+        bool skipNavMesh = roadMesh == null || sidewalkMesh == null;
+
+        TileRegistry tileRegistryComponent = null;
+        RoadSeed roadSeedComponent = null;
+        SectionManager sectionManagerComponent = null;
+        VehicleAgentManager vehicleAgentManagerComponent = null;
+
+        if (tileRegistry != null) tileRegistryComponent = tileRegistry.GetComponent<TileRegistry>();
+        if (roadSeed != null) roadSeedComponent = roadSeed.GetComponent<RoadSeed>();
+        if (sectionManager != null) sectionManagerComponent = sectionManager.GetComponent<SectionManager>();
+        if (agentManager != null) vehicleAgentManagerComponent = agentManager.GetComponent<VehicleAgentManager>();
+
+        states.Add(typeof(InitializeLoadState), new InitializeLoadState(0, "Initialization", typeof(GenChunksLoadState), tileRegistryComponent));
+        states.Add(typeof(GenChunksLoadState), new GenChunksLoadState(1, "Chunk Generation", typeof(GenRoadsLoadState), World.Instance.SkipChunkGen()));
+        states.Add(typeof(GenRoadsLoadState), new GenRoadsLoadState(2, "Road Generation", typeof(GenBuildingsLoadState), roadSeedComponent, World.Instance.SkipRoadGen()));
+        states.Add(typeof(GenBuildingsLoadState), new GenBuildingsLoadState(3, "Gen Buildings", typeof(ComebineMeshLoadState), sectionManagerComponent, World.Instance.SkipBuildingGen())); //Unimplemented
         states.Add(typeof(ComebineMeshLoadState), new ComebineMeshLoadState(4, "Combine Meshes", typeof(GenNavMeshLoadState))); //Unimplemented
-        states.Add(typeof(GenNavMeshLoadState), new GenNavMeshLoadState(5, "NavMesh Generation", typeof(PopulateRegistryLoadState), aStar, roadMesh, sidewalkMesh)); //Part implemented
+        states.Add(typeof(GenNavMeshLoadState), new GenNavMeshLoadState(5, "NavMesh Generation", typeof(PopulateRegistryLoadState), aStar, roadMesh, sidewalkMesh, skipNavMesh)); //Part implemented
         states.Add(typeof(PopulateRegistryLoadState), new PopulateRegistryLoadState(6, "Populate Registries", typeof(GenVehicleLoadState)));
-        states.Add(typeof(GenVehicleLoadState), new GenVehicleLoadState(7, "Generate Vehicles", typeof(GenCiviliansLoadState), agentManager.GetComponent<VehicleAgentManager>()));
-        states.Add(typeof(GenCiviliansLoadState), new GenCiviliansLoadState(8, "Generate Civilians", typeof(CompletedLoadState)));
+        states.Add(typeof(GenVehicleLoadState), new GenVehicleLoadState(7, "Generate Vehicles", typeof(GenCiviliansLoadState), vehicleAgentManagerComponent, World.Instance.SkipVehicleGen()));
+        states.Add(typeof(GenCiviliansLoadState), new GenCiviliansLoadState(8, "Generate Civilians", typeof(CompletedLoadState), World.Instance.SkipPedestrianGen()));
         states.Add(typeof(CompletedLoadState), new CompletedLoadState(9, "Completed", typeof(CompletedLoadState), loadingCanvas));
         
         stateMachine.SetStates(states);

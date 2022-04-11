@@ -5,53 +5,6 @@ using UnityEngine;
 
 public class MeshCombiner : MonoBehaviour {
 
-    [ReadOnly, SerializeField] private bool combined = false;
-
-    void Awake() {
-        
-    }
-    
-    Mesh CombineMeshes(MeshFilter[] meshes) {
-        // Key: shared mesh instance ID, Value: arguments to combine meshes
-        var helper = new Dictionary<int, List<CombineInstance>>();
-
-        // Build combine instances for each type of mesh
-        foreach (var m in meshes) {
-            List<CombineInstance> tmp;
-            if (!helper.TryGetValue(m.sharedMesh.GetInstanceID(), out tmp)) {
-                tmp = new List<CombineInstance>();
-                helper.Add(m.sharedMesh.GetInstanceID(), tmp);
-            }
-
-            var ci = new CombineInstance();
-            ci.mesh = m.sharedMesh;
-            ci.transform = m.transform.localToWorldMatrix;
-            tmp.Add(ci);
-        }
-
-        // Combine meshes and build combine instance for combined meshes
-        var list = new List<CombineInstance>();
-        foreach (var e in helper) {
-            var m = new Mesh();
-            m.CombineMeshes(e.Value.ToArray());
-            var ci = new CombineInstance();
-            ci.mesh = m;
-            list.Add(ci);
-        }
-
-        // And now combine everything
-        var result = new Mesh();
-        result.CombineMeshes(list.ToArray(), false, false);
-
-        // It is a good idea to clean unused meshes now
-        foreach (var m in list) {
-            Destroy(m.mesh);
-        }
-
-        return result;
-
-    }
-
     public void CombineMeshes() {
         MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>(); //Get all the filters from children of current object
         ArrayList combiners = new ArrayList();
@@ -69,9 +22,9 @@ public class MeshCombiner : MonoBehaviour {
 
         for (int i = 0; i < meshFilters.Length; i++) { //Iterate through all existing meshes
             MeshFilter filter = meshFilters[i];
-            //if (filter.transform == transform) { //Don't operate on the parent object (probably unneeded as we delete them anyway)
-            //    continue;
-            //}
+            if (filter.transform == transform) { //Don't operate on the parent object (probably unneeded as we delete them anyway)
+                continue;
+            }
             
             MeshRenderer renderer = filter.GetComponent<MeshRenderer>(); //Get the current selected child renderer
             for (int j = 0; j < filter.sharedMesh.subMeshCount; j++) {
@@ -124,7 +77,7 @@ public class MeshCombiner : MonoBehaviour {
         
         //Destroy the original children for performance
         for (int i = 0; i < transform.childCount; i++) {
-            //Destroy(transform.GetChild(i).gameObject);
+            Destroy(transform.GetChild(i).gameObject);
         }
         
         //Move back to original location
@@ -144,4 +97,45 @@ public class MeshCombiner : MonoBehaviour {
         }
         return -1;
     }
+    
+    /* No longer used?
+    Mesh CombineMeshes(MeshFilter[] meshes) {
+        // Key: shared mesh instance ID, Value: arguments to combine meshes
+        var helper = new Dictionary<int, List<CombineInstance>>();
+
+        // Build combine instances for each type of mesh
+        foreach (var m in meshes) {
+            List<CombineInstance> tmp;
+            if (!helper.TryGetValue(m.sharedMesh.GetInstanceID(), out tmp)) {
+                tmp = new List<CombineInstance>();
+                helper.Add(m.sharedMesh.GetInstanceID(), tmp);
+            }
+
+            var ci = new CombineInstance();
+            ci.mesh = m.sharedMesh;
+            ci.transform = m.transform.localToWorldMatrix;
+            tmp.Add(ci);
+        }
+
+        // Combine meshes and build combine instance for combined meshes
+        var list = new List<CombineInstance>();
+        foreach (var e in helper) {
+            var m = new Mesh();
+            m.CombineMeshes(e.Value.ToArray());
+            var ci = new CombineInstance();
+            ci.mesh = m;
+            list.Add(ci);
+        }
+
+        // And now combine everything
+        var result = new Mesh();
+        result.CombineMeshes(list.ToArray(), false, false);
+
+        // It is a good idea to clean unused meshes now
+        foreach (var m in list) {
+            Destroy(m.mesh);
+        }
+
+        return result;
+    } */
 }

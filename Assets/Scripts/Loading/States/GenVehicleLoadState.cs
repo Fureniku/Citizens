@@ -3,10 +3,11 @@
 namespace Loading.States {
     public class GenVehicleLoadState : LoadBaseState {
         
-        public GenVehicleLoadState(int progressId, string name, Type nextState, VehicleAgentManager agentManager) {
+        public GenVehicleLoadState(int progressId, string name, Type nextState, VehicleAgentManager agentManager, bool skip) {
             this.progressId = progressId;
             this.stateName = name;
             this.system = agentManager;
+            this.skip = skip;
             this.nextState = nextState;
         }
 

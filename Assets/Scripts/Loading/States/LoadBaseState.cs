@@ -6,6 +6,7 @@ public abstract class LoadBaseState : BaseState {
     protected string stateName;
     protected int progressId = 0;
     protected GenerationSystem system = null;
+    protected bool skip = false;
 
     public string GetName() {
         return stateName;
@@ -21,6 +22,10 @@ public abstract class LoadBaseState : BaseState {
 
     public GenerationSystem GetSystem() {
         return system;
+    }
+
+    public bool ShouldSkip() {
+        return skip;
     }
     
     public abstract bool StateProgress();

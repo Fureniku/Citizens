@@ -34,20 +34,19 @@ public class LoadStateMachine : MonoBehaviour {
         if (CurrentState.GetType() == typeof(CompletedLoadState)) { //Dont do anything once state machine is finished
             return;
         }
-        else {
-            if (CurrentState.StateProgress()) {
-                SwitchToState(CurrentState.GetNextState());
-            }
+        
+        if (CurrentState.ShouldSkip() || CurrentState.StateProgress()) {
+            SwitchToState(CurrentState.GetNextState());
         }
-
+        
         stateName = currentState.GetName();
     }
 
     //Switch states, and update rule based system
     public void SwitchToState(Type nextState) {
         Debug.Log("MOVING FROM STATE [" + CurrentState.GetName() + "] TO [" + states[nextState].GetName() + "].");
-        CurrentState.StateExit();
+        if (!CurrentState.ShouldSkip()) CurrentState.StateExit();
         CurrentState = states[nextState];
-        CurrentState.StateEnter();
+        if (!CurrentState.ShouldSkip()) CurrentState.StateEnter();
     }
 }

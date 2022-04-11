@@ -3,11 +3,12 @@
 namespace Loading.States {
     public class GenChunksLoadState : LoadBaseState {
         
-        public GenChunksLoadState(int progressId, string name, Type nextState) {
+        public GenChunksLoadState(int progressId, string name, Type nextState, bool skip) {
             this.progressId = progressId;
             this.stateName = name;
             this.nextState = nextState;
             this.system = World.Instance.GetChunkManager();
+            this.skip = skip;
         }
 
         public override bool StateProgress() {

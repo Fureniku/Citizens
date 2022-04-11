@@ -7193,14 +7193,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chunkManager: {fileID: 1907542590}
-  testAgent: {fileID: 8945190466146426157, guid: 472c2a24ef19ddf49ad4228b79c2bbf8,
-    type: 3}
-  vehicleAgentCount: 50
-  navMeshRoad: {fileID: 1055781744}
-  navMeshSidewalk: {fileID: 1938235342}
-  AStarPlane: {fileID: 1136820589}
   worldSize: 3
   internalGeneratedWorld: 0
+  skipChunkGen: 0
+  skipRoadGen: 0
+  skipBuildingGen: 0
+  skipVehicleGen: 0
+  skipPedestrianGen: 0
 --- !u!114 &1907542593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8416,34 +8415,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8291326659201070219, guid: be661445192d79f4bb273d9defb4ba2a,
-        type: 3}
-      propertyPath: register.Array.size
-      value: 18
-      objectReference: {fileID: 0}
-    - target: {fileID: 8291326659201070219, guid: be661445192d79f4bb273d9defb4ba2a,
-        type: 3}
-      propertyPath: register.Array.data[10]
-      value: 
-      objectReference: {fileID: 2341133800501381319, guid: ec72a931da1c7824b86f47092fbd02e3,
-        type: 3}
-    - target: {fileID: 8291326659201070219, guid: be661445192d79f4bb273d9defb4ba2a,
-        type: 3}
-      propertyPath: register.Array.data[15]
-      value: 
-      objectReference: {fileID: 2341133800501381319, guid: 37d3ccf91776e2d498f70d9224cad59e,
-        type: 3}
-    - target: {fileID: 8291326659201070219, guid: be661445192d79f4bb273d9defb4ba2a,
-        type: 3}
-      propertyPath: register.Array.data[16]
-      value: 
-      objectReference: {fileID: 3320656565879782384, guid: a3e366e3d4d2ed94f93f77334040cd8d,
-        type: 3}
-    - target: {fileID: 8291326659201070219, guid: be661445192d79f4bb273d9defb4ba2a,
-        type: 3}
-      propertyPath: register.Array.data[17]
-      value: 
-      objectReference: {fileID: 4858921784356234158, guid: 0b6c123ed5d6bc742a8ce2f40d293ebb,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be661445192d79f4bb273d9defb4ba2a, type: 3}

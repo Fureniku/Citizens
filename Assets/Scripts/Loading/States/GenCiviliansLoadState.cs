@@ -3,10 +3,11 @@
 namespace Loading.States {
     public class GenCiviliansLoadState : LoadBaseState {
         
-        public GenCiviliansLoadState(int progressId, string name, Type nextState) {
+        public GenCiviliansLoadState(int progressId, string name, Type nextState, bool skip) {
             this.progressId = progressId;
             this.stateName = name;
             this.nextState = nextState;
+            this.skip = skip;
         }
 
         public override bool StateProgress() {

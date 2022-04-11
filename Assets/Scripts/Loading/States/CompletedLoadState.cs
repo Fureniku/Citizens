@@ -18,7 +18,7 @@ namespace Loading.States {
         }
 
         public override Type StateEnter() {
-            loadingCanvas.SetActive(false);
+            if (loadingCanvas != null) loadingCanvas.SetActive(false);
             return null;
         }
 
