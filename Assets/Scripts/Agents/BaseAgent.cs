@@ -26,11 +26,8 @@ public abstract class BaseAgent : MonoBehaviour {
     [SerializeField] private string currentState;
 
     protected AgentStateMachine stateMachine;
-    
     protected Vector3 lookDirection;
-
     protected AStar aStar;
-
     protected bool initialized = false;
 
     protected List<GameObject> dests;
@@ -39,11 +36,15 @@ public abstract class BaseAgent : MonoBehaviour {
     void Awake() {
         agent = GetComponent<NavMeshAgent>();
         dests = new List<GameObject>();
-        aStar = World.Instance.GetAStarPlane().GetComponent<AStar>();
+        //aStar = World.Instance.GetAStarPlane().GetComponent<AStar>();
         objectDistance = visualRange;
         InitStateMachine();
         
         SetLookDirection(Vector3.forward);
+    }
+
+    public void SetAStar(AStar aStar) {
+        this.aStar = aStar;
     }
 
     void FixedUpdate() {

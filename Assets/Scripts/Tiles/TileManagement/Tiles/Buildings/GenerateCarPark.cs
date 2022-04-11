@@ -34,9 +34,11 @@ public class GenerateCarPark {
         this.width = Random.Range(minWidth, maxWidth);
         this.length = Random.Range(minLength, maxLength);
         this.height = Random.Range(minHeight, maxHeight);
-
-        buildingParent = World.Instance.GetNewBuildingParent();
         
+        buildingParent = new GameObject("BuildingParent");
+        buildingParent.AddComponent<MeshCombiner>();
+        buildingParent.AddComponent<MeshFilter>();
+        buildingParent.AddComponent<MeshRenderer>();
         ComebineMeshLoadState.RegisterMeshCombiner(buildingParent);
     }
 

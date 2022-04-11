@@ -6,39 +6,23 @@ using Debug = UnityEngine.Debug;
 public class World : MonoBehaviour {
 
     private static World _instance;
-
     public static World Instance {
         get { return _instance; }
     }
     
     [SerializeField] private ChunkManager chunkManager = null;
-    private WorldData worldData = null;
-
-    [SerializeField] private GameObject testAgent = null;
-    [SerializeField] private int vehicleAgentCount;
-    
-    [SerializeField] private GameObject navMeshRoad = null; //Road navmesh
-    [SerializeField] private GameObject navMeshSidewalk = null; //Sidewalk navmesh
-    [SerializeField] private GameObject AStarPlane = null; //A-star plane
-
     [SerializeField] private int worldSize = 3;
-
-    [SerializeField] private GameObject buildingParentPrefab = null;
-
-    public GameObject GetNewBuildingParent() {
-        return Instantiate(buildingParentPrefab);
-    }
-
-    private bool isDirty = false;
     [SerializeField] private bool internalGeneratedWorld = false; //If the world was made and is a prefab now, set this to true to stop any attempts at generation.
+    
+    private WorldData worldData = null;
+    private bool isDirty = false;
 
     void Awake() {
         GC.Collect();
         Debug.Log("Initialize world");
         if (_instance != null && _instance != this) {
             Destroy(this.gameObject);
-        }
-        else {
+        } else {
             _instance = this;
         }
         
@@ -48,11 +32,7 @@ public class World : MonoBehaviour {
             if (worldData == null) {
                 CreateWorldData();
             }
-
-            worldData.SetNavMeshRoad(navMeshRoad);
-            worldData.SetNavMeshSidewalk(navMeshSidewalk);
-        }
-        else {
+        } else {
             Debug.Log("Confirmed as internal world. Skipping generation.");
             worldData = FindObjectOfType<WorldData>();
             if (worldData == null) {
@@ -71,38 +51,18 @@ public class World : MonoBehaviour {
     }
 
     public bool IsInternalGenWorld() { return internalGeneratedWorld; }
-
     public void SetWorldExists() => worldData.SetWorldExists();
-
-    public bool DoesWorldExist() {
-        return worldData.DoesWorldExist();
-    }
-
+    public bool DoesWorldExist() { return worldData.DoesWorldExist(); }
+    public WorldData GetWorldData() { return worldData; }
+    public ChunkManager GetChunkManager() { return chunkManager; }
+    public string GetWorldName() { return worldData.GetWorldName(); }
+    public void MarkDirty() { if (SavingEnabled()) isDirty = true; }
+    private bool SavingEnabled() { return worldData.SavingEnabled(); }
+    
     void Update() {
         if (isDirty) {
             SaveWorld();
         }
-
-#if UNITY_EDITOR
-
-        worldData.SetChunkGenPercent(chunkManager.GetGenerationPercentage());
-#endif
-    }
-
-    public WorldData GetWorldData() {
-        return worldData;
-    }
-    
-    public ChunkManager GetChunkManager() {
-        return chunkManager;
-    }
-
-    public string GetWorldName() {
-        return worldData.GetWorldName();
-    }
-
-    public bool SavingEnabled() {
-        return worldData.SavingEnabled();
     }
 
     void SaveWorld() {
@@ -119,11 +79,5 @@ public class World : MonoBehaviour {
             Debug.Log("World saving complete! Took " + stopWatch.Elapsed + " seconds.");
         }
         isDirty = false;
-    }
-
-    public void MarkDirty() { if (SavingEnabled()) isDirty = true; }
-
-    public GameObject GetAStarPlane() {
-        return AStarPlane;
     }
 }

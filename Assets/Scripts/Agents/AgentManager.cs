@@ -5,10 +5,10 @@ using UnityEngine.AI;
 
 public abstract class AgentManager : GenerationSystem {
     
-    [SerializeField] protected GameObject agentParent;
     [SerializeField] protected int initialAgentCount;
     [SerializeField] protected int maxAgentCount;
     [SerializeField] protected GameObject testAgent = null; //Change to using pedestrian registry later
+    [SerializeField] protected GameObject aStarPlane = null;
 
     protected List<GameObject> agents = new List<GameObject>();
     
