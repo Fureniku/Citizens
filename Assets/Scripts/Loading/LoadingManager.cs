@@ -10,8 +10,8 @@ using UnityEngine.UI;
 public class LoadingManager : MonoBehaviour {
     
     private SectionManager sectionManager = null;
-
-    protected LoadStateMachine stateMachine;
+    private MeshCombinerManager meshCombinerManager = null;
+    private LoadStateMachine stateMachine;
 
     [SerializeField] private GameObject tileRegistry = null;
     [SerializeField] private GameObject roadSeed = null;
@@ -36,6 +36,7 @@ public class LoadingManager : MonoBehaviour {
 
     public void Initialize() {
         sectionManager = GetComponent<SectionManager>();
+        meshCombinerManager = GetComponent<MeshCombinerManager>();
         InitStateMachine();
     }
 
@@ -55,19 +56,17 @@ public class LoadingManager : MonoBehaviour {
 
         TileRegistry tileRegistryComponent = null;
         RoadSeed roadSeedComponent = null;
-        SectionManager sectionManagerComponent = null;
         VehicleAgentManager vehicleAgentManagerComponent = null;
 
         if (tileRegistry != null) tileRegistryComponent = tileRegistry.GetComponent<TileRegistry>();
         if (roadSeed != null) roadSeedComponent = roadSeed.GetComponent<RoadSeed>();
-        if (sectionManager != null) sectionManagerComponent = sectionManager.GetComponent<SectionManager>();
         if (agentManager != null) vehicleAgentManagerComponent = agentManager.GetComponent<VehicleAgentManager>();
 
         states.Add(typeof(InitializeLoadState), new InitializeLoadState(0, "Initialization", typeof(GenChunksLoadState), tileRegistryComponent));
         states.Add(typeof(GenChunksLoadState), new GenChunksLoadState(1, "Chunk Generation", typeof(GenRoadsLoadState), World.Instance.SkipChunkGen()));
         states.Add(typeof(GenRoadsLoadState), new GenRoadsLoadState(2, "Road Generation", typeof(GenBuildingsLoadState), roadSeedComponent, World.Instance.SkipRoadGen()));
-        states.Add(typeof(GenBuildingsLoadState), new GenBuildingsLoadState(3, "Gen Buildings", typeof(ComebineMeshLoadState), sectionManagerComponent, World.Instance.SkipBuildingGen())); //Unimplemented
-        states.Add(typeof(ComebineMeshLoadState), new ComebineMeshLoadState(4, "Combine Meshes", typeof(GenNavMeshLoadState))); //Unimplemented
+        states.Add(typeof(GenBuildingsLoadState), new GenBuildingsLoadState(3, "Gen Buildings", typeof(ComebineMeshLoadState), sectionManager, World.Instance.SkipBuildingGen())); //Unimplemented
+        states.Add(typeof(ComebineMeshLoadState), new ComebineMeshLoadState(4, "Combine Meshes", typeof(GenNavMeshLoadState), meshCombinerManager)); //Unimplemented
         states.Add(typeof(GenNavMeshLoadState), new GenNavMeshLoadState(5, "NavMesh Generation", typeof(PopulateRegistryLoadState), aStar, roadMesh, sidewalkMesh, skipNavMesh)); //Part implemented
         states.Add(typeof(PopulateRegistryLoadState), new PopulateRegistryLoadState(6, "Populate Registries", typeof(GenVehicleLoadState)));
         states.Add(typeof(GenVehicleLoadState), new GenVehicleLoadState(7, "Generate Vehicles", typeof(GenCiviliansLoadState), vehicleAgentManagerComponent, World.Instance.SkipVehicleGen()));

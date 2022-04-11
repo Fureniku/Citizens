@@ -1,10 +1,8 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using Loading.States;
 using UnityEngine;
 
 public class MeshCombiner : MonoBehaviour {
-
+    
     public void CombineMeshes() {
         MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>(); //Get all the filters from children of current object
         ArrayList combiners = new ArrayList();
@@ -23,16 +21,18 @@ public class MeshCombiner : MonoBehaviour {
         for (int i = 0; i < meshFilters.Length; i++) { //Iterate through all existing meshes
             MeshFilter filter = meshFilters[i];
             if (filter.transform == transform) { //Don't operate on the parent object (probably unneeded as we delete them anyway)
+                Debug.Log("Skipping parent");
                 continue;
             }
             
-            MeshRenderer renderer = filter.GetComponent<MeshRenderer>(); //Get the current selected child renderer
+            MeshRenderer subRenderer = filter.GetComponent<MeshRenderer>(); //Get the current selected child renderer
+
             for (int j = 0; j < filter.sharedMesh.subMeshCount; j++) {
                 //Check if the current material is in our array, and if not, add it.
-                int matArrayIndex = Contains(materials, renderer.sharedMaterials[j].name);
+                int matArrayIndex = Contains(materials, subRenderer.sharedMaterials[j].name);
                 if (matArrayIndex == -1) {
-                    Debug.Log("Added material " + renderer.sharedMaterials[j].name);
-                    materials.Add(renderer.sharedMaterials[j]);
+                    Debug.Log("Added material " + subRenderer.sharedMaterials[j].name);
+                    materials.Add(subRenderer.sharedMaterials[j]);
                     matArrayIndex = materials.Count - 1;
                 }
 
@@ -47,6 +47,8 @@ public class MeshCombiner : MonoBehaviour {
                 ((ArrayList) combiners[matArrayIndex]).Add(instance);
             }
         }
+        
+        Debug.Log("Combiners has " + combiners.Count + " entries");
 
         MeshFilter combinedMeshFilter = GetComponent<MeshFilter>();
         MeshRenderer combinedMeshRenderer = GetComponent<MeshRenderer>();
@@ -85,6 +87,7 @@ public class MeshCombiner : MonoBehaviour {
         transform.position = initialPos;
         
         Debug.Log("Completed reducing meshes from " + initialSize + " to " + materials.Count);
+        Debug.Break();
     }
 
     //From https://answers.unity.com/questions/196649/combinemeshes-with-different-materials.html
@@ -97,6 +100,7 @@ public class MeshCombiner : MonoBehaviour {
         }
         return -1;
     }
+    
     
     /* No longer used?
     Mesh CombineMeshes(MeshFilter[] meshes) {

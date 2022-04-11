@@ -4,25 +4,21 @@ using UnityEngine;
 
 namespace Loading.States {
     public class ComebineMeshLoadState : LoadBaseState {
-        
-        private static List<GameObject> meshCombiners = new List<GameObject>();
-        
-        public ComebineMeshLoadState(int progressId, string name, Type nextState) {
+
+        public ComebineMeshLoadState(int progressId, string name, Type nextState, MeshCombinerManager meshCombinerManager) {
             this.progressId = progressId;
             this.stateName = name;
             this.nextState = nextState;
+            this.system = meshCombinerManager;
         }
 
         public override bool StateProgress() {
-            return true;
+            system.Process();
+            return system.IsComplete();
         }
 
         public override Type StateEnter() {
-            Debug.Log(meshCombiners.Count + " mesh combiners registered");
-            for (int i = 0; i < meshCombiners.Count; i++) {
-                Debug.Log("combining mesh " + i);
-                meshCombiners[i].GetComponent<MeshCombiner>().CombineMeshes();
-            }
+            system.Initialize();
             return null;
         }
 
@@ -32,10 +28,6 @@ namespace Loading.States {
         
         public override string GetProgressString() {
             return "Combining Meshes";
-        }
-
-        public static void RegisterMeshCombiner(GameObject meshCombiner) {
-            meshCombiners.Add(meshCombiner);
         }
     }
 }

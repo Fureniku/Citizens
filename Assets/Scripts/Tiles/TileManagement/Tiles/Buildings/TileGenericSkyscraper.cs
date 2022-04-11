@@ -14,17 +14,12 @@ public class TileGenericSkyscraper : TileBuilding {
     [SerializeField] private int maxSegments = 3;
 
     [ReadOnly, SerializeField] private int segments = 1;
-    [ReadOnly, SerializeField] private int height = 30;
     
     private GameObject[,] referenceTiles;
 
-    private bool generationComplete = false;
+    [SerializeField] private bool generateNow = false;
 
-    private int segmentHeight;
-    private float scale;
-
-    private bool skyscraperCreated;
-    private bool isRegistryEntry = false;
+    [SerializeField] private GameObject meshCombiner;
 
     void Start() {
         segments = Random.Range(minSegments, maxSegments);
@@ -40,10 +35,12 @@ public class TileGenericSkyscraper : TileBuilding {
     }
 
     void Update() {
-        if (World.Instance.GetChunkManager().IsComplete() && !skyscraperCreated) {
+        if (generateNow && !skyscraperCreated) {
+            Debug.Log("Generating now!");
             skyscraperCreated = true;
             if (genDirection != EnumGenerateDirection.NONE && !isRegistryEntry) {
                 Generate();
+                meshCombiner.GetComponent<MeshCombiner>().CombineMeshes();
             }
         }
     }
@@ -78,7 +75,7 @@ public class TileGenericSkyscraper : TileBuilding {
         roofGO.transform.localScale = new Vector3((scale-((segments-1)*0.1f)) * scaleX, 1*scaleY, (scale-((segments-1)*0.1f)) * scaleZ);
 
         //Place reference tiles
-        for (int row = 0; row < length; row++) {
+        /*for (int row = 0; row < length; row++) {
             for (int col = 0; col < width; col++) {
                 if (row == 0 && col == 0) continue;
                 TilePos genPos = new TilePos(worldPos.x + row * genDirection.GenX(), worldPos.z + col * genDirection.GenZ());
@@ -93,7 +90,7 @@ public class TileGenericSkyscraper : TileBuilding {
                 referenceTiles[row, col] = rt;
                     
             }
-        }
+        }*/
         generationComplete = true;
     }
 
@@ -101,7 +98,7 @@ public class TileGenericSkyscraper : TileBuilding {
         return generationComplete;
     }
 
-    private void OnDestroy() {
+    /*private void OnDestroy() {
         for (int row = 0; row < length; row++) {
             for (int col = 0; col < width; col++) {
                 GameObject go = referenceTiles[row, col];
@@ -113,7 +110,7 @@ public class TileGenericSkyscraper : TileBuilding {
                 }
             }
         }
-    }
+    }*/
 
     public override JProperty SerializeTile(TileData data, int row, int col) {
         JObject jObj = new JObject();

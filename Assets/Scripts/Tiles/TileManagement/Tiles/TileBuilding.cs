@@ -18,13 +18,12 @@ public abstract class TileBuilding : TileData {
     
     [ReadOnly, SerializeField] protected int height = 30;
     
-    private bool generationComplete = false;
+    protected bool generationComplete = false;
 
-    private int segmentHeight;
-    private float scale;
+    protected int segmentHeight;
+    protected float scale;
 
-    private bool skyscraperCreated;
-    
+    protected bool skyscraperCreated;
 
     void Start() {
         Debug.Log("Tile building start called");

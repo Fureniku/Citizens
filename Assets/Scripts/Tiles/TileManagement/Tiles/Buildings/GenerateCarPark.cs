@@ -39,7 +39,7 @@ public class GenerateCarPark {
         buildingParent.AddComponent<MeshCombiner>();
         buildingParent.AddComponent<MeshFilter>();
         buildingParent.AddComponent<MeshRenderer>();
-        ComebineMeshLoadState.RegisterMeshCombiner(buildingParent);
+        MeshCombinerManager.RegisterMeshCombiner(buildingParent);
     }
 
     public void Generate() {
