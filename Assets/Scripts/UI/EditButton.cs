@@ -5,15 +5,15 @@ using UnityEngine;
 public class EditButton : MonoBehaviour {
 
     private int id;
-    private GameObject camera;
+    private GameObject cam;
 
     void Start() {
-        camera = GameObject.Find("Main Camera");
+        cam = GameObject.Find("Main Camera");
     }
 
     public void SetId(int id) => this.id = id;
 
     public void TriggerReplace() {
-        camera.GetComponent<InputHandler>().ReplaceTile(id);
+        cam.GetComponent<InputHandler>().ReplaceTile(id);
     }
 }

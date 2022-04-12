@@ -8,7 +8,6 @@ public class AgentStateMachine : MonoBehaviour {
     private Dictionary<Type, AgentBaseState> states;
     private AgentBaseState currentState;
     private AgentBaseState lastState;
-    private bool debug = false; //State switch voicelines can be a bit spammy
 
     public AgentBaseState CurrentState {
         get { return currentState; }

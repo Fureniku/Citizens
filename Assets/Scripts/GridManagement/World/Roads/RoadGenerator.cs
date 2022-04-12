@@ -13,8 +13,6 @@ public class RoadGenerator : MonoBehaviour {
     private Tile road_world_exit = TileRegistry.ROAD_WORLD_EXIT;
 
     [ReadOnly, SerializeField] private int nestLevel = 0;
-    
-    [SerializeField] private GameObject skyscraper = null;
 
     [SerializeField] private int numberGenerate = 50;
     [SerializeField] private int cornerChance; //as percentage

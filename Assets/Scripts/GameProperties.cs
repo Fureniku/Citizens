@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameProperties : MonoBehaviour {
 
-    [SerializeField] private GameObject camera;
+    [SerializeField] private GameObject cam;
     [SerializeField] private GameObject editCanvas;
     [SerializeField] private GameObject mainCanvas;
     [SerializeField] private GameObject selectionInfo;
@@ -15,13 +15,12 @@ public class GameProperties : MonoBehaviour {
     private CameraController cameraController;
     private World world;
 
-    private bool mouseMenu;
     private bool camFollow = false;
     private bool fDown = false;
 
     void Start() {
-        inputHandler = camera.GetComponent<InputHandler>();
-        cameraController = camera.GetComponent<CameraController>();
+        inputHandler = cam.GetComponent<InputHandler>();
+        cameraController = cam.GetComponent<CameraController>();
         world = World.Instance;
     }
 
@@ -29,7 +28,6 @@ public class GameProperties : MonoBehaviour {
         if (Input.GetKey(KeyCode.E)) {
             Cursor.lockState = CursorLockMode.Confined;
             editCanvas.SetActive(true);
-            mouseMenu = true;
         }
 
         if (inputHandler.SelectedObject() != null) {
@@ -76,11 +74,11 @@ public class GameProperties : MonoBehaviour {
         camFollow = follow;
         if (follow && obj != null) {
             GameObject camPos = obj.GetComponent<VehicleAgent>().GetCamPos();
-            camera.transform.parent = camPos.transform;
-            camera.transform.rotation = camPos.transform.rotation;
-            camera.transform.position = camPos.transform.position;
+            cam.transform.parent = camPos.transform;
+            cam.transform.rotation = camPos.transform.rotation;
+            cam.transform.position = camPos.transform.position;
         } else {
-            camera.transform.parent = transform;
+            cam.transform.parent = transform;
         }
     }
 
@@ -104,7 +102,6 @@ public class GameProperties : MonoBehaviour {
     public void Resume() {
         Cursor.lockState = CursorLockMode.Locked;
         editCanvas.SetActive(false);
-        mouseMenu = false;
     }
     
     public void EditMode() {

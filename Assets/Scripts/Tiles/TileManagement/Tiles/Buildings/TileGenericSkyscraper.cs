@@ -75,7 +75,7 @@ public class TileGenericSkyscraper : TileBuilding {
         roofGO.transform.localScale = new Vector3((scale-((segments-1)*0.1f)) * scaleX, 1*scaleY, (scale-((segments-1)*0.1f)) * scaleZ);
 
         //Place reference tiles
-        /*for (int row = 0; row < length; row++) {
+        for (int row = 0; row < length; row++) {
             for (int col = 0; col < width; col++) {
                 if (row == 0 && col == 0) continue;
                 TilePos genPos = new TilePos(worldPos.x + row * genDirection.GenX(), worldPos.z + col * genDirection.GenZ());
@@ -90,12 +90,8 @@ public class TileGenericSkyscraper : TileBuilding {
                 referenceTiles[row, col] = rt;
                     
             }
-        }*/
+        }
         generationComplete = true;
-    }
-
-    public bool IsGenerationComplete() {
-        return generationComplete;
     }
 
     /*private void OnDestroy() {
