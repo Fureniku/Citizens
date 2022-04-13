@@ -44,9 +44,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nestLevel: 0
-  skyscraper: {fileID: 4858921784356234158, guid: 0b6c123ed5d6bc742a8ce2f40d293ebb,
-    type: 3}
   numberGenerate: 150
-  cornerChance: 10
+  junctionChance: 10
   minTilesBeforeCorner: 4
   generatorDirection: 2
+  tilesSinceBranch: 0
+  maxBranches: 5
+  branchesMade: 0

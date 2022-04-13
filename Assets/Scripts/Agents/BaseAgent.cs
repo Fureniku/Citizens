@@ -210,6 +210,11 @@ public abstract class BaseAgent : MonoBehaviour {
         Debug.Log("Trigger!");
         AgentTriggerEnter(other);
     }
+    
+    public void SetAgentDestination(GameObject dest) {
+        currentDestGO = dest;
+        agent.destination = dest.transform.position;
+    }
 
     public abstract void IncrementDestination();
     public abstract void Init();

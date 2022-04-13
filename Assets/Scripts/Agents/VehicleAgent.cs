@@ -148,11 +148,6 @@ public class VehicleAgent : BaseAgent {
         }
     }
 
-    public void SetAgentDestination(GameObject dest) {
-        currentDestGO = dest;
-        agent.destination = dest.transform.position;
-    }
-
     protected override void AgentCollideEnter(Collision collision) {
         PrintText("Crashed into " + collision.collider.transform.gameObject.name);
         stateMachine.SwitchToState(typeof(CrashedState));

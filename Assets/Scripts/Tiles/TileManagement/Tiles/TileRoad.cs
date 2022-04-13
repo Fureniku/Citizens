@@ -38,6 +38,18 @@ public class TileRoad : TileData {
                 tileId = TileRegistry.T_JUNCT_ROAD_1x1_SINGLE_OUT.GetId();
                 name = TileRegistry.T_JUNCT_ROAD_1x1_SINGLE_OUT.GetName();
                 break;
+            case RoadType.ZEBRA_CROSSING:
+                tileId = TileRegistry.ZEBRA_CROSSING_1x1.GetId();
+                name = TileRegistry.ZEBRA_CROSSING_1x1.GetName();
+                break;
+            case RoadType.PELICAN_CROSSING:
+                tileId = TileRegistry.PELICAN_CROSSING_1x1.GetId();
+                name = TileRegistry.PELICAN_CROSSING_1x1.GetName();
+                break;
+            case RoadType.CROSSING_APPROACH:
+                tileId = TileRegistry.CROSSING_APPROACH_1x1.GetId();
+                name = TileRegistry.CROSSING_APPROACH_1x1.GetName();
+                break;
         }
         width = 1;
         length = 1;
@@ -89,5 +101,8 @@ public enum RoadType {
     ROAD_CROSSROAD,
     ROAD_CROSSROAD_CONTROLLED,
     T_JUNCT_ROAD_1x1_SINGLE_IN,
-    T_JUNCT_ROAD_1x1_SINGLE_OUT
+    T_JUNCT_ROAD_1x1_SINGLE_OUT,
+    ZEBRA_CROSSING,
+    PELICAN_CROSSING,
+    CROSSING_APPROACH
 }

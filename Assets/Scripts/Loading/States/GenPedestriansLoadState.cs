@@ -1,20 +1,23 @@
 ﻿using System;
 
 namespace Loading.States {
-    public class GenCiviliansLoadState : LoadBaseState {
+    public class GenPedestriansLoadState : LoadBaseState {
         
-        public GenCiviliansLoadState(int progressId, string name, Type nextState, bool skip) {
+        public GenPedestriansLoadState(int progressId, string name, Type nextState, PedestrianAgentManager agentManager, bool skip) {
             this.progressId = progressId;
             this.stateName = name;
             this.nextState = nextState;
             this.skip = skip;
+            this.system = agentManager;
         }
 
         public override bool StateProgress() {
-            return true;
+            system.Process();
+            return system.IsComplete();
         }
 
         public override Type StateEnter() {
+            system.Initialize();
             return null;
         }
 

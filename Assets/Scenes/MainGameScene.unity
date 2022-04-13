@@ -152,6 +152,7 @@ Transform:
   m_Children:
   - {fileID: 1136820594}
   - {fileID: 1611462139}
+  - {fileID: 778696800}
   - {fileID: 1055781746}
   - {fileID: 1938235344}
   m_Father: {fileID: 0}
@@ -2626,6 +2627,57 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 763027360}
   m_CullTransparentMesh: 1
+--- !u!1 &778696799
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 778696800}
+  - component: {fileID: 778696801}
+  m_Layer: 0
+  m_Name: PedestrianAgentManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &778696800
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 778696799}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 29347882}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &778696801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 778696799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d9faff3f2a34eadb640302719a3dac3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  percentage: 0
+  message: 
+  complete: 0
+  initialAgentCount: 0
+  maxAgentCount: 500
+  testAgent: {fileID: 4969062756450106854, guid: 60dac1133367e4f4999a4bafed426d8f,
+    type: 3}
+  aStarPlane: {fileID: 1136820589}
 --- !u!1 &810328223
 GameObject:
   m_ObjectHideFlags: 0
@@ -3497,7 +3549,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 29347882}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1065513269
 GameObject:
@@ -5297,7 +5349,7 @@ MonoBehaviour:
   percentage: 0
   message: 
   complete: 0
-  initialAgentCount: 10
+  initialAgentCount: 0
   maxAgentCount: 500
   testAgent: {fileID: 8945190466146426157, guid: 472c2a24ef19ddf49ad4228b79c2bbf8,
     type: 3}
@@ -7215,7 +7267,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileRegistry: {fileID: 619757297}
   roadSeed: {fileID: 472280706}
-  agentManager: {fileID: 1611462137}
+  vehicleAgentManager: {fileID: 1611462137}
+  pedestrianAgentManager: {fileID: 778696799}
   roadNavMesh: {fileID: 1055781744}
   sidewalkNavMesh: {fileID: 1938235342}
   aStarGrid: {fileID: 1136820589}
@@ -7549,7 +7602,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.6666667
+  m_VoxelSize: 0.16666667
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 0}
 --- !u!4 &1938235344
@@ -7564,7 +7617,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 29347882}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1947148906
 GameObject:

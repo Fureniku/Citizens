@@ -7,7 +7,7 @@ public class TileRegistry : GenerationSystem {
     
     //To add a new tile:
     // - create tile: public static readonly Tile NAME (id, local name, tiletype)
-    // - initialize registry: tileRegistry[TILE.getId()] = TILE
+    // - initialize registry: tileRegistry.Add(TILE)
     // - Get the tile enum (GetTile(EnumTile tile))
     // - Add to EnumTile
     // - Set EnumTile on the prefab
@@ -32,7 +32,10 @@ public class TileRegistry : GenerationSystem {
     public static readonly Tile CAR_PARK_INNER_BASE = new Tile(14, "Car Park Inner", TileType.BUILDING_PART);
     public static readonly Tile CAR_PARK_EXIT = new Tile(15, "Car Park Exit", TileType.BUILDING_PART);
     public static readonly Tile ROAD_WORLD_EXIT = new Tile(16, "Road World Exit", TileType.ROAD);
-    public static readonly Tile SKYSCRAPER_GENERIC_1 = new Tile(17, "Generic Skyscraper 1", TileType.BUILDING);
+    public static readonly Tile ZEBRA_CROSSING_1x1 = new Tile(17, "Zebra Crossing", TileType.ROAD);
+    public static readonly Tile PELICAN_CROSSING_1x1 = new Tile(18, "Pelican Crossing", TileType.ROAD);
+    public static readonly Tile CROSSING_APPROACH_1x1 = new Tile(19, "Crossing Approach", TileType.ROAD);
+    public static readonly Tile SKYSCRAPER_GENERIC_1 = new Tile(20, "Generic Skyscraper 1", TileType.BUILDING);
 
     public static int maxId = 999;
 
@@ -79,8 +82,11 @@ public class TileRegistry : GenerationSystem {
         tileRegistry.Add(CAR_PARK_CORNER_BASE);
         tileRegistry.Add(CAR_PARK_INNER_BASE);
         tileRegistry.Add(CAR_PARK_EXIT);
-        tileRegistry.Add(SKYSCRAPER_GENERIC_1);
         tileRegistry.Add(ROAD_WORLD_EXIT);
+        tileRegistry.Add(ZEBRA_CROSSING_1x1);
+        tileRegistry.Add(PELICAN_CROSSING_1x1);
+        tileRegistry.Add(CROSSING_APPROACH_1x1);
+        tileRegistry.Add(SKYSCRAPER_GENERIC_1);
     }
 
     public static int GetSize() {
@@ -163,6 +169,12 @@ public class TileRegistry : GenerationSystem {
                 return CAR_PARK_EXIT;
             case EnumTile.ROAD_WORLD_EXIT:
                 return ROAD_WORLD_EXIT;
+            case EnumTile.ZEBRA_CROSSING_1x1:
+                return ZEBRA_CROSSING_1x1;
+            case EnumTile.PELICAN_CROSSING_1x1:
+                return PELICAN_CROSSING_1x1;
+            case EnumTile.CROSSING_APPROACH_1x1:
+                return CROSSING_APPROACH_1x1;
             case EnumTile.SKYSCRAPER_GENERIC_1:
                 return SKYSCRAPER_GENERIC_1;
             default:
@@ -223,6 +235,9 @@ public enum EnumTile {
     CAR_PARK_INNER_BASE,
     CAR_PARK_EXIT,
     ROAD_WORLD_EXIT,
+    ZEBRA_CROSSING_1x1,
+    PELICAN_CROSSING_1x1,
+    CROSSING_APPROACH_1x1,
     SKYSCRAPER_GENERIC_1
 }
 
