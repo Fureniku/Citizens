@@ -6,6 +6,12 @@ using UnityEngine;
 
 public class VehicleAgent : BaseAgent {
 
+    private float maxSpeed;
+
+    public float GetMaxSpeed() {
+        return maxSpeed;
+    }
+
     public override void Init() {
         GameObject finalDest = World.Instance.GetChunkManager().GetTile(DestinationRegistration.RoadDestinationRegistry.GetAtRandom()).gameObject;
         
@@ -82,23 +88,40 @@ public class VehicleAgent : BaseAgent {
             dests.Add(finalDest);
         }
 
-        agent.destination = dests[0].transform.position;
+        SetAgentDestination(dests[0]);
         
         VehicleJunctionNode node = dests[currentDest].GetComponent<VehicleJunctionNode>();
         if (node != null) {
             shouldStop = node.GiveWay();
         }
+
+        maxSpeed = agent.speed;
         initialized = true;
     }
 
+    public void SetSpeed(float speed) {
+        if (speed < maxSpeed) {
+            agent.speed = speed;
+        }
+        else {
+            agent.speed = maxSpeed;
+        }
+    }
+    
     protected override void InitStateMachine() {
         stateMachine = GetComponent<AgentStateMachine>();
         Dictionary<Type, AgentBaseState> states = new Dictionary<Type, AgentBaseState>();
         
-        states.Add(typeof(DriveState), new DriveState(this));
-        states.Add(typeof(ObstructionSpottedState), new ObstructionSpottedState(this));
-        states.Add(typeof(CrashedState), new CrashedState(this));
-        states.Add(typeof(JunctionExitWaitState), new JunctionExitWaitState(this));
+        states.Add(typeof(DriveState), new DriveState(this)); //Standard driving with observation in front
+        states.Add(typeof(ObstructionSpottedState), new ObstructionSpottedState(this)); //Something ahead is blocking the vehicle
+        states.Add(typeof(CrashedState), new CrashedState(this)); //Vehicle collided with something
+        states.Add(typeof(JunctionExitWaitState), new JunctionExitWaitState(this)); //Waiting at a junction exit, checking if its safe to go
+        states.Add(typeof(ApproachJunctionState), new ApproachJunctionState(this)); //Approaching a junction; slowing down
+        states.Add(typeof(WaitForJunctionState), new WaitForJunctionState(this)); //Waiting behind another vehicle at a junction
+        states.Add(typeof(WaitForVehicleState), new WaitForVehicleState(this)); //Waiting behind another vehicle in general
+        states.Add(typeof(SlowForTurnState), new SlowForTurnState(this)); //Slow down when approaching a turn where we wouldn't have to completely stop
+        states.Add(typeof(TurningState), new TurningState(this)); //In the process of turning in a junction (slower driving)
+        states.Add(typeof(AccelerateState), new AccelerateState(this)); //Gradually increase vehicle speed (manual control is better than Unity's agent system)
         
         stateMachine.SetStates(states);
     }
@@ -108,37 +131,26 @@ public class VehicleAgent : BaseAgent {
     }
 
     protected override void AgentNavigate() {
-        if (dests[currentDest] != null) {
-            currentDestGO = dests[currentDest];
-            float dist = Vector3.Distance(transform.position, dests[currentDest].transform.position);
-            if (dist < 5) {
-                if (currentDest < dests.Count - 1) {
-                    if (shouldStop) {
-                        stateMachine.SwitchToState(typeof(JunctionExitWaitState));
-                        IncrementDestination();
-                    }
-                    else {
-                        IncrementDestination();
-                    }
-                }
-                else {
-                    ReachedDestination();
-                }
+
+    }
+
+    public override void IncrementDestination() {
+        if (currentDest < dests.Count-1) { //count isn't zero-based
+            currentDest++;
+            SetAgentDestination(dests[currentDest]);
+
+            VehicleJunctionNode node = dests[currentDest].GetComponent<VehicleJunctionNode>();
+            if (node != null) {
+                shouldStop = node.GiveWay();
             }
-        }
-        else {
-            Debug.Log("Destination " + currentDest + " is null for " + gameObject.name);
+        } else {
+            ReachedDestination();
         }
     }
 
-    protected override void IncrementDestination() {
-        currentDest++;
-        agent.destination = dests[currentDest].transform.position;
-
-        VehicleJunctionNode node = dests[currentDest].GetComponent<VehicleJunctionNode>();
-        if (node != null) {
-            shouldStop = node.GiveWay();
-        }
+    public void SetAgentDestination(GameObject dest) {
+        currentDestGO = dest;
+        agent.destination = dest.transform.position;
     }
 
     protected override void AgentCollideEnter(Collision collision) {
@@ -155,7 +167,7 @@ public class VehicleAgent : BaseAgent {
     
     protected override void AgentTriggerExit(Collider other) { }
 
-    private void OnDrawGizmos() {
+    /*private void OnDrawGizmos() {
         if (drawGizmos) {
             Gizmos.color = Color.red;
             if (eyePos != null) {
@@ -165,5 +177,5 @@ public class VehicleAgent : BaseAgent {
                 Gizmos.DrawRay(transform.position, lookDirection * objectDistance);
             }
         }
-    }
+    }*/
 }

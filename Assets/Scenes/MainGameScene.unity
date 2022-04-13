@@ -3482,7 +3482,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.6666667
+  m_VoxelSize: 0.29999998
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 0}
 --- !u!4 &1055781746
@@ -5297,7 +5297,7 @@ MonoBehaviour:
   percentage: 0
   message: 
   complete: 0
-  initialAgentCount: 1
+  initialAgentCount: 10
   maxAgentCount: 500
   testAgent: {fileID: 8945190466146426157, guid: 472c2a24ef19ddf49ad4228b79c2bbf8,
     type: 3}
@@ -6502,7 +6502,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd4d8a156620cdb4ba206ba1d7e3e520, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 1065513269}
+  cam: {fileID: 1065513269}
   editCanvas: {fileID: 233511224}
   mainCanvas: {fileID: 1368750436}
   selectionInfo: {fileID: 1978578469}
@@ -7198,7 +7198,7 @@ MonoBehaviour:
   internalGeneratedWorld: 0
   skipChunkGen: 0
   skipRoadGen: 0
-  skipBuildingGen: 0
+  skipBuildingGen: 1
   skipVehicleGen: 0
   skipPedestrianGen: 0
 --- !u!114 &1907542593

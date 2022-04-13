@@ -38,12 +38,11 @@ public class GenerateCarPark {
         this.length = Random.Range(minLength, maxLength);
         this.height = Random.Range(minHeight, maxHeight);
         
-        buildingParent = new GameObject("BuildingParent");
+        buildingParent = new GameObject($"BuildingParent_{startPos.x}_{startPos.z}");
         buildingParent.transform.parent = chunkParent.transform;
         buildingParent.AddComponent<MeshCombiner>();
         buildingParent.AddComponent<MeshFilter>();
         buildingParent.AddComponent<MeshRenderer>();
-        MeshCombinerManager.RegisterMeshCombiner(buildingParent);
     }
 
     public void Generate() {
@@ -58,18 +57,29 @@ public class GenerateCarPark {
         }
     }
 
-    private int SelectGameObject(int l, int w, ref EnumDirection rot) {
+    public void CombineMeshes() {
+        TilePos placePos = new TilePos(startPos.x, startPos.z);
+        GameObject go = World.Instance.GetChunkManager().GetTile(placePos).gameObject;
+        Debug.Log("Getting parent for building: " + go.transform.parent.name);
+        if (go.transform.parent.GetComponent<MeshCombiner>() != null) {
+            go.transform.parent.GetComponent<MeshCombiner>().CombineMeshes();
+        }
+    }
+
+    private int SelectGameObject(int w, int l, ref EnumDirection rot) {
         //ok this is gonna be fun
         //Check for entrance, at the front of the building
         if (l == 0) {
             //Arrays are zero-based, so minus 1 where appropriate.
             if (width % 2 == 0) { //Even-width building
                 if (w == width / 2 || w == width / 2 - 1) {
+                    rot = EnumDirection.WEST;
                     return TileRegistry.GetTile(entrance).GetId();
                 }
             }
             else { //Odd-width building
                 if (w == (int)Math.Floor(width / 2.0)) {
+                    rot = EnumDirection.WEST;
                     return TileRegistry.GetTile(entrance).GetId();
                 }
             }
@@ -78,11 +88,13 @@ public class GenerateCarPark {
         if (l == 1) {
             if (width % 2 == 0) { //Even-width building
                 if (w == width / 2 || w == width / 2 - 1) {
+                    rot = EnumDirection.WEST;
                     return TileRegistry.GetTile(ramp).GetId();
                 }
             }
             else { //Odd-width building
                 if (w == (int)Math.Floor(width / 2.0)) {
+                    rot = EnumDirection.WEST;
                     return TileRegistry.GetTile(ramp).GetId();
                 }
             }
@@ -94,32 +106,33 @@ public class GenerateCarPark {
                 return TileRegistry.GetTile(corner).GetId();
             }
             if (l == length-1) {
-                rot = EnumDirection.SOUTH;
+                rot = EnumDirection.NORTH;
                 return TileRegistry.GetTile(corner).GetId();
             }
 
-            rot = EnumDirection.WEST;
+            rot = EnumDirection.NORTH;
             return TileRegistry.GetTile(edge).GetId();
         }
         if (w == width-1) {
             if (l == 0) {
-                rot = EnumDirection.NORTH;
+                rot = EnumDirection.SOUTH;
                 return TileRegistry.GetTile(corner).GetId();
             }
             if (l == length-1) {
                 rot = EnumDirection.EAST;
                 return TileRegistry.GetTile(corner).GetId();
             }
-            rot = EnumDirection.EAST;
+            rot = EnumDirection.SOUTH;
             return TileRegistry.GetTile(edge).GetId();
         }
 
         if (l == 0) {
+            rot = EnumDirection.WEST;
             return TileRegistry.GetTile(edge).GetId();
         }
 
         if (l == length - 1) {
-            rot = EnumDirection.SOUTH;
+            rot = EnumDirection.EAST;
             return TileRegistry.GetTile(edge).GetId();
         }
         

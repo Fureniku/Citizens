@@ -12,7 +12,8 @@ public class ChunkManager : GenerationSystem {
 
     private GameObject[,] grid = null;
 
-    private float gridSlotSize = 50.0f;
+    private float gridSlotSize = 10.0f;
+    private float gridScale; // Should be gridSlotSize / 50 (the original size)
     [SerializeField, Range(1, 200)] private int randomSeed = 10;
 
     [SerializeField] GameObject defaultChunk = null;
@@ -20,8 +21,6 @@ public class ChunkManager : GenerationSystem {
 
     private int currentChunks = 0;
     private int maxChunks = 0;
-    
-    public readonly float defaultScale = 50f;
 
     [ReadOnly, SerializeField] private GridManagerState state = GridManagerState.UNINITIALIZED;
 
@@ -32,6 +31,7 @@ public class ChunkManager : GenerationSystem {
     }
     
     void Start() {
+        gridScale = gridSlotSize / 50.0f;
         Random.InitState(randomSeed);
         size = WorldData.Instance.GetWorldSize();
         Debug.Log("Constructing world with size " + size);
@@ -106,6 +106,7 @@ public class ChunkManager : GenerationSystem {
         GameObject cell = Instantiate(go, transform);
         cell.name = $"chunk_{row}_{col}";
         cell.transform.position = new Vector3(gridSlotSize * row * Chunk.size + (gridSlotSize/2), 0, gridSlotSize * col * Chunk.size + (gridSlotSize/2)) + transform.position;
+        cell.transform.localScale = new Vector3(gridScale, gridScale, gridScale);
         cell.GetComponent<Chunk>().SetPosition(new ChunkPos(row, col));
         grid[row, col] = cell;
     }
@@ -205,6 +206,7 @@ public class ChunkManager : GenerationSystem {
     public Chunk GetChunk(int row, int col) { return GetChunk(new ChunkPos(row, col)); }
     public Chunk GetChunk(ChunkPos pos) { return grid[pos.x, pos.z].GetComponent<Chunk>(); }
     public float GetGridTileSize() { return gridSlotSize; }
+    public float GetWorldScale() { return gridScale; }
 
     /////////////////////////////////// Abstract inheritence stuff ///////////////////////////////////
     public override int GetGenerationPercentage() {

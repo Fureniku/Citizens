@@ -31,7 +31,7 @@ public class VehicleJunctionNode : MonoBehaviour {
     private void OnDrawGizmos() {
         Gizmos.color = isIn ? Color.green : Color.red;
 
-        Gizmos.DrawSphere(transform.position, 1.0f);
+        Gizmos.DrawSphere(transform.position, 1.0f * World.Instance.GetChunkManager().GetWorldScale());
         
     }
 }

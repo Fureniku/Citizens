@@ -17,6 +17,7 @@ public class TileBuildingSegment : TileData {
     void Start() { //Segments work differently to big buildings and are always 1x1
         width = 1;
         length = 1;
+        sectionHeight *= World.Instance.GetChunkManager().GetWorldScale();
         Initialize();
     }
     
@@ -41,7 +42,10 @@ public class TileBuildingSegment : TileData {
                 generatedObj = Instantiate(mid, new Vector3(pos.x, pos.y + i*sectionHeight + mid.transform.position.y, pos.z), transform.rotation, transform);
             }
 
-            if (generatedObj != null) generatedObj.name = gameObject.name + " (Floor " + i + ")";
+            if (generatedObj != null) {
+                generatedObj.name = gameObject.name + " (Floor " + i + ")";
+                generatedObj.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            }
         }
 
         generated = true;

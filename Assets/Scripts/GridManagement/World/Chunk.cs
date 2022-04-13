@@ -114,6 +114,7 @@ public class Chunk : MonoBehaviour {
         cell.name = $"tile_{pos.x}_{pos.z}";
         cell.transform.position = new Vector3(World.Instance.GetChunkManager().GetGridTileSize() * pos.x, 0, World.Instance.GetChunkManager().GetGridTileSize() * pos.z) + transform.position;
         cell.transform.rotation = Quaternion.Euler(0,rotation.GetRotation(),0);
+        cell.transform.localScale *= World.Instance.GetChunkManager().GetWorldScale();//new Vector3(5f, 5f, 5f);
         
         if (GetChunkCellContents(pos.x, pos.z) != null) { 
             DeleteChunkCell(pos.x, pos.z, true);

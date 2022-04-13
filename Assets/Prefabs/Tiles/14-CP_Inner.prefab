@@ -64,7 +64,7 @@ MonoBehaviour:
   enumTile: 14
   genDirection: 4
   mid: {fileID: 5483120942752754371, guid: 6c019a6a7c157a24d972fab33590a92a, type: 3}
-  roof: {fileID: 919132149155446097, guid: 8f7abb63a7fa0eb4585b03830b00e2c0, type: 3}
+  roof: {fileID: 1217319473643618893, guid: f5733b784ba413b4cab16f121d616157, type: 3}
   sectionHeight: 16.43
 --- !u!1 &2220366048290125286
 GameObject:

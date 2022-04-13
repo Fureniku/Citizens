@@ -2,7 +2,7 @@
 using UnityEngine;
 
 public class MeshCombiner : MonoBehaviour {
-    
+
     public void CombineMeshes() {
         MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>(); //Get all the filters from children of current object
         ArrayList combiners = new ArrayList();

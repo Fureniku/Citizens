@@ -36,40 +36,110 @@ public abstract class BaseAgent : MonoBehaviour {
     void Awake() {
         agent = GetComponent<NavMeshAgent>();
         dests = new List<GameObject>();
-        //aStar = World.Instance.GetAStarPlane().GetComponent<AStar>();
         objectDistance = visualRange;
         InitStateMachine();
         
-        SetLookDirection(Vector3.forward);
+        SetLookDirection(Vector3.forward, false);
     }
 
     public void SetAStar(AStar aStar) {
         this.aStar = aStar;
     }
 
+    public bool ShouldStop() {
+        return shouldStop;
+    }
+
     void FixedUpdate() {
         AgentUpdate();
         Navigate();
 
-        GetSeenObject();
+        //GetSeenObject();
+        CheckForObjects();
 
         if (stateMachine.CurrentState != null) {
             currentState = stateMachine.CurrentState.GetName();
         }
     }
 
-    public void SetLookDirection(Vector3 vec3) {
-        Vector3 dir = transform.TransformDirection(vec3);
-        if (eyePos != null) {
-            dir = eyePos.transform.TransformDirection(vec3);
+    public void SetLookDirection(Vector3 vec3, bool force) {
+        if (lastSeenObject != null && !force) {
+            SetLookDirection();
         }
-        lookDirection = dir;
+        else {
+            Vector3 dir = transform.TransformDirection(vec3);
+            if (eyePos != null) {
+                dir = eyePos.transform.TransformDirection(vec3);
+            }
+            lookDirection = dir;
+        }
+    }
+
+    public void SetLookDirection() {
+        if (lastSeenObject != null) {
+            lookDirection = (lastSeenObject.transform.position - agent.transform.position).normalized;
+        }
+        else {
+            lookDirection = Vector3.forward;
+        }
+    }
+
+    [SerializeField] private GameObject lastSeenObject;
+    [SerializeField] private int seenDecay;
+    
+    public void CheckForObjects() {
+        RaycastHit hit;
+        if (Physics.Raycast(eyePos.transform.position, lookDirection, out hit, visualRange)) {
+            if (SeenAgent(hit.transform.gameObject)) {
+                objectDistance = hit.distance;
+                lastSeenObject = hit.transform.gameObject;
+            }
+            Debug.DrawLine(eyePos.transform.position, hit.transform.position, Color.blue);
+            seenDecay = 0;
+        }
+        else if (lastSeenObject != null) {
+            if (seenDecay < 20) {
+                seenDecay++;
+                Debug.DrawLine(eyePos.transform.position, lastSeenObject.transform.position, Color.blue);
+            }
+            else {
+                lastSeenObject = null;
+                objectDistance = visualRange;
+            }
+        }
+    }
+
+    public GameObject GetLastSeenObject() {
+        return lastSeenObject;
+    }
+
+    public BaseAgent GetLastSeenAgent() {
+        if (lastSeenObject != null) {
+            if (SeenAgent(lastSeenObject)) {
+                return lastSeenObject.GetComponent<BaseAgent>();
+            }
+        }
+
+        return null;
+    }
+
+    public Type GetStateType() {
+        return stateMachine.CurrentState.GetType();
+    }
+
+    public AgentBaseState GetState() {
+        return stateMachine.CurrentState;
+    }
+
+    public GameObject GetCurrentDestinationObject() {
+        return dests[currentDest];
     }
 
     public RaycastHit GetSeenObject() {
         RaycastHit hit;
         if (Physics.Raycast(eyePos.transform.position, lookDirection, out hit, visualRange)) {
             objectDistance = hit.distance;
+            Debug.DrawLine(eyePos.transform.position, hit.transform.position, Color.green);
         }
         else {
             objectDistance = visualRange;
@@ -77,11 +147,12 @@ public abstract class BaseAgent : MonoBehaviour {
         return hit;
     }
 
-    public bool SeenAgent(RaycastHit hit) {
-        if (hit.collider == null) {
+    public bool SeenAgent(GameObject target) {
+        if (target == null) {
             return false;
         }
-        return hit.collider.CompareTag("Vehicle") || hit.collider.CompareTag("Pedestrian");
+        
+        return target.CompareTag("Vehicle") || target.CompareTag("Pedestrian");
     }
 
     void Navigate() {
@@ -92,6 +163,7 @@ public abstract class BaseAgent : MonoBehaviour {
     }
     
     protected void ReachedDestination() {
+        Debug.Log(name + " has reached their destination.");
         if (destroyOnArrival) {
             Destroy(gameObject);
         }
@@ -125,6 +197,10 @@ public abstract class BaseAgent : MonoBehaviour {
         Debug.Log("[Agent] " + gameObject.name + ": " + str);
     }
 
+    public GameObject GetCurrentDestination() {
+        return dests[currentDest];
+    }
+
     private void OnCollisionEnter(Collision collision) {
         Debug.Log("Collision!");
         AgentCollideEnter(collision);
@@ -135,7 +211,7 @@ public abstract class BaseAgent : MonoBehaviour {
         AgentTriggerEnter(other);
     }
 
-    protected abstract void IncrementDestination();
+    public abstract void IncrementDestination();
     public abstract void Init();
     protected abstract void AgentUpdate();
     protected abstract void AgentNavigate();

@@ -39,10 +39,12 @@ public class AgentStateMachine : MonoBehaviour {
 
     //Switch states, and update rule based system
     public void SwitchToState(Type nextState) {
-        CurrentState.StateExit();
-        lastState = CurrentState;
-        CurrentState = states[nextState];
-        CurrentState.StateEnter();
+        if (nextState != CurrentState.GetType()) {
+            CurrentState.StateExit();
+            lastState = CurrentState;
+            CurrentState = states[nextState];
+            CurrentState.StateEnter();
+        }
     }
 
     public AgentBaseState LastState() {

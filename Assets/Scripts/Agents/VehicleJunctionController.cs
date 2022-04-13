@@ -165,11 +165,7 @@ public class VehicleJunctionController : MonoBehaviour {
         }
 
         Vector3 localScale = transform.localScale;
-        
-        xL *= localScale.x;
-        xR *= localScale.x;
-        zL *= localScale.x;
-        zR *= localScale.x;
+
         
         GameObject node = new GameObject();
         node.transform.position = transform.position + (isIn ? new Vector3(xL, y, zL) : new Vector3(xR, y, zR));
