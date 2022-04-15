@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 3141299287020984577}
   - component: {fileID: 2056923438431939493}
   m_Layer: 0
-  m_Name: Shoulders
+  m_Name: Torso
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -107,8 +107,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 265640259549394522}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.24, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.25, z: 0.5}
+  m_LocalPosition: {x: 0, y: 1.102, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.4, z: 0.5}
   m_Children: []
   m_Father: {fileID: 5975634451761237878}
   m_RootOrder: 2
@@ -233,6 +233,7 @@ GameObject:
   - component: {fileID: 8943152722989216077}
   - component: {fileID: 7126844496685502437}
   - component: {fileID: 9029992111515247493}
+  - component: {fileID: 883352137350136624}
   m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
@@ -305,6 +306,25 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!95 &883352137350136624
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2580872003261473858}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a176843ec80a88b4ea10dd7d30eea96a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3946387555624300426
 GameObject:
   m_ObjectHideFlags: 0
@@ -398,6 +418,7 @@ GameObject:
   - component: {fileID: 5588262913705082905}
   - component: {fileID: 2669965893517582141}
   - component: {fileID: -9025430584181979472}
+  - component: {fileID: 901405649870691696}
   m_Layer: 0
   m_Name: Pedestrian
   m_TagString: Untagged
@@ -472,6 +493,7 @@ MonoBehaviour:
   totalDestinations: 0
   lastSeenObject: {fileID: 0}
   seenDecay: 0
+  head: {fileID: 2580872003261473858}
 --- !u!114 &-9025430584181979472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -484,6 +506,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46a43f940274462891adb876f625691c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &901405649870691696
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4969062756450106854}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a176843ec80a88b4ea10dd7d30eea96a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &6651840285472335159
 GameObject:
   m_ObjectHideFlags: 0

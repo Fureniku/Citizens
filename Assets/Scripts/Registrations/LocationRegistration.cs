@@ -14,12 +14,10 @@ public static class DestinationRegistration {
             for (int j = 0; j < size; j++) {
                 TilePos tilePos = new TilePos(i, j);
                 TileData tileData = World.Instance.GetChunkManager().GetTile(tilePos);
-                if (tileData is TileRoad) {
-                    if (i == 0 || j == 0 || i == size || j == size) {
-                        RoadDestinationRegistry.AddToList(tilePos);
-                    }
-
+                if (tileData.GetTile() == TileRegistry.STRAIGHT_ROAD_1x1) {
                     RoadSpawnerRegistry.AddToList(tilePos);
+                } else if (tileData.GetTile() == TileRegistry.ROAD_WORLD_EXIT) {
+                    RoadDestinationRegistry.AddToList(tilePos);
                 }
             }
         }

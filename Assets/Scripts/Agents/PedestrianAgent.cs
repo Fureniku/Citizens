@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PedestrianAgent : BaseAgent {
-    
+
+    [SerializeField] private GameObject head;
 
     public override void Init() {
         GameObject finalDest = World.Instance.GetChunkManager().GetTile(DestinationRegistration.RoadDestinationRegistry.GetAtRandom()).gameObject;
@@ -81,6 +82,7 @@ public class PedestrianAgent : BaseAgent {
         else {
             dests.Add(finalDest);
         }*/
+        dests.Add(finalDest);
 
         SetAgentDestination(finalDest);
 
@@ -92,8 +94,21 @@ public class PedestrianAgent : BaseAgent {
         Dictionary<Type, AgentBaseState> states = new Dictionary<Type, AgentBaseState>();
         
         states.Add(typeof(WalkState), new WalkState(this)); //Standard walking
+        states.Add(typeof(ApproachZebraCrossingState), new ApproachZebraCrossingState(this)); //Approach a zebra crossing
+        states.Add(typeof(WaitZebraCrossingState), new WaitZebraCrossingState(this)); //Wait at a zebra crossing
+        states.Add(typeof(CrossingState), new CrossingState(this)); //Crossing the road (as to not switch back into an approach state)
 
         stateMachine.SetStates(states);
+    }
+    
+    public new void SetLookDirection(Vector3 vec3, bool force) {
+        
+        if (GetLastSeenObject() != null && !force) {
+            SetLookDirection();
+        } else {
+            Debug.Log("setting look direction");
+            head.transform.rotation = Quaternion.Euler(vec3);
+        }
     }
 
     protected override void AgentUpdate() {}

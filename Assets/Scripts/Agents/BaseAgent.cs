@@ -62,11 +62,15 @@ public abstract class BaseAgent : MonoBehaviour {
         }
     }
 
+    public TileData GetCurrentTile() {
+        TilePos pos = TilePos.GetGridPosFromLocation(agent.transform.position);
+        return World.Instance.GetChunkManager().GetTile(pos);
+    }
+
     public void SetLookDirection(Vector3 vec3, bool force) {
         if (lastSeenObject != null && !force) {
             SetLookDirection();
-        }
-        else {
+        } else {
             Vector3 dir = transform.TransformDirection(vec3);
             if (eyePos != null) {
                 dir = eyePos.transform.TransformDirection(vec3);
@@ -107,6 +111,9 @@ public abstract class BaseAgent : MonoBehaviour {
                 objectDistance = visualRange;
             }
         }
+        //Debug.DrawLine(eyePos.transform.position, eyePos.transform.position + (eyePos.transform.rotation.eulerAngles * visualRange), Color.yellow);
+        Debug.DrawRay(eyePos.transform.position, eyePos.transform.forward, Color.yellow, 0);
+
     }
 
     public GameObject GetLastSeenObject() {
@@ -163,7 +170,6 @@ public abstract class BaseAgent : MonoBehaviour {
     }
     
     protected void ReachedDestination() {
-        Debug.Log(name + " has reached their destination.");
         if (destroyOnArrival) {
             Destroy(gameObject);
         }
