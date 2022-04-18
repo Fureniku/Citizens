@@ -13,7 +13,7 @@ public class SectionManager : GenerationSystem {
     private bool genStarted = false;
     private bool genComplete = false;
 
-    private GenerateCarPark genCPLast = null;
+    private GenerateBuildingBase genCPLast = null;
     
     public override void Initialize() {
         worldSize = World.Instance.GetChunkManager().GetSize() * Chunk.size;
@@ -44,7 +44,7 @@ public class SectionManager : GenerationSystem {
 
             if (i < sections.Count) {
                 Section s = sections[i];
-                GenerateCarPark genCP = new GenerateCarPark(s.GetTilePos(), s.GetSizeX(), 25, 70, s.GetSizeZ());
+                GenerateOffice genCP = new GenerateOffice(s.GetTilePos(), s.GetSizeX(), 4, 10, s.GetSizeZ());
                 genCP.Generate();
                 genCPLast = genCP;
             }

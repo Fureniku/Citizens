@@ -13,12 +13,13 @@ namespace Loading.States {
         }
 
         public override bool StateProgress() {
+            if (system == null) { return true; }
             system.Process();
             return system.IsComplete();
         }
 
         public override Type StateEnter() {
-            system.Initialize();
+            if (system != null) { system.Initialize(); }
             return null;
         }
 

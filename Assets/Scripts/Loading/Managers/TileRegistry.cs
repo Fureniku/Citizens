@@ -11,6 +11,8 @@ public class TileRegistry : GenerationSystem {
     // - Get the tile enum (GetTile(EnumTile tile))
     // - Add to EnumTile
     // - Set EnumTile on the prefab
+    
+    // - If road, set info in TileRoad too.
 
     private static readonly GameObject[] registry = new GameObject[255];
     private static readonly List<Tile> tileRegistry = new List<Tile>();
@@ -35,7 +37,13 @@ public class TileRegistry : GenerationSystem {
     public static readonly Tile ZEBRA_CROSSING_1x1 = new Tile(17, "Zebra Crossing", TileType.ROAD);
     public static readonly Tile PELICAN_CROSSING_1x1 = new Tile(18, "Pelican Crossing", TileType.ROAD);
     public static readonly Tile CROSSING_APPROACH_1x1 = new Tile(19, "Crossing Approach", TileType.ROAD);
-    public static readonly Tile SKYSCRAPER_GENERIC_1 = new Tile(20, "Generic Skyscraper 1", TileType.BUILDING);
+    public static readonly Tile OFFICE_1_CORNER_RECESSED_L = new Tile(20, "Office 1 Corner Recessed L", TileType.BUILDING_PART);
+    public static readonly Tile OFFICE_1_CORNER_RECESSED_R = new Tile(21, "Office 1 Corner Recessed R", TileType.BUILDING_PART);
+    public static readonly Tile OFFICE_1_CORNER_RECESSED = new Tile(22, "Office 1 Corner Recessed", TileType.BUILDING_PART);
+    public static readonly Tile OFFICE_1_EDGE_RECESSED = new Tile(23, "Office 1 Edge Recessed" , TileType.BUILDING_PART);
+    public static readonly Tile OFFICE_1_EDGE_RECESSED_ENTRANCE = new Tile(24, "Office 1 Edge Recessed Entrance", TileType.BUILDING_PART);
+    public static readonly Tile OFFICE_1_EDGE_RECESSED_GARAGE = new Tile(25, "Office 1 Edge Recessed Garage", TileType.BUILDING_PART);
+    public static readonly Tile SKYSCRAPER_GENERIC_1 = new Tile(26, "Generic Skyscraper 1", TileType.BUILDING);
 
     public static int maxId = 999;
 
@@ -86,6 +94,12 @@ public class TileRegistry : GenerationSystem {
         tileRegistry.Add(ZEBRA_CROSSING_1x1);
         tileRegistry.Add(PELICAN_CROSSING_1x1);
         tileRegistry.Add(CROSSING_APPROACH_1x1);
+        tileRegistry.Add(OFFICE_1_CORNER_RECESSED_L);
+        tileRegistry.Add(OFFICE_1_CORNER_RECESSED_R);
+        tileRegistry.Add(OFFICE_1_CORNER_RECESSED);
+        tileRegistry.Add(OFFICE_1_EDGE_RECESSED);
+        tileRegistry.Add(OFFICE_1_EDGE_RECESSED_ENTRANCE);
+        tileRegistry.Add(OFFICE_1_EDGE_RECESSED_GARAGE);
         tileRegistry.Add(SKYSCRAPER_GENERIC_1);
     }
 
@@ -175,6 +189,18 @@ public class TileRegistry : GenerationSystem {
                 return PELICAN_CROSSING_1x1;
             case EnumTile.CROSSING_APPROACH_1x1:
                 return CROSSING_APPROACH_1x1;
+            case EnumTile.OFFICE_1_CORNER_RECESSED_L:
+                return OFFICE_1_CORNER_RECESSED_L;
+            case EnumTile.OFFICE_1_CORNER_RECESSED_R:
+                return OFFICE_1_CORNER_RECESSED_R;
+            case EnumTile.OFFICE_1_CORNER_RECESSED:
+                return OFFICE_1_CORNER_RECESSED;
+            case EnumTile.OFFICE_1_EDGE_RECESSED:
+                return OFFICE_1_EDGE_RECESSED;
+            case EnumTile.OFFICE_1_EDGE_RECESSED_ENTRANCE:
+                return OFFICE_1_EDGE_RECESSED_ENTRANCE;
+            case EnumTile.OFFICE_1_EDGE_RECESSED_GARAGE:
+                return OFFICE_1_EDGE_RECESSED_GARAGE;
             case EnumTile.SKYSCRAPER_GENERIC_1:
                 return SKYSCRAPER_GENERIC_1;
             default:
@@ -238,6 +264,12 @@ public enum EnumTile {
     ZEBRA_CROSSING_1x1,
     PELICAN_CROSSING_1x1,
     CROSSING_APPROACH_1x1,
+    OFFICE_1_CORNER_RECESSED_L,
+    OFFICE_1_CORNER_RECESSED_R,
+    OFFICE_1_CORNER_RECESSED,
+    OFFICE_1_EDGE_RECESSED,
+    OFFICE_1_EDGE_RECESSED_ENTRANCE,
+    OFFICE_1_EDGE_RECESSED_GARAGE,
     SKYSCRAPER_GENERIC_1
 }
 

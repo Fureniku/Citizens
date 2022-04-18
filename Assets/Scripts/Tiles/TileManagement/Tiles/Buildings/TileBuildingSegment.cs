@@ -8,6 +8,7 @@ public class TileBuildingSegment : TileData {
     [SerializeField] private GameObject mid;
     [SerializeField] private GameObject roof;
     [SerializeField] private float sectionHeight = 16.43f;
+    [SerializeField] private float baseExtraHeight = 0.0f;
 
     private int segments = 5;
 
@@ -18,6 +19,7 @@ public class TileBuildingSegment : TileData {
         width = 1;
         length = 1;
         sectionHeight *= World.Instance.GetChunkManager().GetWorldScale();
+        baseExtraHeight *= World.Instance.GetChunkManager().GetWorldScale();
         Initialize();
     }
     
@@ -37,9 +39,9 @@ public class TileBuildingSegment : TileData {
         for (int i = 0; i < segments; i++) {
             GameObject generatedObj = null;
             if (i == segments-1) {
-                generatedObj = Instantiate(roof, new Vector3(pos.x, pos.y + i*sectionHeight + roof.transform.position.y, pos.z), transform.rotation, transform);
+                generatedObj = Instantiate(roof, new Vector3(pos.x, pos.y + baseExtraHeight + i*sectionHeight + roof.transform.position.y, pos.z), transform.rotation, transform);
             } else if (i != 0) {
-                generatedObj = Instantiate(mid, new Vector3(pos.x, pos.y + i*sectionHeight + mid.transform.position.y, pos.z), transform.rotation, transform);
+                generatedObj = Instantiate(mid, new Vector3(pos.x, pos.y + baseExtraHeight + i*sectionHeight + mid.transform.position.y, pos.z), transform.rotation, transform);
             }
 
             if (generatedObj != null) {

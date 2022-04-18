@@ -7250,7 +7250,7 @@ MonoBehaviour:
   internalGeneratedWorld: 0
   skipChunkGen: 0
   skipRoadGen: 0
-  skipBuildingGen: 1
+  skipBuildingGen: 0
   skipVehicleGen: 0
   skipPedestrianGen: 0
 --- !u!114 &1907542593
