@@ -43,6 +43,7 @@ public class TileRegistry : GenerationSystem {
     public static readonly Tile OFFICE_1_EDGE_RECESSED = new Tile(23, "Office 1 Edge Recessed" , TileType.BUILDING_PART);
     public static readonly Tile OFFICE_1_EDGE_RECESSED_ENTRANCE = new Tile(24, "Office 1 Edge Recessed Entrance", TileType.BUILDING_PART);
     public static readonly Tile OFFICE_1_EDGE_RECESSED_GARAGE = new Tile(25, "Office 1 Edge Recessed Garage", TileType.BUILDING_PART);
+    public static readonly Tile OFFICE_1_EDGE = new Tile(26, "Office 1 Edge", TileType.BUILDING_PART);
     public static readonly Tile SKYSCRAPER_GENERIC_1 = new Tile(26, "Generic Skyscraper 1", TileType.BUILDING);
 
     public static int maxId = 999;
@@ -100,6 +101,7 @@ public class TileRegistry : GenerationSystem {
         tileRegistry.Add(OFFICE_1_EDGE_RECESSED);
         tileRegistry.Add(OFFICE_1_EDGE_RECESSED_ENTRANCE);
         tileRegistry.Add(OFFICE_1_EDGE_RECESSED_GARAGE);
+        tileRegistry.Add(OFFICE_1_EDGE);
         tileRegistry.Add(SKYSCRAPER_GENERIC_1);
     }
 
@@ -201,6 +203,8 @@ public class TileRegistry : GenerationSystem {
                 return OFFICE_1_EDGE_RECESSED_ENTRANCE;
             case EnumTile.OFFICE_1_EDGE_RECESSED_GARAGE:
                 return OFFICE_1_EDGE_RECESSED_GARAGE;
+            case EnumTile.OFFICE_1_EDGE:
+                return OFFICE_1_EDGE;
             case EnumTile.SKYSCRAPER_GENERIC_1:
                 return SKYSCRAPER_GENERIC_1;
             default:
@@ -270,6 +274,7 @@ public enum EnumTile {
     OFFICE_1_EDGE_RECESSED,
     OFFICE_1_EDGE_RECESSED_ENTRANCE,
     OFFICE_1_EDGE_RECESSED_GARAGE,
+    OFFICE_1_EDGE,
     SKYSCRAPER_GENERIC_1
 }
 

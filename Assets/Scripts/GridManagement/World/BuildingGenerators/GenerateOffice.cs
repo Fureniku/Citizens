@@ -5,6 +5,7 @@ public class GenerateOffice : GenerateBuildingBase {
     
     private EnumTile entrance = EnumTile.OFFICE_1_EDGE_RECESSED_ENTRANCE;
     private EnumTile edge = EnumTile.OFFICE_1_EDGE_RECESSED;
+    private EnumTile edge_side = EnumTile.OFFICE_1_EDGE;
     private EnumTile corner_l = EnumTile.OFFICE_1_CORNER_RECESSED_L;
     private EnumTile corner_r = EnumTile.OFFICE_1_CORNER_RECESSED_R;
     private EnumTile garage = EnumTile.OFFICE_1_EDGE_RECESSED_GARAGE;
@@ -45,8 +46,8 @@ public class GenerateOffice : GenerateBuildingBase {
                 return TileRegistry.GetTile(corner_r).GetId();
             }
 
-            //rot = EnumDirection.NORTH;
-            //return TileRegistry.GetTile(edge).GetId();
+            rot = EnumDirection.NORTH;
+            return TileRegistry.GetTile(edge_side).GetId();
         }
         if (w == width-1) {
             if (l == 0) {
@@ -57,8 +58,8 @@ public class GenerateOffice : GenerateBuildingBase {
                 rot = EnumDirection.EAST;
                 return TileRegistry.GetTile(corner_l).GetId();
             }
-           /* rot = EnumDirection.SOUTH;
-            return TileRegistry.GetTile(edge).GetId();*/
+            rot = EnumDirection.SOUTH;
+            return TileRegistry.GetTile(edge_side).GetId();
         }
 
         if (l == 0) {
