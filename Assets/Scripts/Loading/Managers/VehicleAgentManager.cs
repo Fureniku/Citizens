@@ -23,9 +23,10 @@ public class VehicleAgentManager : AgentManager {
     public override IEnumerator GenAgents() {
         Debug.Log("Starting vehicle generation");
         for (int i = 0; i < initialAgentCount; i++) {
+            GameObject agent = VehicleRegistry.GetRandomCar();
             Vector3 spawnPos = DestinationRegistration.RoadSpawnerRegistry.GetAtRandom().GetWorldPos();
             float offset = World.Instance.GetChunkManager().GetGridTileSize() / 2;
-            agents.Add(Instantiate(testAgent, new Vector3(spawnPos.x + offset, spawnPos.y, spawnPos.z + offset), Quaternion.identity));
+            agents.Add(Instantiate(agent, new Vector3(spawnPos.x + offset, spawnPos.y, spawnPos.z + offset), Quaternion.identity));
             agents[i].transform.parent = transform;
             agents[i].name = "Vehicle Agent " + (i + 1);
             agents[i].GetComponent<VehicleAgent>().SetAStar(aStarPlane.GetComponent<AStar>());

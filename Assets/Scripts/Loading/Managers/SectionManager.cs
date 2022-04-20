@@ -35,16 +35,12 @@ public class SectionManager : GenerationSystem {
     private IEnumerator Populate() {
         for (int i = 0; i < sections.Count+1; i++) {
             if (genCPLast != null) {
-                Debug.Log("Combining from last frame");
                 genCPLast.CombineMeshes();
-            }
-            else {
-                Debug.Log("Last frame's generator was null");
             }
 
             if (i < sections.Count) {
                 Section s = sections[i];
-                GenerateOffice genCP = new GenerateOffice(s.GetTilePos(), s.GetSizeX(), 4, 10, s.GetSizeZ());
+                GenerateTownHouses genCP = new GenerateTownHouses(s.GetTilePos(), s.GetSizeX(), s.GetSizeX(), s.GetSizeZ(), s.GetSizeZ());
                 genCP.Generate();
                 genCPLast = genCP;
             }

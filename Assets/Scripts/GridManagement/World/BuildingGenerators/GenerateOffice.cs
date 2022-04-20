@@ -9,6 +9,7 @@ public class GenerateOffice : GenerateBuildingBase {
     private EnumTile corner_l = EnumTile.OFFICE_1_CORNER_RECESSED_L;
     private EnumTile corner_r = EnumTile.OFFICE_1_CORNER_RECESSED_R;
     private EnumTile garage = EnumTile.OFFICE_1_EDGE_RECESSED_GARAGE;
+    private EnumTile inner = EnumTile.OFFICE_1_INNER_ROOF;
     
     protected override int SelectGameObject(int w, int l, ref EnumDirection rot) {
         //Most generator classes are relatively similar so this is copy-pasted with slight changes
@@ -72,7 +73,7 @@ public class GenerateOffice : GenerateBuildingBase {
             return TileRegistry.GetTile(edge).GetId();
         }
 
-        return -1;
+        return TileRegistry.GetTile(inner).GetId();
     }
 
     public GenerateOffice(TilePos startPos, int width, int minHeight, int maxHeight, int length) 

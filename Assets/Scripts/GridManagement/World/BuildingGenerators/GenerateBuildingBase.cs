@@ -43,7 +43,13 @@ public abstract class GenerateBuildingBase {
                 int id = SelectGameObject(w, l, ref rot);
                 if (id > 0) {
                     World.Instance.GetChunkManager().SetTile(placePos, id, rot, buildingParent.transform);
-                    World.Instance.GetChunkManager().GetTile(placePos).GetComponent<TileBuildingSegment>().MakeReady(height);
+                    TileData tile = World.Instance.GetChunkManager().GetTile(placePos);
+                    if (tile.GetComponent<TileBuildingSegment>() != null) {
+                        tile.GetComponent<TileBuildingSegment>().MakeReady(height);
+                    }
+                    else {
+                        tile.GetComponent<TileSmallBuilding>().MakeReady();
+                    }
                 }
             }
         }
@@ -56,6 +62,29 @@ public abstract class GenerateBuildingBase {
         if (go.transform.parent.GetComponent<MeshCombiner>() != null) {
             go.transform.parent.GetComponent<MeshCombiner>().CombineMeshes();
         }
+    }
+    
+    protected int PlaceSimpleObject(int w, int l, ref EnumDirection rot, EnumTile type) {
+        if (w == 0) {
+            rot = EnumDirection.NORTH;
+            return TileRegistry.GetTile(type).GetId();
+        }
+        if (w == width-1) {
+            rot = EnumDirection.SOUTH;
+            return TileRegistry.GetTile(type).GetId();
+        }
+
+        if (l == 0) {
+            rot = EnumDirection.WEST;
+            return TileRegistry.GetTile(type).GetId();
+        }
+
+        if (l == length - 1) {
+            rot = EnumDirection.EAST;
+            return TileRegistry.GetTile(type).GetId();
+        }
+
+        return -1;
     }
 
     protected abstract int SelectGameObject(int w, int l, ref EnumDirection rot);

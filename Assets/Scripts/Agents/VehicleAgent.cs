@@ -6,7 +6,15 @@ using UnityEngine;
 
 public class VehicleAgent : BaseAgent {
 
+    [SerializeField] private VehicleType vehicleType;
+    [SerializeField] private VehicleColour vehicleColour;
+    [SerializeField] private GameObject[] colouredParts;
+    
     private float maxSpeed;
+
+    public VehicleType GetVehicleType() {
+        return vehicleType;
+    }
 
     public float GetMaxSpeed() {
         return maxSpeed;
@@ -95,6 +103,11 @@ public class VehicleAgent : BaseAgent {
         }
 
         maxSpeed = agent.speed;
+
+        for (int i = 0; i < colouredParts.Length; i++) {
+            colouredParts[i].GetComponent<MeshRenderer>().material = VehicleRegistry.GetMaterial(vehicleColour);
+        }
+        
         initialized = true;
     }
 
@@ -172,4 +185,11 @@ public class VehicleAgent : BaseAgent {
             }
         }
     }*/
+}
+
+public enum VehicleType {
+    CAR,
+    VAN,
+    TRUCK,
+    BUS
 }

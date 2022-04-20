@@ -44,7 +44,13 @@ public class TileRegistry : GenerationSystem {
     public static readonly Tile OFFICE_1_EDGE_RECESSED_ENTRANCE = new Tile(24, "Office 1 Edge Recessed Entrance", TileType.BUILDING_PART);
     public static readonly Tile OFFICE_1_EDGE_RECESSED_GARAGE = new Tile(25, "Office 1 Edge Recessed Garage", TileType.BUILDING_PART);
     public static readonly Tile OFFICE_1_EDGE = new Tile(26, "Office 1 Edge", TileType.BUILDING_PART);
-    public static readonly Tile SKYSCRAPER_GENERIC_1 = new Tile(26, "Generic Skyscraper 1", TileType.BUILDING);
+    public static readonly Tile OFFICE_1_INNER_ROOF = new Tile(27, "Office 1 Inner", TileType.BUILDING_PART);
+    public static readonly Tile TOWN_HOUSE_1 = new Tile(28, "Town House 1", TileType.BUILDING);
+    public static readonly Tile TOWN_HOUSE_2 = new Tile(29, "Town House 2", TileType.BUILDING);
+    public static readonly Tile TOWN_HOUSE_3 = new Tile(30, "Town House 3", TileType.BUILDING);
+    public static readonly Tile TOWN_HOUSE_4 = new Tile(31, "Town House 4", TileType.BUILDING);
+    public static readonly Tile COFFEE_SHOP_1 = new Tile(32, "300 Degrees Coffee", TileType.BUILDING);
+    public static readonly Tile SKYSCRAPER_GENERIC_1 = new Tile(32, "Generic Skyscraper 1", TileType.BUILDING);
 
     public static int maxId = 999;
 
@@ -102,6 +108,12 @@ public class TileRegistry : GenerationSystem {
         tileRegistry.Add(OFFICE_1_EDGE_RECESSED_ENTRANCE);
         tileRegistry.Add(OFFICE_1_EDGE_RECESSED_GARAGE);
         tileRegistry.Add(OFFICE_1_EDGE);
+        tileRegistry.Add(OFFICE_1_INNER_ROOF);
+        tileRegistry.Add(TOWN_HOUSE_1);
+        tileRegistry.Add(TOWN_HOUSE_2);
+        tileRegistry.Add(TOWN_HOUSE_3);
+        tileRegistry.Add(TOWN_HOUSE_4);
+        tileRegistry.Add(COFFEE_SHOP_1);
         tileRegistry.Add(SKYSCRAPER_GENERIC_1);
     }
 
@@ -124,7 +136,7 @@ public class TileRegistry : GenerationSystem {
         Debug.Log("Registering tile [" + tile.GetId() + "] (" + tile.GetName() + ")");
 
         if (registry[tile.GetId()] != null) {
-            Debug.Log("Overwriting existing tile with ID " + tile.GetId() + "! Replacing " + GetTileFromID(tile.GetId()).GetName() + " with " + tile.GetName());
+            Debug.LogError("Overwriting existing tile with ID " + tile.GetId() + "! Replacing " + GetTileFromID(tile.GetId()).GetName() + " with " + tile.GetName());
         }
 
         registry[tile.GetId()] = go;
@@ -205,6 +217,18 @@ public class TileRegistry : GenerationSystem {
                 return OFFICE_1_EDGE_RECESSED_GARAGE;
             case EnumTile.OFFICE_1_EDGE:
                 return OFFICE_1_EDGE;
+            case EnumTile.OFFICE_1_INNER_ROOF:
+                return OFFICE_1_INNER_ROOF;
+            case EnumTile.TOWN_HOUSE_1:
+                return TOWN_HOUSE_1;
+            case EnumTile.TOWN_HOUSE_2:
+                return TOWN_HOUSE_2;
+            case EnumTile.TOWN_HOUSE_3:
+                return TOWN_HOUSE_3;
+            case EnumTile.TOWN_HOUSE_4:
+                return TOWN_HOUSE_4;
+            case EnumTile.COFFEE_SHOP_1:
+                return COFFEE_SHOP_1;
             case EnumTile.SKYSCRAPER_GENERIC_1:
                 return SKYSCRAPER_GENERIC_1;
             default:
@@ -275,6 +299,12 @@ public enum EnumTile {
     OFFICE_1_EDGE_RECESSED_ENTRANCE,
     OFFICE_1_EDGE_RECESSED_GARAGE,
     OFFICE_1_EDGE,
+    OFFICE_1_INNER_ROOF,
+    TOWN_HOUSE_1,
+    TOWN_HOUSE_2,
+    TOWN_HOUSE_3,
+    TOWN_HOUSE_4,
+    COFFEE_SHOP_1,
     SKYSCRAPER_GENERIC_1
 }
 

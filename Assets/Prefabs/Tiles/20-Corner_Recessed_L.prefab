@@ -70,7 +70,7 @@ MonoBehaviour:
   enumTile: 20
   genDirection: 4
   mid: {fileID: 5542089709676769945, guid: e9ccc6f2e9bec5d4983ecf70c25c5594, type: 3}
-  roof: {fileID: 5542089709676769945, guid: e9ccc6f2e9bec5d4983ecf70c25c5594, type: 3}
+  roof: {fileID: 7213227182556497826, guid: b034ca4fd6fac1c4796f5c0bab71415d, type: 3}
   sectionHeight: 14.16
   baseExtraHeight: 18.08
 --- !u!1 &455750221072308274
