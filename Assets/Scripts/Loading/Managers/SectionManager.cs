@@ -40,7 +40,28 @@ public class SectionManager : GenerationSystem {
 
             if (i < sections.Count) {
                 Section s = sections[i];
-                GenerateTownHouses genCP = new GenerateTownHouses(s.GetTilePos(), s.GetSizeX(), s.GetSizeX(), s.GetSizeZ(), s.GetSizeZ());
+                GenerateBuildingBase genCP;
+
+                int rng = Random.Range(0, 4);
+
+                switch (rng) {
+                    case 0:
+                        genCP = new GenerateSmallBuilding(s.GetTilePos(), s.GetSizeX(), s.GetSizeZ(), TypeRegistries.SHOPS);
+                        break;
+                    case 1:
+                        genCP = new GenerateCarPark(s.GetTilePos(), s.GetSizeX(), 3, 6, s.GetSizeZ());
+                        break;
+                    case 2:
+                        genCP = new GenerateOffice(s.GetTilePos(), s.GetSizeX(), 3, 6, s.GetSizeZ());
+                        break;
+                    case 3:
+                        genCP = new GenerateSmallBuilding(s.GetTilePos(), s.GetSizeX(), s.GetSizeZ(), TypeRegistries.HOUSES);
+                        break;
+                    default:
+                        genCP = new GenerateSmallBuilding(s.GetTilePos(), s.GetSizeX(), s.GetSizeZ(), TypeRegistries.SHOPS);
+                        break;
+                }
+                
                 genCP.Generate();
                 genCPLast = genCP;
             }

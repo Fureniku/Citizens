@@ -86,6 +86,7 @@ public class TileRegistry : GenerationSystem {
             }
         }
         Debug.Log("Registration complete");
+        TypeRegistries.PopulateRegistries();
         SetComplete();
         yield return null;
     }

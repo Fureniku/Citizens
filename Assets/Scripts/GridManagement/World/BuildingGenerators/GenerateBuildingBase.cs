@@ -10,6 +10,8 @@ public abstract class GenerateBuildingBase {
     private TilePos startPos;
     private GameObject buildingParent;
 
+    protected bool generate;
+
     public GenerateBuildingBase(TilePos startPos, int width, int minHeight, int maxHeight, int length) {
         Init(startPos, width, width, minHeight, maxHeight, length, length);
     }
@@ -61,24 +63,24 @@ public abstract class GenerateBuildingBase {
         }
     }
     
-    protected int PlaceSimpleObject(int w, int l, ref EnumDirection rot, EnumTile type) {
+    protected int PlaceSimpleObject(int w, int l, ref EnumDirection rot, BuildingTypeRegister btr) {
         if (w == 0) {
             rot = EnumDirection.NORTH;
-            return TileRegistry.GetTile(type).GetId();
+            return btr.GetNextBuilding().GetId();
         }
         if (w == width-1) {
             rot = EnumDirection.SOUTH;
-            return TileRegistry.GetTile(type).GetId();
+            return btr.GetNextBuilding().GetId();
         }
 
         if (l == 0) {
             rot = EnumDirection.WEST;
-            return TileRegistry.GetTile(type).GetId();
+            return btr.GetNextBuilding().GetId();
         }
 
         if (l == length - 1) {
             rot = EnumDirection.EAST;
-            return TileRegistry.GetTile(type).GetId();
+            return btr.GetNextBuilding().GetId();
         }
 
         return -1;
