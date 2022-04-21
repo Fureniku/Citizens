@@ -52,7 +52,7 @@ public class TileReference : TileData {
         HideAfterRegistrationBase();
     }
 
-    public override void Create() {
+    public override void CreateFromRegistry() {
         CreateBase();
     }
 }

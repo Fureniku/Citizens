@@ -47,9 +47,6 @@ public abstract class GenerateBuildingBase {
                     if (tile.GetComponent<TileBuildingSegment>() != null) {
                         tile.GetComponent<TileBuildingSegment>().MakeReady(height);
                     }
-                    else {
-                        tile.GetComponent<TileSmallBuilding>().MakeReady();
-                    }
                 }
             }
         }

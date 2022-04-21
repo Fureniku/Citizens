@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 
 public class Brand : MonoBehaviour {
-    
+
+    [SerializeField] private string name;
     [SerializeField] private Material colour;
     [SerializeField] private Material logo;
     [SerializeField] private GameObject[] shopFillings;
@@ -25,5 +26,9 @@ public class Brand : MonoBehaviour {
 
     public ShopType GetShopType() {
         return shopType;
+    }
+
+    public string GetName() {
+        return name;
     }
 }

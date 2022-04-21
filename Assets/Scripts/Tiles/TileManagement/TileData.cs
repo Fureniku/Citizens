@@ -126,10 +126,7 @@ public abstract class TileData : MonoBehaviour {
     }
     
     public abstract JProperty SerializeTile(TileData td, int row, int col);
-
     public abstract void DeserializeTile(JObject json);
-
     public abstract void HideAfterRegistration();
-    
-    public abstract void Create();
+    public abstract void CreateFromRegistry();
 }

@@ -84,7 +84,7 @@ public class TileRoad : TileData {
         }
     }
 
-    public override void Create() {
+    public override void CreateFromRegistry() {
         CreateBase();
         for (int i = 0; i < transform.childCount; i++) {
             if (transform.GetChild(i).GetComponent<MeshRenderer>() != null) {

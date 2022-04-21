@@ -26,5 +26,5 @@ public class TileAir : TileData {
     
     public override void HideAfterRegistration() {}
 
-    public override void Create() {}
+    public override void CreateFromRegistry() {}
 }

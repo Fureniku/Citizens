@@ -45,17 +45,26 @@ public class TileRegistry : GenerationSystem {
     public static readonly Tile OFFICE_1_EDGE_RECESSED_GARAGE = new Tile(25, "Office 1 Edge Recessed Garage", TileType.BUILDING_PART);
     public static readonly Tile OFFICE_1_EDGE = new Tile(26, "Office 1 Edge", TileType.BUILDING_PART);
     public static readonly Tile OFFICE_1_INNER_ROOF = new Tile(27, "Office 1 Inner", TileType.BUILDING_PART);
-    public static readonly Tile TOWN_HOUSE_1 = new Tile(28, "Town House 1", TileType.BUILDING);
-    public static readonly Tile TOWN_HOUSE_2 = new Tile(29, "Town House 2", TileType.BUILDING);
-    public static readonly Tile TOWN_HOUSE_3 = new Tile(30, "Town House 3", TileType.BUILDING);
-    public static readonly Tile TOWN_HOUSE_4 = new Tile(31, "Town House 4", TileType.BUILDING);
-    public static readonly Tile COFFEE_SHOP_1 = new Tile(32, "300 Degrees Coffee", TileType.BUILDING);
-    public static readonly Tile GENERIC_SHOP_1 = new Tile(33, "Shop 1", TileType.BUILDING);
-    public static readonly Tile SKYSCRAPER_GENERIC_1 = new Tile(32, "Generic Skyscraper 1", TileType.BUILDING);
+    public static readonly Tile TOWN_HOUSE_1 = new Tile(28, "Town House 1", TileType.BUILDING_HOUSE);
+    public static readonly Tile TOWN_HOUSE_2 = new Tile(29, "Town House 2", TileType.BUILDING_HOUSE);
+    public static readonly Tile TOWN_HOUSE_3 = new Tile(30, "Town House 3", TileType.BUILDING_HOUSE);
+    public static readonly Tile TOWN_HOUSE_4 = new Tile(31, "Town House 4", TileType.BUILDING_HOUSE);
+    public static readonly Tile COFFEE_SHOP_1 = new Tile(32, "300 Degrees Coffee", TileType.BUILDING_SHOP);
+    public static readonly Tile ZORO = new Tile(33, "Zoro", TileType.BUILDING_SHOP);
+    public static readonly Tile PRIDAVE = new Tile(34, "Pridave", TileType.BUILDING_SHOP);
+    public static readonly Tile PREVIOUS = new Tile(35, "Previous", TileType.BUILDING_SHOP);
+    public static readonly Tile RURAL_COSTUMERS = new Tile(36, "Rural Costumers", TileType.BUILDING_SHOP);
+    public static readonly Tile G_AND_L = new Tile(37, "G&L", TileType.BUILDING_SHOP);
+    public static readonly Tile VERYWET = new Tile(38, "Verywet", TileType.BUILDING_SHOP);
+    public static readonly Tile LAKE_CONTINENT = new Tile(39, "Lake Continent", TileType.BUILDING_SHOP);
+    public static readonly Tile OLD_SOUND = new Tile(40, "Old Sound", TileType.BUILDING_SHOP);
+    public static readonly Tile SKYSCRAPER_GENERIC_1 = new Tile(41, "Generic Skyscraper 1", TileType.BUILDING_PART);
 
     public static int maxId = 999;
 
     [SerializeField] private GameObject[] register = null;
+
+    public static List<Tile> GetRegistry() { return tileRegistry; }
 
     public static GameObject GetGrass() { return registry[GRASS.GetId()]; }
 
@@ -115,7 +124,15 @@ public class TileRegistry : GenerationSystem {
         tileRegistry.Add(TOWN_HOUSE_3);
         tileRegistry.Add(TOWN_HOUSE_4);
         tileRegistry.Add(COFFEE_SHOP_1);
-        tileRegistry.Add(GENERIC_SHOP_1);
+        tileRegistry.Add(ZORO);
+        tileRegistry.Add(PRIDAVE);
+        tileRegistry.Add(PREVIOUS);
+        tileRegistry.Add(RURAL_COSTUMERS);
+        tileRegistry.Add(G_AND_L);
+        tileRegistry.Add(VERYWET);
+        tileRegistry.Add(LAKE_CONTINENT);
+        tileRegistry.Add(OLD_SOUND);
+        
         tileRegistry.Add(SKYSCRAPER_GENERIC_1);
     }
 
@@ -157,9 +174,13 @@ public class TileRegistry : GenerationSystem {
     }
 
     public static GameObject Instantiate(int id) {
+        if (registry[id] == null) {
+            Debug.LogError("Instantiating " + id + " which is null!!");
+            return null;
+        }
         GameObject go = Instantiate(registry[id]);
         go.SetActive(true);
-        go.GetComponent<TileData>().Create();
+        go.GetComponent<TileData>().CreateFromRegistry();
         return go;
     }
 
@@ -231,8 +252,23 @@ public class TileRegistry : GenerationSystem {
                 return TOWN_HOUSE_4;
             case EnumTile.COFFEE_SHOP_1:
                 return COFFEE_SHOP_1;
-            case EnumTile.GENERIC_SHOP_1:
-                return GENERIC_SHOP_1;
+            case EnumTile.ZORO:
+                return ZORO;
+            case EnumTile.PRIDAVE:
+                return PRIDAVE;
+            case EnumTile.PREVIOUS:
+                return PREVIOUS;
+            case EnumTile.RURAL_COSTUMERS:
+                return RURAL_COSTUMERS;
+            case EnumTile.G_AND_L:
+                return G_AND_L;
+            case EnumTile.VERYWET:
+                return VERYWET;
+            case EnumTile.LAKE_CONTINENT:
+                return LAKE_CONTINENT;
+            case EnumTile.OLD_SOUND:
+                return OLD_SOUND;
+            
             case EnumTile.SKYSCRAPER_GENERIC_1:
                 return SKYSCRAPER_GENERIC_1;
             default:
@@ -309,7 +345,14 @@ public enum EnumTile {
     TOWN_HOUSE_3,
     TOWN_HOUSE_4,
     COFFEE_SHOP_1,
-    GENERIC_SHOP_1,
+    ZORO,
+    PRIDAVE,
+    PREVIOUS,
+    RURAL_COSTUMERS,
+    G_AND_L,
+    VERYWET,
+    LAKE_CONTINENT,
+    OLD_SOUND,
     SKYSCRAPER_GENERIC_1
 }
 
@@ -318,6 +361,7 @@ public enum TileType {
     GRASS,
     REFERENCE,
     ROAD,
-    BUILDING,
+    BUILDING_SHOP,
+    BUILDING_HOUSE,
     BUILDING_PART
 }

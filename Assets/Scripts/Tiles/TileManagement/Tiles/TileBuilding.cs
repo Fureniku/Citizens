@@ -44,7 +44,7 @@ public abstract class TileBuilding : TileData {
         HideAfterRegistrationBase();
     }
 
-    public override void Create() {
+    public override void CreateFromRegistry() {
         CreateBase();
     }
 }

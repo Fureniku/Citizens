@@ -20,41 +20,26 @@ public class TileSmallBuilding : TileData {
     [SerializeField] private GameObject materialObject3;
     [SerializeField] private GameObject materialObject4;
 
-    private bool ready = false;
-    private bool generated = false;
-    
     void Start() { //Segments work differently to big buildings and are always 1x1
         width = 1;
         length = 1;
-        
-        SetMaterialToObject(materialObject1, materials1);
-        SetMaterialToObject(materialObject2, materials2);
-        SetMaterialToObject(materialObject3, materials3);
-        SetMaterialToObject(materialObject4, materials4);
 
         Initialize();
     }
 
     private void SetMaterialToObject(GameObject objectIn, Material[] matsIn) {
         if (objectIn != null) {
-            Material selectedMat = matsIn[matsIn.Length-1];
+            Material selectedMat = matsIn[Random.Range(0, matsIn.Length)];
             MeshRenderer rendererIn = objectIn.GetComponent<MeshRenderer>();
-            
-            Debug.Log("setting " + objectIn.name + " material to  " + selectedMat.name);
-            
-            for (int i = 0; i < rendererIn.materials.Length; i++) {
-                rendererIn.materials[i] = selectedMat;
-            }
-        }
-    }
-    
-    public void MakeReady() {
-        ready = true;
-    }
 
-    void Update() {
-        if (ready && !generated) {
-            Generate();
+            Debug.Log("setting " + objectIn.name + " material to  " + selectedMat.name);
+            if (rendererIn.materials.Length > 1) {
+                for (int i = 0; i < rendererIn.materials.Length; i++) {
+                    rendererIn.materials[i] = selectedMat;
+                }
+            } else {
+                rendererIn.material = selectedMat;
+            }
         }
     }
 
@@ -68,11 +53,6 @@ public class TileSmallBuilding : TileData {
             roof.name = gameObject.name + " Roof";
             roof.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         }
-        
-        SetMaterialToObject(materialObject1, materials1);
-        SetMaterialToObject(materialObject2, materials2);
-
-        generated = true;
     }
 
     public override JProperty SerializeTile(TileData data, int row, int col) {
@@ -116,8 +96,15 @@ public class TileSmallBuilding : TileData {
         //isRegistryEntry = true;
     }
 
-    public override void Create() {
+    public override void CreateFromRegistry() {
         CreateBase();
+        
+        SetMaterialToObject(materialObject1, materials1);
+        SetMaterialToObject(materialObject2, materials2);
+        SetMaterialToObject(materialObject3, materials3);
+        SetMaterialToObject(materialObject4, materials4);
+
+        Generate();
         //isRegistryEntry = false;
     }
 }

@@ -94,7 +94,7 @@ public class TileBuildingSegment : TileData {
         //isRegistryEntry = true;
     }
 
-    public override void Create() {
+    public override void CreateFromRegistry() {
         CreateBase();
         //isRegistryEntry = false;
     }
