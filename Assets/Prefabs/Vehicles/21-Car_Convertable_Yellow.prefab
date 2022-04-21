@@ -613,9 +613,9 @@ GameObject:
   - component: {fileID: -3745947781630794453}
   - component: {fileID: -6401260466467859157}
   - component: {fileID: -6865587171307897097}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 21-Car_Convertable_Yellow
-  m_TagString: Untagged
+  m_TagString: Vehicle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -692,9 +692,9 @@ GameObject:
   - component: {fileID: 332662940333922192}
   - component: {fileID: 2871879542755180315}
   - component: {fileID: -7587547507123696704}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 4-Car_Standard_Green
-  m_TagString: Untagged
+  m_TagString: Vehicle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
