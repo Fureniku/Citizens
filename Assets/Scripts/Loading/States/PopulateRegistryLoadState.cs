@@ -4,12 +4,14 @@ namespace Loading.States {
     public class PopulateRegistryLoadState : LoadBaseState {
         
         private VehicleRegistry vehicleRegistry;
+        private BrandRegistry brandRegistry;
         
-        public PopulateRegistryLoadState(int progressId, string name, Type nextState, VehicleRegistry vehicleRegistry) {
+        public PopulateRegistryLoadState(int progressId, string name, Type nextState, VehicleRegistry vehicleRegistry, BrandRegistry brandRegistry) {
             this.progressId = progressId;
             this.stateName = name;
             this.nextState = nextState;
             this.vehicleRegistry = vehicleRegistry;
+            this.brandRegistry = brandRegistry;
         }
 
         public override bool StateProgress() {
@@ -19,6 +21,7 @@ namespace Loading.States {
         public override Type StateEnter() {
             DestinationRegistration.BuildLists();
             vehicleRegistry.Initialize();
+            brandRegistry.Initialize();
             return null;
         }
 

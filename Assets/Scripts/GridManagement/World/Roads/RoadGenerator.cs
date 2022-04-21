@@ -80,7 +80,6 @@ public class RoadGenerator : MonoBehaviour {
             if (chunkManager.IsValidTile(placePos)) {
                 
                 if (crossingProgress > 0) {
-                    Debug.Log("Crossing stage: " + crossingProgress);
                     if (crossingProgress == 1) {
                         GenerateRoad(road_zebra_crossing, placePos, generatorDirection);
                     }
@@ -162,7 +161,6 @@ public class RoadGenerator : MonoBehaviour {
                                     tilesSinceBranch = 0;
                                 }
                             } else if (genCrossing) {
-                                Debug.Log("Attempt to generate crossing!");
                                 //Check that there isn't a road in the next three tiles
                                 bool canContinue = false;
                                 TilePos ahead1 = Direction.OffsetPos(generatorDirection, placePos);
@@ -178,7 +176,6 @@ public class RoadGenerator : MonoBehaviour {
                                 }
                                 
                                 if (canContinue) {
-                                    Debug.Log("Successfully generating crossing!");
                                     placeTile = road_crossing_approach;
                                     tilesSinceCrossing = 0;
                                     crossingProgress = 1;

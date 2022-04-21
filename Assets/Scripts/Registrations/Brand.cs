@@ -1,0 +1,29 @@
+﻿using UnityEngine;
+
+public class Brand : MonoBehaviour {
+    
+    [SerializeField] private Material colour;
+    [SerializeField] private GameObject logo;
+    [SerializeField] private GameObject[] shopFillings;
+    [SerializeField] private ShopType shopType;
+
+    public Material GetColour() {
+        return colour;
+    }
+
+    public GameObject GetLogo() {
+        return logo;
+    }
+
+    public GameObject[] GetShopFillings() {
+        return shopFillings;
+    }
+
+    public GameObject GetShopFilling(int id) {
+        return shopFillings[id];
+    }
+
+    public ShopType GetShopType() {
+        return shopType;
+    }
+}

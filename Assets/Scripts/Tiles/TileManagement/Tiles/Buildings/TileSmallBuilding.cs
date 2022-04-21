@@ -62,7 +62,6 @@ public class TileSmallBuilding : TileData {
         Vector3 pos = transform.position;
         GameObject roof = null;
         //TODO select roof type
-        Debug.Log("Adding roof");
         roof = Instantiate(roof_full, new Vector3(pos.x, pos.y, pos.z), transform.rotation, transform);
         
         if (roof != null) {

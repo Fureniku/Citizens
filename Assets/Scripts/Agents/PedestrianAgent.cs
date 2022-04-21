@@ -102,11 +102,9 @@ public class PedestrianAgent : BaseAgent {
     }
     
     public new void SetLookDirection(Vector3 vec3, bool force) {
-        
         if (GetLastSeenObject() != null && !force) {
             SetLookDirection();
         } else {
-            Debug.Log("setting look direction");
             head.transform.rotation = Quaternion.Euler(vec3);
         }
     }
