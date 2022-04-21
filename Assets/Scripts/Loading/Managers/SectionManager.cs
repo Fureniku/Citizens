@@ -56,7 +56,7 @@ public class SectionManager : GenerationSystem {
             for (int row = 0; row < worldSize; row++) {
                 TilePos tilePos = new TilePos(row, col);
                 TileData tileData = World.Instance.GetChunkManager().GetTile(tilePos);
-                if (tileData.GetTile() == TileRegistry.GRASS) {
+                if (tileData != null && tileData.GetTile() == TileRegistry.GRASS) {
                     TileGrass grass = (TileGrass) tileData;
 
                     if (!grass.IsInSection()) {

@@ -3,7 +3,7 @@
 public class Brand : MonoBehaviour {
     
     [SerializeField] private Material colour;
-    [SerializeField] private GameObject logo;
+    [SerializeField] private Material logo;
     [SerializeField] private GameObject[] shopFillings;
     [SerializeField] private ShopType shopType;
 
@@ -11,7 +11,7 @@ public class Brand : MonoBehaviour {
         return colour;
     }
 
-    public GameObject GetLogo() {
+    public Material GetLogo() {
         return logo;
     }
 

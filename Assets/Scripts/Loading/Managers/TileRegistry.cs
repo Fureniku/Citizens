@@ -50,6 +50,7 @@ public class TileRegistry : GenerationSystem {
     public static readonly Tile TOWN_HOUSE_3 = new Tile(30, "Town House 3", TileType.BUILDING);
     public static readonly Tile TOWN_HOUSE_4 = new Tile(31, "Town House 4", TileType.BUILDING);
     public static readonly Tile COFFEE_SHOP_1 = new Tile(32, "300 Degrees Coffee", TileType.BUILDING);
+    public static readonly Tile GENERIC_SHOP_1 = new Tile(33, "Shop 1", TileType.BUILDING);
     public static readonly Tile SKYSCRAPER_GENERIC_1 = new Tile(32, "Generic Skyscraper 1", TileType.BUILDING);
 
     public static int maxId = 999;
@@ -114,6 +115,7 @@ public class TileRegistry : GenerationSystem {
         tileRegistry.Add(TOWN_HOUSE_3);
         tileRegistry.Add(TOWN_HOUSE_4);
         tileRegistry.Add(COFFEE_SHOP_1);
+        tileRegistry.Add(GENERIC_SHOP_1);
         tileRegistry.Add(SKYSCRAPER_GENERIC_1);
     }
 
@@ -229,6 +231,8 @@ public class TileRegistry : GenerationSystem {
                 return TOWN_HOUSE_4;
             case EnumTile.COFFEE_SHOP_1:
                 return COFFEE_SHOP_1;
+            case EnumTile.GENERIC_SHOP_1:
+                return GENERIC_SHOP_1;
             case EnumTile.SKYSCRAPER_GENERIC_1:
                 return SKYSCRAPER_GENERIC_1;
             default:
@@ -305,6 +309,7 @@ public enum EnumTile {
     TOWN_HOUSE_3,
     TOWN_HOUSE_4,
     COFFEE_SHOP_1,
+    GENERIC_SHOP_1,
     SKYSCRAPER_GENERIC_1
 }
 

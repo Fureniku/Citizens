@@ -2,8 +2,12 @@
 using UnityEngine;
 
 public class TileGeneratedShop : TileData {
+
+    [SerializeField] private GameObject[] shopUppers;
+    [SerializeField] private GameObject shopSignBack;
+    [SerializeField] private GameObject shopSignFront;
     
-    [SerializeField] 
+    [SerializeField] private Brand brand;
     
     
     
