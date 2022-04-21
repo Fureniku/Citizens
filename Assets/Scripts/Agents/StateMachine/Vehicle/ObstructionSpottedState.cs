@@ -51,7 +51,6 @@ public class ObstructionSpottedState : AgentBaseState {
     }
 
     public override Type StateEnter() {
-        agent.PrintText("Seeing something, dist: " + agent.GetSeenObject().distance);
         return null;
     }
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Tiles.TileManagement;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.AI;
@@ -24,6 +25,8 @@ public abstract class BaseAgent : MonoBehaviour {
     [SerializeField, ReadOnly] protected float objectDistance = 50;
 
     [SerializeField] private string currentState;
+
+    [SerializeField] private EnumDirection roadSide;
 
     protected AgentStateMachine stateMachine;
     protected Vector3 lookDirection;
@@ -50,7 +53,36 @@ public abstract class BaseAgent : MonoBehaviour {
         return shouldStop;
     }
 
+    private EnumDirection GetCurrentRoadSide() {
+        TilePos currentPos = TilePos.GetGridPosFromLocation(transform.position);
+        if (TilePos.IsValid(currentPos)) {
+            TileData currentTile = World.Instance.GetChunkManager().GetTile(currentPos);
+            Vector3 rawTilePos = currentTile.transform.position; //e.g. tile pos is 450, 300
+            Vector3 rawAgentPos = transform.position; //e.g. agent is 250, 66
+
+            if (currentTile.GetRotation() == EnumDirection.EAST || currentTile.GetRotation() == EnumDirection.WEST) {
+                if (rawAgentPos.z < rawTilePos.z) {
+                    return EnumDirection.SOUTH;
+                }
+                return EnumDirection.NORTH;
+            }
+
+            if (rawAgentPos.x < rawTilePos.x) {
+                return EnumDirection.WEST;
+            } 
+            return EnumDirection.EAST;
+        }
+
+        return roadSide;
+    }
+
+    public EnumDirection GetRoadSide() {
+        return roadSide;
+    }
+
     void FixedUpdate() {
+        roadSide = GetCurrentRoadSide();
+        
         AgentUpdate();
         Navigate();
 
@@ -112,7 +144,7 @@ public abstract class BaseAgent : MonoBehaviour {
             }
         }
         //Debug.DrawLine(eyePos.transform.position, eyePos.transform.position + (eyePos.transform.rotation.eulerAngles * visualRange), Color.yellow);
-        Debug.DrawRay(eyePos.transform.position, eyePos.transform.forward, Color.yellow, 0);
+        Debug.DrawRay(eyePos.transform.position, lookDirection*5, Color.magenta, 0);
 
     }
 

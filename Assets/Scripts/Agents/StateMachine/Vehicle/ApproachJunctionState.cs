@@ -21,7 +21,6 @@ public class ApproachJunctionState : VehicleBaseState {
             VehicleAgent seenAgent = (VehicleAgent) agent.GetLastSeenAgent();
 
             if (seenAgent.GetState().IsWaitableState()) {
-                Debug.Log("Vehicle ahead while we approach junction");
                 return typeof(WaitForJunctionState);
             }
         }

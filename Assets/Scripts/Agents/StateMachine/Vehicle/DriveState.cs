@@ -16,14 +16,11 @@ public class DriveState : VehicleBaseState {
             return typeof(AccelerateState);
         }
         
-        if (agent.GetLastSeenObject() != null) {
-            agent.SetLookDirection();
-            if (agent.GetSeenObject().distance < 10 && agent.GetSeenObject().distance > 0) {
-                return typeof(ObstructionSpottedState);
-            }
-        } else {
-            ScanAhead();
-        }
+        Type obstruction = CheckObstructionVehicle();
+
+        if (obstruction != null) { return obstruction; }
+
+        ScanAhead();
 
         float dist = Vector3.Distance(agent.transform.position, agent.GetCurrentDestinationObject().transform.position);
 
@@ -50,7 +47,7 @@ public class DriveState : VehicleBaseState {
     
     private void ScanAhead() {
         Vector3 dir = new Vector3(Vector3.forward.x + lookOffset, Vector3.forward.y, Vector3.forward.z);
-        agent.SetLookDirection(dir, false);
+        agent.SetLookDirection(dir, true);
         if (reverseDir) {
             lookOffset -= 0.015f;
         } else {

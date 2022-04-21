@@ -37,9 +37,7 @@ public class WaitForJunctionState : VehicleBaseState {
                 if (dist < stopDistance) {
                     agent.GetAgent().isStopped = true;
                 }
-            }
-            else {
-                Debug.Log("Switch back to approach junction state");
+            } else {
                 return typeof(ApproachJunctionState);
             }
         }

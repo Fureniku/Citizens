@@ -39,7 +39,7 @@ public class JunctionExitWaitState : VehicleBaseState {
     
     private void ScanJunction() {
         Vector3 dir = new Vector3(Vector3.forward.x + lookOffset, Vector3.forward.y, Vector3.forward.z);
-        agent.SetLookDirection(dir, false);
+        agent.SetLookDirection(dir, true);
         if (reverseDir) {
             lookOffset -= 0.1f;
         } else {

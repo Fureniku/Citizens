@@ -41,6 +41,12 @@ public class TilePos : Position {
         return x+z;
     }
 
+    public static bool IsValid(TilePos tpIn) {
+        int size = World.Instance.GetChunkManager().GetSize() * Chunk.size;
+        if (tpIn.x < 0 || tpIn.z < 0 || tpIn.x > size-1 || tpIn.z > size-1) return false;
+        return true;
+    }
+
     public static TilePos Clamp(TilePos tpIn) {
         int x = tpIn.x;
         int z = tpIn.z;

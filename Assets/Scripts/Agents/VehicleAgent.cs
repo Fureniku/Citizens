@@ -30,23 +30,23 @@ public class VehicleAgent : BaseAgent {
             TileData tdNext = World.Instance.GetChunkManager().GetTile(new TilePos(path[1].x, path[1].y));
 
             EnumDirection startingDirection = Direction.GetDirectionOffset(tdStart.GetGridPos(), tdNext.GetGridPos());
-            PrintText(" initiializing. Start direction from current/next tile is " + startingDirection);
             
             switch (startingDirection) {
                 case EnumDirection.NORTH:
-                    transform.position += new Vector3(-2f, 0, 0);
+                    transform.position += new Vector3(2f, 0, 0);
+                    transform.rotation = Quaternion.Euler(0, 180, 0);
                     break;
                 case EnumDirection.EAST:
                     transform.position += new Vector3(0, 0, 2f);
+                    transform.rotation = Quaternion.Euler(0, 180, 0);
                     break;
                 case EnumDirection.SOUTH:
-                    transform.position += new Vector3(2f, 0, 0);
+                    transform.position += new Vector3(-2f, 0, 0);
                     break;
                 case EnumDirection.WEST:
                     transform.position += new Vector3(0, 0, -2f);
                     break;
             }
-            PrintText("Warping to " + transform.position.x + ", " + transform.position.z);
             agent.Warp(transform.position);
         }
 
