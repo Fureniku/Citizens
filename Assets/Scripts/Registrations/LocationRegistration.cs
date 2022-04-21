@@ -5,6 +5,7 @@ public static class DestinationRegistration {
 
     public static Registry RoadDestinationRegistry = new Registry(TileType.ROAD);
     public static Registry RoadSpawnerRegistry = new Registry(TileType.AIR);
+    public static Registry InitialSpawnerRegistry = new Registry(TileType.AIR);
 
 
     public static void BuildLists() {
@@ -23,6 +24,8 @@ public static class DestinationRegistration {
                 }
             }
         }
+
+        InitialSpawnerRegistry = RoadSpawnerRegistry;
         
         Debug.Log("Spawner list built with " + RoadSpawnerRegistry.GetListSize() + " entries.");
         Debug.Log("Destination list built with " + RoadDestinationRegistry.GetListSize() + " entries.");

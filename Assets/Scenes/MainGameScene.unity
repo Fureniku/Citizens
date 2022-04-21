@@ -2667,7 +2667,7 @@ MonoBehaviour:
   percentage: 0
   message: 
   complete: 0
-  initialAgentCount: 10
+  initialAgentCount: 0
   maxAgentCount: 500
   testAgent: {fileID: 4969062756450106854, guid: 60dac1133367e4f4999a4bafed426d8f,
     type: 3}
@@ -5343,7 +5343,7 @@ MonoBehaviour:
   percentage: 0
   message: 
   complete: 0
-  initialAgentCount: 10
+  initialAgentCount: 1000
   maxAgentCount: 500
   testAgent: {fileID: 8945190466146426157, guid: 472c2a24ef19ddf49ad4228b79c2bbf8,
     type: 3}
@@ -7244,7 +7244,7 @@ MonoBehaviour:
   internalGeneratedWorld: 0
   skipChunkGen: 0
   skipRoadGen: 0
-  skipBuildingGen: 0
+  skipBuildingGen: 1
   skipVehicleGen: 0
   skipPedestrianGen: 0
 --- !u!114 &1907542593

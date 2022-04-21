@@ -1,9 +1,10 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Registry {
     
-    private ArrayList arrayList = new ArrayList();
+    private List<TilePos> list = new List<TilePos>();
     private TileType type;
 
     public Registry(TileType type) {
@@ -11,21 +12,25 @@ public class Registry {
     }
 
     public int GetListSize() {
-        return arrayList.Count;
+        return list.Count;
     }
 
     public void AddToList(TilePos pos) {
-        if (!arrayList.Contains(pos)) {
-            arrayList.Add(pos);
+        if (!list.Contains(pos)) {
+            list.Add(pos);
         }
     }
 
     public TilePos GetFromList(int id) {
-        return (TilePos) arrayList[id];
+        return list[id];
     }
 
     public TilePos GetAtRandom() {
-        int rnd = Random.Range(0, arrayList.Count);
+        int rnd = Random.Range(0, list.Count);
         return GetFromList(rnd);
+    }
+
+    public void RemoveFromList(TilePos pos) {
+        list.Remove(pos);
     }
 }
