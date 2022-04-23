@@ -58,6 +58,7 @@ public class TileRegistry : GenerationSystem {
     public static readonly Tile VERYWET = new Tile(38, "Verywet", TileType.BUILDING_SHOP);
     public static readonly Tile LAKE_CONTINENT = new Tile(39, "Lake Continent", TileType.BUILDING_SHOP);
     public static readonly Tile OLD_SOUND = new Tile(40, "Old Sound", TileType.BUILDING_SHOP);
+    public static readonly Tile HOSPITAL_8x8 = new Tile(41, "Large Hospital", TileType.BUILDING_MAJOR);
     public static readonly Tile SKYSCRAPER_GENERIC_1 = new Tile(41, "Generic Skyscraper 1", TileType.BUILDING_PART);
 
     public static int maxId = 999;
@@ -133,7 +134,7 @@ public class TileRegistry : GenerationSystem {
         tileRegistry.Add(VERYWET);
         tileRegistry.Add(LAKE_CONTINENT);
         tileRegistry.Add(OLD_SOUND);
-        
+        tileRegistry.Add(HOSPITAL_8x8);
         tileRegistry.Add(SKYSCRAPER_GENERIC_1);
     }
 
@@ -269,7 +270,8 @@ public class TileRegistry : GenerationSystem {
                 return LAKE_CONTINENT;
             case EnumTile.OLD_SOUND:
                 return OLD_SOUND;
-            
+            case EnumTile.HOSPITAL_8x8:
+                return HOSPITAL_8x8;
             case EnumTile.SKYSCRAPER_GENERIC_1:
                 return SKYSCRAPER_GENERIC_1;
             default:
@@ -354,6 +356,7 @@ public enum EnumTile {
     VERYWET,
     LAKE_CONTINENT,
     OLD_SOUND,
+    HOSPITAL_8x8,
     SKYSCRAPER_GENERIC_1
 }
 
@@ -364,5 +367,6 @@ public enum TileType {
     ROAD,
     BUILDING_SHOP,
     BUILDING_HOUSE,
-    BUILDING_PART
+    BUILDING_PART,
+    BUILDING_MAJOR
 }

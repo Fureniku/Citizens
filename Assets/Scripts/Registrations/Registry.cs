@@ -5,11 +5,6 @@ using UnityEngine;
 public class Registry {
     
     private List<TilePos> list = new List<TilePos>();
-    private TileType type;
-
-    public Registry(TileType type) {
-        this.type = type;
-    }
 
     public int GetListSize() {
         return list.Count;

@@ -22,16 +22,18 @@ public class VehicleAgentManager : AgentManager {
 
     public override IEnumerator GenAgents() {
         Debug.Log("Starting vehicle generation");
+        Registry initialSpawnerRegistry = DestinationRegistration.RoadDestinationRegistry;
+        
         int initialAgents = initialAgentCount;
-        if (initialAgents > DestinationRegistration.InitialSpawnerRegistry.GetListSize()) {
-            initialAgents = DestinationRegistration.InitialSpawnerRegistry.GetListSize() - 1;
+        if (initialAgents > initialSpawnerRegistry.GetListSize()) {
+            initialAgents = initialSpawnerRegistry.GetListSize() - 1;
             Debug.Log("Capping initial agents at " + initialAgents + " due to world size");
         }
         for (int i = 0; i < initialAgents; i++) {
             GameObject agent = VehicleRegistry.GetRandomCar();
-            TilePos spawnTilePos = DestinationRegistration.InitialSpawnerRegistry.GetAtRandom();
+            TilePos spawnTilePos = initialSpawnerRegistry.GetAtRandom();
             Vector3 spawnPos = spawnTilePos.GetWorldPos();
-            DestinationRegistration.InitialSpawnerRegistry.RemoveFromList(spawnTilePos);
+            initialSpawnerRegistry.RemoveFromList(spawnTilePos);
             float offset = World.Instance.GetChunkManager().GetGridTileSize() / 2;
             agents.Add(Instantiate(agent, new Vector3(spawnPos.x + offset, spawnPos.y, spawnPos.z + offset), Quaternion.identity));
             agents[i].transform.parent = transform;

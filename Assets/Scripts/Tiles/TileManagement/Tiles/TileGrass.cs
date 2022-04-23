@@ -3,6 +3,7 @@ using Tiles.TileManagement;
 using UnityEngine;
 
 public class TileGrass : TileData {
+    
     [SerializeField] private bool inSection = false;
     
     void Start() {
@@ -42,4 +43,5 @@ public class TileGrass : TileData {
     }
 
     public void AddToSection() => inSection = true;
+    public void RemoveFromSection() => inSection = false;
 }

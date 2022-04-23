@@ -22,10 +22,18 @@ public class PedestrianAgentManager : AgentManager {
 
     public override IEnumerator GenAgents() {
         Debug.Log("Starting pedestrian generation");
-        for (int i = 0; i < initialAgentCount; i++) {
-            TilePos spawnTilePos = DestinationRegistration.InitialSpawnerRegistry.GetAtRandom();
+        Registry initialSpawnerRegistry = DestinationRegistration.RoadDestinationRegistry;
+        
+        int initialAgents = initialAgentCount;
+        if (initialAgents > initialSpawnerRegistry.GetListSize()) {
+            initialAgents = initialSpawnerRegistry.GetListSize() - 1;
+            Debug.Log("Capping initial agents at " + initialAgents + " due to world size");
+        }
+        
+        for (int i = 0; i < initialAgents; i++) {
+            TilePos spawnTilePos = initialSpawnerRegistry.GetAtRandom();
             Vector3 spawnPos = spawnTilePos.GetWorldPos();
-            DestinationRegistration.InitialSpawnerRegistry.RemoveFromList(spawnTilePos);
+            initialSpawnerRegistry.RemoveFromList(spawnTilePos);
             float offset = World.Instance.GetChunkManager().GetGridTileSize() / 2;
             agents.Add(Instantiate(testAgent, new Vector3(spawnPos.x + offset, spawnPos.y, spawnPos.z + offset), Quaternion.identity));
             agents[i].transform.parent = transform;
@@ -34,7 +42,7 @@ public class PedestrianAgentManager : AgentManager {
             agents[i].GetComponent<PedestrianAgent>().Init();
             agents[i].GetComponent<PedestrianAgent>().SaveAcceleration(agents[i].GetComponent<NavMeshAgent>().acceleration);
 
-            message = "Created pedestrian " + i + " of " + initialAgentCount;
+            message = "Created pedestrian " + i + " of " + initialAgents;
             yield return null;
         }
 

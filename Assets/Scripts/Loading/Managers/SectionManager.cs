@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Tiles.TileManagement;
 using UnityEngine;
 
 public class SectionManager : GenerationSystem {
@@ -13,8 +14,10 @@ public class SectionManager : GenerationSystem {
     private bool genStarted = false;
     private bool genComplete = false;
 
-    private GenerateBuildingBase genCPLast = null;
-    
+    private GenerateBuildingBase genLast = null;
+
+    private bool gennedHospital = false;
+
     public override void Initialize() {
         worldSize = World.Instance.GetChunkManager().GetSize() * Chunk.size;
         StartCoroutine(Scan());
@@ -33,43 +36,84 @@ public class SectionManager : GenerationSystem {
     }
 
     private IEnumerator Populate() {
+        //First pass: large buildings
+        GenerateHospital(TileRegistry.HOSPITAL_8x8);
+        yield return null;
+        
+        //Rescan sections for next pass
+        ClearSections();
+        yield return Scan();
+        
+        //Second pass: smaller buildings
+        Debug.Log("Finally populate");
         for (int i = 0; i < sections.Count+1; i++) {
-            if (genCPLast != null) {
-                genCPLast.CombineMeshes();
+            if (genLast != null) {
+                genLast.CombineMeshes();
             }
 
             if (i < sections.Count) {
                 Section s = sections[i];
-                GenerateBuildingBase genCP;
-
+                GenerateBuildingBase gen;
+                
                 int rng = Random.Range(0, 4);
 
                 switch (rng) {
                     case 0:
-                        genCP = new GenerateSmallBuilding(s.GetTilePos(), s.GetSizeX(), s.GetSizeZ(), TypeRegistries.SHOPS);
+                        gen = new GenerateSmallBuilding(s.GetTilePos(), s.GetSizeX(), s.GetSizeZ(), TypeRegistries.SHOPS);
                         break;
                     case 1:
-                        genCP = new GenerateCarPark(s.GetTilePos(), s.GetSizeX(), 3, 6, s.GetSizeZ());
+                        gen = new GenerateCarPark(s.GetTilePos(), s.GetSizeX(), 3, 6, s.GetSizeZ());
                         break;
                     case 2:
-                        genCP = new GenerateOffice(s.GetTilePos(), s.GetSizeX(), 3, 6, s.GetSizeZ());
+                        gen = new GenerateOffice(s.GetTilePos(), s.GetSizeX(), 3, 6, s.GetSizeZ());
                         break;
                     case 3:
-                        genCP = new GenerateSmallBuilding(s.GetTilePos(), s.GetSizeX(), s.GetSizeZ(), TypeRegistries.HOUSES);
+                        gen = new GenerateSmallBuilding(s.GetTilePos(), s.GetSizeX(), s.GetSizeZ(), TypeRegistries.HOUSES);
                         break;
                     default:
-                        genCP = new GenerateSmallBuilding(s.GetTilePos(), s.GetSizeX(), s.GetSizeZ(), TypeRegistries.SHOPS);
+                        gen = new GenerateSmallBuilding(s.GetTilePos(), s.GetSizeX(), s.GetSizeZ(), TypeRegistries.SHOPS);
                         break;
+                    
                 }
-                
-                genCP.Generate();
-                genCPLast = genCP;
+
+                gen.Generate();
+                genLast = gen;
             }
             
             yield return null;
         }
+        Debug.Log("Completed population");
+        Debug.Break();
         genComplete = true;
         yield return null;
+    }
+
+    private void GenerateHospital(Tile hospital) {
+        List<Section> viableSections = new List<Section>();
+        int hospitalId = hospital.GetId();
+
+        if (!gennedHospital) {
+            for (int i = 0; i < sections.Count; i++) {
+                if (sections[i].CanFit(TileRegistry.GetTileFromID(hospitalId))) {
+                    viableSections.Add(sections[i]);
+                }
+            }
+
+            Section chosenSection = viableSections[Random.Range(0, viableSections.Count-1)];
+            GenerateLargeBuilding gen = new GenerateLargeBuilding(chosenSection.GetTilePos(), chosenSection.GetSizeX(), chosenSection.GetSizeZ(), hospitalId, EnumDirection.SOUTH);
+            gen.Generate();
+            TileData tileHospital = TileRegistry.GetTileFromID(hospital.GetId());
+            //gen.SetReferenceTiles(tileHospital.GetWidth(), tileHospital.GetLength());
+            gennedHospital = true;
+        }
+    }
+
+    public void ClearSections() {
+        for (int i = 0; i < sections.Count; i++) {
+            sections[i].DeleteSection();
+        }
+        
+        sections.Clear();
     }
 
     public IEnumerator Scan() {
@@ -104,8 +148,7 @@ public class SectionManager : GenerationSystem {
             TilePos tilePos = new TilePos(startPos.x + row, startPos.z);
             if (ValidTileForSection(tilePos)) {
                 sizeX++;
-            }
-            else {
+            } else {
                 break;
             }
         }
@@ -114,8 +157,7 @@ public class SectionManager : GenerationSystem {
             TilePos tilePos = new TilePos(startPos.x, startPos.z + col);
             if (ValidTileForSection(tilePos)) {
                 sizeZ++;
-            }
-            else {
+            } else {
                 break;
             }
         }

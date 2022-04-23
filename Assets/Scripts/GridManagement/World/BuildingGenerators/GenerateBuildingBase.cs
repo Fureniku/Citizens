@@ -54,6 +54,20 @@ public abstract class GenerateBuildingBase {
         }
     }
 
+    public void SetReferenceTiles() {
+        for (int w = 0; w < width; w++) {
+            for (int l = 0; l < length; l++) {
+                TilePos placePos = new TilePos(startPos.x + w, startPos.z + l);
+                TileData td = World.Instance.GetChunkManager().GetTile(placePos);
+                if (td is TileReference) {
+                    TileReference referenceTile = (TileReference) td;
+                    
+                    referenceTile.SetMasterTile(startPos);
+                }
+            }
+        }
+    }
+
     public void CombineMeshes() {
         TilePos placePos = new TilePos(startPos.x, startPos.z);
         GameObject go = World.Instance.GetChunkManager().GetTile(placePos).gameObject;

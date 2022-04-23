@@ -15,12 +15,25 @@ public class Section {
         this.sizeZ = sizeZ;
     }
 
-    public bool CanFit(GameObject go) {
-        TileData data = go.GetComponent<TileData>();
+    public bool CanFit(TileData data) {
         if (data != null) {
             return (data.GetWidth() <= sizeX && data.GetLength() <= sizeZ) || (data.GetWidth() <= sizeZ && data.GetLength() <= sizeX);
         }
         return false;
+    }
+
+    public void DeleteSection() {
+        for (int row = 0; row < sizeX; row++) {
+            for (int col = 0; col < sizeZ; col++) {
+                TilePos pos = new TilePos(startPos.x + row, startPos.z + col);
+                TileData data = World.Instance.GetChunkManager().GetTile(pos);
+
+                if (data is TileGrass) {
+                    TileGrass grass = (TileGrass) data;
+                    grass.RemoveFromSection();
+                }
+            }
+        }
     }
 
     public void Rescan(ref List<Section> sections) {
