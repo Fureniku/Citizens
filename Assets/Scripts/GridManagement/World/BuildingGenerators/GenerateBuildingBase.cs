@@ -40,7 +40,7 @@ public abstract class GenerateBuildingBase {
     public void Generate() {
         for (int w = 0; w < width; w++) {
             for (int l = 0; l < length; l++) {
-                TilePos placePos = new TilePos(startPos.x + w, startPos.z + l);
+                TilePos placePos = GetPosInSection(w, l);
                 EnumDirection rot = EnumDirection.NORTH;
                 int id = SelectGameObject(w, l, ref rot);
                 if (id > 0) {
@@ -52,6 +52,10 @@ public abstract class GenerateBuildingBase {
                 }
             }
         }
+    }
+
+    public TilePos GetPosInSection(int w, int l) {
+        return new TilePos(startPos.x + w, startPos.z + l);
     }
 
     public void SetReferenceTiles() {
@@ -78,25 +82,41 @@ public abstract class GenerateBuildingBase {
     }
     
     protected int PlaceSimpleObject(int w, int l, ref EnumDirection rot, BuildingTypeRegister btr) {
-        if (w == 0) {
-            rot = EnumDirection.NORTH;
+        if (width <= 2) {
+            if (w == 0) {
+                rot = EnumDirection.NORTH;
+            } else {
+                rot = EnumDirection.SOUTH;
+            }
             return btr.GetNextBuilding().GetId();
-        }
-        if (w == width-1) {
-            rot = EnumDirection.SOUTH;
+        } else if (length <= 2) {
+            if (l == 0) {
+                rot = EnumDirection.WEST;
+            } else {
+                rot = EnumDirection.EAST;
+            }
             return btr.GetNextBuilding().GetId();
-        }
+        } else {
+            if (w == 0) {
+                rot = EnumDirection.NORTH;
+                return btr.GetNextBuilding().GetId();
+            }
+            if (w == width-1) {
+                rot = EnumDirection.SOUTH;
+                return btr.GetNextBuilding().GetId();
+            }
 
-        if (l == 0) {
-            rot = EnumDirection.WEST;
-            return btr.GetNextBuilding().GetId();
-        }
+            if (l == 0) {
+                rot = EnumDirection.WEST;
+                return btr.GetNextBuilding().GetId();
+            }
 
-        if (l == length - 1) {
-            rot = EnumDirection.EAST;
-            return btr.GetNextBuilding().GetId();
+            if (l == length - 1) {
+                rot = EnumDirection.EAST;
+                return btr.GetNextBuilding().GetId();
+            }
         }
-
+        
         return -1;
     }
 

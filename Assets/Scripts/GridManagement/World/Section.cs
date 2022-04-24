@@ -17,9 +17,13 @@ public class Section {
 
     public bool CanFit(TileData data) {
         if (data != null) {
-            return (data.GetWidth() <= sizeX && data.GetLength() <= sizeZ) || (data.GetWidth() <= sizeZ && data.GetLength() <= sizeX);
+            return CanFit(data.GetWidth(),data.GetWidth());
         }
         return false;
+    }
+
+    public bool CanFit(int width, int length) {
+        return width <= sizeX && length <= sizeZ || width <= sizeZ && length <= sizeX;
     }
 
     public void DeleteSection() {

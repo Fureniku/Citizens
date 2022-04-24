@@ -57,24 +57,15 @@ public class SectionManager : GenerationSystem {
                 
                 int rng = Random.Range(0, 4);
 
-                switch (rng) {
-                    case 0:
-                        gen = new GenerateSmallBuilding(s.GetTilePos(), s.GetSizeX(), s.GetSizeZ(), TypeRegistries.SHOPS);
-                        break;
-                    case 1:
-                        gen = new GenerateCarPark(s.GetTilePos(), s.GetSizeX(), 3, 6, s.GetSizeZ());
-                        break;
-                    case 2:
-                        gen = new GenerateOffice(s.GetTilePos(), s.GetSizeX(), 3, 6, s.GetSizeZ());
-                        break;
-                    case 3:
-                        gen = new GenerateSmallBuilding(s.GetTilePos(), s.GetSizeX(), s.GetSizeZ(), TypeRegistries.HOUSES);
-                        break;
-                    default:
-                        gen = new GenerateSmallBuilding(s.GetTilePos(), s.GetSizeX(), s.GetSizeZ(), TypeRegistries.SHOPS);
-                        break;
-                    
-                }
+                List<GenerateBuildingBase> viableBuildings = new List<GenerateBuildingBase>();
+
+                viableBuildings.Add(new GenerateSmallBuilding(s.GetTilePos(), s.GetSizeX(), s.GetSizeZ(), TypeRegistries.SHOPS));
+                viableBuildings.Add(new GenerateSmallBuilding(s.GetTilePos(), s.GetSizeX(), s.GetSizeZ(), TypeRegistries.HOUSES));
+                
+                if (s.CanFit(4, 3)) viableBuildings.Add(new GenerateCarPark(s.GetTilePos(), s.GetSizeX(), 3, 6, s.GetSizeZ()));
+                if (s.CanFit(6, 3)) viableBuildings.Add(new GenerateOffice(s.GetTilePos(), s.GetSizeX(), 3, 6, s.GetSizeZ()));
+
+                gen = viableBuildings[Random.Range(0, viableBuildings.Count - 1)];
 
                 gen.Generate();
                 genLast = gen;
@@ -91,6 +82,7 @@ public class SectionManager : GenerationSystem {
     private void GenerateHospital(Tile hospital) {
         List<Section> viableSections = new List<Section>();
         int hospitalId = hospital.GetId();
+        TileData hospitalTile = TileRegistry.GetTileFromID(hospitalId);
 
         if (!gennedHospital) {
             for (int i = 0; i < sections.Count; i++) {
@@ -99,12 +91,33 @@ public class SectionManager : GenerationSystem {
                 }
             }
 
-            Section chosenSection = viableSections[Random.Range(0, viableSections.Count-1)];
-            GenerateLargeBuilding gen = new GenerateLargeBuilding(chosenSection.GetTilePos(), chosenSection.GetSizeX(), chosenSection.GetSizeZ(), hospitalId, EnumDirection.SOUTH);
-            gen.Generate();
-            TileData tileHospital = TileRegistry.GetTileFromID(hospital.GetId());
-            //gen.SetReferenceTiles(tileHospital.GetWidth(), tileHospital.GetLength());
-            gennedHospital = true;
+            List<Section> bestSections = Attempt1(viableSections, hospitalTile.GetWidth(), hospitalTile.GetLength());
+
+            if (bestSections == null) {
+                bestSections = Attempt2(viableSections, hospitalTile.GetWidth(), hospitalTile.GetLength());
+            }
+            
+            if (bestSections == null) {
+                bestSections = Attempt3(viableSections, hospitalTile.GetWidth(), hospitalTile.GetLength());
+            }
+
+            if (bestSections == null) {
+                bestSections = Attempt4(viableSections, hospitalTile.GetWidth(), hospitalTile.GetLength());
+            }
+
+            if (bestSections == null) {
+                bestSections = Attempt5(viableSections, hospitalTile.GetWidth(), hospitalTile.GetLength());
+            }
+
+            if (bestSections != null) {
+                Section chosenSection = bestSections[Random.Range(0, bestSections.Count - 1)];
+                GenerateLargeBuilding gen = new GenerateLargeBuilding(chosenSection.GetTilePos(), chosenSection.GetSizeX(), chosenSection.GetSizeZ(), hospitalId, EnumDirection.SOUTH, hospitalTile);
+                gen.Generate();
+                gennedHospital = true;
+            }
+            else {
+                Debug.LogError("Hospital generation failed; no valid locations available.");
+            }
         }
     }
 
@@ -191,6 +204,94 @@ public class SectionManager : GenerationSystem {
 
         return false;
     }
+    
+    //SECTION ATTEMPTS for larger buildings to find ideal placement locations
+#region LARGE_ATTEMPTS
+    private List<Section> Attempt1(List<Section> viableSections, int width, int length) {
+        //Attempt 1: A section of the exact size (8x8 = 8x8)
+        List<Section> list = new List<Section>();
+        for (int i = 0; i < viableSections.Count; i++) {
+            Section s = viableSections[i];
+            if (s.GetSizeX() == width && s.GetSizeZ() == length) {
+                list.Add(s);
+            }
+        }
+
+        if (list.Count >= 1) {
+            Debug.Log("Attempt 1 was valid");
+            return list;
+        }
+        return null;
+    }
+    
+    private List<Section> Attempt2(List<Section> viableSections, int width, int length) {
+        //Attempt 2: A section of the exact size on at least one side, with the larger side being +2 (8x8 = 8x10+ or 10+x8)
+        List<Section> list = new List<Section>();
+        for (int i = 0; i < viableSections.Count; i++) {
+            Section s = viableSections[i];
+            if ((s.GetSizeX() == width && s.GetSizeZ() > length+1) || (s.GetSizeX() > width+1 && s.GetSizeZ() == length)) {
+                list.Add(s);
+            }
+        }
+        
+        if (list.Count >= 1) {
+            Debug.Log("Attempt 2 was valid");
+            return list;
+        }
+        return null;
+    }
+    
+    private List<Section> Attempt3(List<Section> viableSections, int width, int length) {
+        //Attempt 3: A section at least 2 bigger on both sides (8x8 = 10+x10+)
+        List<Section> list = new List<Section>();
+        for (int i = 0; i < viableSections.Count; i++) {
+            Section s = viableSections[i];
+            if (s.GetSizeX() > width+1 && s.GetSizeZ() > length+1) {
+                list.Add(s);
+            }
+        }
+        
+        if (list.Count >= 1) {
+            Debug.Log("Attempt 3 was valid");
+            return list;
+        }
+        return null;
+    }
+    
+    private List<Section> Attempt4(List<Section> viableSections, int width, int length) {
+        //Attempt 4: A section at least 2 bigger on one side (8x8 = 9x10+ or 10+x9)
+        List<Section> list = new List<Section>();
+        for (int i = 0; i < viableSections.Count; i++) {
+            Section s = viableSections[i];
+            if ((s.GetSizeX() > width && s.GetSizeZ() > length+1) || (s.GetSizeX() > width+1 && s.GetSizeZ() > length)) {
+                list.Add(s);
+            }
+        }
+        
+        if (list.Count >= 1) {
+            Debug.Log("Attempt 4 was valid");
+            return list;
+        }
+        return null;
+    }
+    
+    private List<Section> Attempt5(List<Section> viableSections, int width, int length) {
+        //Attempt 5: A section which is big enough (8x8 = 9x9)
+        List<Section> list = new List<Section>();
+        for (int i = 0; i < viableSections.Count; i++) {
+            Section s = viableSections[i];
+            if ((s.GetSizeX() > width && s.GetSizeZ() > length) || (s.GetSizeX() > width && s.GetSizeZ() > length)) {
+                list.Add(s);
+            }
+        }
+        
+        if (list.Count >= 1) {
+            Debug.Log("Attempt 5 was valid");
+            return list;
+        }
+        return null;
+    }
+#endregion
 
     public override int GetGenerationPercentage() {
         return (int)(progressZ / (float)worldSize * 100);
