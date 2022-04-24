@@ -7244,7 +7244,7 @@ MonoBehaviour:
   internalGeneratedWorld: 0
   skipChunkGen: 0
   skipRoadGen: 0
-  skipBuildingGen: 1
+  skipBuildingGen: 0
   skipVehicleGen: 0
   skipPedestrianGen: 0
 --- !u!114 &1907542593
@@ -8429,6 +8429,23 @@ PrefabInstance:
       propertyPath: m_Name
       value: Registries
       objectReference: {fileID: 0}
+    - target: {fileID: 8886422584635529012, guid: b1c55c16a896eac4aaf487b4b08bb3b6,
+        type: 3}
+      propertyPath: register.Array.size
+      value: 44
+      objectReference: {fileID: 0}
+    - target: {fileID: 8886422584635529012, guid: b1c55c16a896eac4aaf487b4b08bb3b6,
+        type: 3}
+      propertyPath: register.Array.data[42]
+      value: 
+      objectReference: {fileID: 3320656565879782384, guid: b2713d5ff759e174faa81bbfcd2dc0f3,
+        type: 3}
+    - target: {fileID: 8886422584635529012, guid: b1c55c16a896eac4aaf487b4b08bb3b6,
+        type: 3}
+      propertyPath: register.Array.data[43]
+      value: 
+      objectReference: {fileID: 7998429460570019003, guid: 5a97f6c1df41ebb4d8f8852c847f7804,
+        type: 3}
     - target: {fileID: 8886422584635529013, guid: b1c55c16a896eac4aaf487b4b08bb3b6,
         type: 3}
       propertyPath: m_RootOrder

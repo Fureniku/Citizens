@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Loading.States;
 using Newtonsoft.Json.Linq;
 using Tiles.TileManagement;
 using UnityEngine;
@@ -9,48 +10,7 @@ public class TileRoad : TileData {
     [SerializeField] private RoadType roadType = RoadType.ROAD_STRAIGHT;
     
     void Start() {
-        switch (roadType) {
-            case RoadType.ROAD_STRAIGHT:
-                tileId = TileRegistry.STRAIGHT_ROAD_1x1.GetId();
-                name = TileRegistry.STRAIGHT_ROAD_1x1.GetName();
-                break;
-            case RoadType.ROAD_CORNER:
-                tileId = TileRegistry.CORNER_ROAD_1x1.GetId();
-                name = TileRegistry.CORNER_ROAD_1x1.GetName();
-                break;
-            case RoadType.ROAD_T_JUNCT:
-                tileId = TileRegistry.T_JUNCT_ROAD_1x1.GetId();
-                name = TileRegistry.T_JUNCT_ROAD_1x1.GetName();
-                break;
-            case RoadType.ROAD_CROSSROAD:
-                tileId = TileRegistry.CROSSROAD_ROAD_1x1.GetId();
-                name = TileRegistry.CROSSROAD_ROAD_1x1.GetName();
-                break;
-            case RoadType.ROAD_CROSSROAD_CONTROLLED:
-                tileId = TileRegistry.CROSSROAD_CTRL_ROAD_1x1.GetId();
-                name = TileRegistry.CROSSROAD_CTRL_ROAD_1x1.GetName();
-                break;
-            case RoadType.T_JUNCT_ROAD_1x1_SINGLE_IN:
-                tileId = TileRegistry.T_JUNCT_ROAD_1x1_SINGLE_IN.GetId();
-                name = TileRegistry.T_JUNCT_ROAD_1x1_SINGLE_IN.GetName();
-                break;
-            case RoadType.T_JUNCT_ROAD_1x1_SINGLE_OUT:
-                tileId = TileRegistry.T_JUNCT_ROAD_1x1_SINGLE_OUT.GetId();
-                name = TileRegistry.T_JUNCT_ROAD_1x1_SINGLE_OUT.GetName();
-                break;
-            case RoadType.ZEBRA_CROSSING:
-                tileId = TileRegistry.ZEBRA_CROSSING_1x1.GetId();
-                name = TileRegistry.ZEBRA_CROSSING_1x1.GetName();
-                break;
-            case RoadType.PELICAN_CROSSING:
-                tileId = TileRegistry.PELICAN_CROSSING_1x1.GetId();
-                name = TileRegistry.PELICAN_CROSSING_1x1.GetName();
-                break;
-            case RoadType.CROSSING_APPROACH:
-                tileId = TileRegistry.CROSSING_APPROACH_1x1.GetId();
-                name = TileRegistry.CROSSING_APPROACH_1x1.GetName();
-                break;
-        }
+        Initialize();
         width = 1;
         length = 1;
     }
@@ -104,5 +64,8 @@ public enum RoadType {
     T_JUNCT_ROAD_1x1_SINGLE_OUT,
     ZEBRA_CROSSING,
     PELICAN_CROSSING,
-    CROSSING_APPROACH
+    CROSSING_APPROACH,
+    ROAD_WORLD_EXIT,
+    ROAD_WORLD_EDGE_STRAIGHT,
+    ROAD_WORLD_EDGE_CORNER
 }

@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using Loading.States;
 using UnityEngine;
+using UnityStandardAssets.Water;
 using Debug = UnityEngine.Debug;
 
 public class World : MonoBehaviour {
@@ -20,11 +21,14 @@ public class World : MonoBehaviour {
     [SerializeField] private bool skipBuildingGen = false;
     [SerializeField] private bool skipVehicleGen = false;
     [SerializeField] private bool skipPedestrianGen = false;
+    [Space(20)]
+    [SerializeField] private WaterController water;
     
     private WorldData worldData = null;
     private bool isDirty = false;
     private LoadingManager loadingManager;
     private LoadStateMachine stateMachine;
+    
 
     void Awake() {
         GC.Collect();
@@ -101,5 +105,9 @@ public class World : MonoBehaviour {
             Debug.Log("World saving complete! Took " + stopWatch.Elapsed + " seconds.");
         }
         isDirty = false;
+    }
+
+    public void InitializeWater() {
+        if (water != null) water.Initialize();
     }
 }

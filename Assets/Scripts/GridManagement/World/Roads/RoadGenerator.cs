@@ -6,6 +6,7 @@ using UnityEngine;
 public class RoadGenerator : MonoBehaviour {
     
     private Tile road_straight = TileRegistry.STRAIGHT_ROAD_1x1;
+    private Tile road_straight_edge = TileRegistry.ROAD_WORLD_EDGE_STRAIGHT;
     private Tile road_corner = TileRegistry.CORNER_ROAD_1x1;
     private Tile road_t_junct = TileRegistry.T_JUNCT_ROAD_1x1;
     private Tile road_crossroad = TileRegistry.CROSSROAD_ROAD_1x1;
@@ -33,6 +34,9 @@ public class RoadGenerator : MonoBehaviour {
     [ReadOnly, SerializeField] private int branchesMade = 0;
 
     private int crossingProgress = -1;
+
+    private bool edgeBranch = false;
+    private bool flip = false;
 
     private ChunkManager chunkManager;
     private RoadSeed roadSeed = null;
@@ -64,7 +68,7 @@ public class RoadGenerator : MonoBehaviour {
     }
     
     public void BeginRoadGeneration() {
-        GenerateRoad(road_straight, TilePos.GetGridPosFromLocation(transform.position), generatorDirection);
+        GenerateRoad(edgeBranch ? road_straight_edge : road_straight, TilePos.GetGridPosFromLocation(transform.position), generatorDirection);
         roadGenStage = EnumGenerationStage.IN_PROGRESS;
         StartCoroutine(GeneratorCoroutine());
     }
@@ -77,8 +81,7 @@ public class RoadGenerator : MonoBehaviour {
         //Loop for maximum road size
         for (int i = 0; i < numberGenerate; i++) {
             TilePos placePos = generatorDirection.OffsetPos(lastPos);
-            if (chunkManager.IsValidTile(placePos)) {
-                
+            if (TilePos.IsValid(placePos)) {
                 if (crossingProgress > 0) {
                     if (crossingProgress == 1) {
                         GenerateRoad(road_zebra_crossing, placePos, generatorDirection);
@@ -93,10 +96,24 @@ public class RoadGenerator : MonoBehaviour {
                     }
                 } else {
                     TileData tile = chunkManager.GetTile(placePos);
-                    Tile placeTile = road_straight;
+
+                    if (gameObject.name == "EAST InitGen") {
+                        Debug.Log("East gen placing at " + placePos);
+                    }
+                    
+                    Tile placeTile = edgeBranch ? road_straight_edge : road_straight;
                     EnumDirection placeRotation = generatorDirection;
                     if (tile != null) {
                         int existingId = tile.GetId();
+
+                        if (edgeBranch) {
+                            if (tile.GetTile() == TileRegistry.GRASS) {
+                            } else {
+                                DestroyImmediate(gameObject);
+                                break;
+                            }
+                        }
+                        
                         if (tile is TileRoad) { //there's already a road here so we need to decide what to do.
                             if (placeTile.GetId() != tile.GetId() || !tile.RotationMatch(generatorDirection)) {
                                 if (existingId == road_straight.GetId()) {
@@ -133,56 +150,59 @@ public class RoadGenerator : MonoBehaviour {
                             
                         } else { //No road in the current position, we can continue generation.
                             //Check if we should randomly generate a corner
-    
-                            bool genJunction = Random.Range(1, 100) <= junctionChance && tilesSinceBranch >= minTilesBeforeJunction;
-                            bool genCrossing = Random.Range(1, 100) <= crossingChance && tilesSinceCrossing >= minTilesBeforeCrossing;
-    
-                            if (genJunction && genCrossing) { //Can't generate both, flip a coin to decide which.
-                                genJunction = Random.Range(0.0f, 1.0f) <= 0.5f;
-                                genCrossing = !genJunction;
-                            }
-                            
-                            if (genJunction) {
-                                //Check that there isn't a road in the next two tiles
-                                bool canContinue = false;
-                                TilePos ahead1 = Direction.OffsetPos(generatorDirection, placePos);
-                                TilePos ahead2 = Direction.OffsetPos(generatorDirection, placePos, 2);
-                                if (chunkManager.IsValidTile(ahead1) && chunkManager.IsValidTile(ahead2)) {
-                                    TileData tileAt1 = chunkManager.GetTile(ahead1);
-                                    TileData tileAt2 = chunkManager.GetTile(ahead2);
-                                    if (!(tileAt1 is TileRoad || tileAt2 is TileRoad)) {
-                                        canContinue = true;
-                                    }
+                            if (!edgeBranch) {
+                                bool genJunction = Random.Range(1, 100) <= junctionChance && tilesSinceBranch >= minTilesBeforeJunction;
+                                bool genCrossing = false;//Random.Range(1, 100) <= crossingChance && tilesSinceCrossing >= minTilesBeforeCrossing;
+        
+                                if (genJunction && genCrossing) { //Can't generate both, flip a coin to decide which.
+                                    genJunction = Random.Range(0.0f, 1.0f) <= 0.5f;
+                                    genCrossing = !genJunction;
                                 }
                                 
-                                if (canContinue && branchesMade < maxBranches) {
-                                    placeTile = road_t_junct;
-                                    GenerateBranch(Direction.OffsetPos(generatorDirection.RotateCCW(), placePos), generatorDirection.RotateCCW());
-                                    tilesSinceBranch = 0;
-                                }
-                            } else if (genCrossing) {
-                                //Check that there isn't a road in the next three tiles
-                                bool canContinue = false;
-                                TilePos ahead1 = Direction.OffsetPos(generatorDirection, placePos);
-                                TilePos ahead2 = Direction.OffsetPos(generatorDirection, placePos, 2);
-                                TilePos ahead3 = Direction.OffsetPos(generatorDirection, placePos, 3);
-                                if (chunkManager.IsValidTile(ahead1) && chunkManager.IsValidTile(ahead2) && chunkManager.IsValidTile(ahead3)) {
-                                    TileData tileAt1 = chunkManager.GetTile(ahead1);
-                                    TileData tileAt2 = chunkManager.GetTile(ahead2);
-                                    TileData tileAt3 = chunkManager.GetTile(ahead3);
-                                    if (!(tileAt1 is TileRoad || tileAt2 is TileRoad || tileAt3 is TileRoad)) {
-                                        canContinue = true;
+                                if (genJunction) {
+                                    //Check that there isn't a road in the next two tiles
+                                    bool canContinue = false;
+                                    TilePos ahead1 = Direction.OffsetPos(generatorDirection, placePos);
+                                    TilePos ahead2 = Direction.OffsetPos(generatorDirection, placePos, 2);
+                                    if (chunkManager.IsValidTile(ahead1) && chunkManager.IsValidTile(ahead2)) {
+                                        TileData tileAt1 = chunkManager.GetTile(ahead1);
+                                        TileData tileAt2 = chunkManager.GetTile(ahead2);
+                                        if (!(tileAt1 is TileRoad || tileAt2 is TileRoad)) {
+                                            canContinue = true;
+                                        }
                                     }
+                                    
+                                    if (canContinue && branchesMade < maxBranches) {
+                                        placeTile = road_t_junct;
+                                        GenerateBranch(Direction.OffsetPos(generatorDirection.RotateCCW(), placePos), generatorDirection.RotateCCW(), false);
+                                        tilesSinceBranch = 0;
+                                    }
+                                } else if (genCrossing) {
+                                    //Check that there isn't a road in the next three tiles
+                                    bool canContinue = false;
+                                    TilePos ahead1 = Direction.OffsetPos(generatorDirection, placePos);
+                                    TilePos ahead2 = Direction.OffsetPos(generatorDirection, placePos, 2);
+                                    TilePos ahead3 = Direction.OffsetPos(generatorDirection, placePos, 3);
+                                    if (chunkManager.IsValidTile(ahead1) && chunkManager.IsValidTile(ahead2) && chunkManager.IsValidTile(ahead3)) {
+                                        TileData tileAt1 = chunkManager.GetTile(ahead1);
+                                        TileData tileAt2 = chunkManager.GetTile(ahead2);
+                                        TileData tileAt3 = chunkManager.GetTile(ahead3);
+                                        if (!(tileAt1 is TileRoad || tileAt2 is TileRoad || tileAt3 is TileRoad)) {
+                                            canContinue = true;
+                                        }
+                                    }
+                                    
+                                    if (canContinue) {
+                                        placeTile = road_crossing_approach;
+                                        tilesSinceCrossing = 0;
+                                        crossingProgress = 1;
+                                    }
+                                } else { //Generate a straight road
+                                    GenerateRoad(road_straight, placePos, placeRotation);
+                                    tilesSinceBranch++;
+                                    tilesSinceCrossing++;
                                 }
-                                
-                                if (canContinue) {
-                                    placeTile = road_crossing_approach;
-                                    tilesSinceCrossing = 0;
-                                    crossingProgress = 1;
-                                }
-                            }
-                            //Generate a straight road
-                            else {
+                            } else {
                                 GenerateRoad(road_straight, placePos, placeRotation);
                                 tilesSinceBranch++;
                                 tilesSinceCrossing++;
@@ -195,7 +215,14 @@ public class RoadGenerator : MonoBehaviour {
                 }
                 yield return null;
             } else {
-                GenerateRoad(road_world_exit, lastPos, generatorDirection.Opposite());
+                if (!edgeBranch) {
+                    GenerateRoad(road_world_exit, lastPos, generatorDirection.Opposite());
+                    TilePos branch1Pos = Direction.OffsetPos(generatorDirection.RotateCCW(), lastPos);
+                    TilePos branch2Pos = Direction.OffsetPos(generatorDirection.RotateCW(), lastPos);
+                    GenerateBranch(branch1Pos, generatorDirection.RotateCCW(), true, true);
+                    GenerateBranch(branch2Pos, generatorDirection.RotateCW(), true);
+                    
+                }
                 break;
             }
         }
@@ -204,13 +231,16 @@ public class RoadGenerator : MonoBehaviour {
         yield return null;
     }
 
-    private void GenerateBranch(TilePos currentPos, EnumDirection direction) {
+    private void GenerateBranch(TilePos currentPos, EnumDirection direction, bool edgeBranchIn, bool flipIn = false) {
         GameObject branch = Instantiate(gameObject, TilePos.GetWorldPosFromTilePos(currentPos), Quaternion.identity, transform);
         foreach (Transform child in branch.transform) {
             Destroy(child.gameObject);
         }
-        branch.name = "Branch Gen";
+        branch.name = edgeBranchIn ? "Edge Branch Gen" : "Branch Gen" + (flipIn ? " (Flipped)" : "");
         branch.GetComponent<RoadGenerator>().SetDirection(direction);
+        if (edgeBranchIn) branch.GetComponent<RoadGenerator>().SetEdgeBranch();
+        if (flipIn) branch.GetComponent<RoadGenerator>().SetFlipped();
+
         branchesMade++;
     }
     
@@ -223,60 +253,18 @@ public class RoadGenerator : MonoBehaviour {
             Debug.Log("Chunk is inactive! Enabling!");
             chunk.gameObject.SetActive(true);
         }
+
+        if (flip) {
+            rot = rot.Opposite();
+        }
+        
         chunk.FillChunkCell(tile, LocalPos.FromTilePos(pos), rot);
-
-        //Debug.Log("Road has been placed. Begin skyscraper placement.");
-        /*TilePos left  = new TilePos(pos.x, pos.z);
-        TilePos right = new TilePos(pos.x, pos.z);
-        switch(rot) {
-            case EnumTileDirection.NORTH:
-                left  = new TilePos(pos.x - 1, pos.z);
-                right = new TilePos(pos.x + 1, pos.z);
-                break;
-            case EnumTileDirection.EAST:
-                left  = new TilePos(pos.x, pos.z - 1);
-                right = new TilePos(pos.x, pos.z + 1);
-                break;
-            case EnumTileDirection.SOUTH:
-                left  = new TilePos(pos.x + 1, pos.z);
-                right = new TilePos(pos.x - 1, pos.z);
-                break;
-            case EnumTileDirection.WEST:
-                left  = new TilePos(pos.x, pos.z + 1);
-                right = new TilePos(pos.x, pos.z - 1);
-                break;
-        }
-        
-        if (GenerateSkyscraperForPos(right, ref skyscraper)) {
-            GenerateBuilding(skyscraper, right, chunk);
-        }
-
-        if (GenerateSkyscraperForPos(left, ref skyscraper)) {
-            GenerateBuilding(skyscraper, left, chunk);
-        }
-        //Debug.Log("Generation should be complete.");*/
-    }
-
-    private void GenerateBuilding(GameObject building, TilePos pos, Chunk chunk) {
-        //chunk.FillChunkCell(building, LocalPos.FromTilePos(pos), 0, true);
-    }
-
-    private bool GenerateSkyscraperForPos(TilePos pos, ref GameObject go) {
-        EnumGenerateDirection skyscraperDir = chunkManager.GetAvailableGenerateDirection(pos, go.GetComponent<TileData>());
-        go.GetComponent<TileData>().SetGenerationDirection(skyscraperDir);
-        
-        return skyscraperDir != EnumGenerateDirection.NONE; //return true if can generate, return false if not.
-    }
-
-    public bool IsGenerationComplete() {
-        return roadGenStage == EnumGenerationStage.COMPLETE;
     }
 
     public void SetDirection(EnumDirection dir) {
         generatorDirection = dir;
     }
 
-    public void IncrementNestLevel(int current) {
-        nestLevel = current+1;
-    }
+    private void SetEdgeBranch() => edgeBranch = true;
+    private void SetFlipped() => flip = true;
 }

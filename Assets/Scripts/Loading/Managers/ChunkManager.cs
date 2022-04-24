@@ -42,6 +42,8 @@ public class ChunkManager : GenerationSystem {
         if (World.Instance.IsInternalGenWorld()) {
             SetInternalWorldChunks();
         }
+        
+        World.Instance.InitializeWater();
     }
 
     public override void Process() {

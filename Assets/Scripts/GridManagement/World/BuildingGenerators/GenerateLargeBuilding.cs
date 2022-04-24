@@ -82,7 +82,6 @@ public class GenerateLargeBuilding : GenerateBuildingBase {
 
                 if (w == width - 1) {
                     TilePos offset = Direction.OffsetPos(EnumDirection.WEST, pos);
-                    Debug.LogError("testing at position " + offset);
                     if (chunkManager.GetTile(offset).GetTile().GetTileType() == TileType.ROAD) {
                         chunkManager.SetTile(offset, TileRegistry.T_JUNCT_ROAD_1x1.GetId(), EnumDirection.SOUTH);
                     }

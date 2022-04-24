@@ -44,6 +44,14 @@ public class SectionManager : GenerationSystem {
         ClearSections();
         yield return Scan();
         
+        //Second pass: subdivide remaining sections
+        SubdivideSections();
+        yield return null;
+        
+        //Rescan for next pass
+        ClearSections();
+        yield return Scan();
+        
         //Second pass: smaller buildings
         Debug.Log("Finally populate");
         for (int i = 0; i < sections.Count+1; i++) {
@@ -117,6 +125,18 @@ public class SectionManager : GenerationSystem {
             }
             else {
                 Debug.LogError("Hospital generation failed; no valid locations available.");
+            }
+        }
+    }
+
+    private void SubdivideSections() {
+        for (int i = 0; i < sections.Count; i++) {
+            Section s = sections[i];
+
+            if (s.CanFit(10, 10)) {
+                Debug.LogError("Subdividing!");
+                SectionSubdivider gen = new SectionSubdivider(s, SubDividerType.CROSS);
+                gen.Generate();
             }
         }
     }

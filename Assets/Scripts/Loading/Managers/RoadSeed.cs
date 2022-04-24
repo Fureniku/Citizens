@@ -21,6 +21,14 @@ public class RoadSeed : GenerationSystem {
         if (chunkManager.IsComplete()) {
             if (roadGenStage == EnumGenerationStage.STARTED && roadGeneratorInstances > 0) {
                 if (roadGeneratorInstances == roadGeneratorsComplete) {
+                    ChunkManager chunkMan = World.Instance.GetChunkManager();
+                    int maxPos = chunkMan.GetSize() * Chunk.size - 1;
+                    
+                    chunkMan.SetTile(new TilePos(0, 0), TileRegistry.ROAD_WORLD_EDGE_CORNER.GetId(), EnumDirection.WEST);
+                    chunkMan.SetTile(new TilePos(0, maxPos), TileRegistry.ROAD_WORLD_EDGE_CORNER.GetId(), EnumDirection.NORTH);
+                    chunkMan.SetTile(new TilePos(maxPos, maxPos), TileRegistry.ROAD_WORLD_EDGE_CORNER.GetId(), EnumDirection.EAST);
+                    chunkMan.SetTile(new TilePos(maxPos, 0), TileRegistry.ROAD_WORLD_EDGE_CORNER.GetId(), EnumDirection.SOUTH);
+                    
                     SetComplete();
                 }
             }
