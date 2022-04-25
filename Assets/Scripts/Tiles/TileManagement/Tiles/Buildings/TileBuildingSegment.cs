@@ -58,8 +58,8 @@ public class TileBuildingSegment : TileData {
 
         jObj.Add(new JProperty("id", data.GetId()));
         jObj.Add(new JProperty("rotation", data.GetRotation().GetRotation()));
-        jObj.Add(new JProperty("row", data.GetGridPos().x));
-        jObj.Add(new JProperty("col", data.GetGridPos().z));
+        jObj.Add(new JProperty("row", data.GetTilePos().x));
+        jObj.Add(new JProperty("col", data.GetTilePos().z));
         
         JObject buildingObj = new JObject();
         //TODO

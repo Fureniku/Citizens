@@ -2,7 +2,7 @@
 
 public class Brand : MonoBehaviour {
 
-    [SerializeField] private string name;
+    [SerializeField] private string brandName;
     [SerializeField] private Material colour;
     [SerializeField] private Material logo;
     [SerializeField] private GameObject[] shopFillings;

@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed3e0a9e475d447ba8997bb10c6a61a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Rural Costumers
+  brandName: Rural Costumers
   colour: {fileID: 2100000, guid: 1be4768067b40294e91c237dcc6f042e, type: 2}
   logo: {fileID: 2100000, guid: b9212424a362faa49ad4052fbd77af7d, type: 2}
   shopFillings: []

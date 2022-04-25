@@ -6,10 +6,12 @@ using UnityEngine;
 
 public class VehicleAgent : BaseAgent {
 
+    [Header("Vehicle Appearance")]
     [SerializeField] private VehicleType vehicleType;
     [SerializeField] private VehicleColour vehicleColour;
+    [SerializeField] private VehicleRegistry vehicleRegistry;
     [SerializeField] private GameObject[] colouredParts;
-    
+
     private float maxSpeed;
 
     public VehicleType GetVehicleType() {
@@ -29,7 +31,7 @@ public class VehicleAgent : BaseAgent {
             TileData tdStart = World.Instance.GetChunkManager().GetTile(new TilePos(path[0].x, path[0].y));
             TileData tdNext = World.Instance.GetChunkManager().GetTile(new TilePos(path[1].x, path[1].y));
 
-            EnumDirection startingDirection = Direction.GetDirectionOffset(tdStart.GetGridPos(), tdNext.GetGridPos());
+            EnumDirection startingDirection = Direction.GetDirectionOffset(tdStart.GetTilePos(), tdNext.GetTilePos());
             
             switch (startingDirection) {
                 case EnumDirection.NORTH:
@@ -60,8 +62,8 @@ public class VehicleAgent : BaseAgent {
                 if (NodeInRange(i + 1, path.Count)) exitTd = World.Instance.GetChunkManager().GetTile(new TilePos(path[i+1].x, path[i+1].y));
 
                 if (entryTd != null && exitTd != null) {
-                    EnumDirection entry = Direction.GetDirectionOffset(entryTd.GetGridPos(), td.GetGridPos()); //Entry to current
-                    EnumDirection exit = Direction.GetDirectionOffset(td.GetGridPos(), exitTd.GetGridPos()); //current to exit
+                    EnumDirection entry = Direction.GetDirectionOffset(entryTd.GetTilePos(), td.GetTilePos()); //Entry to current
+                    EnumDirection exit = Direction.GetDirectionOffset(td.GetTilePos(), exitTd.GetTilePos()); //current to exit
 
                     GameObject entryGo = vjController.GetInNode(entry);
                     GameObject exitGo = vjController.GetOutNode(exit);
@@ -72,8 +74,16 @@ public class VehicleAgent : BaseAgent {
             }
         }
 
-        if (finalDest.GetComponent<LocationNodeController>() != null) {
-            destinationController = finalDest.GetComponent<LocationNodeController>();
+        VehicleJunctionController vjc = finalDest.GetComponent<VehicleJunctionController>();
+        destinationController = finalDest.GetComponent<LocationNodeController>();
+        
+        if (vjc != null) { //Add the final junction entry node before the destination, if the destination is on a junction.
+            TileData entryTd  = World.Instance.GetChunkManager().GetTile(new TilePos(path[path.Count-2].x, path[path.Count-2].y));
+            EnumDirection entry = Direction.GetDirectionOffset(entryTd.GetTilePos(), TilePos.GetTilePosFromLocation(finalDest.transform.position));
+            dests.Add(vjc.GetInNode(entry));
+        }
+
+        if (destinationController != null) {
             dests.Add(destinationController.GetDestinationNode());
         }
         else {
@@ -89,11 +99,13 @@ public class VehicleAgent : BaseAgent {
 
         maxSpeed = agent.speed;
 
-        for (int i = 0; i < colouredParts.Length; i++) {
-            colouredParts[i].GetComponent<MeshRenderer>().material = VehicleRegistry.GetMaterial(vehicleColour);
-        }
-        
         initialized = true;
+    }
+    
+    private void OnValidate() {
+        for (int i = 0; i < colouredParts.Length; i++) {
+            colouredParts[i].GetComponent<MeshRenderer>().material = vehicleRegistry.GetMaterialNonStatic(vehicleColour);
+        }
     }
 
     public void SetSpeed(float speed) {

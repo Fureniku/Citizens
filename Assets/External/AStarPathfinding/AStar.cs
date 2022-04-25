@@ -94,7 +94,7 @@ public class AStar : MonoBehaviour {
     //Function uses transform.position to return node in grid matrix.
     //Edited to use tile pos functionality instead, more accurate for tiles in a star grid.
     public Node NodePositionInGrid(Vector3 gridPosition) {
-        TilePos pos = TilePos.GetGridPosFromLocation(gridPosition);
+        TilePos pos = TilePos.GetTilePosFromLocation(gridPosition);
 
         return grid[pos.x, pos.z];
     }

@@ -18,7 +18,9 @@ public class World : MonoBehaviour {
     [Space(20)]
     [SerializeField] private bool skipChunkGen = false;
     [SerializeField] private bool skipRoadGen = false;
-    [SerializeField] private bool skipBuildingGen = false;
+    [SerializeField] private bool skipLargeBuildingGen = false;
+    [SerializeField] private bool skipSmallBuildingGen = false;
+    [SerializeField] private bool skipSubDivisions = false;
     [SerializeField] private bool skipVehicleGen = false;
     [SerializeField] private bool skipPedestrianGen = false;
     [Space(20)]
@@ -51,7 +53,9 @@ public class World : MonoBehaviour {
             Debug.Log("Confirmed as internal world. Skipping generation.");
             skipChunkGen = true;
             skipRoadGen = true;
-            skipBuildingGen = true;
+            skipLargeBuildingGen = true;
+            skipSmallBuildingGen = true;
+            skipSubDivisions = true;
             worldData = FindObjectOfType<WorldData>();
             if (worldData == null) {
                 CreateWorldData();
@@ -81,7 +85,9 @@ public class World : MonoBehaviour {
 
     public bool SkipChunkGen() { return skipChunkGen; }
     public bool SkipRoadGen() { return skipRoadGen; }
-    public bool SkipBuildingGen() { return skipBuildingGen; }
+    public bool SkipLargeBuildingGen() { return skipLargeBuildingGen; }
+    public bool SkipSmallBuildingGen() { return skipSmallBuildingGen; }
+    public bool SkipSubDivisions() { return skipSubDivisions; }
     public bool SkipVehicleGen() { return skipVehicleGen; }
     public bool SkipPedestrianGen() { return skipPedestrianGen; }
     

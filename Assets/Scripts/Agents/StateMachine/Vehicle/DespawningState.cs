@@ -20,6 +20,7 @@ public class DespawningState : VehicleBaseState {
     }
     
     public override Type StateEnter() {
+        agent.SetSpeed(1000);
         Debug.Log("Entering despawn state");
         return null;
     }

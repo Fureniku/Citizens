@@ -7,8 +7,6 @@ using UnityEngine;
 
 public class TileRoad : TileData {
 
-    [SerializeField] private RoadType roadType = RoadType.ROAD_STRAIGHT;
-    
     void Start() {
         Initialize();
         width = 1;
@@ -20,8 +18,8 @@ public class TileRoad : TileData {
 
         jObj.Add(new JProperty("id", data.GetId()));
         jObj.Add(new JProperty("rotation", data.GetRotation().GetRotation()));
-        jObj.Add(new JProperty("row", data.GetGridPos().x));
-        jObj.Add(new JProperty("col", data.GetGridPos().z));
+        jObj.Add(new JProperty("row", data.GetTilePos().x));
+        jObj.Add(new JProperty("col", data.GetTilePos().z));
         
         return new JProperty($"tile_{row}_{col}", jObj);
     }
@@ -52,20 +50,4 @@ public class TileRoad : TileData {
             }
         }
     }
-}
-
-public enum RoadType {
-    ROAD_STRAIGHT,
-    ROAD_CORNER,
-    ROAD_T_JUNCT,
-    ROAD_CROSSROAD,
-    ROAD_CROSSROAD_CONTROLLED,
-    T_JUNCT_ROAD_1x1_SINGLE_IN,
-    T_JUNCT_ROAD_1x1_SINGLE_OUT,
-    ZEBRA_CROSSING,
-    PELICAN_CROSSING,
-    CROSSING_APPROACH,
-    ROAD_WORLD_EXIT,
-    ROAD_WORLD_EDGE_STRAIGHT,
-    ROAD_WORLD_EDGE_CORNER
 }

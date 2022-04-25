@@ -17,11 +17,11 @@ public class SelectionInfo : MonoBehaviour {
 
     public void SetSelectionInfo(TileData data) {
         SetText(nameTag, data.GetName());
-        SetText(tilePosX, data.GetGridPos().x);
-        SetText(tilePosZ, data.GetGridPos().z);
+        SetText(tilePosX, data.GetTilePos().x);
+        SetText(tilePosZ, data.GetTilePos().z);
         
-        SetText(chunkPosX, TilePos.GetParentChunk(data.GetGridPos()).x);
-        SetText(chunkPosZ, TilePos.GetParentChunk(data.GetGridPos()).z);
+        SetText(chunkPosX, TilePos.GetParentChunk(data.GetTilePos()).x);
+        SetText(chunkPosZ, TilePos.GetParentChunk(data.GetTilePos()).z);
         
         SetText(localPosX, data.GetLocalPos().x);
         SetText(localPosZ, data.GetLocalPos().z);

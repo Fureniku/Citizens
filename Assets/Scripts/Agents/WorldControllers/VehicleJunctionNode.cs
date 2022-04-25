@@ -27,6 +27,10 @@ public class VehicleJunctionNode : MonoBehaviour {
     public bool IsOut() {
         return !isIn;
     }
+
+    public VehicleJunctionController GetController() {
+        return transform.parent.parent.GetComponent<VehicleJunctionController>(); //Parent of parent
+    }
     
     private void OnDrawGizmos() {
         Gizmos.color = isIn ? Color.green : Color.red;

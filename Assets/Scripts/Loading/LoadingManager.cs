@@ -77,9 +77,9 @@ public class LoadingManager : MonoBehaviour {
         states.Add(typeof(InitializeLoadState), new InitializeLoadState(0, "Initialization", typeof(GenChunksLoadState), tileRegistryComponent));
         states.Add(typeof(GenChunksLoadState), new GenChunksLoadState(1, "Chunk Generation", typeof(GenRoadsLoadState), World.Instance.SkipChunkGen()));
         states.Add(typeof(GenRoadsLoadState), new GenRoadsLoadState(2, "Road Generation", typeof(GenBuildingsLoadState), roadSeedComponent, World.Instance.SkipRoadGen()));
-        states.Add(typeof(GenBuildingsLoadState), new GenBuildingsLoadState(3, "Gen Buildings", typeof(ComebineMeshLoadState), sectionManager, World.Instance.SkipBuildingGen())); //Unimplemented
-        states.Add(typeof(ComebineMeshLoadState), new ComebineMeshLoadState(4, "Combine Meshes", typeof(GenNavMeshLoadState), meshCombinerManager)); //Unimplemented
-        states.Add(typeof(GenNavMeshLoadState), new GenNavMeshLoadState(5, "NavMesh Generation", typeof(PopulateRegistryLoadState), aStar, roadMesh, sidewalkMesh, skipNavMesh)); //Part implemented
+        states.Add(typeof(GenBuildingsLoadState), new GenBuildingsLoadState(3, "Gen Buildings", typeof(ComebineMeshLoadState), sectionManager));
+        states.Add(typeof(ComebineMeshLoadState), new ComebineMeshLoadState(4, "Combine Meshes", typeof(GenNavMeshLoadState), meshCombinerManager));
+        states.Add(typeof(GenNavMeshLoadState), new GenNavMeshLoadState(5, "NavMesh Generation", typeof(PopulateRegistryLoadState), aStar, roadMesh, sidewalkMesh, skipNavMesh));
         states.Add(typeof(PopulateRegistryLoadState), new PopulateRegistryLoadState(6, "Populate Registries", typeof(GenVehicleLoadState), vehicleRegistryComponent, brandRegistryComponent));
         states.Add(typeof(GenVehicleLoadState), new GenVehicleLoadState(7, "Generate Vehicles", typeof(GenPedestriansLoadState), vehicleAgentManagerComponent, World.Instance.SkipVehicleGen()));
         states.Add(typeof(GenPedestriansLoadState), new GenPedestriansLoadState(8, "Generate Pedestrians", typeof(CompletedLoadState), pedestrianAgentManagerComponent, World.Instance.SkipPedestrianGen()));

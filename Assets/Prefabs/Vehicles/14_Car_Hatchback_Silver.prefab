@@ -793,20 +793,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camPos: {fileID: 6757654517599201232}
-  currentDest: 0
-  currentDestGO: {fileID: 0}
-  destroyOnArrival: 0
-  shouldStop: 0
-  drawGizmos: 1
   eyePos: {fileID: 6601945632810198996}
   visualRange: 20
-  objectDistance: 50
-  currentState: 
+  currentDest: 0
+  currentDestGO: {fileID: 0}
   totalDestinations: 0
+  shouldStop: 0
+  roadSide: 0
+  currentState: 
   lastSeenObject: {fileID: 0}
+  objectDistance: 50
   seenDecay: 0
+  drawGizmos: 1
   vehicleType: 0
   vehicleColour: 4
+  vehicleRegistry: {fileID: 8886422584635529015, guid: b1c55c16a896eac4aaf487b4b08bb3b6,
+    type: 3}
   colouredParts:
   - {fileID: 8421722268478170559}
   - {fileID: 8953393759398381313}

@@ -107,6 +107,31 @@ public class VehicleRegistry : MonoBehaviour {
 
         return MAT_WHITE;
     }
+    
+    public Material GetMaterialNonStatic(VehicleColour colour) {
+        switch (colour) {
+            case VehicleColour.RED:
+                return mat_red;
+            case VehicleColour.BLUE:
+                return mat_blue;
+            case VehicleColour.YELLOW:
+                return mat_yellow;
+            case VehicleColour.GREEN:
+                return mat_green;
+            case VehicleColour.SILVER:
+                return mat_silver;
+            case VehicleColour.BLACK:
+                return mat_black;
+            case VehicleColour.WHITE:
+                return mat_white;
+            case VehicleColour.ORANGE:
+                return mat_orange;
+            case VehicleColour.PURPLE:
+                return mat_purple;
+        }
+
+        return MAT_WHITE;
+    }
 
     public static GameObject GetVehicle(int id) { return registry[id]; }
     public static GameObject GetCar(int id) { return cars[id]; }

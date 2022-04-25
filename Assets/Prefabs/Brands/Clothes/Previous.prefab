@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed3e0a9e475d447ba8997bb10c6a61a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Previous
+  brandName: Previous
   colour: {fileID: 2100000, guid: 29e643b76afeec84ea863b418d372f1d, type: 2}
   logo: {fileID: 2100000, guid: 67afa8640bca6a74bb8fbd20ad100ddb, type: 2}
   shopFillings: []

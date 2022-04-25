@@ -2,19 +2,13 @@
 using UnityEngine;
 
 public class AccelerateState : VehicleBaseState {
+    
     private static float approachDistance = 10;
-    private float stopDistance = 1;
-
-    private float maxSpeed;
-    private float initialSpeed;
-
     private float acceleration = 0.2f;
 
     public AccelerateState(VehicleAgent agent) {
         this.stateName = "Accelerate State";
         this.agent = agent;
-        this.maxSpeed = agent.GetMaxSpeed();
-        this.initialSpeed = agent.GetAgent().speed;
     }
 
     public override Type StateUpdate() {

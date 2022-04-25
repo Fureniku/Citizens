@@ -9,23 +9,26 @@ using UnityEngine.AI;
 public abstract class BaseAgent : MonoBehaviour {
     
     protected NavMeshAgent agent;
-
-    [SerializeField] protected GameObject camPos = null;
-
     private float accelerationSave = 0; //Saved acceleration value used for delaying vehicle motion start.
 
-    [SerializeField] protected int currentDest = 0;
-    [SerializeField] protected GameObject currentDestGO;
-
-    [SerializeField] protected bool shouldStop = false;
-    [SerializeField] protected bool drawGizmos = false;
+    [Header("Prefab Settings")]
+    [SerializeField] protected GameObject camPos = null;
     [SerializeField] protected GameObject eyePos = null;
     [SerializeField] protected int visualRange = 50;
-    [SerializeField, ReadOnly] protected float objectDistance = 50;
-
-    [SerializeField] private string currentState;
-
+    
+    [Header("Destinations")]
+    [SerializeField] protected int currentDest = 0;
+    [SerializeField] protected GameObject currentDestGO;
+    [SerializeField, ReadOnly] protected int totalDestinations;
+    [SerializeField] protected bool shouldStop = false;
+    
+    [Header("Debug")]
     [SerializeField] private EnumDirection roadSide;
+    [SerializeField] private string currentState;
+    [SerializeField] private GameObject lastSeenObject;
+    [SerializeField, ReadOnly] protected float objectDistance = 50;
+    [SerializeField] private int seenDecay;
+    [SerializeField] protected bool drawGizmos = false;
 
     protected AgentStateMachine stateMachine;
     protected Vector3 lookDirection;
@@ -33,10 +36,8 @@ public abstract class BaseAgent : MonoBehaviour {
     protected bool initialized = false;
 
     protected List<GameObject> dests;
-    [SerializeField, ReadOnly] protected int totalDestinations;
-    
     protected LocationNodeController destinationController;
-    
+
     void Awake() {
         agent = GetComponent<NavMeshAgent>();
         dests = new List<GameObject>();
@@ -55,7 +56,7 @@ public abstract class BaseAgent : MonoBehaviour {
     }
 
     private EnumDirection GetCurrentRoadSide() {
-        TilePos currentPos = TilePos.GetGridPosFromLocation(transform.position);
+        TilePos currentPos = TilePos.GetTilePosFromLocation(transform.position);
         if (TilePos.IsValid(currentPos)) {
             TileData currentTile = World.Instance.GetChunkManager().GetTile(currentPos);
             Vector3 rawTilePos = currentTile.transform.position; //e.g. tile pos is 450, 300
@@ -96,7 +97,7 @@ public abstract class BaseAgent : MonoBehaviour {
     }
 
     public TileData GetCurrentTile() {
-        TilePos pos = TilePos.GetGridPosFromLocation(agent.transform.position);
+        TilePos pos = TilePos.GetTilePosFromLocation(agent.transform.position);
         return World.Instance.GetChunkManager().GetTile(pos);
     }
 
@@ -121,9 +122,6 @@ public abstract class BaseAgent : MonoBehaviour {
         }
     }
 
-    [SerializeField] private GameObject lastSeenObject;
-    [SerializeField] private int seenDecay;
-    
     public void CheckForObjects() {
         RaycastHit hit;
         if (Physics.Raycast(eyePos.transform.position, lookDirection, out hit, visualRange)) {
@@ -257,6 +255,14 @@ public abstract class BaseAgent : MonoBehaviour {
     public void SetAgentDestination(GameObject dest) {
         currentDestGO = dest;
         agent.destination = dest.transform.position;
+    }
+
+    public GameObject GetNextDestination() {
+        if (currentDest < dests.Count - 1) {
+            return dests[currentDest + 1];
+        }
+
+        return null;
     }
 
     public abstract void SetAgentDestruction(GameObject dest);

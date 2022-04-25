@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed3e0a9e475d447ba8997bb10c6a61a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Pridave
+  brandName: Pridave
   colour: {fileID: 2100000, guid: 8a13bbadaba94734a9094f7fd6a94066, type: 2}
   logo: {fileID: 2100000, guid: d8108d468a0403c468c51f88d1cb4fee, type: 2}
   shopFillings: []

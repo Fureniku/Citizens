@@ -45,7 +45,7 @@ public class RoadGenerator : MonoBehaviour {
     
     void Start() {
         chunkManager = World.Instance.GetChunkManager();
-        lastPos = TilePos.GetGridPosFromLocation(transform.position);
+        lastPos = TilePos.GetTilePosFromLocation(transform.position);
         tilesSinceBranch = 0;
         nestLevel++;
         if (nestLevel > 1) {
@@ -68,7 +68,7 @@ public class RoadGenerator : MonoBehaviour {
     }
     
     public void BeginRoadGeneration() {
-        GenerateRoad(edgeBranch ? road_straight_edge : road_straight, TilePos.GetGridPosFromLocation(transform.position), generatorDirection);
+        GenerateRoad(edgeBranch ? road_straight_edge : road_straight, TilePos.GetTilePosFromLocation(transform.position), generatorDirection);
         roadGenStage = EnumGenerationStage.IN_PROGRESS;
         StartCoroutine(GeneratorCoroutine());
     }

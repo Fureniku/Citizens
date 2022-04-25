@@ -64,7 +64,7 @@ public class InputHandler : MonoBehaviour {
 
     public void ReplaceTile(int id) {
         if (selectedGo != null) {
-            World.Instance.GetChunkManager().SetTile(TilePos.GetGridPosFromLocation(selectedGo.transform.position), id, EnumDirection.NORTH);
+            World.Instance.GetChunkManager().SetTile(TilePos.GetTilePosFromLocation(selectedGo.transform.position), id, EnumDirection.NORTH);
         }
     }
 

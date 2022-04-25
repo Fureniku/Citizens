@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed3e0a9e475d447ba8997bb10c6a61a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Lake Continent
+  brandName: Lake Continent
   colour: {fileID: 2100000, guid: 2b1326f56d9597045a0f9d5803575968, type: 2}
   logo: {fileID: 2100000, guid: 46f18847b196d4f4aa1a4d050d3fab80, type: 2}
   shopFillings: []

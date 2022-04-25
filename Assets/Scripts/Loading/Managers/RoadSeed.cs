@@ -42,7 +42,7 @@ public class RoadSeed : GenerationSystem {
     
     private void BeginRoadGeneration() {
         Debug.Log("Generating start point for road generation");
-        TilePos pos = TilePos.GetGridPosFromLocation(transform.position);
+        TilePos pos = TilePos.GetTilePosFromLocation(transform.position);
         IndividualPoint(EnumDirection.NORTH, pos);
         IndividualPoint(EnumDirection.EAST,  pos);
         IndividualPoint(EnumDirection.SOUTH, pos);

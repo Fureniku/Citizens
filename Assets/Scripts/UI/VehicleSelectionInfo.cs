@@ -20,11 +20,11 @@ public class VehicleSelectionInfo : MonoBehaviour {
     public void SetSelectionInfo(VehicleAgent agent) {
         SetText(nameTag, agent.gameObject.name);
         SetText(vehicleType, "Car");
-        TilePos destinationPos = TilePos.GetGridPosFromLocation(agent.GetAgent().destination);
+        TilePos destinationPos = TilePos.GetTilePosFromLocation(agent.GetAgent().destination);
         SetText(destPosX, destinationPos.x);
         SetText(destPosZ, destinationPos.z);
         
-        TilePos pos = TilePos.GetGridPosFromLocation(agent.transform.position);
+        TilePos pos = TilePos.GetTilePosFromLocation(agent.transform.position);
         SetText(tilePosX, pos.x);
         SetText(tilePosZ, pos.z);
                 

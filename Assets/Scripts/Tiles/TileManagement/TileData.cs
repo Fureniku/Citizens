@@ -34,7 +34,7 @@ public abstract class TileData : MonoBehaviour {
     }
 
     public void SetInitialPos() {
-        TilePos tilePos = TilePos.GetGridPosFromLocation(transform.position);
+        TilePos tilePos = TilePos.GetTilePosFromLocation(transform.position);
         SetGridPos(tilePos);
         SetParentChunk(TilePos.GetParentChunk(tilePos));
         SetLocalPos(new LocalPos(parentChunk.ChunkTileX(tilePos), parentChunk.ChunkTileZ(tilePos)));
@@ -51,7 +51,7 @@ public abstract class TileData : MonoBehaviour {
     protected void SetLocalPos(LocalPos vec) => localPos = vec;
     protected void SetParentChunk(ChunkPos chunkPos) => parentChunk = chunkPos;
 
-    public TilePos GetGridPos() { return worldPos; }
+    public TilePos GetTilePos() { return worldPos; }
     public LocalPos GetLocalPos() { return localPos; }
 
     public bool IsHalfRotation() {

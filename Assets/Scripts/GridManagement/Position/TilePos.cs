@@ -9,7 +9,7 @@ public class TilePos : Position {
     public TilePos(int x, int z) : base(x, z){}
 
     //Convert a Unity coordinate location into a tilepos location
-    public static TilePos GetGridPosFromLocation(Vector3 worldPos) {
+    public static TilePos GetTilePosFromLocation(Vector3 worldPos) {
         Vector3 gridStartPos = World.Instance.GetChunkManager().transform.position;
         float tileSize = World.Instance.GetChunkManager().GetGridTileSize();
 

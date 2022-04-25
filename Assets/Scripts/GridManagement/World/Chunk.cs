@@ -122,7 +122,7 @@ public class Chunk : MonoBehaviour {
         
         chunk[pos.x, pos.z] = cell;
         
-        TilePos.GetGridPosFromLocation(cell.transform.position);
+        TilePos.GetTilePosFromLocation(cell.transform.position);
         cell.GetComponent<TileData>().SetInitialPos();
     }
 
@@ -135,10 +135,10 @@ public class Chunk : MonoBehaviour {
             for (int col = 0; col < size; col++) {
                 if (chunk[row, col] == null) {
                     Debug.Log("Repairing grid at " + row + ", " + col);
-                    FillChunkCell(TileRegistry.GetGrass(), new LocalPos(row, col), 0);
+                    FillChunkCell(TileRegistry.GRASS.GetId(), new LocalPos(row, col), 0);
                 } else if (chunk[row, col].GetComponent<TileData>() == null) {
                     Destroy(chunk[row, col]);
-                    FillChunkCell(TileRegistry.GetGrass(), new LocalPos(row, col), 0);
+                    FillChunkCell(TileRegistry.GRASS.GetId(), new LocalPos(row, col), 0);
                 }
             }
         }
@@ -192,7 +192,7 @@ public class Chunk : MonoBehaviour {
         for (int row = 0; row < 16; row++) {
             for (int col = 0; col < 16; col++) {
                 DeleteChunkCell(row, col, false);
-                FillChunkCell(TileRegistry.GetGrass(), new LocalPos(row, col), 0);
+                FillChunkCell(TileRegistry.GRASS.GetId(), new LocalPos(row, col), 0);
             }
         }
         state = EnumChunkState.READY;

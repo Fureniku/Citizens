@@ -210,6 +210,49 @@ public class VehicleJunctionController : MonoBehaviour {
         return upOut;
     }
 
+    private GameObject GetOpposingNode(VehicleJunctionNode nodeIn) {
+        VehicleJunctionNode nodeUpIn = upIn != null ? upIn.GetComponent<VehicleJunctionNode>() : null;
+        VehicleJunctionNode nodeRightIn = rightIn != null ? rightIn.GetComponent<VehicleJunctionNode>() : null;
+        VehicleJunctionNode nodeDownIn = downIn != null ? downIn.GetComponent<VehicleJunctionNode>() : null;
+        VehicleJunctionNode nodeLeftIn = leftIn != null ? leftIn.GetComponent<VehicleJunctionNode>() : null;
+
+        if (nodeIn == nodeUpIn) return downOut;
+        if (nodeIn == nodeRightIn) return leftOut;
+        if (nodeIn == nodeDownIn) return upOut;
+        if (nodeIn == nodeLeftIn) return rightOut;
+
+        return null;
+    }
+    
+    private GameObject GetRightNode(VehicleJunctionNode nodeIn) {
+        VehicleJunctionNode nodeUpIn = upIn != null ? upIn.GetComponent<VehicleJunctionNode>() : null;
+        VehicleJunctionNode nodeRightIn = rightIn != null ? rightIn.GetComponent<VehicleJunctionNode>() : null;
+        VehicleJunctionNode nodeDownIn = downIn != null ? downIn.GetComponent<VehicleJunctionNode>() : null;
+        VehicleJunctionNode nodeLeftIn = leftIn != null ? leftIn.GetComponent<VehicleJunctionNode>() : null;
+
+        //The right node is opposite to what you might think - based on approaching from down.
+        if (nodeIn == nodeUpIn) return leftOut;
+        if (nodeIn == nodeRightIn) return upOut;
+        if (nodeIn == nodeDownIn) return rightOut;
+        if (nodeIn == nodeLeftIn) return downOut;
+
+        return null;
+    }
+
+    public bool CrossingJunction(VehicleJunctionNode nodeIn, GameObject nextDest) {
+        if (nextDest == null) {
+            return false;
+        }
+        return GetOpposingNode(nodeIn) == nextDest;
+    }
+
+    public bool TurningRight(VehicleJunctionNode nodeIn, GameObject nextDest) {
+        if (nextDest == null) {
+            return false;
+        }
+        return GetRightNode(nodeIn) == nextDest;
+    }
+
     private bool ShouldGiveWay(VehicleJunctionNode nodeIn, VehicleJunctionNode nodeOut) {
         return false;
     }

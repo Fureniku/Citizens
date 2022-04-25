@@ -37,49 +37,56 @@ public class SectionManager : GenerationSystem {
 
     private IEnumerator Populate() {
         //First pass: large buildings
-        GenerateHospital(TileRegistry.HOSPITAL_8x8);
-        yield return null;
-        
-        //Rescan sections for next pass
-        ClearSections();
-        yield return Scan();
-        
-        //Second pass: subdivide remaining sections
-        SubdivideSections();
-        yield return null;
-        
-        //Rescan for next pass
-        ClearSections();
-        yield return Scan();
-        Debug.Break();
-        //Second pass: smaller buildings
-        for (int i = 0; i < sections.Count+1; i++) {
-            if (genLast != null) {
-                genLast.CombineMeshes();
-            }
-
-            if (i < sections.Count) {
-                Section s = sections[i];
-                GenerateBuildingBase gen;
-                
-                int rng = Random.Range(0, 4);
-
-                List<GenerateBuildingBase> viableBuildings = new List<GenerateBuildingBase>();
-
-                viableBuildings.Add(new GenerateSmallBuilding(s.GetTilePos(), s.GetSizeX(), s.GetSizeZ(), TypeRegistries.SHOPS));
-                viableBuildings.Add(new GenerateSmallBuilding(s.GetTilePos(), s.GetSizeX(), s.GetSizeZ(), TypeRegistries.HOUSES));
-                
-                if (s.CanFit(4, 3)) viableBuildings.Add(new GenerateCarPark(s.GetTilePos(), s.GetSizeX(), 3, 6, s.GetSizeZ()));
-                if (s.CanFit(6, 3)) viableBuildings.Add(new GenerateOffice(s.GetTilePos(), s.GetSizeX(), 3, 6, s.GetSizeZ()));
-
-                gen = viableBuildings[Random.Range(0, viableBuildings.Count - 1)];
-
-                gen.Generate();
-                genLast = gen;
-            }
-            
+        if (!World.Instance.SkipLargeBuildingGen()) {
+            GenerateHospital(TileRegistry.HOSPITAL_8x8);
             yield return null;
+
+            //Rescan sections for next pass
+            ClearSections();
+            yield return Scan();
         }
+
+        if (!World.Instance.SkipSubDivisions()) {
+            //Second pass: subdivide remaining sections
+            SubdivideSections();
+            yield return null;
+
+            //Rescan for next pass
+            ClearSections();
+            yield return Scan();
+        }
+
+        //Third pass: smaller buildings
+        if (!World.Instance.SkipSmallBuildingGen()) {
+            for (int i = 0; i < sections.Count+1; i++) {
+                if (genLast != null) {
+                    genLast.CombineMeshes();
+                }
+
+                if (i < sections.Count) {
+                    Section s = sections[i];
+                    GenerateBuildingBase gen;
+                
+                    int rng = Random.Range(0, 4);
+
+                    List<GenerateBuildingBase> viableBuildings = new List<GenerateBuildingBase>();
+
+                    viableBuildings.Add(new GenerateSmallBuilding(s.GetTilePos(), s.GetSizeX(), s.GetSizeZ(), TypeRegistries.SHOPS));
+                    viableBuildings.Add(new GenerateSmallBuilding(s.GetTilePos(), s.GetSizeX(), s.GetSizeZ(), TypeRegistries.HOUSES));
+                
+                    if (s.CanFit(4, 3)) viableBuildings.Add(new GenerateCarPark(s.GetTilePos(), s.GetSizeX(), 3, 6, s.GetSizeZ()));
+                    if (s.CanFit(6, 3)) viableBuildings.Add(new GenerateOffice(s.GetTilePos(), s.GetSizeX(), 3, 6, s.GetSizeZ()));
+
+                    gen = viableBuildings[Random.Range(0, viableBuildings.Count - 1)];
+
+                    gen.Generate();
+                    genLast = gen;
+                }
+            
+                yield return null;
+            }
+        }
+
         genComplete = true;
         yield return null;
     }
@@ -132,7 +139,6 @@ public class SectionManager : GenerationSystem {
             Section s = sections[i];
 
             if (s.CanFit(10, 10)) {
-                Debug.LogError("Subdividing!");
                 SectionSubdivider gen = new SectionSubdivider(s, SubDividerType.HORI_STRIPED, 3);
                 gen.Generate();
             }

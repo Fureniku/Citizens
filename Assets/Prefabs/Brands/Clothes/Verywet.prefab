@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed3e0a9e475d447ba8997bb10c6a61a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Verywet
+  brandName: Verywet
   colour: {fileID: 2100000, guid: e2e4ea5f69a500843b4fdd1991c01277, type: 2}
   logo: {fileID: 2100000, guid: 8989685e1973d8d48be5853b94581bab, type: 2}
   shopFillings: []

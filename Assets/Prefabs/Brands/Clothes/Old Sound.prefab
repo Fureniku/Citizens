@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed3e0a9e475d447ba8997bb10c6a61a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Old Sound
+  brandName: Old Sound
   colour: {fileID: 2100000, guid: 1ffe7bf16a9e86b42b8570cf1c43a931, type: 2}
   logo: {fileID: 2100000, guid: f8aee1feea419c240b87be6f02c474d9, type: 2}
   shopFillings: []

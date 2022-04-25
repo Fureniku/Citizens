@@ -23,20 +23,29 @@ public class DriveState : VehicleBaseState {
         ScanAhead();
 
         float dist = Vector3.Distance(agent.transform.position, agent.GetCurrentDestinationObject().transform.position);
-
-        if (dist < SlowForTurnState.GetApproachDist() && !agent.ShouldStop()) {
-            return typeof(SlowForTurnState);
-        }
         
-        if (dist < ApproachJunctionState.GetApproachDist()) {
-            if (agent.ShouldStop() && agent.GetStateType() == typeof(DriveState)) {
-                return typeof(ApproachJunctionState);
+        VehicleJunctionNode vjn = agent.GetCurrentDestinationObject().GetComponent<VehicleJunctionNode>();
+        VehicleJunctionController vjc = vjn != null ? vjn.GetController() : null;
+
+        if (vjn != null && vjc != null && vjn.IsIn()) {
+            bool shouldStop = vjn.GiveWay() || vjc.TurningRight(vjn, agent.GetNextDestination()); //Giving way or turning right
+
+            if (shouldStop) {
+                if (dist < ApproachJunctionState.GetApproachDist()) {
+                    return typeof(ApproachJunctionState);
+                }
+            } else if (!vjc.CrossingJunction(vjn, agent.GetNextDestination())) { //Already checked if we're going right, this means we're going left.
+                return typeof(SlowForTurnState);
             }
+        }
+
+        if (dist < 1) {
+            Debug.Log("[Drive State] Incrementing destination without slowing");
+            agent.IncrementDestination();
         }
         
         return null;
     }
-
     public override Type StateEnter() {
         return null;
     }

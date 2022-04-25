@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed3e0a9e475d447ba8997bb10c6a61a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: G&L
+  brandName: G&L
   colour: {fileID: 2100000, guid: b0e8406d614532641b383efbe3d6a8a1, type: 2}
   logo: {fileID: 2100000, guid: 06660446e5c0b8a4e9cc8cb99d6a103c, type: 2}
   shopFillings: []

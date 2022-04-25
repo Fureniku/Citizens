@@ -11,8 +11,6 @@ public class TileRegistry : GenerationSystem {
     // - Get the tile enum (GetTile(EnumTile tile))
     // - Add to EnumTile
     // - Set EnumTile on the prefab
-    
-    // - If road, set info in TileRoad too.
 
     private static readonly GameObject[] registry = new GameObject[255];
     private static readonly List<Tile> tileRegistry = new List<Tile>();
@@ -63,13 +61,9 @@ public class TileRegistry : GenerationSystem {
     public static readonly Tile ROAD_WORLD_EDGE_CORNER = new Tile(43, "Road World Edge Corner", TileType.ROAD);
     public static readonly Tile SKYSCRAPER_GENERIC_1 = new Tile(44, "Generic Skyscraper 1", TileType.BUILDING_PART);
 
-    public static int maxId = 999;
-
     [SerializeField] private GameObject[] register = null;
 
     public static List<Tile> GetRegistry() { return tileRegistry; }
-
-    public static GameObject GetGrass() { return registry[GRASS.GetId()]; }
 
     public override void Initialize() {
         InitializeRegistry();
