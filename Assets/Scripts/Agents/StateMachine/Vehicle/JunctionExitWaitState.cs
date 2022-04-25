@@ -56,6 +56,7 @@ public class JunctionExitWaitState : VehicleBaseState {
         agent.IncrementDestination();
         agent.GetAgent().isStopped = true;
         agentDist = -1;
+        check = 0;
         return null;
     }
 

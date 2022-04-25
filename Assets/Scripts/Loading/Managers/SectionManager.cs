@@ -51,9 +51,8 @@ public class SectionManager : GenerationSystem {
         //Rescan for next pass
         ClearSections();
         yield return Scan();
-        
+        Debug.Break();
         //Second pass: smaller buildings
-        Debug.Log("Finally populate");
         for (int i = 0; i < sections.Count+1; i++) {
             if (genLast != null) {
                 genLast.CombineMeshes();
@@ -81,8 +80,6 @@ public class SectionManager : GenerationSystem {
             
             yield return null;
         }
-        Debug.Log("Completed population");
-        Debug.Break();
         genComplete = true;
         yield return null;
     }
@@ -119,8 +116,9 @@ public class SectionManager : GenerationSystem {
 
             if (bestSections != null) {
                 Section chosenSection = bestSections[Random.Range(0, bestSections.Count - 1)];
-                GenerateLargeBuilding gen = new GenerateLargeBuilding(chosenSection.GetTilePos(), chosenSection.GetSizeX(), chosenSection.GetSizeZ(), hospitalId, EnumDirection.SOUTH, hospitalTile);
+                GenerateHospital gen = new GenerateHospital(chosenSection, hospitalId, EnumDirection.SOUTH, hospitalTile);
                 gen.Generate();
+                gen.PostGenerate();
                 gennedHospital = true;
             }
             else {
@@ -135,7 +133,7 @@ public class SectionManager : GenerationSystem {
 
             if (s.CanFit(10, 10)) {
                 Debug.LogError("Subdividing!");
-                SectionSubdivider gen = new SectionSubdivider(s, SubDividerType.CROSS);
+                SectionSubdivider gen = new SectionSubdivider(s, SubDividerType.HORI_STRIPED, 3);
                 gen.Generate();
             }
         }

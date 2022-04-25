@@ -122,9 +122,11 @@ public class PedestrianAgent : BaseAgent {
                 shouldStop = node.GiveWay();
             }
         } else {
-            ReachedDestination();
+            ReachedDestination(currentDestGO);
         }
     }
+
+    public override void SetAgentDestruction(GameObject dest) {}
 
     protected override void AgentCollideEnter(Collision collision) {}
     protected override void AgentCollideExit(Collision collision) {}

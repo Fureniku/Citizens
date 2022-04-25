@@ -17,7 +17,6 @@ public abstract class BaseAgent : MonoBehaviour {
     [SerializeField] protected int currentDest = 0;
     [SerializeField] protected GameObject currentDestGO;
 
-    [SerializeField] protected bool destroyOnArrival = false;
     [SerializeField] protected bool shouldStop = false;
     [SerializeField] protected bool drawGizmos = false;
     [SerializeField] protected GameObject eyePos = null;
@@ -35,6 +34,8 @@ public abstract class BaseAgent : MonoBehaviour {
 
     protected List<GameObject> dests;
     [SerializeField, ReadOnly] protected int totalDestinations;
+    
+    protected LocationNodeController destinationController;
     
     void Awake() {
         agent = GetComponent<NavMeshAgent>();
@@ -201,9 +202,13 @@ public abstract class BaseAgent : MonoBehaviour {
         }
     }
     
-    protected void ReachedDestination() {
-        if (destroyOnArrival) {
-            Destroy(gameObject);
+    protected void ReachedDestination(GameObject go) {
+        float distance = Vector3.Distance(transform.position, currentDestGO.transform.position);
+        PrintText(distance + " from dest");
+        if (distance < 1) {
+            if (destinationController != null) {
+                destinationController.ArriveAtDestination(this);
+            }
         }
     }
     
@@ -236,7 +241,7 @@ public abstract class BaseAgent : MonoBehaviour {
     }
 
     public GameObject GetCurrentDestination() {
-        return dests[currentDest];
+        return currentDestGO;
     }
 
     private void OnCollisionEnter(Collision collision) {
@@ -254,6 +259,7 @@ public abstract class BaseAgent : MonoBehaviour {
         agent.destination = dest.transform.position;
     }
 
+    public abstract void SetAgentDestruction(GameObject dest);
     public abstract void IncrementDestination();
     public abstract void Init();
     protected abstract void AgentUpdate();

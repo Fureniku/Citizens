@@ -7,7 +7,7 @@ public abstract class GenerateBuildingBase {
     protected int length;
     protected int height;
 
-    private TilePos startPos;
+    protected TilePos startPos;
     private GameObject buildingParent;
 
     protected bool generate;
@@ -121,4 +121,5 @@ public abstract class GenerateBuildingBase {
     }
 
     protected abstract int SelectGameObject(int w, int l, ref EnumDirection rot);
+    public abstract void PostGenerate();
 }

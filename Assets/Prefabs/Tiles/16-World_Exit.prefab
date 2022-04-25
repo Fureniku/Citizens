@@ -1615,6 +1615,7 @@ MonoBehaviour:
   despawnerNode: {fileID: 6383622396450050304}
   startNode: {fileID: 0}
   destinationNode: {fileID: 800201935254480111}
+  destinationAction: 1
 --- !u!114 &4168493191442063563
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -73,23 +73,8 @@ public class VehicleAgent : BaseAgent {
         }
 
         if (finalDest.GetComponent<LocationNodeController>() != null) {
-            LocationNodeController lnc = finalDest.GetComponent<LocationNodeController>();
-
-            if (lnc.CanDestroyAfterDestination()) {
-                dests.Add(lnc.GetDestinationNode());
-                dests.Add(lnc.GetDespawnerNode());
-                destroyOnArrival = true;
-            }
-            else if (lnc.GetDestinationNode() != null) {
-                dests.Add(lnc.GetDestinationNode());
-            }
-            else if (lnc.GetDespawnerNode() != null) {
-                dests.Add(lnc.GetDespawnerNode());
-                destroyOnArrival = true;
-            }
-            else {
-                dests.Add(finalDest);
-            }
+            destinationController = finalDest.GetComponent<LocationNodeController>();
+            dests.Add(destinationController.GetDestinationNode());
         }
         else {
             dests.Add(finalDest);
@@ -134,6 +119,7 @@ public class VehicleAgent : BaseAgent {
         states.Add(typeof(SlowForTurnState), new SlowForTurnState(this)); //Slow down when approaching a turn where we wouldn't have to completely stop
         states.Add(typeof(TurningState), new TurningState(this)); //In the process of turning in a junction (slower driving)
         states.Add(typeof(AccelerateState), new AccelerateState(this)); //Gradually increase vehicle speed (manual control is better than Unity's agent system)
+        states.Add(typeof(DespawningState), new DespawningState(this)); //TERMINAL STATE: Approach a despawner for destruction
         
         stateMachine.SetStates(states);
     }
@@ -156,8 +142,14 @@ public class VehicleAgent : BaseAgent {
                 shouldStop = node.GiveWay();
             }
         } else {
-            ReachedDestination();
+            ReachedDestination(currentDestGO);
         }
+    }
+    
+    public override void SetAgentDestruction(GameObject dest) {
+        currentDestGO = dest;
+        agent.destination = dest.transform.position;
+        stateMachine.ForceDestructionState(typeof(DespawningState)); //FORCING ALLOWED FOR TERMINAL STATE
     }
 
     protected override void AgentCollideEnter(Collision collision) {

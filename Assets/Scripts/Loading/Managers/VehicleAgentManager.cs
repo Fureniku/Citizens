@@ -22,7 +22,7 @@ public class VehicleAgentManager : AgentManager {
 
     public override IEnumerator GenAgents() {
         Debug.Log("Starting vehicle generation");
-        Registry initialSpawnerRegistry = DestinationRegistration.RoadDestinationRegistry;
+        Registry initialSpawnerRegistry = DestinationRegistration.RoadSpawnerRegistry;
         
         int initialAgents = initialAgentCount;
         if (initialAgents > initialSpawnerRegistry.GetListSize()) {

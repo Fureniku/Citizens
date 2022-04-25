@@ -9,6 +9,9 @@ public class AgentStateMachine : MonoBehaviour {
     private AgentBaseState currentState;
     private AgentBaseState lastState;
 
+    private bool flagDestruction = false;
+    private Type destructionState = null;
+
     public AgentBaseState CurrentState {
         get { return currentState; }
         set { currentState = value; }
@@ -24,22 +27,30 @@ public class AgentStateMachine : MonoBehaviour {
 
     // Update is called once per frame
     void FixedUpdate() {
-        if (CurrentState == null) {
-            CurrentState = states.Values.First();
-            CurrentState.StateEnter();
+        if (!flagDestruction) {
+            if (CurrentState == null) {
+                CurrentState = states.Values.First();
+                CurrentState.StateEnter();
+            }
+            else {
+                Type nextState = CurrentState.StateUpdate();
+            
+                if (nextState != null && nextState != CurrentState.GetType()) {
+                    SwitchToState(nextState);
+                }
+            }
         }
         else {
-            Type nextState = CurrentState.StateUpdate();
-            
-            if (nextState != null && nextState != CurrentState.GetType()) {
-                SwitchToState(nextState);
-            }
+            SwitchToState(destructionState);
+            CurrentState = states[destructionState];
+            CurrentState.StateUpdate();
         }
     }
 
     //Switch states, and update rule based system
     public void SwitchToState(Type nextState) {
         if (nextState != CurrentState.GetType()) {
+            Debug.Log("Switching from " + CurrentState.GetName() + " to " + states[nextState].GetName());
             CurrentState.StateExit();
             lastState = CurrentState;
             CurrentState = states[nextState];
@@ -47,7 +58,15 @@ public class AgentStateMachine : MonoBehaviour {
         }
     }
 
+    public void ForceDestructionState(Type nextState) {
+        Debug.Log("FORCING DESPAWN STATE! No more state switching!");
+        flagDestruction = true;
+        destructionState = nextState;
+    }
+
     public AgentBaseState LastState() {
         return lastState;
     }
+
+    public void FlagDestruction() => flagDestruction = true;
 }

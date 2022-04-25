@@ -87,6 +87,8 @@ public class GenerateCarPark : GenerateBuildingBase {
         
         return TileRegistry.GetTile(inner).GetId();
     }
+    
+    public override void PostGenerate() {}
 
     public GenerateCarPark(TilePos startPos, int width, int minHeight, int maxHeight, int length) 
         : base(startPos, width, minHeight, maxHeight, length) {}

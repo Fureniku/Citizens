@@ -75,6 +75,8 @@ public class GenerateOffice : GenerateBuildingBase {
 
         return TileRegistry.GetTile(inner).GetId();
     }
+    
+    public override void PostGenerate() {}
 
     public GenerateOffice(TilePos startPos, int width, int minHeight, int maxHeight, int length) 
         : base(startPos, width, minHeight, maxHeight, length) {}
