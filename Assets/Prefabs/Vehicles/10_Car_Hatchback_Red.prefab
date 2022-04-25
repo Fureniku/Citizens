@@ -798,6 +798,8 @@ MonoBehaviour:
   currentDestGO: {fileID: 0}
   totalDestinations: 0
   shouldStop: 0
+  finalPathedDestination: {fileID: 0}
+  dests: []
   roadSide: 0
   currentState: 
   lastSeenObject: {fileID: 0}

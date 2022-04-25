@@ -8,7 +8,7 @@ public class PedestrianAgent : BaseAgent {
     [SerializeField] private GameObject head;
 
     public override void Init() {
-        GameObject finalDest = World.Instance.GetChunkManager().GetTile(DestinationRegistration.hospitalRegistry.GetAtRandom()).gameObject;
+        GameObject finalDest = World.Instance.GetChunkManager().GetTile(DestinationRegistration.worldExit.GetAtRandom()).gameObject;
         
         //List<Node> path = aStar.RequestPath(gameObject, finalDest);
 

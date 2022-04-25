@@ -2784,7 +2784,7 @@ MonoBehaviour:
   percentage: 0
   message: 
   complete: 0
-  initialAgentCount: 0
+  initialAgentCount: 10
   maxAgentCount: 500
   testAgent: {fileID: 4969062756450106854, guid: 60dac1133367e4f4999a4bafed426d8f,
     type: 3}
@@ -3637,7 +3637,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 1088
   m_UseGeometry: 1
   m_DefaultArea: 0
   m_IgnoreNavMeshAgent: 1
@@ -3645,7 +3645,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.29999998
+  m_VoxelSize: 0.16666667
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 0}
 --- !u!4 &1055781746
@@ -5292,6 +5292,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8633899636366837553, guid: c24ff386abadcf54aac7a2d9d8a755d0,
+        type: 3}
+      propertyPath: showGizmo
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8633899636366837557, guid: c24ff386abadcf54aac7a2d9d8a755d0,
         type: 3}
       propertyPath: m_RootOrder
@@ -5460,7 +5465,7 @@ MonoBehaviour:
   percentage: 0
   message: 
   complete: 0
-  initialAgentCount: 1
+  initialAgentCount: 10
   maxAgentCount: 500
   testAgent: {fileID: 8945190466146426157, guid: 472c2a24ef19ddf49ad4228b79c2bbf8,
     type: 3}

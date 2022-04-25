@@ -419,6 +419,7 @@ GameObject:
   - component: {fileID: 2669965893517582141}
   - component: {fileID: -9025430584181979472}
   - component: {fileID: 901405649870691696}
+  - component: {fileID: 8881267345820127647}
   m_Layer: 0
   m_Name: Pedestrian
   m_TagString: Untagged
@@ -481,18 +482,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camPos: {fileID: 2374752079311208779}
-  currentDest: 0
-  currentDestGO: {fileID: 0}
-  destroyOnArrival: 0
-  shouldStop: 0
-  drawGizmos: 0
   eyePos: {fileID: 1976600772289678489}
   visualRange: 50
-  objectDistance: 50
-  currentState: 
+  currentDest: 0
+  currentDestGO: {fileID: 0}
   totalDestinations: 0
+  shouldStop: 0
+  finalPathedDestination: {fileID: 0}
+  dests: []
+  roadSide: 0
+  currentState: 
   lastSeenObject: {fileID: 0}
+  objectDistance: 50
   seenDecay: 0
+  drawGizmos: 0
   head: {fileID: 2580872003261473858}
 --- !u!114 &-9025430584181979472
 MonoBehaviour:
@@ -525,6 +528,21 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &8881267345820127647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4969062756450106854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ed9fe027c24f02924d9645b4a748e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firstName: 
+  lastName: 
+  age: 0
 --- !u!1 &6651840285472335159
 GameObject:
   m_ObjectHideFlags: 0

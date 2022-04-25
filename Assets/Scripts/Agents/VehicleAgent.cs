@@ -23,7 +23,7 @@ public class VehicleAgent : BaseAgent {
     }
 
     public override void Init() {
-        GameObject finalDest = World.Instance.GetChunkManager().GetTile(DestinationRegistration.hospitalRegistry.GetAtRandom()).gameObject;
+        GameObject finalDest = World.Instance.GetChunkManager().GetTile(DestinationRegistration.worldExit.GetAtRandom()).gameObject;
         destinationController = finalDest.GetComponent<LocationNodeController>();
         
         if (destinationController != null) {

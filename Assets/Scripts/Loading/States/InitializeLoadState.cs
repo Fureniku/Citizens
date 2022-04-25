@@ -31,6 +31,7 @@ namespace Loading.States {
             else {
                 Debug.Log("Button populator is null!");
             }*/
+            AgentDataRegistry.Initialize();
             return null;
         }
 
