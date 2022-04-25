@@ -26,7 +26,6 @@ public class TileGeneratedShop : TileData {
     }
 
     public override void CreateFromRegistry() {
-        Debug.Log("Creating a " + brand.GetName() + " shop");
         if (shopBases.Length > 0) {
             GameObject shopBase = Instantiate(shopBases[Random.Range(0, shopBases.Length)], transform.position, Quaternion.Euler(0, 90, 0));
             shopBase.transform.parent = transform;

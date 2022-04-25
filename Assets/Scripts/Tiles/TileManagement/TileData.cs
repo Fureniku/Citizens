@@ -90,6 +90,7 @@ public abstract class TileData : MonoBehaviour {
     public void SetGenerationDirection(EnumGenerateDirection dir) { genDirection = dir; }
     public EnumDirection GetRotation() { return rotation; }
     public Tile GetTile() { return TileRegistry.GetTile(enumTile); }
+    public bool IsRegistryVersion() { return isRegistryEntry; }
 
     //////////////// Used for load/save
     

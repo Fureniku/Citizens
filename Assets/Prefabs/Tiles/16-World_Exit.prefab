@@ -425,7 +425,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeType: 1
-  nodeController: {fileID: 3320656565879782384}
+  nodeController: {fileID: 4044407435169539510}
 --- !u!1 &977594216719020374
 GameObject:
   m_ObjectHideFlags: 0
@@ -1585,7 +1585,6 @@ MonoBehaviour:
   rotation: 0
   enumTile: 16
   genDirection: 4
-  roadType: 10
 --- !u!65 &30601552220107495
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1611,11 +1610,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3ae7ea1b9cb4640a29e7a14b1d82d3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentTile: {fileID: 7074164369232490046}
   spawnerNode: {fileID: 0}
-  despawnerNode: {fileID: 6383622396450050304}
+  despawnerNode: {fileID: 2240082279198389765}
   startNode: {fileID: 0}
-  destinationNode: {fileID: 800201935254480111}
+  destinationNode: {fileID: 6001482467942227752}
+  parkingController: {fileID: 0}
   destinationAction: 1
+  locationType: 1
 --- !u!114 &4168493191442063563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3804,7 +3806,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeType: 3
-  nodeController: {fileID: 3320656565879782384}
+  nodeController: {fileID: 4044407435169539510}
 --- !u!1 &6385673025137635728
 GameObject:
   m_ObjectHideFlags: 0

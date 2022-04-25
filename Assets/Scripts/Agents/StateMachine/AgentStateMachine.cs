@@ -58,10 +58,8 @@ public class AgentStateMachine : MonoBehaviour {
         }
     }
 
-    public void ForceDestructionState(Type nextState) {
-        Debug.Log("FORCING DESPAWN STATE! No more state switching!");
-        flagDestruction = true;
-        destructionState = nextState;
+    public void ForceState(Type nextState) {
+        SwitchToState(nextState);
     }
 
     public AgentBaseState LastState() {

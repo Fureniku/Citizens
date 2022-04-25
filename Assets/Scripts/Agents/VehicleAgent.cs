@@ -23,11 +23,19 @@ public class VehicleAgent : BaseAgent {
     }
 
     public override void Init() {
-        GameObject finalDest = World.Instance.GetChunkManager().GetTile(DestinationRegistration.RoadDestinationRegistry.GetAtRandom()).gameObject;
+        GameObject finalDest = World.Instance.GetChunkManager().GetTile(DestinationRegistration.hospitalRegistry.GetAtRandom()).gameObject;
+        destinationController = finalDest.GetComponent<LocationNodeController>();
+        
+        if (destinationController != null) {
+            finalDest = destinationController.GetDestinationNode();
+        }
+        
+        Debug.Log("Initializing vehicle path to " + finalDest);
+        finalPathedDestination = finalDest;
         
         List<Node> path = aStar.RequestPath(gameObject, finalDest);
 
-        if (path.Count > 2) {
+        if (path.Count > 2) { //Realign vehicle on the correct side of the road
             TileData tdStart = World.Instance.GetChunkManager().GetTile(new TilePos(path[0].x, path[0].y));
             TileData tdNext = World.Instance.GetChunkManager().GetTile(new TilePos(path[1].x, path[1].y));
 
@@ -75,7 +83,7 @@ public class VehicleAgent : BaseAgent {
         }
 
         VehicleJunctionController vjc = finalDest.GetComponent<VehicleJunctionController>();
-        destinationController = finalDest.GetComponent<LocationNodeController>();
+        
         
         if (vjc != null) { //Add the final junction entry node before the destination, if the destination is on a junction.
             TileData entryTd  = World.Instance.GetChunkManager().GetTile(new TilePos(path[path.Count-2].x, path[path.Count-2].y));
@@ -131,6 +139,8 @@ public class VehicleAgent : BaseAgent {
         states.Add(typeof(SlowForTurnState), new SlowForTurnState(this)); //Slow down when approaching a turn where we wouldn't have to completely stop
         states.Add(typeof(TurningState), new TurningState(this)); //In the process of turning in a junction (slower driving)
         states.Add(typeof(AccelerateState), new AccelerateState(this)); //Gradually increase vehicle speed (manual control is better than Unity's agent system)
+        states.Add(typeof(ParkingState), new ParkingState(this)); //Approaching a parking space
+        states.Add(typeof(ParkedState), new ParkedState(this)); //Vehicle has parked
         states.Add(typeof(DespawningState), new DespawningState(this)); //TERMINAL STATE: Approach a despawner for destruction
         
         stateMachine.SetStates(states);
@@ -161,7 +171,13 @@ public class VehicleAgent : BaseAgent {
     public override void SetAgentDestruction(GameObject dest) {
         currentDestGO = dest;
         agent.destination = dest.transform.position;
-        stateMachine.ForceDestructionState(typeof(DespawningState)); //FORCING ALLOWED FOR TERMINAL STATE
+        stateMachine.ForceState(typeof(DespawningState)); //FORCING ALLOWED FOR TERMINAL STATE
+    }
+
+    public void SetAgentParking(GameObject parkingSpot) {
+        currentDestGO = parkingSpot;
+        agent.destination = parkingSpot.transform.position;
+        stateMachine.ForceState(typeof(ParkingState)); //FORCING ALLOWED FOR TERMINAL STATE
     }
 
     protected override void AgentCollideEnter(Collision collision) {

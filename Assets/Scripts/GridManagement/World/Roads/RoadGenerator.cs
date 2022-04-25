@@ -97,10 +97,6 @@ public class RoadGenerator : MonoBehaviour {
                 } else {
                     TileData tile = chunkManager.GetTile(placePos);
 
-                    if (gameObject.name == "EAST InitGen") {
-                        Debug.Log("East gen placing at " + placePos);
-                    }
-                    
                     Tile placeTile = edgeBranch ? road_straight_edge : road_straight;
                     EnumDirection placeRotation = generatorDirection;
                     if (tile != null) {

@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 public class ObstructionSpottedState : AgentBaseState {
     
@@ -40,7 +41,7 @@ public class ObstructionSpottedState : AgentBaseState {
                 agent.GetAgent().isStopped = false;
                 agent.GetAgent().speed = deltaSpeed * distanceModifier;
             }
-            agent.SetLookDirection((agent.GetSeenObject().transform.position - agent.transform.position).normalized, false);
+            ScanAhead();
         }
 
         if (agent.GetLastSeenObject() == null) {
@@ -57,5 +58,22 @@ public class ObstructionSpottedState : AgentBaseState {
     public override Type StateExit() {
         agent.GetAgent().isStopped = false;
         return null;
+    }
+    
+    private float lookOffset = 0f;
+    private bool reverseDir = false;
+    
+    private void ScanAhead() {
+        Vector3 dir = new Vector3(Vector3.forward.x + lookOffset, Vector3.forward.y, Vector3.forward.z);
+        agent.SetLookDirection(dir, true);
+        if (reverseDir) {
+            lookOffset -= 0.015f;
+        } else {
+            lookOffset += 0.015f;
+        }
+
+        if ((lookOffset > 0.075f && !reverseDir) || (lookOffset < -0.075f && reverseDir)) {
+            reverseDir = !reverseDir;
+        }
     }
 }

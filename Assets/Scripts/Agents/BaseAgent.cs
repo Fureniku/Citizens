@@ -21,6 +21,8 @@ public abstract class BaseAgent : MonoBehaviour {
     [SerializeField] protected GameObject currentDestGO;
     [SerializeField, ReadOnly] protected int totalDestinations;
     [SerializeField] protected bool shouldStop = false;
+    [SerializeField] protected GameObject finalPathedDestination;
+    [SerializeField] protected List<GameObject> dests;
     
     [Header("Debug")]
     [SerializeField] private EnumDirection roadSide;
@@ -34,8 +36,7 @@ public abstract class BaseAgent : MonoBehaviour {
     protected Vector3 lookDirection;
     protected AStar aStar;
     protected bool initialized = false;
-
-    protected List<GameObject> dests;
+    
     protected LocationNodeController destinationController;
 
     void Awake() {
@@ -264,6 +265,8 @@ public abstract class BaseAgent : MonoBehaviour {
 
         return null;
     }
+
+    public LocationNodeController GetDestinationController() { return destinationController; }
 
     public abstract void SetAgentDestruction(GameObject dest);
     public abstract void IncrementDestination();

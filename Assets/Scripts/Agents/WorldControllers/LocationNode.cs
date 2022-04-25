@@ -3,7 +3,7 @@
 public class LocationNode : MonoBehaviour {
 
     [SerializeField] private NodeType nodeType = NodeType.START;
-    [SerializeField] private GameObject nodeController;
+    [SerializeField] private LocationNodeController nodeController;
 
     public NodeType GetNodeType() {
         return nodeType;

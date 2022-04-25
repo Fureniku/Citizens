@@ -32,7 +32,6 @@ public class TileSmallBuilding : TileData {
             Material selectedMat = matsIn[Random.Range(0, matsIn.Length)];
             MeshRenderer rendererIn = objectIn.GetComponent<MeshRenderer>();
 
-            Debug.Log("setting " + objectIn.name + " material to  " + selectedMat.name);
             if (rendererIn.materials.Length > 1) {
                 for (int i = 0; i < rendererIn.materials.Length; i++) {
                     rendererIn.materials[i] = selectedMat;
