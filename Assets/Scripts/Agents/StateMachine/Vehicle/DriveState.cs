@@ -40,7 +40,6 @@ public class DriveState : VehicleBaseState {
         }
 
         if (dist < 1) {
-            Debug.Log("[Drive State] Incrementing destination without slowing");
             agent.IncrementDestination();
         }
         

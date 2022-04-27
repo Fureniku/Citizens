@@ -40,7 +40,6 @@ public class PedestrianAgentManager : AgentManager {
             agents[i].name = "Pedestrian Agent " + (i + 1);
             agents[i].GetComponent<PedestrianAgent>().SetAStar(aStarPlane.GetComponent<AStar>());
             agents[i].GetComponent<PedestrianAgent>().Init();
-            agents[i].GetComponent<PedestrianAgent>().SaveAcceleration(agents[i].GetComponent<NavMeshAgent>().acceleration);
 
             message = "Created pedestrian " + i + " of " + initialAgents;
             yield return null;

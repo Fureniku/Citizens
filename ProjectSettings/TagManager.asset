@@ -10,6 +10,8 @@ TagManager:
   - Pedestrian
   - Building
   - Fire
+  - DeleteOnCleanup
+  - SkipCombine
   layers:
   - Default
   - TransparentFX

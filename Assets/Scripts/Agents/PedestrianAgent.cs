@@ -10,6 +10,8 @@ public class PedestrianAgent : BaseAgent {
     [SerializeField] private GameObject legs;
     [SerializeField] private VehicleAgent vehicle;
 
+    [SerializeField] private bool isAgentOnNavMesh = false;
+
     public override void Init() {
         GenerateDestination();
 
@@ -67,7 +69,9 @@ public class PedestrianAgent : BaseAgent {
         }
     }
 
-    protected override void AgentUpdate() {}
+    protected override void AgentUpdate() {
+        isAgentOnNavMesh = agent.isOnNavMesh;
+    }
     protected override void AgentNavigate() {}
     
     public override void IncrementDestination() {

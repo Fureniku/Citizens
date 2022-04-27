@@ -2074,7 +2074,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8736901273939771963
 Transform:
   m_ObjectHideFlags: 0
@@ -2158,6 +2158,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parkingNodes: []
+  agentDestination: {fileID: 0}
 --- !u!1 &3898700768582196022
 GameObject:
   m_ObjectHideFlags: 0
@@ -3008,7 +3009,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1961743647323750085}
-  - component: {fileID: 4970330337177504268}
   m_Layer: 8
   m_Name: Hospital_Destination
   m_TagString: Untagged
@@ -3030,20 +3030,6 @@ Transform:
   m_Father: {fileID: 7286418325968156317}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4970330337177504268
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5472727720398890590}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f150d87a0334b5a9273da206bc79c36, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nodeType: 1
-  nodeController: {fileID: 0}
 --- !u!1 &5568449860372639215
 GameObject:
   m_ObjectHideFlags: 0

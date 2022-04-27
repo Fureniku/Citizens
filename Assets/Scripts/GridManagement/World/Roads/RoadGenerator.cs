@@ -148,7 +148,7 @@ public class RoadGenerator : MonoBehaviour {
                             //Check if we should randomly generate a corner
                             if (!edgeBranch) {
                                 bool genJunction = Random.Range(1, 100) <= junctionChance && tilesSinceBranch >= minTilesBeforeJunction;
-                                bool genCrossing = false;//Random.Range(1, 100) <= crossingChance && tilesSinceCrossing >= minTilesBeforeCrossing;
+                                bool genCrossing = Random.Range(1, 100) <= crossingChance && tilesSinceCrossing >= minTilesBeforeCrossing;
         
                                 if (genJunction && genCrossing) { //Can't generate both, flip a coin to decide which.
                                     genJunction = Random.Range(0.0f, 1.0f) <= 0.5f;
@@ -177,21 +177,16 @@ public class RoadGenerator : MonoBehaviour {
                                     //Check that there isn't a road in the next three tiles
                                     bool canContinue = false;
                                     TilePos ahead1 = Direction.OffsetPos(generatorDirection, placePos);
-                                    TilePos ahead2 = Direction.OffsetPos(generatorDirection, placePos, 2);
-                                    TilePos ahead3 = Direction.OffsetPos(generatorDirection, placePos, 3);
-                                    if (chunkManager.IsValidTile(ahead1) && chunkManager.IsValidTile(ahead2) && chunkManager.IsValidTile(ahead3)) {
+                                    if (chunkManager.IsValidTile(ahead1)) {
                                         TileData tileAt1 = chunkManager.GetTile(ahead1);
-                                        TileData tileAt2 = chunkManager.GetTile(ahead2);
-                                        TileData tileAt3 = chunkManager.GetTile(ahead3);
-                                        if (!(tileAt1 is TileRoad || tileAt2 is TileRoad || tileAt3 is TileRoad)) {
+                                        if (!(tileAt1 is TileRoad)) {
                                             canContinue = true;
                                         }
                                     }
                                     
                                     if (canContinue) {
-                                        placeTile = road_crossing_approach;
+                                        placeTile = road_zebra_crossing;
                                         tilesSinceCrossing = 0;
-                                        crossingProgress = 1;
                                     }
                                 } else { //Generate a straight road
                                     GenerateRoad(road_straight, placePos, placeRotation);

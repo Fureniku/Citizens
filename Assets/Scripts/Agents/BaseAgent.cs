@@ -9,7 +9,6 @@ using UnityEngine.AI;
 public abstract class BaseAgent : MonoBehaviour {
     
     protected NavMeshAgent agent;
-    private float accelerationSave = 0; //Saved acceleration value used for delaying vehicle motion start.
 
     [Header("Prefab Settings")]
     [SerializeField] protected GameObject camPos = null;
@@ -195,29 +194,13 @@ public abstract class BaseAgent : MonoBehaviour {
     
     protected void ReachedDestination(GameObject go) {
         float distance = Vector3.Distance(transform.position, currentDestGO.transform.position);
-        PrintText(distance + " from dest");
         if (distance < 1) {
             if (destinationController != null) {
                 destinationController.ArriveAtDestination(this);
             }
         }
     }
-    
-    
-    
-    
-    //TODO needed?
-    //Save the initiial acceleration value and temporarily set to zero to stop agent moving until we're ready.
-    public void SaveAcceleration(float acc) {
-        accelerationSave = acc;
-        GetComponent<NavMeshAgent>().acceleration = 0;
-    }
-    
-    public void RestoreAcceleration() => GetComponent<NavMeshAgent>().acceleration = accelerationSave;
-    
-    
 
-    
     public void SetAgentDestination(GameObject dest) {
         currentDestGO = dest;
         agent.destination = dest.transform.position;

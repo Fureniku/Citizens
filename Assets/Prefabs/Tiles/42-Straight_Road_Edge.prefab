@@ -386,7 +386,9 @@ GameObject:
   - component: {fileID: 2392389421493443276}
   - component: {fileID: 8530409375503826252}
   - component: {fileID: 5971705490671714789}
-  m_Layer: 0
+  - component: {fileID: 4366270549576764867}
+  - component: {fileID: 4303494681654403904}
+  m_Layer: 7
   m_Name: Road
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -470,6 +472,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   color: 0
   eraseRenderer: 0
+--- !u!65 &4366270549576764867
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2579346961513643114}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 6.722118, y: 0.5, z: 10}
+  m_Center: {x: 0.22918998, y: -0.25, z: -1.8487553e-16}
+--- !u!114 &4303494681654403904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2579346961513643114}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 8
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: 00000000
 --- !u!1 &2929172167472020188
 GameObject:
   m_ObjectHideFlags: 0
@@ -650,7 +681,6 @@ MonoBehaviour:
   rotation: 1
   enumTile: 42
   genDirection: 4
-  roadType: 11
 --- !u!65 &30601552220107495
 BoxCollider:
   m_ObjectHideFlags: 0

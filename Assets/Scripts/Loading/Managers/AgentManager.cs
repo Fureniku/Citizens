@@ -32,7 +32,7 @@ public abstract class AgentManager : GenerationSystem {
     protected void EnableAgents() {
         for (int i = 0; i < agents.Count; i++) {
             if (agents[i].GetComponent<BaseAgent>().IsAgentReady()) {
-                agents[i].GetComponent<BaseAgent>().RestoreAcceleration();
+                agents[i].GetComponent<BaseAgent>().GetAgent().isStopped = false;
             }
         }
         SetComplete();
