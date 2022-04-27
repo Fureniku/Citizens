@@ -48,4 +48,8 @@ public abstract class AgentManager : GenerationSystem {
     public override string GetGenerationString() {
         return message;
     }
+
+    public List<GameObject> GetAllAgents() {
+        return agents;
+    }
 }
