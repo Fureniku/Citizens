@@ -18,6 +18,8 @@ public class VehicleAgent : BaseAgent {
 
     [SerializeField] private GameObject testAgent;
 
+    private ParkingController parkingController;
+
     private float maxSpeed;
 
     public VehicleType GetVehicleType() {
@@ -28,6 +30,10 @@ public class VehicleAgent : BaseAgent {
         return maxSpeed;
     }
 
+    public ParkingController GetParkingController() {
+        return parkingController;
+    }
+
     public override void Init() {
         vehicle = GetComponent<Vehicle>();
         GameObject finalDest = World.Instance.GetChunkManager().GetTile(DestinationRegistration.hospitalRegistry.GetAtRandom()).gameObject;
@@ -35,6 +41,7 @@ public class VehicleAgent : BaseAgent {
         
         if (destinationController != null) {
             finalDest = destinationController.GetDestinationNode();
+            parkingController = destinationController.GetParkingController();
         }
         
         Debug.Log("Initializing vehicle path to " + finalDest);
@@ -149,7 +156,11 @@ public class VehicleAgent : BaseAgent {
         for (int i = 0; i < vehicle.GetMaxSeats(); i++) {
             Seat seat = vehicle.GetSeat(i);
             if (!seat.IsAvailable()) {
-                seat.ExitSeat();
+                GameObject passengerDest = null;
+                if (parkingController != null) {
+                    passengerDest = parkingController.GetForwardingAgentDestination();
+                }
+                seat.ExitSeat(passengerDest);
             }
         }
 

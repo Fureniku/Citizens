@@ -4,6 +4,7 @@ using UnityEngine;
 public class ParkingController : MonoBehaviour {
 
     [SerializeField] private List<ParkingNode> parkingNodes = new List<ParkingNode>();
+    [SerializeField] private GameObject agentDestination = null;
 
     void Awake() {
         parkingNodes.Clear();
@@ -25,5 +26,9 @@ public class ParkingController : MonoBehaviour {
         }
 
         return null; //car park is full :(
+    }
+
+    public GameObject GetForwardingAgentDestination() {
+        return agentDestination;
     }
 }

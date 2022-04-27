@@ -30,12 +30,16 @@ public class PedestrianAgent : BaseAgent {
         legs.SetActive(false);
     }
 
-    public void ExitVehicle() {
+    public void ExitVehicle(GameObject destination) {
         vehicle = null;
         agent.enabled = true;
         transform.parent = World.Instance.GetLoadingManager().GetPedestrianAgentManager().transform;
         legs.SetActive(true);
-        GenerateDestination();
+        if (destination != null) {
+            SetAgentDestination(destination);
+        } else {
+            GenerateDestination();
+        }
     }
 
     public VehicleAgent GetVehicle() {

@@ -12,7 +12,7 @@ public class WalkState : PedestrianBaseState {
             return typeof(VehiclePassengerState);
         }
         
-        if (agent.GetCurrentTile().GetTile() == TileRegistry.ZEBRA_CROSSING_1x1) {
+        if (agent.GetCurrentTile() != null && agent.GetCurrentTile().GetTile() == TileRegistry.ZEBRA_CROSSING_1x1) {
             //TODO only switch states if they should actually cross here
             return typeof(ApproachZebraCrossingState);
         }

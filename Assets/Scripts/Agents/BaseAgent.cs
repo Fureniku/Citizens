@@ -99,7 +99,11 @@ public abstract class BaseAgent : MonoBehaviour {
 
     public TileData GetCurrentTile() {
         TilePos pos = TilePos.GetTilePosFromLocation(agent.transform.position);
-        return World.Instance.GetChunkManager().GetTile(pos);
+        if (TilePos.IsValid(pos)) {
+            return World.Instance.GetChunkManager().GetTile(pos);
+        }
+
+        return null;
     }
 
     public void SetLookDirection(Vector3 vec3, bool force) {

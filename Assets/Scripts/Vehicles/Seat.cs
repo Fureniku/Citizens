@@ -15,9 +15,9 @@ public class Seat : MonoBehaviour {
         return !occupied;
     }
 
-    public void ExitSeat() {
+    public void ExitSeat(GameObject destination) {
         occupyingAgent.transform.position = GetExitPos();
-        occupyingAgent.GetComponent<PedestrianAgent>().ExitVehicle();
+        occupyingAgent.GetComponent<PedestrianAgent>().ExitVehicle(destination);
         occupyingAgent = null;
         occupied = false;
     }
