@@ -430,7 +430,7 @@ GameObject:
   - component: {fileID: 3361847442111903288}
   m_Layer: 0
   m_Name: DoorGlass
-  m_TagString: Untagged
+  m_TagString: SkipCombine
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -996,7 +996,7 @@ GameObject:
   - component: {fileID: 8253449078550172490}
   m_Layer: 0
   m_Name: DoorFrame
-  m_TagString: Untagged
+  m_TagString: SkipCombine
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1565,7 +1565,7 @@ GameObject:
   - component: {fileID: 7245330559365155871}
   m_Layer: 0
   m_Name: DoorBase
-  m_TagString: Untagged
+  m_TagString: SkipCombine
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

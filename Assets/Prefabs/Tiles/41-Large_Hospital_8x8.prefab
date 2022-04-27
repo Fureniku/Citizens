@@ -4308,7 +4308,7 @@ GameObject:
   - component: {fileID: 3052084023132168553}
   m_Layer: 0
   m_Name: AE_Ambulance_Bay
-  m_TagString: Untagged
+  m_TagString: DeleteOnCleanup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
