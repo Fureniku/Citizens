@@ -17,10 +17,10 @@ NavMeshProjectSettings:
     cost: 1
   - name: CarPark
     cost: 2
-  - name: Road_Free
-    cost: 100
-  - name: 
-    cost: 1
+  - name: CarParkSpaces
+    cost: 10
+  - name: Grass
+    cost: 10
   - name: 
     cost: 1
   - name: 

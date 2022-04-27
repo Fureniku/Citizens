@@ -9,6 +9,7 @@ TagManager:
   - Vehicle
   - Pedestrian
   - Building
+  - Fire
   layers:
   - Default
   - TransparentFX
@@ -21,8 +22,8 @@ TagManager:
   - Clickable
   - Vehicle
   - CarPark
-  - 
-  - 
+  - Grass
+  - CP_Spaces
   - 
   - 
   - 

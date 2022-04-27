@@ -3637,7 +3637,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 1088
   m_UseGeometry: 1
   m_DefaultArea: 4
   m_IgnoreNavMeshAgent: 1
@@ -7368,7 +7368,7 @@ MonoBehaviour:
   skipChunkGen: 0
   skipRoadGen: 0
   skipLargeBuildingGen: 0
-  skipSmallBuildingGen: 0
+  skipSmallBuildingGen: 1
   skipSubDivisions: 0
   skipVehicleGen: 0
   skipPedestrianGen: 0
@@ -7714,7 +7714,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 7296
   m_UseGeometry: 1
   m_DefaultArea: 3
   m_IgnoreNavMeshAgent: 1
