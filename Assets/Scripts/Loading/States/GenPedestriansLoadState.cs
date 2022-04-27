@@ -13,11 +13,23 @@ namespace Loading.States {
 
         public override bool StateProgress() {
             system.Process();
-            return system.IsComplete();
+            bool ready = system.IsComplete();
+            for (int i = 0; i < LoadingManager.scenarioPedestrianAgentManagers.Count; i++) {
+                LoadingManager.scenarioPedestrianAgentManagers[i].Process();
+                if (!LoadingManager.scenarioPedestrianAgentManagers[i].IsComplete()) {
+                    ready = false;
+                }
+            }
+
+            return ready;
         }
 
         public override Type StateEnter() {
             system.Initialize();
+            
+            for (int i = 0; i < LoadingManager.scenarioPedestrianAgentManagers.Count; i++) {
+                LoadingManager.scenarioPedestrianAgentManagers[i].Initialize();
+            }
             return null;
         }
 

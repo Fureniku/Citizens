@@ -34,6 +34,9 @@ public class LoadingManager : MonoBehaviour {
     [SerializeField] private GameObject overallPercentText = null;
 
     private double overallPercent;
+    
+    public static List<AgentManager> scenarioVehicleAgentManagers = new List<AgentManager>();
+    public static List<AgentManager> scenarioPedestrianAgentManagers = new List<AgentManager>();
 
     public void Initialize() {
         sectionManager = GetComponent<SectionManager>();
