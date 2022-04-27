@@ -536,7 +536,7 @@ GameObject:
   - component: {fileID: 6740535239808489619}
   m_Layer: 0
   m_Name: ShopBaseB
-  m_TagString: Untagged
+  m_TagString: DeleteOnCleanup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

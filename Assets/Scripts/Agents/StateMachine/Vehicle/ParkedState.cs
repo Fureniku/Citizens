@@ -30,7 +30,7 @@ public class ParkedState : VehicleBaseState {
         agent.GetAgent().enabled = false;
         agent.GetComponent<NavMeshObstacle>().enabled = true;
 
-        ParkingNode node = agent.GetCurrentDestination().GetComponent<ParkingNode>();
+        ParkingSpaceNode node = agent.GetCurrentDestination().GetComponent<ParkingSpaceNode>();
         if (node != null) {
             node.OccupySpace();
         }

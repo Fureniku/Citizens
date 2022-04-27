@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8910270820233022348}
   m_Layer: 0
   m_Name: Walls
-  m_TagString: Untagged
+  m_TagString: DeleteOnCleanup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -120,6 +120,7 @@ Transform:
   - {fileID: 5876109332795340802}
   - {fileID: 6655260694292283532}
   - {fileID: 1750963311872105205}
+  - {fileID: 4288555386910471404}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -189,7 +190,7 @@ GameObject:
   - component: {fileID: 5650235446088568446}
   m_Layer: 0
   m_Name: WindowFrames
-  m_TagString: Untagged
+  m_TagString: DeleteOnCleanup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -268,9 +269,9 @@ GameObject:
   - component: {fileID: 3844484252879155258}
   - component: {fileID: 8881022853527871858}
   - component: {fileID: 4452145536174078761}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Stairs
-  m_TagString: Untagged
+  m_TagString: DeleteOnCleanup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -351,7 +352,7 @@ GameObject:
   - component: {fileID: 2751829931505924315}
   m_Layer: 0
   m_Name: FrontWalls
-  m_TagString: Untagged
+  m_TagString: DeleteOnCleanup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -432,7 +433,7 @@ GameObject:
   - component: {fileID: 9061902528609564022}
   m_Layer: 0
   m_Name: InnerWall1
-  m_TagString: Untagged
+  m_TagString: DeleteOnCleanup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -596,7 +597,7 @@ GameObject:
   - component: {fileID: 8234907171851731090}
   m_Layer: 0
   m_Name: WoodAccents
-  m_TagString: Untagged
+  m_TagString: DeleteOnCleanup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -677,7 +678,7 @@ GameObject:
   - component: {fileID: 8104656700797189903}
   m_Layer: 0
   m_Name: Railings
-  m_TagString: Untagged
+  m_TagString: DeleteOnCleanup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -839,7 +840,7 @@ GameObject:
   - component: {fileID: 8168126894827809365}
   m_Layer: 0
   m_Name: Windows
-  m_TagString: Untagged
+  m_TagString: DeleteOnCleanup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -920,7 +921,7 @@ GameObject:
   - component: {fileID: 3253595817582916707}
   m_Layer: 0
   m_Name: BrickHighlights
-  m_TagString: Untagged
+  m_TagString: DeleteOnCleanup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -988,6 +989,117 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &6316148978436892464
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4881459339631901856}
+  - component: {fileID: 958689863050454238}
+  m_Layer: 0
+  m_Name: DespawnNode
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4881459339631901856
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6316148978436892464}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4288555386910471404}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &958689863050454238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6316148978436892464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b087e3f7e2f45bc9a87aadaa10360d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeController: {fileID: 417087602466315960}
+  gizmoCol: {r: 0, g: 0, b: 0, a: 0}
+--- !u!1 &7281905602304129271
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4288555386910471404}
+  - component: {fileID: 417087602466315960}
+  - component: {fileID: 7689313360201097708}
+  m_Layer: 0
+  m_Name: NodeController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4288555386910471404
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7281905602304129271}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 15.93, y: 6.67, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4881459339631901856}
+  m_Father: {fileID: 4174873082303289238}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &417087602466315960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7281905602304129271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3ae7ea1b9cb4640a29e7a14b1d82d3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentTile: {fileID: 486646361308398455}
+  spawnerNode: {fileID: 0}
+  startNode: {fileID: 0}
+  destinationNode: {fileID: 7689313360201097708}
+  locationType: 2
+--- !u!114 &7689313360201097708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7281905602304129271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fe54427243a4381ad8f883e9611e056, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeController: {fileID: 417087602466315960}
+  gizmoCol: {r: 0, g: 0.24538708, b: 1, a: 0}
+  despawnerNode: {fileID: 958689863050454238}
+  destinationAction: 1
 --- !u!1 &7596389812541030826
 GameObject:
   m_ObjectHideFlags: 0
@@ -1001,7 +1113,7 @@ GameObject:
   - component: {fileID: 1196388826500315666}
   m_Layer: 0
   m_Name: BasePlate
-  m_TagString: Untagged
+  m_TagString: DeleteOnCleanup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

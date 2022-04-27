@@ -7368,7 +7368,7 @@ MonoBehaviour:
   skipChunkGen: 0
   skipRoadGen: 0
   skipLargeBuildingGen: 0
-  skipSmallBuildingGen: 1
+  skipSmallBuildingGen: 0
   skipSubDivisions: 0
   skipVehicleGen: 0
   skipPedestrianGen: 0

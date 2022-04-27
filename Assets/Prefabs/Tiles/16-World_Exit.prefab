@@ -390,7 +390,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1132591106874385413}
-  - component: {fileID: 6001482467942227752}
+  - component: {fileID: 1696488383367530564}
   m_Layer: 8
   m_Name: DestinationNode
   m_TagString: Untagged
@@ -412,7 +412,7 @@ Transform:
   m_Father: {fileID: 671876715739887401}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6001482467942227752
+--- !u!114 &1696488383367530564
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -421,11 +421,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 800201935254480111}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f150d87a0334b5a9273da206bc79c36, type: 3}
+  m_Script: {fileID: 11500000, guid: 7fe54427243a4381ad8f883e9611e056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodeType: 1
   nodeController: {fileID: 4044407435169539510}
+  gizmoCol: {r: 1, g: 0.8533139, b: 0, a: 0}
+  despawnerNode: {fileID: 3714750329044169597}
+  destinationAction: 1
 --- !u!1 &977594216719020374
 GameObject:
   m_ObjectHideFlags: 0
@@ -1612,11 +1614,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentTile: {fileID: 7074164369232490046}
   spawnerNode: {fileID: 0}
-  despawnerNode: {fileID: 2240082279198389765}
   startNode: {fileID: 0}
-  destinationNode: {fileID: 6001482467942227752}
-  parkingController: {fileID: 0}
-  destinationAction: 1
+  destinationNode: {fileID: 1696488383367530564}
   locationType: 1
 --- !u!114 &4168493191442063563
 MonoBehaviour:
@@ -3771,7 +3770,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7861698169402651981}
-  - component: {fileID: 2240082279198389765}
+  - component: {fileID: 3714750329044169597}
   m_Layer: 8
   m_Name: DespawnerNode
   m_TagString: Untagged
@@ -3793,7 +3792,7 @@ Transform:
   m_Father: {fileID: 671876715739887401}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2240082279198389765
+--- !u!114 &3714750329044169597
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3802,11 +3801,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6383622396450050304}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f150d87a0334b5a9273da206bc79c36, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b087e3f7e2f45bc9a87aadaa10360d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodeType: 3
   nodeController: {fileID: 4044407435169539510}
+  gizmoCol: {r: 1, g: 0.76555127, b: 0, a: 0}
 --- !u!1 &6385673025137635728
 GameObject:
   m_ObjectHideFlags: 0

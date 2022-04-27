@@ -7,8 +7,15 @@ public static class DestinationRegistration {
     public static Registry allDestinationsRegistry = new Registry();
     public static Registry RoadSpawnerRegistry = new Registry();
 
+    //Vehicle registries
     public static Registry hospitalRegistry = new Registry();
-    public static Registry worldExit = new Registry();
+    public static Registry worldExitVehicle = new Registry();
+    
+    //Pedestrian registries
+    public static Registry shopRegistryPedestrian = new Registry();
+    public static Registry houseRegistryPedestrian = new Registry();
+    public static Registry worldExitPedestrian = new Registry();
+    
 
     public static List<LocationNodeController> nodeControllers = new List<LocationNodeController>();
 
@@ -43,14 +50,21 @@ public static class DestinationRegistration {
                     case LocationType.HOSPITAL:
                         hospitalRegistry.AddToList(lnc.GetTilePosition());
                         break;
-                    case LocationType.WORLD_EXIT:
-                        worldExit.AddToList(lnc.GetTilePosition());
+                    case LocationType.SHOP_PEDESTRIAN:
+                        shopRegistryPedestrian.AddToList(lnc.GetTilePosition());
+                        break;
+                    case LocationType.HOUSE_PEDESTRIAN:
+                        houseRegistryPedestrian.AddToList(lnc.GetTilePosition());
+                        break;
+                    case LocationType.WORLD_EXIT_VEHICLE:
+                        worldExitVehicle.AddToList(lnc.GetTilePosition());
+                        break;
+                    case LocationType.WORLD_EXIT_PEDESTRIAN:
+                        worldExitPedestrian.AddToList(lnc.GetTilePosition());
                         break;
                 }
             }
         }
-        
-        Debug.Log("Destination lists populated with " + hospitalRegistry.GetListSize() + " hospitals, " + worldExit.GetListSize() + " world exits.");
     }
 
     public static void AddToList(LocationNodeController lnc) {
@@ -60,5 +74,8 @@ public static class DestinationRegistration {
 
 public enum LocationType {
     HOSPITAL,
-    WORLD_EXIT
+    SHOP_PEDESTRIAN,
+    HOUSE_PEDESTRIAN,
+    WORLD_EXIT_VEHICLE,
+    WORLD_EXIT_PEDESTRIAN,
 }

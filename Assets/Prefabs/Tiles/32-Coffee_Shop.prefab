@@ -44,6 +44,7 @@ Transform:
   - {fileID: 7187959009594650044}
   - {fileID: 7931081642779858226}
   - {fileID: 2502058141756690649}
+  - {fileID: 5169423033750835420}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -105,7 +106,7 @@ GameObject:
   - component: {fileID: 3482818853660678031}
   m_Layer: 0
   m_Name: InnerWall
-  m_TagString: Untagged
+  m_TagString: DeleteOnCleanup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -186,7 +187,7 @@ GameObject:
   - component: {fileID: 939818980452124151}
   m_Layer: 0
   m_Name: GoldTrim
-  m_TagString: Untagged
+  m_TagString: DeleteOnCleanup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -267,7 +268,7 @@ GameObject:
   - component: {fileID: 2698137663132117281}
   m_Layer: 0
   m_Name: Ceiling
-  m_TagString: Untagged
+  m_TagString: DeleteOnCleanup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -348,7 +349,7 @@ GameObject:
   - component: {fileID: 3980970164659326081}
   m_Layer: 0
   m_Name: Bar
-  m_TagString: Untagged
+  m_TagString: DeleteOnCleanup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -497,6 +498,71 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &3711691748017453020
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5169423033750835420}
+  - component: {fileID: 7154679304033253257}
+  - component: {fileID: 5979171825145251243}
+  m_Layer: 0
+  m_Name: NodeController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5169423033750835420
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3711691748017453020}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 11.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4174873082303289238}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7154679304033253257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3711691748017453020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3ae7ea1b9cb4640a29e7a14b1d82d3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentTile: {fileID: 486646361308398455}
+  spawnerNode: {fileID: 0}
+  startNode: {fileID: 0}
+  destinationNode: {fileID: 5979171825145251243}
+  locationType: 1
+--- !u!114 &5979171825145251243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3711691748017453020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fe54427243a4381ad8f883e9611e056, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeController: {fileID: 7154679304033253257}
+  gizmoCol: {r: 1, g: 0, b: 0, a: 0}
+  despawnerNode: {fileID: 0}
+  destinationAction: 5
 --- !u!1 &4239848473753915802
 GameObject:
   m_ObjectHideFlags: 0
@@ -510,7 +576,7 @@ GameObject:
   - component: {fileID: 8945639657417513920}
   m_Layer: 0
   m_Name: WindowFrames
-  m_TagString: Untagged
+  m_TagString: DeleteOnCleanup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -591,7 +657,7 @@ GameObject:
   - component: {fileID: 2545480727114619736}
   m_Layer: 0
   m_Name: DisplayCase
-  m_TagString: Untagged
+  m_TagString: DeleteOnCleanup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -673,7 +739,7 @@ GameObject:
   - component: {fileID: 2003759124425308005}
   m_Layer: 0
   m_Name: Branding
-  m_TagString: Untagged
+  m_TagString: DeleteOnCleanup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -768,7 +834,7 @@ GameObject:
   - component: {fileID: 2510349562395668396}
   m_Layer: 0
   m_Name: BasePlate
-  m_TagString: Untagged
+  m_TagString: DeleteOnCleanup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -849,7 +915,7 @@ GameObject:
   - component: {fileID: 257106410821558618}
   m_Layer: 0
   m_Name: GroundWalls
-  m_TagString: Untagged
+  m_TagString: DeleteOnCleanup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1013,7 +1079,7 @@ GameObject:
   - component: {fileID: 7802113867211560403}
   m_Layer: 0
   m_Name: FrontBar
-  m_TagString: Untagged
+  m_TagString: DeleteOnCleanup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1094,7 +1160,7 @@ GameObject:
   - component: {fileID: 1186366377501674903}
   m_Layer: 0
   m_Name: UpperWalls
-  m_TagString: Untagged
+  m_TagString: DeleteOnCleanup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1175,7 +1241,7 @@ GameObject:
   - component: {fileID: 463055083441589697}
   m_Layer: 0
   m_Name: SunShade
-  m_TagString: Untagged
+  m_TagString: DeleteOnCleanup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1256,7 +1322,7 @@ GameObject:
   - component: {fileID: 6599038711397502964}
   m_Layer: 0
   m_Name: Diivider
-  m_TagString: Untagged
+  m_TagString: DeleteOnCleanup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1337,7 +1403,7 @@ GameObject:
   - component: {fileID: 1447729601110046170}
   m_Layer: 0
   m_Name: TablesChairs
-  m_TagString: Untagged
+  m_TagString: DeleteOnCleanup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1418,7 +1484,7 @@ GameObject:
   - component: {fileID: 4834584301623066603}
   m_Layer: 0
   m_Name: Windows
-  m_TagString: Untagged
+  m_TagString: DeleteOnCleanup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

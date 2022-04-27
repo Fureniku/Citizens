@@ -14,7 +14,7 @@ public class ParkingState : VehicleBaseState {
         float dist = Vector3.Distance(agent.transform.position, agent.GetCurrentDestination().transform.position);
         
         if (dist < 5) {
-            ParkingNode node = agent.GetCurrentDestination().GetComponent<ParkingNode>();
+            ParkingSpaceNode node = agent.GetCurrentDestination().GetComponent<ParkingSpaceNode>();
             if (node != null && node.IsOccupied()) {
                 agent.SetAgentDestination(parkingController.GetFirstAvailableSpace().gameObject);
             }
@@ -27,7 +27,7 @@ public class ParkingState : VehicleBaseState {
     }
     public override Type StateEnter() {
         agent.SetSpeed(7.5f);
-        parkingController = agent.GetDestinationController().GetParkingController();
+        parkingController = ((ParkingEntranceNode) agent.GetDestinationController().GetDestinationNode()).GetParkingController();
         return null;
     }
 

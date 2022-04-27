@@ -77,7 +77,15 @@ public class MeshCombiner : MonoBehaviour {
         
         //Destroy the original children for performance
         for (int i = 0; i < transform.childCount; i++) {
-            Destroy(transform.GetChild(i).gameObject);
+            if (transform.GetChild(i).CompareTag("")) {
+                Destroy(transform.GetChild(i).gameObject);
+            } else {
+                for (int j = 0; j < transform.GetChild(i).childCount; j++) {
+                    if (transform.GetChild(i).GetChild(j).CompareTag("DeleteOnCleanup")) {
+                        Destroy(transform.GetChild(i).GetChild(j).gameObject);
+                    }
+                }
+            }
         }
         
         //Move back to original location

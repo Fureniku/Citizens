@@ -17,7 +17,7 @@ public class PedestrianAgent : BaseAgent {
     }
 
     private void GenerateDestination() {
-        GameObject finalDest = World.Instance.GetChunkManager().GetTile(DestinationRegistration.worldExit.GetAtRandom()).gameObject;
+        GameObject finalDest = World.Instance.GetChunkManager().GetTile(DestinationRegistration.shopRegistryPedestrian.GetAtRandom()).gameObject;
         dests.Add(finalDest);
 
         SetAgentDestination(finalDest);
@@ -83,8 +83,6 @@ public class PedestrianAgent : BaseAgent {
             ReachedDestination(currentDestGO);
         }
     }
-
-    public override void SetAgentDestruction(GameObject dest) {}
 
     protected override void AgentCollideEnter(Collision collision) {}
     protected override void AgentCollideExit(Collision collision) {}

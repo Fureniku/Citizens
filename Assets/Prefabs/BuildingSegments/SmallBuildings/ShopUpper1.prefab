@@ -173,7 +173,7 @@ GameObject:
   - component: {fileID: 5362519888790295558}
   m_Layer: 0
   m_Name: ShopUpper1
-  m_TagString: Untagged
+  m_TagString: DeleteOnCleanup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

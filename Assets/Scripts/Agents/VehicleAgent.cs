@@ -18,8 +18,6 @@ public class VehicleAgent : BaseAgent {
 
     [SerializeField] private GameObject testAgent;
 
-    private ParkingController parkingController;
-
     private float maxSpeed;
 
     public VehicleType GetVehicleType() {
@@ -30,18 +28,13 @@ public class VehicleAgent : BaseAgent {
         return maxSpeed;
     }
 
-    public ParkingController GetParkingController() {
-        return parkingController;
-    }
-
     public override void Init() {
         vehicle = GetComponent<Vehicle>();
         GameObject finalDest = World.Instance.GetChunkManager().GetTile(DestinationRegistration.hospitalRegistry.GetAtRandom()).gameObject;
         destinationController = finalDest.GetComponent<LocationNodeController>();
         
         if (destinationController != null) {
-            finalDest = destinationController.GetDestinationNode();
-            parkingController = destinationController.GetParkingController();
+            finalDest = destinationController.GetDestinationNode().gameObject;
         }
         
         Debug.Log("Initializing vehicle path to " + finalDest);
@@ -117,7 +110,7 @@ public class VehicleAgent : BaseAgent {
         }
 
         if (destinationController != null) {
-            dests.Add(destinationController.GetDestinationNode());
+            dests.Add(destinationController.GetDestinationNode().gameObject);
         }
         else {
             dests.Add(finalDest);
@@ -157,7 +150,9 @@ public class VehicleAgent : BaseAgent {
             Seat seat = vehicle.GetSeat(i);
             if (!seat.IsAvailable()) {
                 GameObject passengerDest = null;
-                if (parkingController != null) {
+                LocationNode node = destinationController.GetDestinationNode();
+                if (node is ParkingEntranceNode) {
+                    ParkingController parkingController = ((ParkingEntranceNode) node).GetParkingController();
                     passengerDest = parkingController.GetForwardingAgentDestination();
                 }
                 seat.ExitSeat(passengerDest);
@@ -214,11 +209,7 @@ public class VehicleAgent : BaseAgent {
         }
     }
     
-    public override void SetAgentDestruction(GameObject dest) {
-        currentDestGO = dest;
-        agent.destination = dest.transform.position;
-        stateMachine.ForceState(typeof(DespawningState));
-    }
+
 
     public void SetAgentParking(GameObject parkingSpot) {
         currentDestGO = parkingSpot;

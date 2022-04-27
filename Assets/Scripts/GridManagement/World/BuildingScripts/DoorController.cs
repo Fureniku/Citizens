@@ -29,7 +29,6 @@ public class DoorController : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other) {
-        Debug.Log("trigger entered");
         doorsOpen = true;
     }
 

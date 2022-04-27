@@ -707,11 +707,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentTile: {fileID: 5114275939037751526}
   spawnerNode: {fileID: 0}
-  despawnerNode: {fileID: 0}
   startNode: {fileID: 0}
-  destinationNode: {fileID: 4970330337177504268}
-  parkingController: {fileID: 2460298857335259813}
-  destinationAction: 2
+  destinationNode: {fileID: 5156776922959761361}
   locationType: 0
 --- !u!1 &567007584608597240
 GameObject:
@@ -6339,7 +6336,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1961743647323750085}
-  - component: {fileID: 4970330337177504268}
+  - component: {fileID: 5156776922959761361}
   m_Layer: 8
   m_Name: Hospital_Destination
   m_TagString: Untagged
@@ -6361,7 +6358,7 @@ Transform:
   m_Father: {fileID: 7286418325968156317}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4970330337177504268
+--- !u!114 &5156776922959761361
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6370,11 +6367,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5472727720398890590}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f150d87a0334b5a9273da206bc79c36, type: 3}
+  m_Script: {fileID: 11500000, guid: f0feb5fd04074883b6d6880cec527b25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodeType: 1
   nodeController: {fileID: 6379114399211202522}
+  gizmoCol: {r: 0, g: 0, b: 0, a: 0}
+  parkingController: {fileID: 2460298857335259813}
 --- !u!1 &5483161552165198745
 GameObject:
   m_ObjectHideFlags: 0

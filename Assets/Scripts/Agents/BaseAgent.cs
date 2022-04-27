@@ -166,18 +166,6 @@ public abstract class BaseAgent : MonoBehaviour {
         return null;
     }
 
-    public Type GetStateType() {
-        return stateMachine.CurrentState.GetType();
-    }
-
-    public AgentBaseState GetState() {
-        return stateMachine.CurrentState;
-    }
-
-    public GameObject GetCurrentDestinationObject() {
-        return dests[currentDest];
-    }
-
     public RaycastHit GetSeenObject() {
         RaycastHit hit;
         if (Physics.Raycast(eyePos.transform.position, lookDirection, out hit, visualRange)) {
@@ -215,18 +203,10 @@ public abstract class BaseAgent : MonoBehaviour {
         }
     }
     
-    public bool IsAgentReady() {
-        return initialized && GetComponent<NavMeshAgent>().hasPath;
-    }
-
-    public NavMeshAgent GetAgent() {
-        return GetComponent<NavMeshAgent>();
-    }
-
-    public GameObject GetCamPos() {
-        return camPos;
-    }
     
+    
+    
+    //TODO needed?
     //Save the initiial acceleration value and temporarily set to zero to stop agent moving until we're ready.
     public void SaveAcceleration(float acc) {
         accelerationSave = acc;
@@ -235,27 +215,8 @@ public abstract class BaseAgent : MonoBehaviour {
     
     public void RestoreAcceleration() => GetComponent<NavMeshAgent>().acceleration = accelerationSave;
     
-    protected bool NodeInRange(int node, int range) {
-        return node > 0 && node < range;
-    }
+    
 
-    public void PrintText(string str) {
-        Debug.Log("[Agent] " + gameObject.name + ": " + str);
-    }
-
-    public GameObject GetCurrentDestination() {
-        return currentDestGO;
-    }
-
-    private void OnCollisionEnter(Collision collision) {
-        Debug.Log("Collision!");
-        AgentCollideEnter(collision);
-    }
-
-    private void OnTriggerEnter(Collider other) {
-        Debug.Log("Trigger!");
-        AgentTriggerEnter(other);
-    }
     
     public void SetAgentDestination(GameObject dest) {
         currentDestGO = dest;
@@ -270,9 +231,20 @@ public abstract class BaseAgent : MonoBehaviour {
         return null;
     }
 
+    public Type GetStateType() { return stateMachine.CurrentState.GetType(); }
+    public AgentBaseState GetState() { return stateMachine.CurrentState; }
+    public GameObject GetCurrentDestinationObject() { return dests[currentDest]; }
+    public bool IsAgentReady() { return initialized && GetComponent<NavMeshAgent>().hasPath; }
+    public NavMeshAgent GetAgent() { return GetComponent<NavMeshAgent>(); }
+    public GameObject GetCamPos() { return camPos; }
+    private void OnCollisionEnter(Collision collision) { AgentCollideEnter(collision); }
+    private void OnTriggerEnter(Collider other) { AgentTriggerEnter(other); }
+    protected bool NodeInRange(int node, int range) { return node > 0 && node < range; }
+    public void PrintText(string str) { Debug.Log("[Agent] " + gameObject.name + ": " + str); }
+    public GameObject GetCurrentDestination() { return currentDestGO; }
+    public AgentStateMachine GetStateMachine() { return stateMachine; }
     public LocationNodeController GetDestinationController() { return destinationController; }
 
-    public abstract void SetAgentDestruction(GameObject dest);
     public abstract void IncrementDestination();
     public abstract void Init();
     protected abstract void AgentUpdate();

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class ParkingNode : MonoBehaviour {
+public class ParkingSpaceNode : MonoBehaviour {
 
     [SerializeField] private bool occupied;
 
