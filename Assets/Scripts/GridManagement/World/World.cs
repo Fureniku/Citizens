@@ -91,6 +91,8 @@ public class World : MonoBehaviour {
     public bool SkipSubDivisions() { return skipSubDivisions; }
     public bool SkipVehicleGen() { return skipVehicleGen; }
     public bool SkipPedestrianGen() { return skipPedestrianGen; }
+
+    public bool IsWorldFullyLoaded() { return stateMachine.CurrentState is CompletedLoadState; }
     
     void Update() {
         if (isDirty) {

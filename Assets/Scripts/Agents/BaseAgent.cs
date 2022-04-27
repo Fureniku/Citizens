@@ -219,7 +219,10 @@ public abstract class BaseAgent : MonoBehaviour {
     public GameObject GetCurrentDestinationObject() { return dests[currentDest]; }
     public bool IsAgentReady() { return initialized && GetComponent<NavMeshAgent>().hasPath; }
     public NavMeshAgent GetAgent() { return GetComponent<NavMeshAgent>(); }
+    public GameObject GetEyePos() { return eyePos; }
     public GameObject GetCamPos() { return camPos; }
+    public void SetEyePos(GameObject obj) { eyePos = obj; }
+    public void SetCamPos(GameObject obj) { camPos = obj; }
     private void OnCollisionEnter(Collision collision) { AgentCollideEnter(collision); }
     private void OnTriggerEnter(Collider other) { AgentTriggerEnter(other); }
     protected bool NodeInRange(int node, int range) { return node > 0 && node < range; }
