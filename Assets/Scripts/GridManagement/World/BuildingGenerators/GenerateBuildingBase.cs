@@ -119,6 +119,19 @@ public abstract class GenerateBuildingBase {
         
         return -1;
     }
+    
+    protected void SetJunctionIn(TilePos placePos, EnumDirection dir) {
+        ChunkManager chunkManager = World.Instance.GetChunkManager();
+        TileData tile = chunkManager.GetTile(placePos);
+        
+        if (tile.GetId() == TileRegistry.CROSSROAD_ROAD_1x1.GetId() || tile.GetId() == TileRegistry.CROSSROAD_CTRL_ROAD_1x1.GetId()) {
+            chunkManager.SetTile(placePos, tile.GetId(), dir);
+        } else if (tile.GetId() == TileRegistry.T_JUNCT_ROAD_1x1.GetId()) {
+            chunkManager.SetTile(placePos, TileRegistry.CROSSROAD_ROAD_1x1.GetId(), dir);
+        } else {
+            chunkManager.SetTile(placePos, TileRegistry.T_JUNCT_ROAD_1x1.GetId(), dir);
+        }
+    }
 
     protected abstract int SelectGameObject(int w, int l, ref EnumDirection rot);
     public abstract void PostGenerate();

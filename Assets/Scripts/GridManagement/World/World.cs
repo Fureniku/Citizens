@@ -82,6 +82,7 @@ public class World : MonoBehaviour {
     public string GetWorldName() { return worldData.GetWorldName(); }
     public void MarkDirty() { if (SavingEnabled()) isDirty = true; }
     private bool SavingEnabled() { return worldData.SavingEnabled(); }
+    public LoadingManager GetLoadingManager() { return loadingManager; }
 
     public bool SkipChunkGen() { return skipChunkGen; }
     public bool SkipRoadGen() { return skipRoadGen; }

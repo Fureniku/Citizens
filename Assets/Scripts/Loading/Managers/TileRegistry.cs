@@ -59,7 +59,9 @@ public class TileRegistry : GenerationSystem {
     public static readonly Tile HOSPITAL_8x8 = new Tile(41, "Large Hospital", TileType.BUILDING_MAJOR);
     public static readonly Tile ROAD_WORLD_EDGE_STRAIGHT = new Tile(42, "Road World Edge Straight", TileType.ROAD);
     public static readonly Tile ROAD_WORLD_EDGE_CORNER = new Tile(43, "Road World Edge Corner", TileType.ROAD);
-    public static readonly Tile SKYSCRAPER_GENERIC_1 = new Tile(44, "Generic Skyscraper 1", TileType.BUILDING_PART);
+    public static readonly Tile TOWN_HALL_8x8 = new Tile(44, "Road World Edge Corner", TileType.ROAD);
+    public static readonly Tile UNIVERSITY_8x8 = new Tile(45, "Road World Edge Corner", TileType.ROAD);
+    public static readonly Tile SKYSCRAPER_GENERIC_1 = new Tile(46, "Generic Skyscraper 1", TileType.BUILDING_PART);
 
     [SerializeField] private GameObject[] register = null;
 
@@ -133,6 +135,8 @@ public class TileRegistry : GenerationSystem {
         tileRegistry.Add(HOSPITAL_8x8);
         tileRegistry.Add(ROAD_WORLD_EDGE_STRAIGHT);
         tileRegistry.Add(ROAD_WORLD_EDGE_CORNER);
+        tileRegistry.Add(TOWN_HALL_8x8);
+        tileRegistry.Add(UNIVERSITY_8x8);
         tileRegistry.Add(SKYSCRAPER_GENERIC_1);
     }
 
@@ -274,6 +278,10 @@ public class TileRegistry : GenerationSystem {
                 return ROAD_WORLD_EDGE_STRAIGHT;
             case EnumTile.ROAD_WORLD_EDGE_CORNER:        
                 return ROAD_WORLD_EDGE_CORNER;
+            case EnumTile.TOWN_HALL_8x8:     
+                return TOWN_HALL_8x8;
+            case EnumTile.UNIVERSITY_8x8:     
+                return UNIVERSITY_8x8;
             case EnumTile.SKYSCRAPER_GENERIC_1:
                 return SKYSCRAPER_GENERIC_1;
             default:
@@ -361,6 +369,8 @@ public enum EnumTile {
     HOSPITAL_8x8,
     ROAD_WORLD_EDGE_STRAIGHT,
     ROAD_WORLD_EDGE_CORNER,
+    TOWN_HALL_8x8,
+    UNIVERSITY_8x8,
     SKYSCRAPER_GENERIC_1
 }
 

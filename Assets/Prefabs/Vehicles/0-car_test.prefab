@@ -540,6 +540,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   color: 7341
   eraseRenderer: 0
+--- !u!1 &7645310019110240483
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7640488707243515375}
+  - component: {fileID: 5312034085429358057}
+  m_Layer: 8
+  m_Name: Seat
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7640488707243515375
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7645310019110240483}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5366296848284299070}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5312034085429358057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7645310019110240483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea5951739d824858b6371a78ba4701d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  exitPos: {x: 1, y: 0, z: 0}
+  occupied: 0
+  occupyingAgent: {fileID: 0}
 --- !u!1 &8945190466146426157
 GameObject:
   m_ObjectHideFlags: 0
@@ -553,6 +599,7 @@ GameObject:
   - component: {fileID: 3387516486235566404}
   - component: {fileID: -6891384738538117930}
   - component: {fileID: 3693337900636246583}
+  - component: {fileID: -3348792281814378354}
   m_Layer: 8
   m_Name: 0-car_test
   m_TagString: Vehicle
@@ -568,7 +615,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8945190466146426157}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4769.07, y: 1.25, z: 4832}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5033430684893186983}
@@ -578,6 +625,7 @@ Transform:
   - {fileID: 5172174692592419468}
   - {fileID: 3850849400048487946}
   - {fileID: 3232414095716164105}
+  - {fileID: 7640488707243515375}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -629,18 +677,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camPos: {fileID: 6401645003767420602}
-  currentDest: 0
-  currentDestGO: {fileID: 0}
-  destroyOnArrival: 0
-  shouldStop: 0
-  drawGizmos: 1
   eyePos: {fileID: 3816089802287828521}
   visualRange: 20
-  objectDistance: 50
-  currentState: 
+  currentDest: 0
+  currentDestGO: {fileID: 0}
   totalDestinations: 0
+  shouldStop: 0
+  finalPathedDestination: {fileID: 0}
+  dests: []
+  roadSide: 0
+  currentState: 
   lastSeenObject: {fileID: 0}
+  objectDistance: 50
   seenDecay: 0
+  drawGizmos: 1
+  vehicleType: 0
+  vehicleColour: 0
+  vehicleRegistry: {fileID: 0}
+  colouredParts: []
+  testAgent: {fileID: 0}
 --- !u!114 &3693337900636246583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -653,3 +708,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46a43f940274462891adb876f625691c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-3348792281814378354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8945190466146426157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 907655b303a548baa6a0e7ba760d82ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  seats:
+  - {fileID: 5312034085429358057}

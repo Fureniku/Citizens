@@ -8,6 +8,10 @@ public class WalkState : PedestrianBaseState {
     }
     
     public override Type StateUpdate() {
+        if (agent.GetVehicle() != null) {
+            return typeof(VehiclePassengerState);
+        }
+        
         if (agent.GetCurrentTile().GetTile() == TileRegistry.ZEBRA_CROSSING_1x1) {
             //TODO only switch states if they should actually cross here
             return typeof(ApproachZebraCrossingState);

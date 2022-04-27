@@ -1,92 +1,45 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.U2D.Sprites.Obsolete;
 using UnityEngine;
 
 public class PedestrianAgent : BaseAgent {
 
     [SerializeField] private GameObject head;
+    [SerializeField] private GameObject legs;
+    [SerializeField] private VehicleAgent vehicle;
 
     public override void Init() {
+        GenerateDestination();
+
+        initialized = true;
+    }
+
+    private void GenerateDestination() {
         GameObject finalDest = World.Instance.GetChunkManager().GetTile(DestinationRegistration.worldExit.GetAtRandom()).gameObject;
-        
-        //List<Node> path = aStar.RequestPath(gameObject, finalDest);
-
-        /*if (path.Count > 2) {
-            TileData tdStart = World.Instance.GetChunkManager().GetTile(new TilePos(path[0].x, path[0].y));
-            TileData tdNext = World.Instance.GetChunkManager().GetTile(new TilePos(path[1].x, path[1].y));
-
-            EnumDirection startingDirection = Direction.GetDirectionOffset(tdStart.GetGridPos(), tdNext.GetGridPos());
-
-            if (tdStart.GetTile() == TileRegistry.STRAIGHT_ROAD_1x1) {
-                switch (startingDirection) {
-                    case EnumDirection.NORTH:
-                        transform.position += new Vector3(-10f, 0, 0);
-                        break;
-                    case EnumDirection.EAST:
-                        transform.position += new Vector3(0, 0, 10f);
-                        break;
-                    case EnumDirection.SOUTH:
-                        transform.position += new Vector3(10f, 0, 0);
-                        break;
-                    case EnumDirection.WEST:
-                        transform.position += new Vector3(0, 0, -10f);
-                        break;
-                }
-
-                agent.Warp(transform.position);
-            }
-        }
-
-        for (int i = 0; i < path.Count; i++) {
-            TileData td = World.Instance.GetChunkManager().GetTile(new TilePos(path[i].x, path[i].y));
-            if (td.gameObject.GetComponent<VehicleJunctionController>() != null) {
-                VehicleJunctionController vjController = td.gameObject.GetComponent<VehicleJunctionController>();
-                TileData entryTd = null;
-                TileData exitTd = null;
-                if (NodeInRange(i - 1, path.Count)) entryTd = World.Instance.GetChunkManager().GetTile(new TilePos(path[i-1].x, path[i-1].y));
-                if (NodeInRange(i + 1, path.Count)) exitTd = World.Instance.GetChunkManager().GetTile(new TilePos(path[i+1].x, path[i+1].y));
-
-                if (entryTd != null && exitTd != null) {
-                    EnumDirection entry = Direction.GetDirectionOffset(entryTd.GetGridPos(), td.GetGridPos()); //Entry to current
-                    EnumDirection exit = Direction.GetDirectionOffset(td.GetGridPos(), exitTd.GetGridPos()); //current to exit
-
-                    GameObject entryGo = vjController.GetInNode(entry);
-                    GameObject exitGo = vjController.GetOutNode(exit);
-                    
-                    dests.Add(entryGo);
-                    dests.Add(exitGo);
-                }
-            }
-        }
-
-        if (finalDest.GetComponent<LocationNodeController>() != null) {
-            LocationNodeController lnc = finalDest.GetComponent<LocationNodeController>();
-
-            if (lnc.CanDestroyAfterDestination()) {
-                dests.Add(lnc.GetDestinationNode());
-                dests.Add(lnc.GetDespawnerNode());
-                destroyOnArrival = true;
-            }
-            else if (lnc.GetDestinationNode() != null) {
-                dests.Add(lnc.GetDestinationNode());
-            }
-            else if (lnc.GetDespawnerNode() != null) {
-                dests.Add(lnc.GetDespawnerNode());
-                destroyOnArrival = true;
-            }
-            else {
-                dests.Add(finalDest);
-            }
-        }
-        else {
-            dests.Add(finalDest);
-        }*/
         dests.Add(finalDest);
 
         SetAgentDestination(finalDest);
+    }
 
-        initialized = true;
+    public void EnterVehicle(VehicleAgent vehicleAgent, Seat seat) {
+        vehicle = vehicleAgent;
+        transform.parent = seat.transform;
+        transform.localPosition = new Vector3(0, 0, 0);
+        legs.SetActive(false);
+    }
+
+    public void ExitVehicle() {
+        vehicle = null;
+        agent.enabled = true;
+        transform.parent = World.Instance.GetLoadingManager().GetPedestrianAgentManager().transform;
+        legs.SetActive(true);
+        GenerateDestination();
+    }
+
+    public VehicleAgent GetVehicle() {
+        return this.vehicle;
     }
     
     protected override void InitStateMachine() {
@@ -97,6 +50,7 @@ public class PedestrianAgent : BaseAgent {
         states.Add(typeof(ApproachZebraCrossingState), new ApproachZebraCrossingState(this)); //Approach a zebra crossing
         states.Add(typeof(WaitZebraCrossingState), new WaitZebraCrossingState(this)); //Wait at a zebra crossing
         states.Add(typeof(CrossingState), new CrossingState(this)); //Crossing the road (as to not switch back into an approach state)
+        states.Add(typeof(VehiclePassengerState), new VehiclePassengerState(this)); //Agent is in a vehicle
 
         stateMachine.SetStates(states);
     }

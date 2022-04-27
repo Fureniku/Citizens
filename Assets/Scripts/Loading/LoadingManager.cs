@@ -133,4 +133,7 @@ public class LoadingManager : MonoBehaviour {
         if (overallPercentText != null) { overallPercentText.GetComponent<Text>().text = stateMachine.GetStates().Count + "/11 (" + ((int)overallPercent) + "%)"; }
         if (overallText != null) { overallText.GetComponent<Text>().text = stateStr; }
     }
+    
+    public GameObject GetPedestrianAgentManager() { return pedestrianAgentManager; }
+    public GameObject GetVehicleAgentManager() { return vehicleAgentManager; }
 }

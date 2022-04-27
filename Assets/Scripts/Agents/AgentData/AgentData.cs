@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class AgentData : MonoBehaviour{
+public class AgentData : MonoBehaviour {
 
     [SerializeField] private string firstName;
     [SerializeField] private string lastName;
@@ -24,5 +24,7 @@ public class AgentData : MonoBehaviour{
 
         gender = genderObj.name;
         profession = professionObj.name;
+
+        gameObject.name = "PA_" + firstName + "_" + lastName;
     }
 }

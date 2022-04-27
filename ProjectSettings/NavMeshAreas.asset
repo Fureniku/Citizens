@@ -11,14 +11,14 @@ NavMeshProjectSettings:
     cost: 1
   - name: Jump
     cost: 2
-  - name: 
+  - name: Sidewalk
     cost: 1
-  - name: 
+  - name: Road
     cost: 1
-  - name: 
-    cost: 1
-  - name: 
-    cost: 1
+  - name: CarPark
+    cost: 2
+  - name: Road_Free
+    cost: 100
   - name: 
     cost: 1
   - name: 
@@ -76,7 +76,7 @@ NavMeshProjectSettings:
     agentRadius: 0.25
     agentHeight: 0.5
     agentSlope: 20
-    agentClimb: 0.1
+    agentClimb: 1
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2
@@ -94,7 +94,7 @@ NavMeshProjectSettings:
     agentRadius: 0.5
     agentHeight: 0.6
     agentSlope: 20
-    agentClimb: 0.4
+    agentClimb: 1
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2

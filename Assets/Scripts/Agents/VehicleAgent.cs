@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Tiles.TileManagement;
 using UnityEngine;
+using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class VehicleAgent : BaseAgent {
 
@@ -11,6 +13,10 @@ public class VehicleAgent : BaseAgent {
     [SerializeField] private VehicleColour vehicleColour;
     [SerializeField] private VehicleRegistry vehicleRegistry;
     [SerializeField] private GameObject[] colouredParts;
+    private Vehicle vehicle;
+    private bool vacant = false;
+
+    [SerializeField] private GameObject testAgent;
 
     private float maxSpeed;
 
@@ -23,7 +29,8 @@ public class VehicleAgent : BaseAgent {
     }
 
     public override void Init() {
-        GameObject finalDest = World.Instance.GetChunkManager().GetTile(DestinationRegistration.worldExit.GetAtRandom()).gameObject;
+        vehicle = GetComponent<Vehicle>();
+        GameObject finalDest = World.Instance.GetChunkManager().GetTile(DestinationRegistration.hospitalRegistry.GetAtRandom()).gameObject;
         destinationController = finalDest.GetComponent<LocationNodeController>();
         
         if (destinationController != null) {
@@ -34,6 +41,17 @@ public class VehicleAgent : BaseAgent {
         finalPathedDestination = finalDest;
         
         List<Node> path = aStar.RequestPath(gameObject, finalDest);
+        
+        int agents = Random.Range(1, vehicle.GetMaxSeats() + 1);
+
+        for (int i = 0; i < agents; i++) {
+            GameObject passengerAgent = Instantiate(testAgent, transform.position, Quaternion.identity);
+            Seat seat = vehicle.GetNextAvailableSeat();
+            passengerAgent.GetComponent<PedestrianAgent>().SetAStar(aStar);
+            passengerAgent.GetComponent<PedestrianAgent>().EnterVehicle(this, seat);
+            passengerAgent.GetComponent<NavMeshAgent>().enabled = false;
+            seat.SetAgentOccupancy(passengerAgent);
+        }
 
         if (path.Count > 2) { //Realign vehicle on the correct side of the road
             TileData tdStart = World.Instance.GetChunkManager().GetTile(new TilePos(path[0].x, path[0].y));
@@ -111,8 +129,10 @@ public class VehicleAgent : BaseAgent {
     }
     
     private void OnValidate() {
-        for (int i = 0; i < colouredParts.Length; i++) {
-            colouredParts[i].GetComponent<MeshRenderer>().material = vehicleRegistry.GetMaterialNonStatic(vehicleColour);
+        if (colouredParts.Length > 0) {
+            for (int i = 0; i < colouredParts.Length; i++) {
+                colouredParts[i].GetComponent<MeshRenderer>().material = vehicleRegistry.GetMaterialNonStatic(vehicleColour);
+            }
         }
     }
 
@@ -123,6 +143,21 @@ public class VehicleAgent : BaseAgent {
         else {
             agent.speed = maxSpeed;
         }
+    }
+
+    public void EjectPassengers() {
+        for (int i = 0; i < vehicle.GetMaxSeats(); i++) {
+            Seat seat = vehicle.GetSeat(i);
+            if (!seat.IsAvailable()) {
+                seat.ExitSeat();
+            }
+        }
+
+        vacant = true;
+    }
+
+    public bool IsVacant() {
+        return vacant;
     }
     
     protected override void InitStateMachine() {
@@ -171,13 +206,13 @@ public class VehicleAgent : BaseAgent {
     public override void SetAgentDestruction(GameObject dest) {
         currentDestGO = dest;
         agent.destination = dest.transform.position;
-        stateMachine.ForceState(typeof(DespawningState)); //FORCING ALLOWED FOR TERMINAL STATE
+        stateMachine.ForceState(typeof(DespawningState));
     }
 
     public void SetAgentParking(GameObject parkingSpot) {
         currentDestGO = parkingSpot;
         agent.destination = parkingSpot.transform.position;
-        stateMachine.ForceState(typeof(ParkingState)); //FORCING ALLOWED FOR TERMINAL STATE
+        stateMachine.ForceState(typeof(ParkingState));
     }
 
     protected override void AgentCollideEnter(Collision collision) {

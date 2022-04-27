@@ -3637,9 +3637,9 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 1088
+    m_Bits: 64
   m_UseGeometry: 1
-  m_DefaultArea: 0
+  m_DefaultArea: 4
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
   m_OverrideTileSize: 0
@@ -7716,7 +7716,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   m_UseGeometry: 1
-  m_DefaultArea: 0
+  m_DefaultArea: 3
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
   m_OverrideTileSize: 0
@@ -8558,7 +8558,7 @@ PrefabInstance:
     - target: {fileID: 8886422584635529012, guid: b1c55c16a896eac4aaf487b4b08bb3b6,
         type: 3}
       propertyPath: register.Array.size
-      value: 44
+      value: 46
       objectReference: {fileID: 0}
     - target: {fileID: 8886422584635529012, guid: b1c55c16a896eac4aaf487b4b08bb3b6,
         type: 3}
@@ -8571,6 +8571,18 @@ PrefabInstance:
       propertyPath: register.Array.data[43]
       value: 
       objectReference: {fileID: 7998429460570019003, guid: 5a97f6c1df41ebb4d8f8852c847f7804,
+        type: 3}
+    - target: {fileID: 8886422584635529012, guid: b1c55c16a896eac4aaf487b4b08bb3b6,
+        type: 3}
+      propertyPath: register.Array.data[44]
+      value: 
+      objectReference: {fileID: 446264828507051930, guid: 24e52e55f80cecd469ba32627aac267f,
+        type: 3}
+    - target: {fileID: 8886422584635529012, guid: b1c55c16a896eac4aaf487b4b08bb3b6,
+        type: 3}
+      propertyPath: register.Array.data[45]
+      value: 
+      objectReference: {fileID: 446264828507051930, guid: 49c1f7a2f1403634e98eacf8d1e9a89c,
         type: 3}
     - target: {fileID: 8886422584635529013, guid: b1c55c16a896eac4aaf487b4b08bb3b6,
         type: 3}

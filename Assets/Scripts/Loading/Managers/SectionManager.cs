@@ -16,8 +16,6 @@ public class SectionManager : GenerationSystem {
 
     private GenerateBuildingBase genLast = null;
 
-    private bool gennedHospital = false;
-
     public override void Initialize() {
         worldSize = World.Instance.GetChunkManager().GetSize() * Chunk.size;
         StartCoroutine(Scan());
@@ -35,13 +33,20 @@ public class SectionManager : GenerationSystem {
         }
     }
 
+    //Each structural pass places a building set, then rescans the map to recreate sections.
+    //This takes some time to run and is the bulk of world generation.
     private IEnumerator Populate() {
-        //First pass: large buildings
+        //First passes: large buildings (one pass per building)
         if (!World.Instance.SkipLargeBuildingGen()) {
             GenerateHospital(TileRegistry.HOSPITAL_8x8);
-            yield return null;
+            ClearSections();
+            yield return Scan();
 
-            //Rescan sections for next pass
+            GenerateTownHall(TileRegistry.TOWN_HALL_8x8);
+            ClearSections();
+            yield return Scan();
+            
+            GenerateUniversity(TileRegistry.UNIVERSITY_8x8);
             ClearSections();
             yield return Scan();
         }
@@ -49,9 +54,6 @@ public class SectionManager : GenerationSystem {
         if (!World.Instance.SkipSubDivisions()) {
             //Second pass: subdivide remaining sections
             SubdivideSections();
-            yield return null;
-
-            //Rescan for next pass
             ClearSections();
             yield return Scan();
         }
@@ -91,47 +93,81 @@ public class SectionManager : GenerationSystem {
         yield return null;
     }
 
-    private void GenerateHospital(Tile hospital) {
+    private void GenerateHospital(Tile tile) {
+        int tileId = tile.GetId();
+        List<Section> bestSections = FindBestSections(tileId);
+
+        if (bestSections != null) {
+            Section chosenSection = bestSections[Random.Range(0, bestSections.Count - 1)];
+            GenerateHospital gen = new GenerateHospital(chosenSection, tileId, EnumDirection.SOUTH, TileRegistry.GetTileFromID(tileId));
+            gen.Generate();
+            gen.PostGenerate();
+        }
+        else {
+            Debug.LogError(tile.GetName() + " generation failed; no valid locations available.");
+        }
+    }
+    
+    private void GenerateTownHall(Tile tile) {
+        int tileId = tile.GetId();
+        List<Section> bestSections = FindBestSections(tileId);
+
+        if (bestSections != null) {
+            Section chosenSection = bestSections[Random.Range(0, bestSections.Count - 1)];
+            GenerateTownHall gen = new GenerateTownHall(chosenSection, tileId, EnumDirection.SOUTH, TileRegistry.GetTileFromID(tileId));
+            gen.Generate();
+            gen.PostGenerate();
+        }
+        else {
+            Debug.LogError(tile.GetName() + " generation failed; no valid locations available.");
+        }
+    }
+    
+    private void GenerateUniversity(Tile tile) {
+        int tileId = tile.GetId();
+        List<Section> bestSections = FindBestSections(tileId);
+
+        if (bestSections != null) {
+            Section chosenSection = bestSections[Random.Range(0, bestSections.Count - 1)];
+            GenerateUniversity gen = new GenerateUniversity(chosenSection, tileId, EnumDirection.SOUTH, TileRegistry.GetTileFromID(tileId));
+            gen.Generate();
+            gen.PostGenerate();
+        }
+        else {
+            Debug.LogError(tile.GetName() + " generation failed; no valid locations available.");
+        }
+    }
+
+    private List<Section> FindBestSections(int tileId) {
         List<Section> viableSections = new List<Section>();
-        int hospitalId = hospital.GetId();
-        TileData hospitalTile = TileRegistry.GetTileFromID(hospitalId);
-
-        if (!gennedHospital) {
-            for (int i = 0; i < sections.Count; i++) {
-                if (sections[i].CanFit(TileRegistry.GetTileFromID(hospitalId))) {
-                    viableSections.Add(sections[i]);
-                }
-            }
-
-            List<Section> bestSections = Attempt1(viableSections, hospitalTile.GetWidth(), hospitalTile.GetLength());
-
-            if (bestSections == null) {
-                bestSections = Attempt2(viableSections, hospitalTile.GetWidth(), hospitalTile.GetLength());
-            }
-            
-            if (bestSections == null) {
-                bestSections = Attempt3(viableSections, hospitalTile.GetWidth(), hospitalTile.GetLength());
-            }
-
-            if (bestSections == null) {
-                bestSections = Attempt4(viableSections, hospitalTile.GetWidth(), hospitalTile.GetLength());
-            }
-
-            if (bestSections == null) {
-                bestSections = Attempt5(viableSections, hospitalTile.GetWidth(), hospitalTile.GetLength());
-            }
-
-            if (bestSections != null) {
-                Section chosenSection = bestSections[Random.Range(0, bestSections.Count - 1)];
-                GenerateHospital gen = new GenerateHospital(chosenSection, hospitalId, EnumDirection.SOUTH, hospitalTile);
-                gen.Generate();
-                gen.PostGenerate();
-                gennedHospital = true;
-            }
-            else {
-                Debug.LogError("Hospital generation failed; no valid locations available.");
+        TileData tile = TileRegistry.GetTileFromID(tileId);
+        int width = tile.GetWidth();
+        int length = tile.GetLength();
+        for (int i = 0; i < sections.Count; i++) {
+            if (sections[i].CanFit(TileRegistry.GetTileFromID(tileId))) {
+                viableSections.Add(sections[i]);
             }
         }
+        
+        List<Section> bestSections = Attempt1(viableSections, width, length);
+
+        if (bestSections == null) {
+            bestSections = Attempt2(viableSections, width, length);
+        }
+            
+        if (bestSections == null) {
+            bestSections = Attempt3(viableSections, width, length);
+        }
+
+        if (bestSections == null) {
+            bestSections = Attempt4(viableSections, width, length);
+        }
+
+        if (bestSections == null) {
+            bestSections = Attempt5(viableSections, width, length);
+        }
+
+        return bestSections;
     }
 
     private void SubdivideSections() {
