@@ -1,18 +1,10 @@
 ﻿using System.Collections.Generic;
-using Scenarios.EasterEggHunt.Competitive;
 using UnityEngine;
 
 namespace Scenarios.EasterEggHunt {
-    public class EggHunterCooperativeScenarioManager : ScenarioManager {
+    public class EggHunterCooperativeScenarioManager : EggHunterScenarioManager {
 
-        [SerializeField] private int maxEggsPerLocation = 3;
-        [SerializeField] private int eggLocationChancePercent = 10;
-        [SerializeField] private EggHunterAgentManager eggHunterAgentManager;
-        
-        [SerializeField] private float spawnRange;
-        [SerializeField] private int agentCount;
-
-        public List<GameObject> eggLocations = new List<GameObject>();
+        public List<GameObject> searchDestinations = new List<GameObject>(); //Shared between all agents instead of individual list
 
         public override string GetScenarioName() {
             return "Egg Hunter (Cooperative)";
@@ -25,9 +17,10 @@ namespace Scenarios.EasterEggHunt {
                 if (rng <= eggLocationChancePercent) {
                     AddEggs(registry.GetFromList(i));
                 }
+                searchDestinations.Add(World.Instance.GetChunkManager().GetTile(registry.GetFromList(i)).gameObject);
             }
 
-            StartCoroutine(eggHunterAgentManager.GenerateAgents(startPoint.transform.position, spawnRange, agentCount, false));
+            StartCoroutine(eggHunterAgentManager.GenerateAgents(startPoint.transform.position, spawnRange, agentCount, false, this));
         }
 
         public override void BeginScenario() {
@@ -45,34 +38,13 @@ namespace Scenarios.EasterEggHunt {
             throw new System.NotImplementedException();
         }
 
-        public override void CleanUp() {
-            for (int i = 0; i < eggLocations.Count; i++) {
-                EggHolder eggHolder = eggLocations[i].GetComponent<EggHolder>();
-                if (eggHolder != null) {
-                    Destroy(eggHolder);
-                }
-            }
+        public void ClaimNextDestination(EggHunterAgent agent) {
+            agent.SetAgentDestination(searchDestinations[0]);
+            searchDestinations.RemoveAt(0);
         }
 
-        private void AddEggs(TilePos pos) {
-            GameObject tile = World.Instance.GetChunkManager().GetTile(pos).gameObject;
-            EggHolder eggHolder = tile.GetComponent<EggHolder>();
-
-            if (eggHolder == null) {
-                tile.AddComponent<EggHolder>();
-                eggHolder = tile.GetComponent<EggHolder>();
-                eggLocations.Add(tile);
-            }
-            
-            eggHolder.AddEggs(Random.Range(0, maxEggsPerLocation+1));
-        }
-
-        public AgentManager GetAgentManager() {
-            return eggHunterAgentManager;
-        }
-
-        public int GetMaxAgents() {
-            return agentCount;
+        public int RemainingDestinations() {
+            return searchDestinations.Count;
         }
     }
 }

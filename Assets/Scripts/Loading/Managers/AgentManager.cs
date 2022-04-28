@@ -53,15 +53,19 @@ public abstract class AgentManager : GenerationSystem {
         return agents;
     }
     
-    protected GameObject ReplaceAgentWithCustom<T>(Vector3 spawnPos) where T : BaseAgent {
+    protected GameObject ReplaceAgentWithCustom<T>(Vector3 spawnPos) where T : PedestrianAgent {
         GameObject newAgent = Instantiate(testAgent, spawnPos, Quaternion.identity);
         GameObject eyePos = newAgent.GetComponent<PedestrianAgent>().GetEyePos();
         GameObject camPos = newAgent.GetComponent<PedestrianAgent>().GetCamPos();
+        GameObject head = newAgent.GetComponent<PedestrianAgent>().GetHead();
+        GameObject legs = newAgent.GetComponent<PedestrianAgent>().GetLegs();
         Destroy(newAgent.GetComponent<PedestrianAgent>());
         newAgent.AddComponent<T>();
             
         newAgent.GetComponent<T>().SetEyePos(eyePos);
         newAgent.GetComponent<T>().SetCamPos(camPos);
+        newAgent.GetComponent<T>().SetHead(head);
+        newAgent.GetComponent<T>().SetLegs(legs);
 
         return newAgent;
     }

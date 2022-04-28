@@ -27,4 +27,15 @@ public class AgentData : MonoBehaviour {
 
         gameObject.name = "PA_" + firstName + "_" + lastName;
     }
+
+    public string GetFirstName() { return firstName; }
+    public string GetLastName() { return lastName; }
+    public string GetFullName() { return firstName + " " +  lastName; }
+    public int GetAge() { return age; }
+
+    public string GetGenderName() { return gender; }
+    public string GetProfessionName() { return profession; }
+    
+    public Gender GetGender() { return genderObj; }
+    public Profession GetProfession() { return professionObj; }
 }

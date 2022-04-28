@@ -34,9 +34,5 @@ namespace Scenarios.EasterEggHunt.AgentStates {
             
             return null;
         }
-
-        public EggHunterAgent SearchForOtherAgents() {
-            return null;
-        }
     }
 }

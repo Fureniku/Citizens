@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Scenarios.EasterEggHunt.AgentStates;
 using UnityEngine;
+using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
 namespace Scenarios.EasterEggHunt {
@@ -11,59 +12,74 @@ namespace Scenarios.EasterEggHunt {
         protected bool begin = false;
         [SerializeField] protected int holdingEggs = 0;
         [SerializeField] protected int maxHeldEggs = 3;
+        [SerializeField] protected int totalEggsFound = 0;
         [SerializeField] protected int searchCounter = 0;
-        [SerializeField] protected float maxSpeed = 3.5f;
-        [SerializeField] protected int hunterId = 0;
-        [SerializeField] protected EnumSearchStrategy searchStrategy;
+        [SerializeField] protected float maxSpeed = 4f;
+        [SerializeField] protected float eggWeight = 0.25f;
+        protected int hunterId = 0;
 
-        [SerializeField] protected GameObject followTarget = null;
-        [SerializeField] protected GameObject partner = null;
-        [SerializeField] protected GameObject meetPoint = null;
-        [SerializeField] protected float followDistance = 5.0f;
-        [SerializeField] protected EggHunterCooperativeScenarioManager scenarioManager;
+        protected GameObject followTarget = null;
+        protected float followDistance = 5.0f;
+        protected EggHunterScenarioManager scenarioManager;
 
         [SerializeField] protected bool returnToBase;
         
         [SerializeField] protected GameObject previousDestination = null;
         [SerializeField] protected int timeSinceDestination = 0;
 
+        [Header("ScenarioDebug")]
+        [SerializeField] private bool pathPending = false;
+        [SerializeField] private bool hasPath = false;
+        [SerializeField] private NavMeshPathStatus pathStatus;
+        [SerializeField] private Vector3 nextPosition;
+        [SerializeField] private Vector3 pathEndPosition;
+
         public override void Init() {
-            scenarioManager = FindObjectOfType<EggHunterCooperativeScenarioManager>();
             initialized = true;
+        }
+
+        public void SetScenarioManager(EggHunterScenarioManager scenarioMngr) {
+            scenarioManager = scenarioMngr;
         }
 
         protected override void AgentUpdate() {
             base.AgentUpdate();
-            agent.speed = maxSpeed - (holdingEggs * 0.75f);
-            timeSinceDestination++;
+            agent.speed = maxSpeed - (holdingEggs * eggWeight);
+            if (previousDestination != null) {
+                timeSinceDestination++;
+            }
+            
+            pathPending = agent.pathPending;
+            pathStatus = agent.pathStatus;
+            hasPath = agent.hasPath;
+            nextPosition = agent.nextPosition;
+            pathEndPosition = agent.pathEndPosition;
         }
 
         public void SetHunterID(int id) => hunterId = id;
         public GameObject GetFollowTarget() { return followTarget; }
+        public void SetFollowTarget(GameObject follow) { followTarget = follow; }
+        public void RemoveFollowTarget() { followTarget = null; }
         public float GetFollowDistance() { return followDistance; }
         public int EggCount() { return holdingEggs; }
 
-        public bool GiveEgg(EggHunterAgent otherAgent) {
+        public void GiveEgg(EggHunterAgent otherAgent) {
             int eggSpace = otherAgent.maxHeldEggs - otherAgent.holdingEggs;
             if (eggSpace > 0 && holdingEggs >= 1) {
                 holdingEggs -= 1;
                 otherAgent.holdingEggs += 1;
             }
-
-            return false;
         }
 
         public void AddEggs(int eggs) {
             holdingEggs += eggs;
         }
 
-        public bool RemoveEggs(int eggs) {
+        public void RemoveEggs(int eggs) {
             if (eggs <= holdingEggs) {
                 holdingEggs -= eggs;
-                return true;
+                totalEggsFound += eggs;
             }
-
-            return false;
         }
 
         public bool SearchTimer() {
@@ -105,17 +121,20 @@ namespace Scenarios.EasterEggHunt {
             return timeSinceDestination < 180 ? previousDestination : null;
         }
 
+        public void CheckForEggs() {
+            EggHolder eggHolder = dests[0].GetComponent<EggHolder>();
+            if (eggHolder != null) {
+                int eggCount = eggHolder.GetEggCount();
+                int takeEggs = Mathf.Max(maxHeldEggs - eggCount, eggCount);
+                dests[0].GetComponent<EggHolder>().TakeEggs(this, takeEggs);
+            }
+        }
+
         public abstract void Begin();
         public abstract void FinishedSearch();
-    }
 
-    public enum EnumSearchStrategy {
-        COMP_1, //Search the world in order of building registration, and check every building
-        COMP_2, //Search the world in order of building registration, only skip buildings they've seen another agent search
-        COMP_3, //Follow another agent, note which buildings they search, and as soon as they find an egg continue their search path (interrupting/sabotaging that agents future search attempts)
-        
-        COOP_1, //Everyone searches freely, but skips already searched areas
-        COOP_2, //Everyone searches freely in pairs, when an egg is found one takes it home while the other continues the search
-        COOP_3  //The world is divided into sections. Each section has a group of searchers and a group of runners. Runners wait at a location, searchers give runners eggs then runners return them home
+        public override string GetAgentTagMessage() {
+            return "Current Eggs: " + holdingEggs;
+        } 
     }
 }

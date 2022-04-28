@@ -2,22 +2,12 @@
 using UnityEngine;
 
 namespace Scenarios.EasterEggHunt.Competitive {
-    public class EggHunterCompetitiveScenarioManager : ScenarioManager {
-
-        [SerializeField] private int maxEggsPerLocation = 3;
-        [SerializeField] private int eggLocationChancePercent = 10;
-        [SerializeField] private EggHunterAgentManager eggHunterAgentManager;
-
-        [SerializeField] private GameObject startPoint;
-        [SerializeField] private float spawnRange;
-        [SerializeField] private int agentCount;
-
-        public List<GameObject> eggLocations = new List<GameObject>();
+    public class EggHunterCompetitiveScenarioManager : EggHunterScenarioManager {
 
         public override string GetScenarioName() {
             return "Egg Hunter (Competitive)";
         }
-        
+
         public override void PrepareScenario() {
             Registry registry = DestinationRegistration.shopRegistryPedestrian;
             for (int i = 0; i < registry.GetListSize(); i++) {
@@ -27,7 +17,7 @@ namespace Scenarios.EasterEggHunt.Competitive {
                 }
             }
 
-            StartCoroutine(eggHunterAgentManager.GenerateAgents(startPoint.transform.position, spawnRange, agentCount, true));
+            StartCoroutine(eggHunterAgentManager.GenerateAgents(startPoint.transform.position, spawnRange, agentCount, true, this));
         }
 
         public override void BeginScenario() {
@@ -47,24 +37,13 @@ namespace Scenarios.EasterEggHunt.Competitive {
 
         public override void CleanUp() {
             for (int i = 0; i < eggLocations.Count; i++) {
-                EggHolder eggHolder = eggLocations[i].GetComponent<EggHolder>();
-                if (eggHolder != null) {
-                    Destroy(eggHolder);
+                if (eggLocations[i] != null) {
+                    EggHolder eggHolder = eggLocations[i].GetComponent<EggHolder>();
+                    if (eggHolder != null) {
+                        Destroy(eggHolder);
+                    }
                 }
             }
-        }
-
-        private void AddEggs(TilePos pos) {
-            GameObject tile = World.Instance.GetChunkManager().GetTile(pos).gameObject;
-            EggHolder eggHolder = tile.GetComponent<EggHolder>();
-
-            if (eggHolder == null) {
-                tile.AddComponent<EggHolder>();
-                eggHolder = tile.GetComponent<EggHolder>();
-                eggLocations.Add(tile);
-            }
-            
-            eggHolder.AddEggs(Random.Range(0, maxEggsPerLocation+1));
         }
     }
 }

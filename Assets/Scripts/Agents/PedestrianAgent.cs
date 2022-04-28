@@ -89,5 +89,11 @@ public class PedestrianAgent : BaseAgent {
     protected override void AgentTriggerEnter(Collider other) {}
     protected override void AgentTriggerExit(Collider other) {}
 
-    
+    public GameObject GetHead() { return head; }
+    public GameObject GetLegs() { return legs; }
+    public void SetHead(GameObject obj) { head = obj; }
+    public void SetLegs(GameObject obj) { legs = obj; }
+
+    public override string GetAgentTypeName() { return ""; }
+    public override string GetAgentTagMessage() { return ""; }
 }

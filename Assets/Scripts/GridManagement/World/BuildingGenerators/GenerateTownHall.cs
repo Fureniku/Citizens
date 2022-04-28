@@ -15,10 +15,16 @@ public class GenerateTownHall : GenerateLargeBuildingBase {
         TilePos junctAE = new TilePos(placePos.x, placePos.z - 1);
         TilePos carPark1 = new TilePos(placePos.x - 1, placePos.z + 5);
         TilePos carPark2 = new TilePos(placePos.x + 2, placePos.z + 8);
-        
+
         SetJunctionIn(junctAE, EnumDirection.WEST);
         SetJunctionIn(carPark1, EnumDirection.NORTH);
         SetJunctionIn(carPark2, EnumDirection.EAST);
+        
+        TilePos scenarioTilePos = new TilePos(placePos.x + 4, placePos.z + 6);
+        Vector3 scenarioPos = new Vector3(scenarioTilePos.GetWorldPos().x, 7.5f, scenarioTilePos.GetWorldPos().z);
+
+        Debug.Log("Setting scenario pos to " +scenarioPos);
+        Scenarios.Scenarios.Instance.GetStartPosition().transform.position = scenarioPos;
     }
     
 

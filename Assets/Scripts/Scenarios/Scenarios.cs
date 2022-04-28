@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Scenarios.EasterEggHunt;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Scenarios {
     public class Scenarios : MonoBehaviour {
@@ -8,6 +11,19 @@ namespace Scenarios {
         public static Scenarios Instance {
             get { return _instance; }
         }
+
+        [SerializeField] private GameObject scenarioCanvas = null;
+        [SerializeField] private GameObject scenarioConfigCanvas = null;
+        [SerializeField] private GameObject scenarioStartingCanvas = null;
+
+        [SerializeField] private GameObject startPosition = null;
+        [SerializeField] private GameObject depositPoint = null;
+        [SerializeField] private InputField inputField;
+        [SerializeField] private Text message;
+
+        private GameObject scenario = null;
+        private bool preparing = false;
+        private int prepareTime = 0;
 
         private void Awake() {
             Debug.Log("Scenarios awake");
@@ -34,19 +50,62 @@ namespace Scenarios {
             Debug.Log("Preparing " + scenario.GetScenarioName());
             scenario.PrepareScenario();
         }
+        
         public void BeginScenario(ScenarioManager scenario) { scenario.BeginScenario(); }
         public void ScenarioUpdate(ScenarioManager scenario) { scenario.ScenarioUpdate(); }
         public void CompleteScenario(ScenarioManager scenario) { scenario.CompleteScenario(); }
         public void CleanUpScenario(ScenarioManager scenario) { scenario.CleanUp(); }
 
+        void FixedUpdate() {
+            if (scenario != null && preparing) {
+                prepareTime++;
 
-        private bool test = false;
-        
-        void Update() {
-            if (!test && World.Instance.IsWorldFullyLoaded()) {
-                PrepareScenario(0);
-                test = true;
-            }    
+                int remainTime = scenario.GetComponent<ScenarioManager>().prepareTime - prepareTime;
+                if (remainTime <= 0) {
+                    preparing = false;
+                    prepareTime = 0;
+                    scenarioStartingCanvas.SetActive(false);
+                } else if (remainTime <= 60) {
+                    message.text = "Start!";
+                    BeginScenario(scenario.GetComponent<ScenarioManager>());
+                } else if (remainTime <= 120) {
+                    message.text = "1...";
+                } else if (remainTime <= 180) {
+                    message.text = "2...";
+                } else if (remainTime <= 240) {
+                    message.text = "3...";
+                } else {
+                    message.text = "Preparing...";
+                }
+            }
+        }
+
+        public void InitializeScenario(int id) {
+            scenario = Instantiate(scenarios[0].gameObject, startPosition.transform, true);
+            scenario.GetComponent<ScenarioManager>().SetStartPoint(startPosition);
+            scenario.GetComponent<ScenarioManager>().SetDepositPoint(depositPoint);
+            scenarioCanvas.SetActive(false);
+            scenarioConfigCanvas.SetActive(true);
+        }
+
+        public void PrepareScenario() {
+            ScenarioManager sm = scenario.GetComponent<ScenarioManager>();
+            if (sm is EggHunterScenarioManager) {
+                EggHunterScenarioManager scenarioManager = (EggHunterScenarioManager) sm;
+                scenarioManager.SetAgentCount(Int32.Parse(inputField.text));
+            }
+            PrepareScenario(sm);
+            preparing = true;
+            scenarioConfigCanvas.SetActive(false);
+            scenarioStartingCanvas.SetActive(true);
+        }
+
+        public void SetSpawnerObject(GameObject obj) {
+            startPosition = obj;
+        }
+
+        public GameObject GetStartPosition() {
+            return startPosition;
         }
     }
 }

@@ -1,7 +1,11 @@
-﻿namespace Scenarios.EasterEggHunt {
-    
-    public class EggHunterCooperativeFreeSearch : EggHunterAgent {
-        
+﻿using System;
+using System.Collections.Generic;
+using Scenarios.EasterEggHunt.AgentStates;
+using UnityEngine;
+
+namespace Scenarios.EasterEggHunt.Cooperative {
+    public class EggHunterEggRunnerLocation : EggHunterAgent {
+
         protected override void InitStateMachine() {
             stateMachine = GetComponent<AgentStateMachine>();
             Dictionary<Type, AgentBaseState> states = new Dictionary<Type, AgentBaseState>();
@@ -18,17 +22,16 @@
         }
 
         public override void Begin() {
-            Registry shopRegistry = DestinationRegistration.shopRegistryPedestrian;
-            for (int i = 0; i < shopRegistry.GetListSize(); i++) {
-                dests.Add(World.Instance.GetChunkManager().GetTile(shopRegistry.GetFromList(i)).gameObject);
-            }
+            followTarget = scenarioManager.GetAgentManager().GetAllAgents()[hunterId-1];
+            //TODO set wait location
+        }
 
-            if (dests.Count > hunterId) {
-                SetAgentDestination(dests[hunterId]);
-            }
-            SetAgentDestination(dests[0]);
-            
-            begin = true;
+        public override void FinishedSearch() {
+            throw new NotImplementedException();
+        }
+        
+        public override string GetAgentTypeName() {
+            return "Egg Runner";
         }
     }
 }

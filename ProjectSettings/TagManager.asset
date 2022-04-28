@@ -12,6 +12,7 @@ TagManager:
   - Fire
   - DeleteOnCleanup
   - SkipCombine
+  - ScenarioSpawner
   layers:
   - Default
   - TransparentFX

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Scenarios.EasterEggHunt.AgentStates;
 
-namespace Scenarios.EasterEggHunt.Competitive {
+namespace Scenarios.EasterEggHunt.Competitive.Agents {
     public class EggHunterCompetitiveAvoidSearched : EggHunterAgent {
         
         protected override void InitStateMachine() {
@@ -14,13 +14,11 @@ namespace Scenarios.EasterEggHunt.Competitive {
             states.Add(typeof(SearchLocationState), new SearchLocationState(this)); //Search an egg location
             states.Add(typeof(ReturnToBaseState), new ReturnToBaseState(this)); //Return to start point
             states.Add(typeof(CompleteState), new CompleteState(this)); //Return to start point
-            
-            states.Add(typeof(FollowState), new FollowState(this)); //Follow a target
 
             stateMachine.SetStates(states);
         }
-        
-        public override void Begin() {
+
+        public override void Init() {
             Registry shopRegistry = DestinationRegistration.shopRegistryPedestrian;
             
             for (int i = 0; i < shopRegistry.GetListSize(); i++) {
@@ -28,10 +26,17 @@ namespace Scenarios.EasterEggHunt.Competitive {
             }
             
             SetAgentDestination(dests[0]);
+            agent.isStopped = true;
+            base.Init();
+        }
+
+        public override void Begin() {
+            agent.isStopped = false;
             begin = true;
         }
         
         public override void FinishedSearch() {
+            CheckForEggs();
             previousDestination = dests[0];
             timeSinceDestination = 0;
             
@@ -41,6 +46,10 @@ namespace Scenarios.EasterEggHunt.Competitive {
             } else {
                 returnToBase = true;
             }
+        }
+        
+        public override string GetAgentTypeName() {
+            return "Competitive Observant Egg Hunter";
         }
     }
 }

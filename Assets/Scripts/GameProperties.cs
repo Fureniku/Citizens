@@ -5,11 +5,10 @@ using UnityEngine;
 public class GameProperties : MonoBehaviour {
 
     [SerializeField] private GameObject cam;
-    [SerializeField] private GameObject editCanvas;
-    [SerializeField] private GameObject mainCanvas;
     [SerializeField] private GameObject selectionInfo;
     [SerializeField] private GameObject selectionInfoBuilding;
     [SerializeField] private GameObject selectionInfoVehicle;
+    [SerializeField] private GameObject selectionInfoPedestrian;
 
     private InputHandler inputHandler;
     private CameraController cameraController;
@@ -25,11 +24,6 @@ public class GameProperties : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-        if (Input.GetKey(KeyCode.E)) {
-            Cursor.lockState = CursorLockMode.Confined;
-            editCanvas.SetActive(true);
-        }
-
         if (inputHandler.SelectedObject() != null) {
             if (inputHandler.SelectedObject().GetComponent<TileData>() != null) {
                 TileData td = inputHandler.SelectedObject().GetComponent<TileData>();
@@ -42,11 +36,22 @@ public class GameProperties : MonoBehaviour {
                     selectionInfo.GetComponent<SelectionInfo>().SetSelectionInfo(td);
                 }
                 
-            } else if (inputHandler.SelectedObject().GetComponent<UnityEngine.AI.NavMeshAgent>() != null) {
+            } else if (inputHandler.SelectedObject().GetComponent<VehicleAgent>() != null) {
                 SetPanelEnabled(SelectionType.VEHICLE);
                 selectionInfoVehicle.GetComponent<VehicleSelectionInfo>().SetSelectionInfo(inputHandler.SelectedObject().GetComponent<VehicleAgent>());
                 if (Input.GetKeyDown(KeyCode.F) && !fDown) {
-                    Debug.Log("Key down :)");
+                    fDown = true;
+                    if (!camFollow) {
+                        SetCamFollow(true, inputHandler.SelectedObject());
+                    }
+                    else {
+                        SetCamFollow(false);
+                    }
+                }
+            } else if (inputHandler.SelectedObject().GetComponent<PedestrianAgent>() != null) {
+                SetPanelEnabled(SelectionType.PEDESTRIAN);
+                selectionInfoPedestrian.GetComponent<PedestrianSelectionInfo>().SetSelectionInfo(inputHandler.SelectedObject().GetComponent<PedestrianAgent>());
+                if (Input.GetKeyDown(KeyCode.F) && !fDown) {
                     fDown = true;
                     if (!camFollow) {
                         SetCamFollow(true, inputHandler.SelectedObject());
@@ -73,7 +78,7 @@ public class GameProperties : MonoBehaviour {
     private void SetCamFollow(bool follow, GameObject obj = null) {
         camFollow = follow;
         if (follow && obj != null) {
-            GameObject camPos = obj.GetComponent<VehicleAgent>().GetCamPos();
+            GameObject camPos = obj.GetComponent<BaseAgent>().GetCamPos();
             cam.transform.parent = camPos.transform;
             cam.transform.rotation = camPos.transform.rotation;
             cam.transform.position = camPos.transform.position;
@@ -86,6 +91,7 @@ public class GameProperties : MonoBehaviour {
         selectionInfo.SetActive(false);
         selectionInfoBuilding.SetActive(false);
         selectionInfoVehicle.SetActive(false);
+        selectionInfoPedestrian.SetActive(false);
         switch (type) {
             case SelectionType.STANDARD:
                 selectionInfo.SetActive(true);
@@ -96,16 +102,14 @@ public class GameProperties : MonoBehaviour {
             case SelectionType.VEHICLE:
                 selectionInfoVehicle.SetActive(true);
                 break;
+            case SelectionType.PEDESTRIAN:
+                selectionInfoPedestrian.SetActive(true);
+                break;
         }
     }
     
     public void Resume() {
         Cursor.lockState = CursorLockMode.Locked;
-        editCanvas.SetActive(false);
-    }
-    
-    public void EditMode() {
-        inputHandler.EditMode();
     }
 }
 

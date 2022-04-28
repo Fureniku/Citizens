@@ -10,7 +10,7 @@ namespace Scenarios.EasterEggHunt.AgentStates {
         }
         
         public override Type StateUpdate() {
-            if (Vector3.Distance(agent.transform.position, agent.GetScenarioManager().GetStartPoint().transform.position) < 5.0f) {
+            if (Vector3.Distance(agent.transform.position, agent.GetScenarioManager().GetDepositPoint().transform.position) < 5.0f) {
                 return typeof(CompleteState);
             }
 
@@ -18,7 +18,7 @@ namespace Scenarios.EasterEggHunt.AgentStates {
         }
         
         public override Type StateEnter() {
-            agent.SetAgentDestination(agent.GetScenarioManager().GetStartPoint());
+            agent.SetAgentDestination(agent.GetScenarioManager().GetDepositPoint());
             return null;
         }
 

@@ -465,9 +465,10 @@ GameObject:
   - component: {fileID: -9025430584181979472}
   - component: {fileID: 901405649870691696}
   - component: {fileID: 8881267345820127647}
-  m_Layer: 0
+  - component: {fileID: 7270198931198327472}
+  m_Layer: 8
   m_Name: Pedestrian
-  m_TagString: Untagged
+  m_TagString: Pedestrian
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -593,6 +594,19 @@ MonoBehaviour:
   age: 0
   gender: 
   profession: 
+--- !u!65 &7270198931198327472
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4969062756450106854}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1.953147, z: 1}
+  m_Center: {x: 0, y: 0.17466618, z: 0}
 --- !u!1 &6651840285472335159
 GameObject:
   m_ObjectHideFlags: 0

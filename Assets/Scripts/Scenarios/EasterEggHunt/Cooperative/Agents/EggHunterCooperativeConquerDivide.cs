@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using Scenarios.EasterEggHunt.AgentStates;
+using UnityEngine;
 
 namespace Scenarios.EasterEggHunt {
     public class EggHunterCooperativeConquerDivide : EggHunterAgent {
@@ -8,12 +11,6 @@ namespace Scenarios.EasterEggHunt {
             Dictionary<Type, AgentBaseState> states = new Dictionary<Type, AgentBaseState>();
         
             states.Add(typeof(WaitingState), new WaitingState(this)); //Waiting to start the game
-            states.Add(typeof(MoveToLocationState), new MoveToLocationState(this)); //Moving to next potential egg location
-            states.Add(typeof(SearchLocationState), new SearchLocationState(this)); //Search an egg location
-            
-            
-            
-            states.Add(typeof(FollowState), new FollowState(this)); //Follow a target
 
             stateMachine.SetStates(states);
         }
@@ -36,7 +33,7 @@ namespace Scenarios.EasterEggHunt {
                 float dist = 1000f;
                 if (Vector3.Distance(transform.position, shopRegistry.GetFromList(i).GetWorldPos()) < dist) {
                     dist = Vector3.Distance(transform.position, shopRegistry.GetFromList(i).GetWorldPos());
-                    meetPoint = World.Instance.GetChunkManager().GetTile(shopRegistry.GetFromList(i)).gameObject;
+                    //meetPoint = World.Instance.GetChunkManager().GetTile(shopRegistry.GetFromList(i)).gameObject;
                 }
 
                 if (runner) {
@@ -48,6 +45,14 @@ namespace Scenarios.EasterEggHunt {
             }
             
             begin = true;
+        }
+
+        public override void FinishedSearch() {
+            throw new NotImplementedException();
+        }
+        
+        public override string GetAgentTypeName() {
+            return "Egg Hunter: Conquer & Divide";
         }
     }
 }

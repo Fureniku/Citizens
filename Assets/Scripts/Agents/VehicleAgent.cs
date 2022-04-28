@@ -187,6 +187,14 @@ public class VehicleAgent : BaseAgent {
         stateMachine.SetStates(states);
     }
 
+    public override string GetAgentTypeName() {
+        return "Vehicle";
+    }
+
+    public override string GetAgentTagMessage() {
+        return "";
+    }
+
     protected override void AgentUpdate() {
         
     }

@@ -10,7 +10,16 @@ namespace Scenarios.EasterEggHunt.AgentStates {
         }
         
         public override Type StateUpdate() {
+            if (agent.EggCount() > 0) {
+                return typeof(ReturnEggsToBaseState);
+            }
+            if (agent.GetCurrentDestination() == null) {
+                return typeof(ReturnToBaseState);
+            }
             if (Vector3.Distance(agent.transform.position, agent.GetCurrentDestination().transform.position) < 1.5f) {
+                if (agent is EggHunterCooperativePairSearch) {
+                    return typeof(SearchLocationPairState);
+                }
                 return typeof(SearchLocationState);
             }
             return null;

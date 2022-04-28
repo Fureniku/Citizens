@@ -7,7 +7,7 @@ public class InputHandler : MonoBehaviour {
     private Camera cam;
     private GameObject selectedGo;
     
-    [SerializeField] private GameObject tileList;
+    [SerializeField] private GameObject scenarioCanvas;
 
     // Start is called before the first frame update
     void Start() {
@@ -16,7 +16,7 @@ public class InputHandler : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(0) && Cursor.lockState == CursorLockMode.Locked) {
             int layerMask = LayerMask.GetMask("Clickable");
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out var hit, 10000, layerMask)) {
@@ -25,6 +25,14 @@ public class InputHandler : MonoBehaviour {
 
                 selectedGo = hit.transform.gameObject;
                 ToggleHighlight(true);
+
+                if (hit.transform.gameObject.CompareTag("ScenarioSpawner")) {
+                    Scenarios.Scenarios.Instance.SetSpawnerObject(hit.transform.gameObject);
+                    scenarioCanvas.SetActive(true);
+                    Cursor.lockState = CursorLockMode.Confined;
+                } else if (hit.transform.gameObject.CompareTag("Pedestrian")) {
+                    
+                }
             }
         }
 
@@ -38,7 +46,6 @@ public class InputHandler : MonoBehaviour {
     }
 
     public void ToggleHighlight(bool highlight) {
-        tileList.SetActive(false);
         if (selectedGo != null) {
             if (selectedGo.GetComponent<Outline>() != null) {
                 selectedGo.GetComponent<Outline>().enabled = highlight;
@@ -55,17 +62,6 @@ public class InputHandler : MonoBehaviour {
     public void ClearSelection() {
         ToggleHighlight(false);
         selectedGo = null;
-    }
-
-    public void EditMode() {
-        tileList.SetActive(!tileList.activeSelf);
-        tileList.transform.position = Input.mousePosition;
-    }
-
-    public void ReplaceTile(int id) {
-        if (selectedGo != null) {
-            World.Instance.GetChunkManager().SetTile(TilePos.GetTilePosFromLocation(selectedGo.transform.position), id, EnumDirection.NORTH);
-        }
     }
 
     public GameObject SelectedObject() {

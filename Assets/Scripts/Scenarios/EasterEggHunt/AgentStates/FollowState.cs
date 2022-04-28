@@ -18,8 +18,7 @@ namespace Scenarios.EasterEggHunt.AgentStates {
                     agent.GetAgent().isStopped = false;
                     agent.SetAgentDestination(agent.GetFollowTarget());
                 }
-            }
-            if (agent.CanBegin()) {
+            } else {
                 return typeof(MoveToLocationState);
             }
 

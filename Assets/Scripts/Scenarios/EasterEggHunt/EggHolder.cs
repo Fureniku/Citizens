@@ -12,6 +12,10 @@ namespace Scenarios.EasterEggHunt {
             }
         }
 
+        public int GetEggCount() {
+            return eggCount;
+        }
+
         public void AddEggs(int eggs) {
             eggCount += eggs;
         }

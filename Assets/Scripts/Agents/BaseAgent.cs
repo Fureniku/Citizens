@@ -240,4 +240,6 @@ public abstract class BaseAgent : MonoBehaviour {
     protected abstract void AgentTriggerEnter(Collider other);
     protected abstract void AgentTriggerExit(Collider other);
     protected abstract void InitStateMachine();
+    public abstract string GetAgentTypeName();
+    public abstract string GetAgentTagMessage();
 }

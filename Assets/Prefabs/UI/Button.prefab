@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7930198301215044666}
   - component: {fileID: 7930198301215044669}
   - component: {fileID: 7930198301215044668}
-  - component: {fileID: 2768539599768711297}
+  - component: {fileID: 4069582729848625519}
   m_Layer: 0
   m_Name: Button
   m_TagString: Untagged
@@ -38,7 +38,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 185, y: 50}
+  m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7930198301215044666
 CanvasRenderer:
@@ -122,9 +122,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2768539599768711297}
-        m_TargetAssemblyTypeName: EditButton, Assembly-CSharp
-        m_MethodName: TriggerReplace
+      - m_Target: {fileID: 4069582729848625519}
+        m_TargetAssemblyTypeName: UI.SelectScenarioButton, Assembly-CSharp
+        m_MethodName: SelectScenario
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -134,7 +134,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &2768539599768711297
+--- !u!114 &4069582729848625519
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7930198301215044670}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: deafde638f16b7642afc647bdfce3cc3, type: 3}
+  m_Script: {fileID: 11500000, guid: 6d2b7b70ba6441ff864b453825292dc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7930198301737618177
@@ -180,8 +180,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 21.1229, y: 0}
-  m_SizeDelta: {x: -57.7542, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7930198301737618188
 CanvasRenderer:
