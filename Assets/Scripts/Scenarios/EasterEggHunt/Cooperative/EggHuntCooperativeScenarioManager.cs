@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Scenarios.EasterEggHunt {
+namespace Scenarios.EasterEggHunt.Cooperative {
     public class EggHunterCooperativeScenarioManager : EggHunterScenarioManager {
 
         public List<GameObject> searchDestinations = new List<GameObject>(); //Shared between all agents instead of individual list

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Scenarios.EasterEggHunt.AgentStates;
-using UnityEngine;
 
-namespace Scenarios.EasterEggHunt.Cooperative {
+namespace Scenarios.EasterEggHunt.Cooperative.Agents {
     public class EggHunterEggRunnerLocation : EggHunterAgent {
 
         protected override void InitStateMachine() {

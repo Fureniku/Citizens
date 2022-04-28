@@ -1,4 +1,5 @@
 ﻿using System;
+using Scenarios.EasterEggHunt.Cooperative.Agents;
 using UnityEngine;
 
 namespace Scenarios.EasterEggHunt.AgentStates {

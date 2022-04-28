@@ -2,6 +2,7 @@
 using System.Collections;
 using Scenarios.EasterEggHunt.Competitive.Agents;
 using Scenarios.EasterEggHunt.Cooperative;
+using Scenarios.EasterEggHunt.Cooperative.Agents;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -42,7 +43,8 @@ namespace Scenarios.EasterEggHunt.Competitive {
                         agents.Add(ReplaceAgentWithCustom<EggHunterCompetitiveStalker>(spawn));
                     }*/
                 } else {
-                    if (rng == 1) {
+                    agents.Add(ReplaceAgentWithCustom<EggHunterCooperativeFreeSearch>(spawn));
+                    /*if (rng == 1) {
                         agents.Add(ReplaceAgentWithCustom<EggHunterCooperativeFreeSearch>(spawn));
                     } else if (rng == 2) {
                         if (i % 2 == 0) {
@@ -56,7 +58,7 @@ namespace Scenarios.EasterEggHunt.Competitive {
                         } else {
                             agents.Add(ReplaceAgentWithCustom<EggHunterCooperativeConquerDivide>(spawn));
                         }
-                    }
+                    }*/
                 }
 
                 agents[i].transform.parent = transform;

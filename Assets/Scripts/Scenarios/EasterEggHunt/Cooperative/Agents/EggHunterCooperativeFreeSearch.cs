@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Scenarios.EasterEggHunt.AgentStates;
 
-namespace Scenarios.EasterEggHunt {
+namespace Scenarios.EasterEggHunt.Cooperative.Agents {
     
     public class EggHunterCooperativeFreeSearch : EggHunterAgent {
         
@@ -13,6 +13,7 @@ namespace Scenarios.EasterEggHunt {
             states.Add(typeof(WaitingState), new WaitingState(this)); //Waiting to start the game
             states.Add(typeof(MoveToLocationState), new MoveToLocationState(this)); //Moving to next potential egg location
             states.Add(typeof(SearchLocationState), new SearchLocationState(this)); //Search an egg location
+            states.Add(typeof(ReturnEggsToBaseState), new ReturnEggsToBaseState(this)); //Search an egg location
             states.Add(typeof(ReturnToBaseState), new ReturnToBaseState(this)); //Search an egg location
             states.Add(typeof(CompleteState), new CompleteState(this)); //Search an egg location
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Scenarios.EasterEggHunt.AgentStates;
 using UnityEngine;
 
-namespace Scenarios.EasterEggHunt {
+namespace Scenarios.EasterEggHunt.Cooperative.Agents {
     public class EggHunterCooperativeConquerDivide : EggHunterAgent {
         
         protected override void InitStateMachine() {
