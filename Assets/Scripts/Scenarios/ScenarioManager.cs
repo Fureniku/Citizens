@@ -4,6 +4,8 @@ using UnityEngine;
 namespace Scenarios {
     public abstract class ScenarioManager : MonoBehaviour {
 
+        [SerializeField] protected GameObject startPoint;
+        
         void Awake() {
             Debug.Log("Scenario manager awake");
             Scenarios.Instance.AddToList(this);
@@ -18,6 +20,10 @@ namespace Scenarios {
 
         private void OnDestroy() {
             CleanUp();
+        }
+        
+        public GameObject GetStartPoint() {
+            return startPoint;
         }
     }
 }

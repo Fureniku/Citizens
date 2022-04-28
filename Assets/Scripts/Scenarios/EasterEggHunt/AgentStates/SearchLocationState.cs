@@ -10,6 +10,10 @@ namespace Scenarios.EasterEggHunt.AgentStates {
         
         public override Type StateUpdate() {
             if (agent.SearchTimer()) {
+                agent.FinishedSearch();
+                if (agent.ReturnToBase()) {
+                    return typeof(ReturnToBaseState);
+                }
                 return typeof(MoveToLocationState);
             }
 
@@ -17,6 +21,7 @@ namespace Scenarios.EasterEggHunt.AgentStates {
         }
         
         public override Type StateEnter() {
+            
             return null;
         }
 

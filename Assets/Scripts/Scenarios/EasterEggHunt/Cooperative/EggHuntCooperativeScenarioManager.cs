@@ -1,21 +1,21 @@
 ﻿using System.Collections.Generic;
+using Scenarios.EasterEggHunt.Competitive;
 using UnityEngine;
 
-namespace Scenarios.EasterEggHunt.Competitive {
-    public class EggHunterCompetitiveScenarioManager : ScenarioManager {
+namespace Scenarios.EasterEggHunt {
+    public class EggHunterCooperativeScenarioManager : ScenarioManager {
 
         [SerializeField] private int maxEggsPerLocation = 3;
         [SerializeField] private int eggLocationChancePercent = 10;
         [SerializeField] private EggHunterAgentManager eggHunterAgentManager;
-
-        [SerializeField] private GameObject startPoint;
+        
         [SerializeField] private float spawnRange;
         [SerializeField] private int agentCount;
 
         public List<GameObject> eggLocations = new List<GameObject>();
 
         public override string GetScenarioName() {
-            return "Egg Hunter (Competitive)";
+            return "Egg Hunter (Cooperative)";
         }
         
         public override void PrepareScenario() {
@@ -27,7 +27,7 @@ namespace Scenarios.EasterEggHunt.Competitive {
                 }
             }
 
-            StartCoroutine(eggHunterAgentManager.GenerateAgents(startPoint.transform.position, spawnRange, agentCount, true));
+            StartCoroutine(eggHunterAgentManager.GenerateAgents(startPoint.transform.position, spawnRange, agentCount, false));
         }
 
         public override void BeginScenario() {
@@ -65,6 +65,14 @@ namespace Scenarios.EasterEggHunt.Competitive {
             }
             
             eggHolder.AddEggs(Random.Range(0, maxEggsPerLocation+1));
+        }
+
+        public AgentManager GetAgentManager() {
+            return eggHunterAgentManager;
+        }
+
+        public int GetMaxAgents() {
+            return agentCount;
         }
     }
 }
