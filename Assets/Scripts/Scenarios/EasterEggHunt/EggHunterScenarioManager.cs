@@ -12,15 +12,8 @@ namespace Scenarios.EasterEggHunt {
         [SerializeField] protected int eggLocationChancePercent = 10;
         [SerializeField] protected EggHunterAgentManager eggHunterAgentManager;
         
-        [SerializeField] protected float spawnRange;
-        [SerializeField] protected int agentCount;
-        
         public List<GameObject> eggLocations = new List<GameObject>();
-        
-        public void SetAgentCount(int i) {
-            agentCount = i;
-        }
-        
+
         public override void CleanUp() {
             for (int i = 0; i < eggLocations.Count; i++) {
                 EggHolder eggHolder = eggLocations[i].GetComponent<EggHolder>();
@@ -31,17 +24,19 @@ namespace Scenarios.EasterEggHunt {
         }
 
         protected void AddEggs(TilePos pos) {
+            Debug.Log("Adding eggs at " + pos);
             GameObject tile = World.Instance.GetChunkManager().GetTile(pos).gameObject;
             EggHolder eggHolder = tile.GetComponent<EggHolder>();
 
             if (eggHolder == null) {
+                Debug.Log("No egg holder yet, creating one");
                 tile.AddComponent<EggHolder>();
                 eggHolder = tile.GetComponent<EggHolder>();
                 eggLocations.Add(tile);
             }
 
-            int eggs = Random.Range(0, maxEggsPerLocation + 1);
-            
+            int eggs = Random.Range(1, maxEggsPerLocation + 1);
+            Debug.Log("Adding " + eggs + " eggs");
             eggHolder.AddEggs(eggs);
             totalSpawnedEggs += eggs;
         }

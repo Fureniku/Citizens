@@ -26,6 +26,7 @@ namespace Scenarios.EasterEggHunt.Cooperative.Agents {
         }
 
         public override void FinishedSearch() {
+            CheckForEggs();
             throw new NotImplementedException();
         }
         

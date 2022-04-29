@@ -16,7 +16,7 @@ namespace Scenarios.EasterEggHunt.AgentStates {
 
             if (dist < 2.0f) {
                 if (agent.EggCount() > 0) {
-                    ((EggHunterCooperativeScenarioManager) agent.GetScenarioManager()).DepositEggs(agent.EggCount());
+                    ((EggHunterScenarioManager) agent.GetScenarioManager()).DepositEggs(agent.EggCount());
                     agent.RemoveEggs(agent.EggCount());
                 }
 

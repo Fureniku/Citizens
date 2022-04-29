@@ -132,6 +132,19 @@ public abstract class GenerateBuildingBase {
             chunkManager.SetTile(placePos, TileRegistry.T_JUNCT_ROAD_1x1.GetId(), dir);
         }
     }
+    
+    protected void SetCrossing(TilePos placePos, EnumDirection dir) {
+        ChunkManager chunkManager = World.Instance.GetChunkManager();
+        TileData tile = chunkManager.GetTile(placePos);
+        
+        if (tile.GetId() == TileRegistry.CROSSROAD_ROAD_1x1.GetId() || tile.GetId() == TileRegistry.CROSSROAD_CTRL_ROAD_1x1.GetId()) {
+            //do nothing
+        } else if (tile.GetId() == TileRegistry.T_JUNCT_ROAD_1x1.GetId()) {
+            //do nothing
+        } else {
+            chunkManager.SetTile(placePos, TileRegistry.ZEBRA_CROSSING_1x1.GetId(), dir);
+        }
+    }
 
     protected abstract int SelectGameObject(int w, int l, ref EnumDirection rot);
     public abstract void PostGenerate();

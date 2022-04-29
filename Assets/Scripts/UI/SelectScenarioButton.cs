@@ -10,10 +10,11 @@ namespace UI {
             cam = GameObject.Find("Main Camera");
         }
 
-        public void SetId(int id) => this.id = id;
+        public void SetId(int idIn) => id = idIn;
 
         public void SelectScenario() {
             Scenarios.Scenarios.Instance.InitializeScenario(id);
+            Debug.Log("Selecting scenario " + id);
         }
     }
 }

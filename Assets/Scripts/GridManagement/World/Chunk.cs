@@ -111,10 +111,12 @@ public class Chunk : MonoBehaviour {
         cell = TileRegistry.Instantiate(id);
         cell.GetComponent<TileData>().SetRotation(rotation);
         cell.transform.parent = parent;
-        cell.name = $"tile_{pos.x}_{pos.z}";
         cell.transform.position = new Vector3(World.Instance.GetChunkManager().GetGridTileSize() * pos.x, 0, World.Instance.GetChunkManager().GetGridTileSize() * pos.z) + transform.position;
         cell.transform.rotation = Quaternion.Euler(0,rotation.GetRotation(),0);
-        cell.transform.localScale *= World.Instance.GetChunkManager().GetWorldScale();//new Vector3(5f, 5f, 5f);
+        cell.transform.localScale *= World.Instance.GetChunkManager().GetWorldScale();
+        
+        TilePos tilePos = TilePos.GetTilePosFromLocation(cell.transform.position);
+        cell.name = $"{cell.GetComponent<TileData>().GetName()}_tile_{tilePos.x}_{tilePos.z}";
         
         if (GetChunkCellContents(pos.x, pos.z) != null) { 
             DeleteChunkCell(pos.x, pos.z, true);

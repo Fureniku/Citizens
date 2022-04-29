@@ -9,8 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7769705725976704154}
+  - component: {fileID: 8115005788070988191}
   m_Layer: 0
-  m_Name: EggHunter
+  m_Name: CoopFreeSearch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,6 +32,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8115005788070988191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7769705725976704155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8df1dd2325347b594e00fabb0cf8a2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startPoint: {fileID: 0}
+  depositPoint: {fileID: 0}
+  prepareTime: 300
+  totalSpawnedEggs: 0
+  foundEggs: 0
+  maxEggsPerLocation: 3
+  eggLocationChancePercent: 10
+  eggHunterAgentManager: {fileID: 7769705726579518716}
+  spawnRange: 10
+  agentCount: 20
+  eggLocations: []
 --- !u!1 &7769705726579518718
 GameObject:
   m_ObjectHideFlags: 0

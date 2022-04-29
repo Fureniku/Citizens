@@ -1,4 +1,5 @@
 ﻿using System;
+using Scenarios.EasterEggHunt.Cooperative;
 using Scenarios.EasterEggHunt.Cooperative.Agents;
 using UnityEngine;
 
@@ -11,6 +12,10 @@ namespace Scenarios.EasterEggHunt.AgentStates {
         }
         
         public override Type StateUpdate() {
+
+            if (((EggHunterCoopBase) agent.GetScenarioManager()).RemainingDestinations() <= 0) {
+                return typeof(ReturnToBaseState);
+            }
             if (agent.EggCount() > 0) {
                 return typeof(ReturnEggsToBaseState);
             }
@@ -22,6 +27,11 @@ namespace Scenarios.EasterEggHunt.AgentStates {
                     return typeof(SearchLocationPairState);
                 }
                 return typeof(SearchLocationState);
+            }
+
+            if (!agent.GetAgent().pathPending && !agent.GetAgent().hasPath) {
+                Debug.LogError("[" +  agent.GetFullName() + "]: Help! I'm stuck! Recalculating path...");
+                agent.SetAgentDestination(agent.GetCurrentDestination());
             }
             return null;
         }

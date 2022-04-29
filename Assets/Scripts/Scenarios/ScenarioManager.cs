@@ -7,11 +7,13 @@ namespace Scenarios {
 
         [SerializeField] protected GameObject startPoint;
         [SerializeField] protected GameObject depositPoint;
+        
+        [SerializeField] protected float spawnRange;
+        [SerializeField] protected int agentCount;
 
         public int prepareTime = 300; //in ticks/60 per second
         
         void Awake() {
-            Debug.Log("Scenario manager awake");
             Scenarios.Instance.AddToList(this);
             if (startPoint == null) {
                 startPoint = Scenarios.Instance.GetStartPosition();
@@ -27,6 +29,10 @@ namespace Scenarios {
 
         private void OnDestroy() {
             CleanUp();
+        }
+        
+        public void SetAgentCount(int i) {
+            agentCount = i;
         }
         
         public GameObject GetStartPoint() {

@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
+using Scenarios.EasterEggHunt.AgentStates;
 using UnityEngine;
 
 namespace Scenarios.EasterEggHunt.Cooperative {
-    public class EggHunterCooperativeScenarioManager : EggHunterScenarioManager {
-
-        public List<GameObject> searchDestinations = new List<GameObject>(); //Shared between all agents instead of individual list
+    public class EggHunterCoopFreeScenMan : EggHunterCoopBase {
 
         public override string GetScenarioName() {
-            return "Egg Hunter (Cooperative)";
+            return "Egg Hunter Free Search";
         }
-        
+
         public override void PrepareScenario() {
             Registry registry = DestinationRegistration.shopRegistryPedestrian;
             for (int i = 0; i < registry.GetListSize(); i++) {
@@ -20,7 +19,7 @@ namespace Scenarios.EasterEggHunt.Cooperative {
                 searchDestinations.Add(World.Instance.GetChunkManager().GetTile(registry.GetFromList(i)).gameObject);
             }
 
-            StartCoroutine(eggHunterAgentManager.GenerateAgents(startPoint.transform.position, spawnRange, agentCount, false, this));
+            StartCoroutine(eggHunterAgentManager.GenerateAgentsCoopFreeSearch(startPoint.transform.position, spawnRange, agentCount, this));
         }
 
         public override void BeginScenario() {
@@ -35,16 +34,22 @@ namespace Scenarios.EasterEggHunt.Cooperative {
         }
 
         public override void CompleteScenario() {
-            throw new System.NotImplementedException();
+            Debug.Log("Scenario completed!");
+            List<GameObject> agents = eggHunterAgentManager.GetAllAgents();
+            for (int i = 0; i < agents.Count; i++) {
+                agents[i].GetComponent<EggHunterAgent>().GetStateMachine().ForceState(typeof(ReturnToBaseState));
+            }
         }
 
-        public void ClaimNextDestination(EggHunterAgent agent) {
-            agent.SetAgentDestination(searchDestinations[0]);
-            searchDestinations.RemoveAt(0);
-        }
-
-        public int RemainingDestinations() {
-            return searchDestinations.Count;
+        public override void CleanUp() {
+            for (int i = 0; i < eggLocations.Count; i++) {
+                if (eggLocations[i] != null) {
+                    EggHolder eggHolder = eggLocations[i].GetComponent<EggHolder>();
+                    if (eggHolder != null) {
+                        Destroy(eggHolder);
+                    }
+                }
+            }
         }
     }
 }

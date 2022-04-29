@@ -19,11 +19,13 @@ namespace Scenarios {
         [SerializeField] private GameObject startPosition = null;
         [SerializeField] private GameObject depositPoint = null;
         [SerializeField] private InputField inputField;
+        [SerializeField] private Text scenarioTitle;
         [SerializeField] private Text message;
 
         private GameObject scenario = null;
         private bool preparing = false;
         private int prepareTime = 0;
+        private bool began = false;
 
         private void Awake() {
             Debug.Log("Scenarios awake");
@@ -60,40 +62,45 @@ namespace Scenarios {
             if (scenario != null && preparing) {
                 prepareTime++;
 
-                int remainTime = scenario.GetComponent<ScenarioManager>().prepareTime - prepareTime;
+                ScenarioManager scenarioManager = scenario.GetComponent<ScenarioManager>();
+
+                int remainTime = scenarioManager.prepareTime - prepareTime;
                 if (remainTime <= 0) {
                     preparing = false;
                     prepareTime = 0;
+                    began = false;
                     scenarioStartingCanvas.SetActive(false);
+                    Cursor.lockState = CursorLockMode.Locked;
                 } else if (remainTime <= 60) {
-                    message.text = "Start!";
-                    BeginScenario(scenario.GetComponent<ScenarioManager>());
+                    message.text = scenarioManager.GetScenarioName() + " \nStart!";
+                    if (!began) {
+                        BeginScenario(scenarioManager);
+                        began = true;
+                    }
                 } else if (remainTime <= 120) {
-                    message.text = "1...";
+                    message.text = scenarioManager.GetScenarioName() + " \n1...";
                 } else if (remainTime <= 180) {
-                    message.text = "2...";
+                    message.text = scenarioManager.GetScenarioName() + " \n2...";
                 } else if (remainTime <= 240) {
-                    message.text = "3...";
+                    message.text = scenarioManager.GetScenarioName() + " \n3...";
                 } else {
-                    message.text = "Preparing...";
+                    message.text = scenarioManager.GetScenarioName() + " \nPreparing...";
                 }
             }
         }
 
         public void InitializeScenario(int id) {
-            scenario = Instantiate(scenarios[0].gameObject, startPosition.transform, true);
+            scenario = Instantiate(scenarios[id].gameObject, startPosition.transform, true);
             scenario.GetComponent<ScenarioManager>().SetStartPoint(startPosition);
             scenario.GetComponent<ScenarioManager>().SetDepositPoint(depositPoint);
             scenarioCanvas.SetActive(false);
+            scenarioTitle.text = scenario.GetComponent<ScenarioManager>().GetScenarioName();
             scenarioConfigCanvas.SetActive(true);
         }
 
         public void PrepareScenario() {
             ScenarioManager sm = scenario.GetComponent<ScenarioManager>();
-            if (sm is EggHunterScenarioManager) {
-                EggHunterScenarioManager scenarioManager = (EggHunterScenarioManager) sm;
-                scenarioManager.SetAgentCount(Int32.Parse(inputField.text));
-            }
+            sm.SetAgentCount(Int32.Parse(inputField.text));
             PrepareScenario(sm);
             preparing = true;
             scenarioConfigCanvas.SetActive(false);

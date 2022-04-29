@@ -24,13 +24,14 @@ namespace Scenarios.EasterEggHunt.Cooperative.Agents {
         }
 
         public override void Begin() {
-            ((EggHunterCooperativeScenarioManager) scenarioManager).ClaimNextDestination(this);
+            ((EggHunterCoopBase) scenarioManager).ClaimNextDestination(this);
             begin = true;
         }
 
         public override void FinishedSearch() {
-            if (((EggHunterCooperativeScenarioManager) scenarioManager).RemainingDestinations() > 0) {
-                ((EggHunterCooperativeScenarioManager) scenarioManager).ClaimNextDestination(this);
+            CheckForEggs();
+            if (((EggHunterCoopBase) scenarioManager).RemainingDestinations() > 0) {
+                ((EggHunterCoopBase) scenarioManager).ClaimNextDestination(this);
             } else {
                 SetAgentDestination(null);
             }

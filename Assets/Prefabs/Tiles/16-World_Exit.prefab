@@ -1616,7 +1616,7 @@ MonoBehaviour:
   spawnerNode: {fileID: 0}
   startNode: {fileID: 0}
   destinationNode: {fileID: 1696488383367530564}
-  locationType: 1
+  locationType: 3
 --- !u!114 &4168493191442063563
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -17,7 +17,7 @@ namespace Scenarios.EasterEggHunt.Competitive {
                 }
             }
 
-            StartCoroutine(eggHunterAgentManager.GenerateAgents(startPoint.transform.position, spawnRange, agentCount, true, this));
+            StartCoroutine(eggHunterAgentManager.GenerateAgentsCompFreeSearch(startPoint.transform.position, spawnRange, agentCount, this));
         }
 
         public override void BeginScenario() {

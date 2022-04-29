@@ -96,4 +96,8 @@ public class PedestrianAgent : BaseAgent {
 
     public override string GetAgentTypeName() { return ""; }
     public override string GetAgentTagMessage() { return ""; }
+
+    public string GetFullName() {
+        return GetComponent<AgentData>().GetFullName();
+    }
 }

@@ -122,12 +122,16 @@ namespace Scenarios.EasterEggHunt {
         }
 
         public void CheckForEggs() {
-            EggHolder eggHolder = dests[0].GetComponent<EggHolder>();
+            EggHolder eggHolder = currentDestGO.GetComponent<EggHolder>();
             if (eggHolder != null) {
                 int eggCount = eggHolder.GetEggCount();
                 int takeEggs = Mathf.Max(maxHeldEggs - eggCount, eggCount);
-                dests[0].GetComponent<EggHolder>().TakeEggs(this, takeEggs);
+                currentDestGO.GetComponent<EggHolder>().TakeEggs(this, takeEggs);
+                AddEggs(takeEggs);
+                Debug.Log("Took " + takeEggs + " eggs!");
+                return;
             }
+            Debug.Log("No eggs, moving on.");
         }
 
         public abstract void Begin();

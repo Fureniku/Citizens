@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Scenarios.EasterEggHunt.Cooperative.Agents {
     
-    public class EggHunterCooperativeFreeSearch : EggHunterAgent {
+    public class EggHunterCoopFreeSearchOptimized : EggHunterAgent {
         
         protected override void InitStateMachine() {
             stateMachine = GetComponent<AgentStateMachine>();
@@ -31,9 +31,9 @@ namespace Scenarios.EasterEggHunt.Cooperative.Agents {
             CheckForEggs();
             Debug.Log("Agent " + hunterId + " finished search and needs new destination");
             if (((EggHunterCoopBase) scenarioManager).RemainingDestinations() > 0) {
-                ((EggHunterCoopBase) scenarioManager).ClaimNextDestination(this);
+                ((EggHunterCoopBase) scenarioManager).ClaimClosestAvailableDestination(this);
             } else {
-                SetAgentDestination(null);
+                stateMachine.ForceState(typeof(ReturnToBaseState));
             }
         }
         

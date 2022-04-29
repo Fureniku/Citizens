@@ -48,7 +48,7 @@ namespace Scenarios.EasterEggHunt.Cooperative.Agents {
         }
 
         public override void FinishedSearch() {
-            throw new NotImplementedException();
+            CheckForEggs();
         }
         
         public override string GetAgentTypeName() {
