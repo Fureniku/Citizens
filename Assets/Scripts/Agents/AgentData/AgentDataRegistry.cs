@@ -100,7 +100,6 @@ public static class AgentDataRegistry {
     //First names female: Top ~150 from https://www.verywellfamily.com/top-1000-baby-girl-names-2757832 plus friends
     //First names neutral: https://www.whattoexpect.com/baby-names/unisex-baby-names/ 
     //First names gender-non-conforming: People I know/facebook groups
-    //Last names: 
     private static void InitializeFirstNames() {
         #region MALE_NAMES
         firstNamesMale.Add("Aaron");
@@ -113,7 +112,6 @@ public static class AgentDataRegistry {
         firstNamesMale.Add("Andrew");
         firstNamesMale.Add("Angel");
         firstNamesMale.Add("Anthony");
-        firstNamesMale.Add("Asher");
         firstNamesMale.Add("Ashton");
         firstNamesMale.Add("Austin");
         firstNamesMale.Add("Axel");
@@ -186,13 +184,11 @@ public static class AgentDataRegistry {
         firstNamesMale.Add("Josiah");
         firstNamesMale.Add("Juan");
         firstNamesMale.Add("Julian");
-        firstNamesMale.Add("Kai");
         firstNamesMale.Add("Kingston");
         firstNamesMale.Add("Landon");
         firstNamesMale.Add("Legend");
         firstNamesMale.Add("Leo");
         firstNamesMale.Add("Leonardo");
-        firstNamesMale.Add("Levi");
         firstNamesMale.Add("Liam");
         firstNamesMale.Add("Lincoln");
         firstNamesMale.Add("Logan");
@@ -261,7 +257,6 @@ public static class AgentDataRegistry {
         firstNamesFemale.Add("Aurora");
         firstNamesFemale.Add("Autumn");
         firstNamesFemale.Add("Ava");
-        firstNamesFemale.Add("Avery");
         firstNamesFemale.Add("Ayla");
         firstNamesFemale.Add("Bella");
         firstNamesFemale.Add("Brianna");
@@ -337,16 +332,13 @@ public static class AgentDataRegistry {
         firstNamesFemale.Add("Natalia");
         firstNamesFemale.Add("Natalie");
         firstNamesFemale.Add("Nora");
-        firstNamesFemale.Add("Nova");
         firstNamesFemale.Add("Olivia");
         firstNamesFemale.Add("Paisley");
         firstNamesFemale.Add("Parker");
         firstNamesFemale.Add("Penelope");
         firstNamesFemale.Add("Piper");
-        firstNamesFemale.Add("Quinn");
         firstNamesFemale.Add("Reagan");
         firstNamesFemale.Add("Reese");
-        firstNamesFemale.Add("Remi");
         firstNamesFemale.Add("Ruya");
         firstNamesFemale.Add("Riley");
         firstNamesFemale.Add("Rose");
@@ -372,12 +364,58 @@ public static class AgentDataRegistry {
         firstNamesFemale.Add("Zoe");
         #endregion
         #region NEUTRAL_NAMES
+        firstNamesNeutral.Add("Aeryn");
         firstNamesNeutral.Add("Alex");
+        firstNamesNeutral.Add("Avery");
         firstNamesNeutral.Add("Charlie");
         firstNamesNeutral.Add("Jayden");
         firstNamesNeutral.Add("Jordan");
         firstNamesNeutral.Add("Ren");
         firstNamesNeutral.Add("Taylor");
+        firstNamesNeutral.Add("Asher");
+        firstNamesNeutral.Add("Aris");
+        firstNamesNeutral.Add("Scout");
+        firstNamesNeutral.Add("Killian");
+        firstNamesNeutral.Add("Quinn");
+        firstNamesNeutral.Add("Lex");
+        firstNamesNeutral.Add("Levi");
+        firstNamesNeutral.Add("Lux");
+        firstNamesNeutral.Add("Kove");
+        firstNamesNeutral.Add("Finn");
+        firstNamesNeutral.Add("Wren");
+        firstNamesNeutral.Add("Kione");
+        firstNamesNeutral.Add("Kade");
+        firstNamesNeutral.Add("Remi");
+        firstNamesNeutral.Add("Len");
+        firstNamesNeutral.Add("Keid");
+        firstNamesNeutral.Add("Pleione");
+        firstNamesNeutral.Add("Alder");
+        firstNamesNeutral.Add("Kit");
+        firstNamesNeutral.Add("Cerise");
+        firstNamesNeutral.Add("Antares");
+        firstNamesNeutral.Add("Probli");
+        firstNamesNeutral.Add("Cassowary");
+        firstNamesNeutral.Add("Kai");
+        firstNamesNeutral.Add("Echo");
+        firstNamesNeutral.Add("Onyx");
+        firstNamesNeutral.Add("Nova");
+        firstNamesNeutral.Add("Link");
+        firstNamesNeutral.Add("Kat");
+        firstNamesNeutral.Add("Ryn");
+        firstNamesNeutral.Add("Hayl");
+        firstNamesNeutral.Add("Toma");
+        firstNamesNeutral.Add("Lylle");
+        firstNamesNeutral.Add("Zaidi");
+        firstNamesNeutral.Add("Phoenix");
+        firstNamesNeutral.Add("Andromeda");
+        firstNamesNeutral.Add("Fennec");
+        firstNamesNeutral.Add("Ronan");
+        firstNamesNeutral.Add("Leto");
+        firstNamesNeutral.Add("Shay");
+        firstNamesNeutral.Add("Arden");
+        firstNamesNeutral.Add("Jinx");
+        firstNamesNeutral.Add("Rogue");
+        firstNamesNeutral.Add("Orion");
         #endregion
         
         for (int i = 0; i < firstNamesMale.Count; i++) { firstNamesAll.Add(firstNamesMale[i]); }
@@ -392,6 +430,45 @@ public static class AgentDataRegistry {
         #region GNC_NAMES
         //Traditional non-binary names aren't added to neutral list and won't be applied to cisgender character
         firstNamesAll.Add("Socks");
+        firstNamesAll.Add("River");
+        firstNamesAll.Add("Terran");
+        firstNamesAll.Add("Wildon");
+        firstNamesAll.Add("Faux");
+        firstNamesAll.Add("Vale");
+        firstNamesAll.Add("Muse");
+        firstNamesAll.Add("Grey");
+        firstNamesAll.Add("Gryph");
+        firstNamesAll.Add("Legion");
+        firstNamesAll.Add("Hedgehog");
+        firstNamesAll.Add("Moth");
+        firstNamesAll.Add("Mouse");
+        firstNamesAll.Add("Urano");
+        firstNamesAll.Add("Fern");
+        firstNamesAll.Add("Human");
+        firstNamesAll.Add("Kolya");
+        firstNamesAll.Add("Sky");
+        firstNamesAll.Add("Petrichor");
+        firstNamesAll.Add("Zephyr");
+        firstNamesAll.Add("Pigeon");
+        firstNamesAll.Add("Frost");
+        firstNamesAll.Add("Caution"); //from my research post, "Caution, this person is clearly fae". Thats a name now. Thanks person.
+        firstNamesAll.Add("Bluejay");
+        firstNamesAll.Add("Corvus");
+        firstNamesAll.Add("Brick");
+        firstNamesAll.Add("Toast");
+        firstNamesAll.Add("Stick");
+        firstNamesAll.Add("Leaf");
+        firstNamesAll.Add("Pebble");
+        firstNamesAll.Add("Ghost");
+        firstNamesAll.Add("Lua");
+        firstNamesAll.Add("Sope");
+        firstNamesAll.Add("Star");
+        firstNamesAll.Add("Rain");
+        firstNamesAll.Add("Bug");
+        firstNamesAll.Add("Neelix");
+        firstNamesAll.Add("Moon");
+        firstNamesAll.Add("Blue");
+        firstNamesAll.Add("Stone");
         #endregion
     }
 
