@@ -47,7 +47,7 @@ public class ApproachJunctionState : VehicleBaseState {
 
         agent.SetSpeed(deltaSpeed * distanceModifier);
 
-        if (dist < stopDistance) {
+        if (dist < stopDistance+1.0f) {
             agent.SetSpeed(5.0f);
             return typeof(JunctionExitWaitState);
         }

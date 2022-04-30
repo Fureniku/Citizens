@@ -12,7 +12,7 @@ public class PedestrianAgent : BaseAgent {
 
     public override void Init() {
         GenerateDestination();
-
+        CalculateAllPaths();
         initialized = true;
     }
 
@@ -80,7 +80,7 @@ public class PedestrianAgent : BaseAgent {
                 shouldStop = node.GiveWay();
             }
         } else {
-            ReachedDestination(currentDestGO);
+            ReachedDestinationController();
         }
     }
 

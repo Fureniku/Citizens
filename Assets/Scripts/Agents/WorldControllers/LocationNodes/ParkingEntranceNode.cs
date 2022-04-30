@@ -10,8 +10,14 @@ public class ParkingEntranceNode : LocationNode {
 
     public override void ProcessNodeLogic(BaseAgent agent) {
         if (parkingController != null) {
-            agent.SetAgentDestination(parkingController.GetFirstAvailableSpace().gameObject);
+            //agent.SetAgentDestination(parkingController.GetFirstAvailableSpace().gameObject);
             agent.GetStateMachine().ForceState(typeof(ParkingState));
+        }
+    }
+    
+    public override void PrepareNodeLogic(BaseAgent agent) {
+        if (parkingController != null) {
+            agent.AddNewDestination(parkingController.GetFirstAvailableSpace().gameObject);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Scenarios.EasterEggHunt.AgentStates {
                     agent.GetAgent().isStopped = true;
                 } else {
                     agent.GetAgent().isStopped = false;
-                    agent.SetAgentDestination(agent.GetFollowTarget());
+                    agent.ForceAgentDestination(agent.GetFollowTarget());
                 }
 
                 if (agent.EggCount() > 0 && !((EggHunterEggRunnerFollow) agent).WaitingForEggs()) {

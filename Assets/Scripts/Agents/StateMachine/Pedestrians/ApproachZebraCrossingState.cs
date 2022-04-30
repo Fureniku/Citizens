@@ -30,7 +30,7 @@ public class ApproachZebraCrossingState : PedestrianBaseState {
             CrossingController crossingController = td.GetComponent<CrossingController>();
 
             crossingPoint = crossingController.GetClosestCrossing(agent.transform.position);
-            agent.SetAgentDestination(crossingPoint);
+            //agent.SetAgentDestination(crossingPoint);
         }
         else {
             return typeof(WalkState);
@@ -42,7 +42,7 @@ public class ApproachZebraCrossingState : PedestrianBaseState {
     public override Type StateExit() {
         crossingPoint = null;
         agent.GetAgent().isStopped = true;
-        agent.SetAgentDestination(agent.GetCurrentDestination());
+        agent.IncrementDestination();
         return null;
     }
 }

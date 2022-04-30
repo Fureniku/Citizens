@@ -15,7 +15,7 @@ namespace Scenarios.EasterEggHunt.Cooperative {
             if (eggLocations.Contains(searchDestinations[0])) {
                 Debug.LogWarning("It's an egg location!!!");
             }
-            agent.SetAgentDestination(searchDestinations[0]);
+            agent.ForceAgentDestination(searchDestinations[0]);
             searchDestinations.RemoveAt(0);
             searchedLocations++;
         }
@@ -37,7 +37,7 @@ namespace Scenarios.EasterEggHunt.Cooperative {
                 Debug.LogWarning("It's an egg location!!!");
             }
 
-            agent.SetAgentDestination(candidate);
+            agent.ForceAgentDestination(candidate);
             searchDestinations.Remove(candidate);
             searchedLocations++;
         }

@@ -41,8 +41,7 @@ public class WaitForJunctionState : VehicleBaseState {
                 return typeof(ApproachJunctionState);
             }
         }
-        
-        
+
         return null;
     }
 
@@ -55,7 +54,7 @@ public class WaitForJunctionState : VehicleBaseState {
 
     public override Type StateExit() {
         agent.GetAgent().isStopped = false;
-        agent.GetAgent().SetDestination(agent.GetCurrentDestinationObject().transform.position);
+        agent.GetAgent().SetDestination(agent.GetCurrentDestination().transform.position);
         return null;
     }
 

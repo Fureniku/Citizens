@@ -681,15 +681,23 @@ MonoBehaviour:
   currentDest: 0
   currentDestGO: {fileID: 0}
   totalDestinations: 0
+  initialFinalDestinationId: 0
   shouldStop: 0
-  finalPathedDestination: {fileID: 0}
+  destinationController: {fileID: 0}
   dests: []
+  approachingDestinationController: 0
+  reachedDestinationController: 0
   roadSide: 0
   currentState: 
   lastSeenObject: {fileID: 0}
   objectDistance: 50
   seenDecay: 0
   drawGizmos: 1
+  pathPending: 0
+  hasPath: 0
+  pathStatus: 0
+  nextPosition: {x: 0, y: 0, z: 0}
+  pathEndPosition: {x: 0, y: 0, z: 0}
   vehicleType: 0
   vehicleColour: 1
   vehicleRegistry: {fileID: 8886422584635529015, guid: b1c55c16a896eac4aaf487b4b08bb3b6,

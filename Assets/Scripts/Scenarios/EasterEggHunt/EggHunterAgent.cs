@@ -27,13 +27,6 @@ namespace Scenarios.EasterEggHunt {
         [SerializeField] protected GameObject previousDestination = null;
         [SerializeField] protected int timeSinceDestination = 0;
 
-        [Header("ScenarioDebug")]
-        [SerializeField] private bool pathPending = false;
-        [SerializeField] private bool hasPath = false;
-        [SerializeField] private NavMeshPathStatus pathStatus;
-        [SerializeField] private Vector3 nextPosition;
-        [SerializeField] private Vector3 pathEndPosition;
-
         public override void Init() {
             initialized = true;
         }
@@ -48,12 +41,6 @@ namespace Scenarios.EasterEggHunt {
             if (previousDestination != null) {
                 timeSinceDestination++;
             }
-            
-            pathPending = agent.pathPending;
-            pathStatus = agent.pathStatus;
-            hasPath = agent.hasPath;
-            nextPosition = agent.nextPosition;
-            pathEndPosition = agent.pathEndPosition;
         }
 
         public void SetHunterID(int id) => hunterId = id;

@@ -31,7 +31,7 @@ namespace Scenarios.EasterEggHunt.AgentStates {
 
             if (!agent.GetAgent().pathPending && !agent.GetAgent().hasPath) {
                 Debug.LogError("[" +  agent.GetFullName() + "]: Help! I'm stuck! Recalculating path...");
-                agent.SetAgentDestination(agent.GetCurrentDestination());
+                agent.ForceAgentDestination(agent.GetCurrentDestination());
             }
             return null;
         }

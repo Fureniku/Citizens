@@ -16,7 +16,7 @@ public class ParkingState : VehicleBaseState {
         if (dist < 5) {
             ParkingSpaceNode node = agent.GetCurrentDestination().GetComponent<ParkingSpaceNode>();
             if (node != null && node.IsOccupied()) {
-                agent.SetAgentDestination(parkingController.GetFirstAvailableSpace().gameObject);
+                agent.ForceAgentDestination(parkingController.GetFirstAvailableSpace().gameObject);
             }
         }
         

@@ -1,30 +1,23 @@
 ﻿using System;
 using UnityEngine;
 
-public class AccelerateState : VehicleBaseState {
+public class AccelerateState : DriveState {
     
-    private static float approachDistance = 10;
     private float acceleration = 0.2f;
 
-    public AccelerateState(VehicleAgent agent) {
+    public AccelerateState(VehicleAgent agent) : base(agent) {
         this.stateName = "Accelerate State";
         this.agent = agent;
     }
 
     public override Type StateUpdate() {
-        Type waitingVehicle = CheckWaitingVehicle();
-        Type obstruction = CheckObstructionVehicle();
-
-        if (waitingVehicle != null) return waitingVehicle;
-        if (obstruction != null) return obstruction;
-
         agent.SetSpeed(agent.GetAgent().speed + acceleration);
 
         if (agent.GetAgent().speed >= agent.GetMaxSpeed()) {
             return typeof(DriveState);
         }
 
-        return null;
+        return Drive();
     }
 
     public override Type StateEnter() {
@@ -33,9 +26,5 @@ public class AccelerateState : VehicleBaseState {
 
     public override Type StateExit() {
         return null;
-    }
-
-    public static float GetApproachDist() {
-        return approachDistance;
     }
 }

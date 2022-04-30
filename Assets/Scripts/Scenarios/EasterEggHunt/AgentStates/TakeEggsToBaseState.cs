@@ -31,7 +31,7 @@ namespace Scenarios.EasterEggHunt.AgentStates {
         }
 
         public override Type StateExit() {
-            agent.SetAgentDestination(agent.GetFollowTarget());
+            agent.ForceAgentDestination(agent.GetFollowTarget());
             ((EggHunterEggRunnerFollow) agent).SetWaitingForEggs();
             return null;
         }

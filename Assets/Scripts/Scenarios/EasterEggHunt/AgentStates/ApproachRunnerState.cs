@@ -26,7 +26,7 @@ namespace Scenarios.EasterEggHunt.AgentStates {
                     return typeof(MoveToLocationState);
                 }
             } else {
-                agent.SetAgentDestination(runner.gameObject);
+                agent.ForceAgentDestination(runner.gameObject);
             }
 
             return null;

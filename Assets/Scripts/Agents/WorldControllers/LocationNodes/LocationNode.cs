@@ -10,6 +10,7 @@ public abstract class LocationNode : MonoBehaviour {
     }
 
     public abstract void ProcessNodeLogic(BaseAgent agent);
+    public abstract void PrepareNodeLogic(BaseAgent agent);
     
     private void OnDrawGizmos() {
         Gizmos.color = gizmoCol;

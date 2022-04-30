@@ -18,7 +18,7 @@ namespace Scenarios.EasterEggHunt.AgentStates {
         }
         
         public override Type StateEnter() {
-            agent.SetAgentDestination(agent.GetScenarioManager().GetDepositPoint());
+            agent.ForceAgentDestination(agent.GetScenarioManager().GetDepositPoint());
             return null;
         }
 

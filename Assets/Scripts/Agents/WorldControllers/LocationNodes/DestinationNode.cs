@@ -11,12 +11,18 @@ public class DestinationNode : LocationNode {
                 Destroy(agent.gameObject);
                 break;
             case DestinationAction.MOVE_TO_DESTROY:
-                agent.SetAgentDestination(despawnerNode.gameObject);
+                agent.IncrementDestination();
                 agent.GetStateMachine().ForceState(typeof(DespawningState));
                 break;
             default:
                 Debug.LogWarning("Destination type " + destinationAction + " not implemented.");
                 break;
+        }
+    }
+    
+    public override void PrepareNodeLogic(BaseAgent agent) {
+        if (destinationAction == DestinationAction.MOVE_TO_DESTROY) {
+            agent.AddNewDestination(despawnerNode.gameObject);
         }
     }
 }

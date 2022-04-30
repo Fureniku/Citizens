@@ -52,7 +52,7 @@ public class WaitForVehicleState : VehicleBaseState {
     }
 
     public override Type StateExit() {
-        agent.GetAgent().SetDestination(agent.GetCurrentDestinationObject().transform.position);
+        agent.GetAgent().SetDestination(agent.GetCurrentDestination().transform.position);
         return null;
     }
 

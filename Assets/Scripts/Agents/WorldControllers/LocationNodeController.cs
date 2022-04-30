@@ -31,6 +31,10 @@ public class LocationNodeController : MonoBehaviour {
         destinationNode.ProcessNodeLogic(agent);
     }
 
+    public void ApproachDestination(BaseAgent agent) {
+        destinationNode.PrepareNodeLogic(agent);
+    }
+
     public TileData GetParentTile() {
         return parentTile;
     }
