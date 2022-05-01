@@ -6,6 +6,7 @@ public class JunctionExitWaitState : VehicleBaseState {
     private float lookOffset = 0f;
     private bool reverseDir = false;
     private int check = 0;
+    private int maxCheck = 2;
     private float agentDist = -1; //The distance to the agent saved from last frame
     
     public JunctionExitWaitState(VehicleAgent agent) {
@@ -15,7 +16,31 @@ public class JunctionExitWaitState : VehicleBaseState {
     }
 
     public override Type StateUpdate() {
-        ScanJunction();
+        VehicleJunctionNode prevNode = agent.GetPreviousDestination().GetComponent<VehicleJunctionNode>();
+        if (prevNode != null) {
+            VehicleJunctionController vjc = prevNode.GetController();
+        
+            if (vjc.TurningRight(prevNode, agent.GetCurrentDestination())) {
+                if (prevNode.GiveWay()) {
+                    maxCheck = 4;
+                    ScanJunctionBoth();
+                } else {
+                    maxCheck = 6;
+                    ScanJunctionRight();
+                }
+            } else {
+                if (prevNode.GiveWay()) {
+                    maxCheck = 8;
+                    if (check == maxCheck) {
+                        reverseDir = true;
+                        ScanJunctionLeft();
+                    } else {
+                        ScanJunctionRight();
+                    }
+                }
+            }
+        }
+
         if (agent.GetSeenObject().transform != null) {
             if (agent.SeenAgent(agent.GetSeenObject().transform.gameObject)) {
                 float dist = Vector3.Distance(agent.transform.position, agent.GetSeenObject().transform.position);
@@ -30,14 +55,25 @@ public class JunctionExitWaitState : VehicleBaseState {
             agentDist = -1;
         }
 
-        if (check > 2) {
-            agent.IncrementDestination();
-            return typeof(DriveState);
+        if (check > maxCheck) {
+            return typeof(TurningState);
         }
         return null;
     }
     
-    private void ScanJunction() {
+    private void ScanJunctionBoth() {
+        ScanJunction(-2.5f, 2.5f);
+    }
+    
+    private void ScanJunctionRight() {
+        ScanJunction(0, 2.5f);
+    }
+    
+    private void ScanJunctionLeft() {
+        ScanJunction(-2.5f, 0);
+    }
+
+    private void ScanJunction(float min, float max) {
         Vector3 dir = new Vector3(Vector3.forward.x + lookOffset, Vector3.forward.y, Vector3.forward.z);
         agent.SetLookDirection(dir, true);
         if (reverseDir) {
@@ -46,8 +82,9 @@ public class JunctionExitWaitState : VehicleBaseState {
             lookOffset += 0.1f;
         }
 
-        if ((lookOffset > 2.5f && !reverseDir) || (lookOffset < -2.5f && reverseDir)) {
+        if ((lookOffset > max && !reverseDir) || (lookOffset < min && reverseDir)) {
             reverseDir = !reverseDir;
+            lookOffset = 0;
             check++;
         }
     }

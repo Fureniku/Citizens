@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class DestinationRegistration {
+public static class LocationRegistration {
 
+    public static Registry allSpawnersRegistry = new Registry();
     public static Registry allDestinationsRegistry = new Registry();
     public static Registry RoadSpawnerRegistry = new Registry();
+    
+    //Vehicle spawner registries
+    public static Registry worldEntryVehicle = new Registry();
 
-    //Vehicle registries
+    //Vehicle destination registries
     public static Registry hospitalRegistry = new Registry();
     public static Registry worldExitVehicle = new Registry();
     
@@ -42,25 +46,31 @@ public static class DestinationRegistration {
             TileData tileData = lnc.GetParentTile();
             if (!tileData.IsRegistryVersion()) {
                 Debug.Log("Adding " + tileData.GetName() + " at " + tileData.GetTilePos() + " with type " + lnc.GetLocationType() + " to destination registry");
-                if (lnc.GetDestinationNode() != null) {
-                    allDestinationsRegistry.AddToList(lnc.GetTilePosition());
-                }
+
+                if (lnc.GetSpawnerNode() != null) allSpawnersRegistry.AddToList(lnc.GetTilePosition()); 
+                if (lnc.GetDestinationNode() != null) allDestinationsRegistry.AddToList(lnc.GetTilePosition());
+                
 
                 switch (lnc.GetLocationType()) {
                     case LocationType.HOSPITAL:
-                        hospitalRegistry.AddToList(lnc.GetTilePosition());
+                        if (lnc.GetSpawnerNode() != null) {}
+                        if (lnc.GetDestinationNode() != null) hospitalRegistry.AddToList(lnc.GetTilePosition());
                         break;
                     case LocationType.SHOP_PEDESTRIAN:
-                        shopRegistryPedestrian.AddToList(lnc.GetTilePosition());
+                        if (lnc.GetSpawnerNode() != null) {}
+                        if (lnc.GetDestinationNode() != null) shopRegistryPedestrian.AddToList(lnc.GetTilePosition());
                         break;
                     case LocationType.HOUSE_PEDESTRIAN:
-                        houseRegistryPedestrian.AddToList(lnc.GetTilePosition());
+                        if (lnc.GetSpawnerNode() != null) {}
+                        if (lnc.GetDestinationNode() != null) houseRegistryPedestrian.AddToList(lnc.GetTilePosition());
                         break;
                     case LocationType.WORLD_EXIT_VEHICLE:
-                        worldExitVehicle.AddToList(lnc.GetTilePosition());
+                        if (lnc.GetSpawnerNode() != null) worldEntryVehicle.AddToList(lnc.GetTilePosition());
+                        if (lnc.GetDestinationNode() != null) worldExitVehicle.AddToList(lnc.GetTilePosition());
                         break;
                     case LocationType.WORLD_EXIT_PEDESTRIAN:
-                        worldExitPedestrian.AddToList(lnc.GetTilePosition());
+                        if (lnc.GetSpawnerNode() != null) {}
+                        if (lnc.GetDestinationNode() != null) worldExitPedestrian.AddToList(lnc.GetTilePosition());
                         break;
                 }
             }

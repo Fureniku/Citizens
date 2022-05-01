@@ -10,7 +10,7 @@ namespace Scenarios.EasterEggHunt.Cooperative {
         }
 
         public override void PrepareScenario() {
-            Registry registry = DestinationRegistration.shopRegistryPedestrian;
+            Registry registry = LocationRegistration.shopRegistryPedestrian;
             for (int i = 0; i < registry.GetListSize(); i++) {
                 int rng = Random.Range(1, 101);
                 if (rng <= eggLocationChancePercent) {

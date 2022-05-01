@@ -425,7 +425,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeController: {fileID: 4044407435169539510}
-  gizmoCol: {r: 1, g: 0.8533139, b: 0, a: 0}
+  gizmoCol: {r: 1, g: 0.92293084, b: 0, a: 1}
   despawnerNode: {fileID: 3714750329044169597}
   destinationAction: 1
 --- !u!1 &977594216719020374
@@ -1153,6 +1153,52 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &2284472342071706961
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1084638119609597397}
+  - component: {fileID: 1705890568702910138}
+  m_Layer: 8
+  m_Name: SpawnerNode
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1084638119609597397
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2284472342071706961}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.6, y: 5.375, z: -61.59}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 671876715739887401}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1705890568702910138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2284472342071706961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d67bea923e1d4810b5e0f3899386e967, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeController: {fileID: 4044407435169539510}
+  gizmoCol: {r: 0, g: 1, b: 0.030314207, a: 1}
+  startPointNode: {fileID: 7316612953839986791}
 --- !u!1 &2295425898521886803
 GameObject:
   m_ObjectHideFlags: 0
@@ -1555,6 +1601,8 @@ Transform:
   - {fileID: 815274547911854221}
   - {fileID: 1132591106874385413}
   - {fileID: 7861698169402651981}
+  - {fileID: 1084638119609597397}
+  - {fileID: 1301608086394909759}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1613,7 +1661,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentTile: {fileID: 7074164369232490046}
-  spawnerNode: {fileID: 0}
+  spawnerNode: {fileID: 1705890568702910138}
   startNode: {fileID: 0}
   destinationNode: {fileID: 1696488383367530564}
   locationType: 3
@@ -3153,6 +3201,51 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.5, y: 0.2, z: 10}
   m_Center: {x: 1.5, y: -0.1, z: 0}
+--- !u!1 &5291529647979533200
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1301608086394909759}
+  - component: {fileID: 7316612953839986791}
+  m_Layer: 8
+  m_Name: StartPointNode
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1301608086394909759
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5291529647979533200}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.6, y: 0, z: -4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 671876715739887401}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7316612953839986791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5291529647979533200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61d9f48cd1c24363921833d569478f8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeController: {fileID: 4044407435169539510}
+  gizmoCol: {r: 0.019819975, g: 1, b: 0, a: 1}
 --- !u!1 &5562072044596529537
 GameObject:
   m_ObjectHideFlags: 0
@@ -3805,7 +3898,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeController: {fileID: 4044407435169539510}
-  gizmoCol: {r: 1, g: 0.76555127, b: 0, a: 0}
+  gizmoCol: {r: 1, g: 0.76555127, b: 0, a: 1}
 --- !u!1 &6385673025137635728
 GameObject:
   m_ObjectHideFlags: 0

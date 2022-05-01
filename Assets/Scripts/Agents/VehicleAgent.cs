@@ -35,7 +35,7 @@ public class VehicleAgent : BaseAgent {
 
     public override void Init() {
         vehicle = GetComponent<Vehicle>();
-        GameObject finalDest = World.Instance.GetChunkManager().GetTile(DestinationRegistration.hospitalRegistry.GetAtRandom()).gameObject;
+        GameObject finalDest = World.Instance.GetChunkManager().GetTile(LocationRegistration.hospitalRegistry.GetAtRandom()).gameObject;
         destinationController = finalDest.GetComponent<LocationNodeController>();
         
         if (destinationController == null) {
@@ -157,9 +157,19 @@ public class VehicleAgent : BaseAgent {
         }
     }
 
+    private bool reattempted = false;
+
     public void ValidatePath() {
         if (currentDest+1 >= dests.Count) {
-            agent.path = paths.Last();
+            if (reattempted) {
+                PrintError("was still stuck after a previous re-attempt. Hard forcing new path to final destination.");
+                agent.destination = dests.Last().transform.position;
+            } else {
+                PrintWarn("was stuck, and at the end of route. Re-attempting path to final destination.");
+                agent.path = paths.Last();
+                reattempted = true;
+            }
+            
             return;
         }
         Vector3 currentDestination = dests[currentDest].transform.position;
@@ -240,7 +250,6 @@ public class VehicleAgent : BaseAgent {
     protected override void AgentUpdate() {
         if (!isParked && IsStuck()) {
             if (stuckCooldown == 0) {
-                Debug.LogWarning(agent.name + ": help me step-agent i'm stuck");
                 ValidatePath();
                 stuckCooldown = 60;
             } else {
@@ -284,7 +293,7 @@ public class VehicleAgent : BaseAgent {
         if (!isParked) {
             if (other.CompareTag("Vehicle")) {
                 PrintWarn("Trigger enter into " + other.transform.gameObject.name);
-                stateMachine.SwitchToState(typeof(CrashedState));
+                //stateMachine.SwitchToState(typeof(CrashedState));
             }
         
             if (other.CompareTag("Pedestrian")) {

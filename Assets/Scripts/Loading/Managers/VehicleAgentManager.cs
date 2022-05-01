@@ -22,7 +22,7 @@ public class VehicleAgentManager : AgentManager {
 
     public override IEnumerator GenAgents() {
         Debug.Log("Starting vehicle generation");
-        Registry initialSpawnerRegistry = DestinationRegistration.RoadSpawnerRegistry;
+        Registry initialSpawnerRegistry = LocationRegistration.RoadSpawnerRegistry;
         
         int initialAgents = initialAgentCount;
         if (initialAgents > initialSpawnerRegistry.GetListSize()) {
@@ -48,5 +48,9 @@ public class VehicleAgentManager : AgentManager {
 
         spawnAgentsCreated = true;
         yield return null;
+    }
+
+    void Update() {
+        //LocationRegistration.worldEntryVehicle
     }
 }

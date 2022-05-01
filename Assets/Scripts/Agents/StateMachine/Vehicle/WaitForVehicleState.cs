@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using UnityEngine;
 
 public class WaitForVehicleState : VehicleBaseState {
@@ -21,8 +22,21 @@ public class WaitForVehicleState : VehicleBaseState {
             return typeof(DriveState);
         }
         
+        
         if (agent.GetLastSeenAgent() != null && agent.GetLastSeenAgent() is VehicleAgent) {
             VehicleAgent seenAgent = (VehicleAgent) agent.GetLastSeenAgent();
+
+            if (seenAgent.GetState() is WaitForVehicleState) {
+                if (seenAgent.GetLastSeenAgent() == agent) {
+                    Debug.LogError("Agents " + agent.name + " and " + seenAgent.name + " are having a showdown.");
+                    float agentDist = Vector3.Distance(agent.transform.position, agent.GetCurrentDestination().transform.position);
+                    float otherAgentDist = Vector3.Distance(seenAgent.transform.position, seenAgent.GetCurrentDestination().transform.position);
+
+                    if (agentDist < otherAgentDist) { //Both agents will call this code so only the closer one will move to drive state. Other will continue waiting.
+                        return typeof(DriveState);
+                    }
+                }
+            }
 
             if (seenAgent.GetState().IsWaitableState()) {
                 float dist = Vector3.Distance(agent.transform.position, agent.GetLastSeenObject().transform.position);
@@ -46,7 +60,10 @@ public class WaitForVehicleState : VehicleBaseState {
             }
         }
         
-        
+        float destDist = Vector3.Distance(agent.transform.position, agent.GetCurrentDestination().transform.position);
+        if (destDist < 1) {
+            agent.IncrementDestination();
+        }
         return null;
     }
 

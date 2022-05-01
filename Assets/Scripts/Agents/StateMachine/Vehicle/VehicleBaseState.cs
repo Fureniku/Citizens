@@ -11,7 +11,7 @@ public abstract class VehicleBaseState : AgentBaseState {
         if (agent.GetLastSeenAgent() != null && agent.GetLastSeenAgent() is VehicleAgent) {
             VehicleAgent seenAgent = (VehicleAgent) agent.GetLastSeenAgent();
 
-            if (seenAgent.GetState().IsWaitableState() && seenAgent.GetRoadSide() == agent.GetRoadSide()) {
+            if (seenAgent.GetState().IsWaitableState() && !agent.IsOppositeRoadSide(seenAgent.GetRoadSide())) {
                 return typeof(WaitForVehicleState);
             }
         }
@@ -23,7 +23,7 @@ public abstract class VehicleBaseState : AgentBaseState {
         if (agent.GetLastSeenObject() != null) {
             agent.SetLookDirection();
             if (agent.GetSeenObject().distance < 10 && agent.GetSeenObject().distance > 0) {
-                if (agent.GetLastSeenAgent().GetRoadSide() == agent.GetRoadSide()) {
+                if (!agent.IsOppositeRoadSide(agent.GetLastSeenAgent().GetRoadSide())) {
                     return typeof(ObstructionSpottedState);
                 }
             }

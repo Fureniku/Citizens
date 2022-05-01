@@ -159,7 +159,9 @@ public abstract class BaseAgent : MonoBehaviour {
         if (Physics.Raycast(eyePos.transform.position, lookDirection, out hit, visualRange)) {
             if (SeenAgent(hit.transform.gameObject)) {
                 objectDistance = hit.distance;
-                lastSeenObject = hit.transform.gameObject;
+                if (hit.transform.gameObject != gameObject) { //Don't look at self.
+                    lastSeenObject = hit.transform.gameObject;
+                }
             }
             Debug.DrawLine(eyePos.transform.position, hit.transform.position, Color.blue);
             seenDecay = 0;
@@ -174,7 +176,6 @@ public abstract class BaseAgent : MonoBehaviour {
                 objectDistance = visualRange;
             }
         }
-        //Debug.DrawLine(eyePos.transform.position, eyePos.transform.position + (eyePos.transform.rotation.eulerAngles * visualRange), Color.yellow);
         Debug.DrawRay(eyePos.transform.position, lookDirection*5, Color.magenta, 0);
 
     }
@@ -244,8 +245,6 @@ public abstract class BaseAgent : MonoBehaviour {
             } else {
                 Debug.Log("Path was null");
             }
-        } else {
-            Debug.Log("Destination was not in known list");
         }
     }
 
@@ -255,14 +254,8 @@ public abstract class BaseAgent : MonoBehaviour {
         agent.destination = dest.transform.position;
     }
 
-    public GameObject GetNextDestination() {
-        if (currentDest < dests.Count - 1) {
-            return dests[currentDest + 1];
-        }
-
-        return null;
-    }
-    
+    public GameObject GetNextDestination() { return currentDest < dests.Count - 1 ? dests[currentDest + 1] : null; }
+    public GameObject GetPreviousDestination() { return currentDest > 0 ? dests[currentDest -1] : null; }
     public GameObject GetCurrentDestination() { return currentDestGO; }
     public LocationNodeController GetDestinationController() { return destinationController; }
     
@@ -295,6 +288,10 @@ public abstract class BaseAgent : MonoBehaviour {
 
     public EnumDirection GetRoadSide() {
         return roadSide;
+    }
+
+    public bool IsOppositeRoadSide(EnumDirection otherAgent) {
+        return otherAgent.Opposite() == roadSide;
     }
     
     public TileData GetCurrentTile() {

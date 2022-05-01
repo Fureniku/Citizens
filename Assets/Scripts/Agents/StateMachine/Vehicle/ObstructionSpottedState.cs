@@ -48,6 +48,11 @@ public class ObstructionSpottedState : AgentBaseState {
             return typeof(DriveState);
         }
         
+        float destDist = Vector3.Distance(agent.transform.position, agent.GetCurrentDestination().transform.position);
+        if (destDist < 1) {
+            agent.IncrementDestination();
+        }
+        
         return null;
     }
 

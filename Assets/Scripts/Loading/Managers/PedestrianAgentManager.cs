@@ -22,7 +22,7 @@ public class PedestrianAgentManager : AgentManager {
 
     public override IEnumerator GenAgents() {
         Debug.Log("Starting pedestrian generation");
-        Registry initialSpawnerRegistry = DestinationRegistration.RoadSpawnerRegistry;
+        Registry initialSpawnerRegistry = LocationRegistration.RoadSpawnerRegistry;
         
         int initialAgents = initialAgentCount;
         if (initialAgents > initialSpawnerRegistry.GetListSize()) {

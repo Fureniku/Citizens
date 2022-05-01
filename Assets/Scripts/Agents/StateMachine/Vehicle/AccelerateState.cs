@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class AccelerateState : DriveState {
     
-    private float acceleration = 0.2f;
+    private float acceleration = 0.1f;
 
     public AccelerateState(VehicleAgent agent) : base(agent) {
         this.stateName = "Accelerate State";

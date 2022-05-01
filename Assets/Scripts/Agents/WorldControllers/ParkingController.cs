@@ -20,7 +20,8 @@ public class ParkingController : MonoBehaviour {
     
     public ParkingSpaceNode GetFirstAvailableSpace() {
         for (int i = 0; i < parkingNodes.Count; i++) {
-            if (!parkingNodes[i].IsOccupied()) {
+            if (!parkingNodes[i].IsOccupied() && !parkingNodes[i].IsClaimed()) {
+                parkingNodes[i].ClaimSpace();
                 return parkingNodes[i];
             }
         }

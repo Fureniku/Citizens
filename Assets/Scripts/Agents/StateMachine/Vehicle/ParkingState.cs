@@ -7,6 +7,7 @@ public class ParkingState : VehicleBaseState {
     
     public ParkingState(VehicleAgent agent) {
         this.stateName = "Parking State";
+        waitableState = true;
         this.agent = agent;
     }
     

@@ -6,23 +6,18 @@ public class LocationNodeController : MonoBehaviour {
     [SerializeField] private TileData parentTile;
     [Space(10)]
     [SerializeField] private LocationNode spawnerNode;
-    [SerializeField] private LocationNode startNode;
     [SerializeField] private LocationNode destinationNode;
     [Space(10)]
     [SerializeField] private LocationType locationType;
 
     void Awake() {
-        DestinationRegistration.AddToList(this);
+        LocationRegistration.AddToList(this);
     }
 
     public GameObject GetSpawnerNode() {
         return spawnerNode.gameObject;
     }
 
-    public GameObject GetStartNode() {
-        return startNode.gameObject;
-    }
-    
     public LocationNode GetDestinationNode() {
         return destinationNode;
     }

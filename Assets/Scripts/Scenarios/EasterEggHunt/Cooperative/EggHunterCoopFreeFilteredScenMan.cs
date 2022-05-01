@@ -10,7 +10,7 @@ namespace Scenarios.EasterEggHunt.Cooperative {
         }
 
         public override void PrepareScenario() {
-            Registry registry = DestinationRegistration.shopRegistryPedestrian;
+            Registry registry = LocationRegistration.shopRegistryPedestrian;
             
             //Filter list to be closest shop first. First, make a copy of the entire shop registry:
             List<GameObject> tempList = new List<GameObject>();

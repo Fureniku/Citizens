@@ -3,8 +3,8 @@
 public abstract class LocationNode : MonoBehaviour {
 
     [SerializeField] private LocationNodeController nodeController;
-    [SerializeField] private Color gizmoCol;
-    
+    [SerializeField] protected Color gizmoCol;
+
     public LocationNodeController GetNodeController() {
         return nodeController.GetComponent<LocationNodeController>();
     }

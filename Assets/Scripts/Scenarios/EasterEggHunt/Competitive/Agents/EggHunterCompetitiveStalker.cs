@@ -23,7 +23,7 @@ namespace Scenarios.EasterEggHunt.Competitive.Agents {
         }
         
         public override void Init() {
-            Registry shopRegistry = DestinationRegistration.shopRegistryPedestrian;
+            Registry shopRegistry = LocationRegistration.shopRegistryPedestrian;
 
             List<GameObject> followableList = new List<GameObject>();
             for (int i = 0; i < scenarioManager.GetAgentManager().GetAllAgents().Count; i++) {

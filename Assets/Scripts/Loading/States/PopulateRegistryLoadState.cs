@@ -19,7 +19,7 @@ namespace Loading.States {
         }
 
         public override Type StateEnter() {
-            DestinationRegistration.BuildLists();
+            LocationRegistration.BuildLists();
             vehicleRegistry.Initialize();
             brandRegistry.Initialize();
             return null;

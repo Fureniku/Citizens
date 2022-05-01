@@ -16,7 +16,7 @@ public class PedestrianAgent : BaseAgent {
     }
 
     private void GenerateDestination() {
-        GameObject finalDest = World.Instance.GetChunkManager().GetTile(DestinationRegistration.shopRegistryPedestrian.GetAtRandom()).gameObject;
+        GameObject finalDest = World.Instance.GetChunkManager().GetTile(LocationRegistration.shopRegistryPedestrian.GetAtRandom()).gameObject;
         dests.Add(finalDest);
 
         SetAgentDestination(finalDest);

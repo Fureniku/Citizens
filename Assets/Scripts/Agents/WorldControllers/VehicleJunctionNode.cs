@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class VehicleJunctionNode : MonoBehaviour {
     
-    [SerializeField] private bool giveWay = false;
+    [SerializeField] private bool giveWay;
     [SerializeField] private bool isIn = true; // True for in (entering tile), false for out (exiting tile). 
 
-    private TileRoad road;
-
-    void Awake() {
-        road = transform.parent.GetComponent<TileRoad>();
-    }
-    
     public void SetGiveWay(bool b) => giveWay = b;
     public void SetIsIn(bool b) => isIn = b;
     
