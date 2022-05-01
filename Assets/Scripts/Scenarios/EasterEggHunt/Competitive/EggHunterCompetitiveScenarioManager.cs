@@ -9,7 +9,7 @@ namespace Scenarios.EasterEggHunt.Competitive {
         }
 
         public override void PrepareScenario() {
-            Registry registry = LocationRegistration.shopRegistryPedestrian;
+            Registry registry = LocationRegistration.shopRegistryDestPedestrian;
             for (int i = 0; i < registry.GetListSize(); i++) {
                 int rng = Random.Range(1, 101);
                 if (rng <= eggLocationChancePercent) {

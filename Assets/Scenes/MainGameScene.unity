@@ -7507,7 +7507,7 @@ MonoBehaviour:
   message: 
   complete: 0
   initialAgentCount: 20
-  maxAgentCount: 500
+  maxAgentCount: 30
   testAgent: {fileID: 8945190466146426157, guid: 472c2a24ef19ddf49ad4228b79c2bbf8,
     type: 3}
   aStarPlane: {fileID: 1136820589}

@@ -19,7 +19,7 @@ namespace Scenarios.EasterEggHunt.Competitive.Agents {
         }
 
         public override void Init() {
-            Registry shopRegistry = LocationRegistration.shopRegistryPedestrian;
+            Registry shopRegistry = LocationRegistration.shopRegistryDestPedestrian;
             
             for (int i = 0; i < shopRegistry.GetListSize(); i++) {
                 dests.Add(World.Instance.GetChunkManager().GetTile(shopRegistry.GetFromList(i)).gameObject);

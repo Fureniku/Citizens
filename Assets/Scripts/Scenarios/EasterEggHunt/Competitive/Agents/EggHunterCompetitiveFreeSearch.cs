@@ -8,7 +8,7 @@ namespace Scenarios.EasterEggHunt.Competitive.Agents {
     public class EggHunterCompetitiveFreeSearch : EggHunterAgent {
 
         public override void Init() {
-            Registry shopRegistry = LocationRegistration.shopRegistryPedestrian;
+            Registry shopRegistry = LocationRegistration.shopRegistryDestPedestrian;
             int startPoint = Random.Range(0, shopRegistry.GetListSize() + 1);
             
             //List is in order but the start point is randomized, agents will loop through all locations still.

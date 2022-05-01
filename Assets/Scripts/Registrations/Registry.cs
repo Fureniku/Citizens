@@ -32,4 +32,8 @@ public class Registry {
     public void RemoveFromList(TilePos pos) {
         list.Remove(pos);
     }
+
+    public List<TilePos> GetList() {
+        return list;
+    }
 }

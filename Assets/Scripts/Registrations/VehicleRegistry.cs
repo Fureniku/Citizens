@@ -57,7 +57,7 @@ public class VehicleRegistry : MonoBehaviour {
         for (int i = 1; i < register.Length; i++) { //Skip entry zero (test car), only there coz zero based list messes with me :)
             GameObject go = register[i];
             if (go != null) {
-                VehicleAgent vehicle = go.GetComponent<VehicleAgent>();
+                Vehicle vehicle = go.GetComponent<Vehicle>();
                 if (vehicle != null) {
                     switch (vehicle.GetVehicleType()) {
                         case VehicleType.CAR:

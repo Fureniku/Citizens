@@ -17,18 +17,6 @@ public class TurningState : VehicleBaseState {
         Type waitingVehicle = CheckWaitingVehicle();
         Type obstruction = CheckObstructionVehicle();
 
-        if (agent.GetLastSeenAgent() != null) {
-            agent.PrintText("I've seen *something* recently!");
-            if (waitingVehicle != null) {
-                agent.PrintText("It was a waiting vehicle!");
-            } else if (obstruction != null) {
-                agent.PrintText("It was an obstruction!");
-            } else {
-                agent.PrintText("It was a mysterious anomaly!");
-                agent.PrintText("its in state: " + agent.GetLastSeenAgent().GetState());
-            }
-        }
-
         if (waitingVehicle != null) return waitingVehicle;
         if (obstruction != null) return obstruction;
         

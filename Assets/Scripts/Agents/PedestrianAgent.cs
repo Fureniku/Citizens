@@ -16,7 +16,7 @@ public class PedestrianAgent : BaseAgent {
     }
 
     private void GenerateDestination() {
-        GameObject finalDest = World.Instance.GetChunkManager().GetTile(LocationRegistration.shopRegistryPedestrian.GetAtRandom()).gameObject;
+        GameObject finalDest = World.Instance.GetChunkManager().GetTile(LocationRegistration.allPedestrianDestinationsRegistry.GetAtRandom()).gameObject;
         dests.Add(finalDest);
 
         SetAgentDestination(finalDest);
@@ -80,6 +80,20 @@ public class PedestrianAgent : BaseAgent {
             }
         } else {
             ReachedDestinationController();
+        }
+    }
+    
+    protected override void ApproachedDestinationController() {
+        if (destinationController != null && !approachingDestinationController) {
+            destinationController.ApproachDestination(this);
+            approachingDestinationController = true;
+        }
+    }
+
+    protected override void ReachedDestinationController() {
+        if (destinationController != null && !reachedDestinationController) {
+            destinationController.ArriveAtDestination(this);
+            reachedDestinationController = true;
         }
     }
 

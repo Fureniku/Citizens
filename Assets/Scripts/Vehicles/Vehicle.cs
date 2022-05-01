@@ -3,9 +3,34 @@
 public class Vehicle : MonoBehaviour {
 
     [SerializeField] private Seat[] seats;
+    [SerializeField] private string vehicleName;
+    [SerializeField] private VehicleType vehicleType;
+    [SerializeField] private VehicleColour vehicleColour;
+    [SerializeField] private VehicleRegistry vehicleRegistry;
+    [SerializeField] private GameObject[] colouredParts;
 
     public int GetMaxSeats() {
         return seats.Length;
+    }
+    
+    public VehicleType GetVehicleType() {
+        return vehicleType;
+    }
+
+    public string GetName() {
+        return vehicleName;
+    }
+
+    public VehicleColour GetColour() {
+        return vehicleColour;
+    }
+    
+    private void OnValidate() {
+        if (colouredParts.Length > 0) {
+            for (int i = 0; i < colouredParts.Length; i++) {
+                colouredParts[i].GetComponent<MeshRenderer>().material = vehicleRegistry.GetMaterialNonStatic(vehicleColour);
+            }
+        }
     }
 
     public Seat GetNextAvailableSeat() {
@@ -33,4 +58,11 @@ public class Vehicle : MonoBehaviour {
     
     //agent enter vehicle
     //agent exit vehicle
+}
+
+public enum VehicleType {
+    CAR,
+    VAN,
+    TRUCK,
+    BUS
 }

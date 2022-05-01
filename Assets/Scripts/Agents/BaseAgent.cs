@@ -24,6 +24,7 @@ public abstract class BaseAgent : MonoBehaviour {
     [SerializeField, ReadOnly] protected int initialFinalDestinationId;
     [SerializeField, ReadOnly] protected bool shouldStop = false;
     [SerializeField] protected LocationNodeController destinationController;
+    [SerializeField] protected LocationNodeController spawnController;
     
     [SerializeField] protected List<GameObject> dests;
     [SerializeField] protected List<NavMeshPath> paths = new List<NavMeshPath>();
@@ -58,6 +59,10 @@ public abstract class BaseAgent : MonoBehaviour {
         InitStateMachine();
         
         SetLookDirection(Vector3.forward, false);
+    }
+
+    public void SetSpawnController(LocationNodeController lnc) {
+        spawnController = lnc;
     }
 
     public void SetInitialized() {
@@ -220,20 +225,9 @@ public abstract class BaseAgent : MonoBehaviour {
         AddNewPathCalculation(newDestination);
         dests.Add(newDestination);
     }
-    
-    protected void ApproachedDestinationController() {
-        if (destinationController != null && !approachingDestinationController) {
-            destinationController.ApproachDestination(this);
-            approachingDestinationController = true;
-        }
-    }
 
-    protected void ReachedDestinationController() {
-        if (destinationController != null && !reachedDestinationController) {
-            destinationController.ArriveAtDestination(this);
-            reachedDestinationController = true;
-        }
-    }
+    protected abstract void ApproachedDestinationController();
+    protected abstract void ReachedDestinationController();
 
     protected void SetAgentDestination(GameObject dest) {
         currentDestGO = dest;

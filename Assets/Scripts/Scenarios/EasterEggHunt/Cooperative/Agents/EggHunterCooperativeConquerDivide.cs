@@ -16,7 +16,7 @@ namespace Scenarios.EasterEggHunt.Cooperative.Agents {
         }
 
         public override void Begin() {
-            Registry shopRegistry = LocationRegistration.shopRegistryPedestrian;
+            Registry shopRegistry = LocationRegistration.shopRegistryDestPedestrian;
             
             bool runner = hunterId % 2 == 0;
             int quarter = shopRegistry.GetListSize() / 4;

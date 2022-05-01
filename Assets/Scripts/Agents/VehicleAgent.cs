@@ -13,10 +13,7 @@ using Vector3 = UnityEngine.Vector3;
 public class VehicleAgent : BaseAgent {
 
     [Header("Vehicle Appearance")]
-    [SerializeField] private VehicleType vehicleType;
-    [SerializeField] private VehicleColour vehicleColour;
-    [SerializeField] private VehicleRegistry vehicleRegistry;
-    [SerializeField] private GameObject[] colouredParts;
+    
     private Vehicle vehicle;
     private bool vacant = false;
     private bool isParked = false;
@@ -26,7 +23,7 @@ public class VehicleAgent : BaseAgent {
     private float maxSpeed;
 
     public VehicleType GetVehicleType() {
-        return vehicleType;
+        return vehicle.GetVehicleType();
     }
 
     public float GetMaxSpeed() {
@@ -35,17 +32,21 @@ public class VehicleAgent : BaseAgent {
 
     public override void Init() {
         vehicle = GetComponent<Vehicle>();
-        GameObject finalDest = World.Instance.GetChunkManager().GetTile(LocationRegistration.hospitalRegistry.GetAtRandom()).gameObject;
+        GameObject finalDest = World.Instance.GetChunkManager().GetTile(LocationRegistration.allVehicleDestinationsRegistry.GetAtRandom()).gameObject;
         destinationController = finalDest.GetComponent<LocationNodeController>();
+        GameObject startPoint = gameObject;
+
+        if (spawnController != null) {
+            dests.Add(spawnController.GetSpawnerNodeVehicle().GetStartPointNode().gameObject);
+            startPoint = spawnController.GetSpawnerNodeVehicle().GetStartPointNode().gameObject;
+        }
         
         if (destinationController == null) {
             Debug.LogError("Vehicle pathing to " + finalDest.name + " which has no destination controller.");
         }
-        finalDest = destinationController.GetDestinationNode().gameObject;
+        finalDest = destinationController.GetDestinationNodeVehicle().gameObject;
 
-        Debug.Log("Requesting path between " + gameObject.name + " and " + finalDest.name);
-        List<Node> aStarPath = aStar.RequestPath(gameObject, finalDest);
-        Debug.Log("Initialized route overview with " + aStarPath.Count + " nodes.");
+        List<Node> aStarPath = aStar.RequestPath(startPoint, finalDest);
         
         int passengerAgents = Random.Range(1, vehicle.GetMaxSeats() + 1);
 
@@ -59,7 +60,7 @@ public class VehicleAgent : BaseAgent {
         }
 
         if (aStarPath.Count >= 1) { //Realign vehicle on the correct side of the road
-            TileData tdStart = World.Instance.GetChunkManager().GetTile(TilePos.GetTilePosFromLocation(gameObject.transform.position));
+            TileData tdStart = World.Instance.GetChunkManager().GetTile(TilePos.GetTilePosFromLocation(startPoint.transform.position));
             TileData tdNext = World.Instance.GetChunkManager().GetTile(new TilePos(aStarPath[0].x, aStarPath[0].y));
 
             EnumDirection startingDirection = Direction.GetDirectionOffset(tdStart.GetTilePos(), tdNext.GetTilePos());
@@ -100,7 +101,7 @@ public class VehicleAgent : BaseAgent {
                 if (NodeInRange(i + 1, aStarPath.Count)) exitTd = World.Instance.GetChunkManager().GetTile(new TilePos(aStarPath[i+1].x, aStarPath[i+1].y));
 
                 if (entryTd == null) {
-                    if (NodeInRange(i, aStarPath.Count+1)) entryTd = World.Instance.GetChunkManager().GetTile(TilePos.GetTilePosFromLocation(gameObject.transform.position));
+                    if (NodeInRange(i, aStarPath.Count+1)) entryTd = World.Instance.GetChunkManager().GetTile(TilePos.GetTilePosFromLocation(startPoint.transform.position));
                 }
 
                 if (entryTd != null && exitTd != null) {
@@ -114,12 +115,7 @@ public class VehicleAgent : BaseAgent {
                     dests.Add(exitGo);
                 } else {
                     if (entryTd == null) Debug.LogError(agent.name + "Junction was found, but entry was null\n" + "We checked if node was in range. " + (i-1) + " is greater than zero and less than " + (aStarPath.Count+1));
-                    if (exitTd == null) Debug.LogError(agent.name + "Junction was found, but exit was null");
                 }
-            }
-
-            if (i == aStarPath.Count - 2 && !junctFound) {
-                Debug.LogError(agent.name + " penultimate aStar position: " + td.GetName() + " but was NOT detected to be a junction");
             }
         }
 
@@ -132,7 +128,7 @@ public class VehicleAgent : BaseAgent {
         }
 
         if (destinationController != null) {
-            dests.Add(destinationController.GetDestinationNode().gameObject);
+            dests.Add(destinationController.GetDestinationNodeVehicle().gameObject);
         } else {
             dests.Add(finalDest);
         }
@@ -148,24 +144,14 @@ public class VehicleAgent : BaseAgent {
 
         SetLookDirection(Vector3.forward, false);
     }
-    
-    private void OnValidate() {
-        if (colouredParts.Length > 0) {
-            for (int i = 0; i < colouredParts.Length; i++) {
-                colouredParts[i].GetComponent<MeshRenderer>().material = vehicleRegistry.GetMaterialNonStatic(vehicleColour);
-            }
-        }
-    }
 
     private bool reattempted = false;
 
     public void ValidatePath() {
         if (currentDest+1 >= dests.Count) {
             if (reattempted) {
-                PrintError("was still stuck after a previous re-attempt. Hard forcing new path to final destination.");
                 agent.destination = dests.Last().transform.position;
             } else {
-                PrintWarn("was stuck, and at the end of route. Re-attempting path to final destination.");
                 agent.path = paths.Last();
                 reattempted = true;
             }
@@ -200,7 +186,7 @@ public class VehicleAgent : BaseAgent {
             Seat seat = vehicle.GetSeat(i);
             if (!seat.IsAvailable()) {
                 GameObject passengerDest = null;
-                LocationNode node = destinationController.GetDestinationNode();
+                LocationNode node = destinationController.GetDestinationNodeVehicle();
                 if (node is ParkingEntranceNode) {
                     ParkingController parkingController = ((ParkingEntranceNode) node).GetParkingController();
                     passengerDest = parkingController.GetForwardingAgentDestination();
@@ -267,6 +253,7 @@ public class VehicleAgent : BaseAgent {
     protected override void AgentNavigate() {}
 
     public override void IncrementDestination() {
+        reattempted = false; //from pathfinding error, if we reached a destination the error is cleared.
         if (currentDest == initialFinalDestinationId-1) { //current dest is zero based
             ReachedDestinationController();
         } else if (currentDest + 3 == initialFinalDestinationId) {
@@ -286,29 +273,37 @@ public class VehicleAgent : BaseAgent {
             Debug.LogWarning("Incremention out of range. " + currentDest + " is lower than " + (dests.Count - 1));
         }
     }
+    
+    protected override void ApproachedDestinationController() {
+        if (destinationController != null && !approachingDestinationController) {
+            destinationController.ApproachDestination(this);
+            approachingDestinationController = true;
+        }
+    }
+
+    protected override void ReachedDestinationController() {
+        if (destinationController != null && !reachedDestinationController) {
+            destinationController.ArriveAtDestination(this);
+            reachedDestinationController = true;
+        }
+    }
 
     #region COLLISION_EVENTS
 
     protected override void AgentTriggerEnter(Collider other) {
         if (!isParked) {
-            if (other.CompareTag("Vehicle")) {
+            //Not gonna get this stuff working in time for submission :( 
+            /*if (other.CompareTag("Vehicle")) {
                 PrintWarn("Trigger enter into " + other.transform.gameObject.name);
-                //stateMachine.SwitchToState(typeof(CrashedState));
+                stateMachine.SwitchToState(typeof(CrashedState));
             }
         
             if (other.CompareTag("Pedestrian")) {
                 PrintWarn("Hit a pedestrian! oh no hes dead. Trigger enter into " + other.transform.gameObject.name);
-            }
+            }*/
         }
     }
     
     protected override void AgentTriggerExit(Collider other) { }
     #endregion
-}
-
-public enum VehicleType {
-    CAR,
-    VAN,
-    TRUCK,
-    BUS
 }

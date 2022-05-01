@@ -933,6 +933,7 @@ MonoBehaviour:
   initialFinalDestinationId: 0
   shouldStop: 0
   destinationController: {fileID: 0}
+  spawnController: {fileID: 0}
   dests: []
   approachingDestinationController: 0
   reachedDestinationController: 0
@@ -948,13 +949,6 @@ MonoBehaviour:
   pathStatus: 0
   nextPosition: {x: 0, y: 0, z: 0}
   pathEndPosition: {x: 0, y: 0, z: 0}
-  vehicleType: 0
-  vehicleColour: 1
-  vehicleRegistry: {fileID: 8886422584635529015, guid: b1c55c16a896eac4aaf487b4b08bb3b6,
-    type: 3}
-  colouredParts:
-  - {fileID: 431649181771265030}
-  - {fileID: 6425174873318274517}
   testAgent: {fileID: 4969062756450106854, guid: 60dac1133367e4f4999a4bafed426d8f,
     type: 3}
 --- !u!65 &-6401260466467859157
@@ -997,6 +991,14 @@ MonoBehaviour:
   seats:
   - {fileID: 8106033793694108181}
   - {fileID: 189807444544051818}
+  vehicleName: Hatchback
+  vehicleType: 0
+  vehicleColour: 1
+  vehicleRegistry: {fileID: 8886422584635529015, guid: b1c55c16a896eac4aaf487b4b08bb3b6,
+    type: 3}
+  colouredParts:
+  - {fileID: 431649181771265030}
+  - {fileID: 6425174873318274517}
 --- !u!208 &-65587270926047918
 NavMeshObstacle:
   m_ObjectHideFlags: 0

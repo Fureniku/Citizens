@@ -28,7 +28,7 @@ public class ParkingState : VehicleBaseState {
     }
     public override Type StateEnter() {
         agent.SetSpeed(7.5f);
-        parkingController = ((ParkingEntranceNode) agent.GetDestinationController().GetDestinationNode()).GetParkingController();
+        parkingController = ((ParkingEntranceNode) agent.GetDestinationController().GetDestinationNodeVehicle()).GetParkingController();
         return null;
     }
 

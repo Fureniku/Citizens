@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public abstract class AgentManager : GenerationSystem {
     
     [SerializeField] protected int initialAgentCount;
+    [SerializeField] protected int currentAgentCount;
     [SerializeField] protected int maxAgentCount;
     [SerializeField] protected GameObject testAgent = null; //Change to using pedestrian registry later
     [SerializeField] protected GameObject aStarPlane = null;
@@ -27,6 +28,10 @@ public abstract class AgentManager : GenerationSystem {
             spawningAgentsValidated = true;
         }
         return -1;
+    }
+
+    void Update() {
+        currentAgentCount = agents.Count;
     }
 
     protected void EnableAgents() {
