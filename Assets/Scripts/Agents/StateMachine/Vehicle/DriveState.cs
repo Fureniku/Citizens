@@ -31,7 +31,7 @@ public class DriveState : VehicleBaseState {
         Type obstruction = CheckObstructionVehicle();
 
         if (waitingVehicle != null) return waitingVehicle;
-        if (obstruction != null) { return obstruction; }
+        if (obstruction != null) return obstruction;
         
         ScanAhead();
         

@@ -33,6 +33,7 @@ public abstract class AgentManager : GenerationSystem {
         for (int i = 0; i < agents.Count; i++) {
             if (agents[i].GetComponent<BaseAgent>().IsAgentReady()) {
                 agents[i].GetComponent<BaseAgent>().GetAgent().isStopped = false;
+                agents[i].GetComponent<BaseAgent>().SetInitialized();
             }
         }
         SetComplete();

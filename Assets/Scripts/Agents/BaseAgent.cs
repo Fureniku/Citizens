@@ -46,7 +46,7 @@ public abstract class BaseAgent : MonoBehaviour {
     [Space(20)]
 
     protected AgentStateMachine stateMachine;
-    protected AgentManager agentManager;
+    protected AgentManager afgentManager;
     protected Vector3 lookDirection;
     protected AStar aStar;
     protected bool initialized = false;
@@ -59,11 +59,22 @@ public abstract class BaseAgent : MonoBehaviour {
         
         SetLookDirection(Vector3.forward, false);
     }
+
+    public void SetInitialized() {
+        initialized = true;
+    }
+
+    public bool IsInitialized() {
+        return initialized;
+    }
     
     void FixedUpdate() {
-        AgentUpdate();
-        if (initialized) { AgentNavigate(); }
-        CheckForObjects();
+        if (initialized) {
+            AgentUpdate();
+            AgentNavigate();
+            CheckForObjects();
+        }
+        
         UpdateAgentInformation();
     }
 
@@ -88,19 +99,16 @@ public abstract class BaseAgent : MonoBehaviour {
             NavMeshPath path = new NavMeshPath();
             bool success = NavMesh.CalculatePath(dests[i - 1].transform.position, dests[i].transform.position, NavMesh.AllAreas, path);
             if (!success) {
-                Debug.Log("Pathing failed at " + i + " - agent will not reach destination.");
+                Debug.LogError("Pathing failed at " + i + " - agent will not reach destination.");
             }
             paths.Add(path);
         }
-        Debug.Log("Precalculated agent pathing with " + paths.Count + " paths.");
     }
 
     private NavMeshPath GetPathToNextPoint() {
         if (paths.Count < currentDest-1) {
-            Debug.Log(paths.Count + " is greater than " + (currentDest - 1) + ": null!");
             return null;
         }
-        Debug.Log("Next path: pos " + (currentDest-1) + " to " + currentDest + "(path " + (currentDest-1) + ") out of total paths: " + paths.Count);
         return paths[currentDest-1];
     }
 
@@ -110,16 +118,18 @@ public abstract class BaseAgent : MonoBehaviour {
         if (!success) {
             Debug.LogWarning("Pathing failed at post-destination logic - agent will not reach post destination.");
         }
-        else {
-            Debug.LogWarning("Added new path from " + dests.Last().transform.position + " to " + newDestination.transform.position);
-        }
         paths.Add(path);
     }
+
+    public bool IsStuck() {
+        return !agent.pathPending && !agent.hasPath && !agent.isStopped;
+    }
+    
     //////////////////
     // A-Star stuff //
     //////////////////
     public void SetAStar(AStar aStarIn) { aStar = aStarIn; }
-    protected bool NodeInRange(int node, int range) { return node > 0 && node < range; }
+    protected bool NodeInRange(int node, int range) { return node >= 0 && node < range; }
     #endregion
     
     #region LOOKAROUND
@@ -225,11 +235,6 @@ public abstract class BaseAgent : MonoBehaviour {
     }
 
     protected void SetAgentDestination(GameObject dest) {
-        if (dests.Count < 2) {
-            Debug.LogError("Agent spawning too close to destination for any reasonable impact. Removing.");
-            agentManager.RemoveAgent(gameObject);
-        }
-        
         currentDestGO = dest;
         agent.destination = dest.transform.position;
         if (dests.Contains(dest)) {
@@ -319,15 +324,13 @@ public abstract class BaseAgent : MonoBehaviour {
     public Type GetStateType() { return stateMachine.CurrentState.GetType(); }
     public AgentBaseState GetState() { return stateMachine.CurrentState; }
     
-    public bool IsAgentReady() { return initialized && GetComponent<NavMeshAgent>().hasPath; }
+    public bool IsAgentReady() { return paths.Count > 0; }
     public NavMeshAgent GetAgent() { return GetComponent<NavMeshAgent>(); }
     public GameObject GetEyePos() { return eyePos; }
     public GameObject GetCamPos() { return camPos; }
     public void SetEyePos(GameObject obj) { eyePos = obj; }
     public void SetCamPos(GameObject obj) { camPos = obj; }
     public AgentStateMachine GetStateMachine() { return stateMachine; }
-    public void SetAgentManager(AgentManager am) { agentManager = am; }
-    public AgentManager GetAgentManager() { return agentManager; }
     protected abstract void InitStateMachine();
     public abstract string GetAgentTypeName();
     public abstract string GetAgentTagMessage();

@@ -1,10 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
 using Tiles.TileManagement;
 using UnityEngine;
 using UnityEngine.AI;
+using Quaternion = UnityEngine.Quaternion;
 using Random = UnityEngine.Random;
+using Vector3 = UnityEngine.Vector3;
 
 public class VehicleAgent : BaseAgent {
 
@@ -15,7 +19,8 @@ public class VehicleAgent : BaseAgent {
     [SerializeField] private GameObject[] colouredParts;
     private Vehicle vehicle;
     private bool vacant = false;
-
+    private bool isParked = false;
+    
     [SerializeField] private GameObject testAgent;
 
     private float maxSpeed;
@@ -78,25 +83,32 @@ public class VehicleAgent : BaseAgent {
             }
             agent.Warp(transform.position);
         } else {
-            Debug.LogError("Vehicle " + gameObject.name + " spawned too close to its destination. Destroying.");
-            agentManager.RemoveAgent(gameObject);
+            Debug.LogError("Vehicle " + gameObject.name + " spawned too close to its destination. This is very bad!.");
         }
 
         for (int i = 0; i < aStarPath.Count; i++) {
             TileData td = World.Instance.GetChunkManager().GetTile(new TilePos(aStarPath[i].x, aStarPath[i].y));
             if (i == aStarPath.Count - 2) {
-                Debug.Log("Penultimate aStar position: " + td.GetName());
+                Debug.Log(agent.name + "Penultimate aStar position: " + td.GetName() + " @ " + td.GetTilePos());
             }
 
             if (i == aStarPath.Count - 1) {
-                Debug.Log("Final aStar position: " + td.GetName());
+                Debug.Log(agent.name + "Final aStar position: " + td.GetName() + " @ " + td.GetTilePos());
             }
+
+            bool junctFound = false;
             if (td.gameObject.GetComponent<VehicleJunctionController>() != null) {
+                junctFound = true;
                 VehicleJunctionController vjController = td.gameObject.GetComponent<VehicleJunctionController>();
                 TileData entryTd = null;
                 TileData exitTd = null;
-                if (NodeInRange(i - 1, aStarPath.Count)) entryTd = World.Instance.GetChunkManager().GetTile(new TilePos(aStarPath[i-1].x, aStarPath[i-1].y));
+                if (NodeInRange(i - 1, aStarPath.Count+1)) entryTd = World.Instance.GetChunkManager().GetTile(new TilePos(aStarPath[i-1].x, aStarPath[i-1].y));
                 if (NodeInRange(i + 1, aStarPath.Count)) exitTd = World.Instance.GetChunkManager().GetTile(new TilePos(aStarPath[i+1].x, aStarPath[i+1].y));
+
+                if (entryTd == null) {
+                    if (NodeInRange(i, aStarPath.Count+1)) entryTd = World.Instance.GetChunkManager().GetTile(TilePos.GetTilePosFromLocation(gameObject.transform.position));
+                    Debug.LogWarning(agent.name + ": Junction is very close to spawn point. Attempting current position instead of -1." + (entryTd == null ? " it's still null. " : " its not null!"));
+                }
 
                 if (entryTd != null && exitTd != null) {
                     EnumDirection entry = Direction.GetDirectionOffset(entryTd.GetTilePos(), td.GetTilePos()); //Entry to current
@@ -107,7 +119,19 @@ public class VehicleAgent : BaseAgent {
                     
                     dests.Add(entryGo);
                     dests.Add(exitGo);
+                } else {
+                    if (entryTd == null) {
+                        Debug.LogError(agent.name + "Junction was found, but entry was null");
+                        Debug.Log("We checked if node was in range. " + (i-1) + " is greater than zero and less than " + (aStarPath.Count+1));
+                    }
+                    if (exitTd == null) {
+                        Debug.LogError(agent.name + "Junction was found, but exit was null");
+                    }
                 }
+            }
+
+            if (i == aStarPath.Count - 2 && !junctFound) {
+                Debug.LogError(agent.name + "Penultimate aStar position: " + td.GetName() + " but was NOT detected to be a junction");
             }
         }
 
@@ -134,8 +158,6 @@ public class VehicleAgent : BaseAgent {
 
         maxSpeed = agent.speed;
 
-        initialized = true;
-        
         SetLookDirection(Vector3.forward, false);
     }
     
@@ -144,6 +166,30 @@ public class VehicleAgent : BaseAgent {
             for (int i = 0; i < colouredParts.Length; i++) {
                 colouredParts[i].GetComponent<MeshRenderer>().material = vehicleRegistry.GetMaterialNonStatic(vehicleColour);
             }
+        }
+    }
+
+    public void ValidatePath() {
+        if (currentDest+1 >= dests.Count) {
+            Debug.Log("Agent is at end of navigation. Attempting to re-force final path.");
+            agent.path = paths.Last();
+            return;
+        }
+        Debug.Log("Attemping to validate path");
+        Vector3 currentDestination = dests[currentDest].transform.position;
+        Vector3 nextDestination = dests[currentDest+1].transform.position;
+        Vector3 agentPosition = agent.transform.position;
+
+        float currentToNext = Vector3.Distance(currentDestination, nextDestination);
+        float agentToNext = Vector3.Distance(agentPosition, nextDestination);
+
+        if (agentToNext < currentToNext) {
+            Debug.LogWarning(agent.name + " Has skipped over destination without triggering. Skipping to next destination.");
+            IncrementDestination();
+        }
+        else {
+            Debug.LogWarning(agent.name + " has not skipped destination and is just stuck. Repathing current destination (or soon at least.)");
+            agent.destination = dests[currentDest].transform.position;
         }
     }
 
@@ -207,21 +253,36 @@ public class VehicleAgent : BaseAgent {
         return "";
     }
 
-    protected override void AgentUpdate() {}
+    private int stuckCooldown = 0;
+    protected override void AgentUpdate() {
+        if (!isParked && IsStuck()) {
+            if (stuckCooldown == 0) {
+                Debug.LogWarning(agent.name + "help me step-agent i'm stuck");
+                ValidatePath();
+                stuckCooldown = 60;
+            } else {
+                stuckCooldown--;
+            }
+        } else {
+            stuckCooldown = 0;
+        }
+    }
+
+    public void SetParked() {
+        isParked = true;
+    }
+    
     protected override void AgentNavigate() {}
 
     public override void IncrementDestination() {
-        Debug.Log("Incrementing destination");
-        if (currentDest == initialFinalDestinationId) {
-            Debug.Log("Reached destination controller");
+        Debug.Log("Incrementing. Current dest: " + currentDest + " , initial final: " + initialFinalDestinationId);
+        if (currentDest == initialFinalDestinationId-1) { //current dest is zero based
             ReachedDestinationController();
         } else if (currentDest + 3 == initialFinalDestinationId) {
-            Debug.Log("Approaching destination controller");
             ApproachedDestinationController();
         }
         
         if (currentDest < dests.Count - 1) { //count isn't zero-based
-            Debug.Log("Actual destination incrementing stuff");
             currentDest++;
             SetAgentDestination(dests[currentDest]);
 
@@ -231,7 +292,7 @@ public class VehicleAgent : BaseAgent {
             }
         }
         else {
-            Debug.Log("Incremention out of range. " + currentDest + " is lower than " + (dests.Count - 1));
+            Debug.LogWarning("Incremention out of range. " + currentDest + " is lower than " + (dests.Count - 1));
         }
     }
 

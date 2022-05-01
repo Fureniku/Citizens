@@ -775,6 +775,7 @@ GameObject:
   - component: {fileID: -7587547507123696704}
   - component: {fileID: -4489421957071747278}
   - component: {fileID: 7170661470372004035}
+  - component: {fileID: -3485515465676554824}
   m_Layer: 8
   m_Name: 8-Car_Standard_Orange
   m_TagString: Vehicle
@@ -822,7 +823,7 @@ NavMeshAgent:
   m_Height: 1.1
   m_BaseOffset: 0.2
   m_WalkableMask: 48
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
 --- !u!114 &332662940333922192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -853,6 +854,7 @@ MonoBehaviour:
   objectDistance: 50
   seenDecay: 0
   drawGizmos: 1
+  isStopped: 0
   pathPending: 0
   hasPath: 0
   pathStatus: 0
@@ -923,6 +925,22 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0.4, z: 0.05}
   m_TimeToStationary: 0.5
+--- !u!54 &-3485515465676554824
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5344523962850029017}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7389051824510002806
 GameObject:
   m_ObjectHideFlags: 0

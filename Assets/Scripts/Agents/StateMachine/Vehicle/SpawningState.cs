@@ -10,6 +10,9 @@ public class SpawningState : VehicleBaseState {
     
     public override Type StateUpdate() {
         agent.GetAgent().isStopped = true;
+        if (agent.IsInitialized()) {
+            return typeof(DriveState);
+        }
         return null;
     }
     

@@ -29,7 +29,7 @@ namespace Scenarios.EasterEggHunt.AgentStates {
                 return typeof(SearchLocationState);
             }
 
-            if (!agent.GetAgent().pathPending && !agent.GetAgent().hasPath) {
+            if (agent.IsStuck()) {
                 Debug.LogError("[" +  agent.GetFullName() + "]: Help! I'm stuck! Recalculating path...");
                 agent.ForceAgentDestination(agent.GetCurrentDestination());
             }

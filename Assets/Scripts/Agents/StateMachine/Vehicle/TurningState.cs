@@ -10,6 +10,14 @@ public class TurningState : VehicleBaseState {
     }
 
     public override Type StateUpdate() {
+        Type waitingVehicle = CheckWaitingVehicle();
+        Type obstruction = CheckObstructionVehicle();
+
+        if (waitingVehicle != null) return waitingVehicle;
+        if (obstruction != null) return obstruction;
+        
+        ScanAhead();
+        
         float dist = Vector3.Distance(agent.transform.position, agent.GetCurrentDestination().transform.position);
 
         if (dist < 1) {

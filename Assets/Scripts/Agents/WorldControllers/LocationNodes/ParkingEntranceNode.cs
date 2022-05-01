@@ -12,6 +12,7 @@ public class ParkingEntranceNode : LocationNode {
         if (parkingController != null) {
             //agent.SetAgentDestination(parkingController.GetFirstAvailableSpace().gameObject);
             agent.GetStateMachine().ForceState(typeof(ParkingState));
+            Debug.Log("Forcing into parking state");
         }
     }
     

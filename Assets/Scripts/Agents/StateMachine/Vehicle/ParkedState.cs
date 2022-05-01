@@ -34,6 +34,7 @@ public class ParkedState : VehicleBaseState {
         if (node != null) {
             node.OccupySpace();
         }
+        agent.SetParked();
         return null;
     }
 

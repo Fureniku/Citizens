@@ -4,7 +4,7 @@ using UnityEngine;
 public class WaitForJunctionState : VehicleBaseState {
 
     private static float approachDistance = 10;
-    private float stopDistance = 3;
+    private float stopDistance = 1;
 
     private float maxSpeed;
     private float minSpeed = 2.0f;

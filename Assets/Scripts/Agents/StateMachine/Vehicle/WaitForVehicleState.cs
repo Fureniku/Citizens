@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class WaitForVehicleState : VehicleBaseState {
 
-    private static float approachDistance = 10;
-    private float stopDistance = 1;
+    private static float approachDistance = 20;
+    private float stopDistance = 5;
 
     private float maxSpeed;
     private float minSpeed = 2.0f;
@@ -33,8 +33,10 @@ public class WaitForVehicleState : VehicleBaseState {
                 float distanceModifier = currentDeltaDist / deltaDist;
                 float deltaSpeed = maxSpeed - minSpeed;
 
-                if (dist < 2.5) {
+                if (dist < stopDistance) {
                     agent.GetAgent().isStopped = true;
+                } else {
+                    agent.GetAgent().isStopped = false;
                 }
                 
                 agent.SetSpeed(deltaSpeed * distanceModifier);
@@ -49,14 +51,10 @@ public class WaitForVehicleState : VehicleBaseState {
     }
 
     public override Type StateEnter() {
-        if (agent.GetLastSeenObject() != null) {
-            agent.GetAgent().SetDestination(agent.GetLastSeenObject().transform.position);
-        }
         return null;
     }
 
     public override Type StateExit() {
-        agent.GetAgent().SetDestination(agent.GetCurrentDestination().transform.position);
         agent.GetAgent().isStopped = false;
         return null;
     }

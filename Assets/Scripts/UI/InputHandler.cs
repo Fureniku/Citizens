@@ -43,6 +43,18 @@ public class InputHandler : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.F1)) {
             Cursor.lockState = CursorLockMode.Locked;
         }
+        
+        if (Input.GetKeyDown(KeyCode.F2)) {
+            Time.timeScale = 0.25f;
+        }
+        
+        if (Input.GetKeyDown(KeyCode.F3)) {
+            Time.timeScale = 1.0f;
+        }
+        
+        if (Input.GetKeyDown(KeyCode.F4)) {
+            Time.timeScale = 2.0f;
+        }
     }
 
     public void ToggleHighlight(bool highlight) {

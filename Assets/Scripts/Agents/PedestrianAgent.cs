@@ -13,7 +13,6 @@ public class PedestrianAgent : BaseAgent {
     public override void Init() {
         GenerateDestination();
         CalculateAllPaths();
-        initialized = true;
     }
 
     private void GenerateDestination() {

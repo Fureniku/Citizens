@@ -36,9 +36,9 @@ public abstract class VehicleBaseState : AgentBaseState {
         Vector3 dir = new Vector3(Vector3.forward.x + lookOffset, Vector3.forward.y, Vector3.forward.z);
         agent.SetLookDirection(dir, true);
         if (reverseDir) {
-            lookOffset -= 0.015f;
+            lookOffset -= 0.025f;
         } else {
-            lookOffset += 0.015f;
+            lookOffset += 0.025f;
         }
 
         if ((lookOffset > 0.075f && !reverseDir) || (lookOffset < -0.075f && reverseDir)) {

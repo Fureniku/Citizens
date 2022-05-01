@@ -17,13 +17,13 @@ public class SlowForTurnState : VehicleBaseState {
     }
 
     public override Type StateUpdate() {
-        if (agent.GetLastSeenAgent() != null && agent.GetLastSeenAgent() is VehicleAgent) {
-            VehicleAgent seenAgent = (VehicleAgent) agent.GetLastSeenAgent();
+        Type waitingVehicle = CheckWaitingVehicle();
+        Type obstruction = CheckObstructionVehicle();
 
-            if (seenAgent.GetState().IsWaitableState()) {
-                return typeof(WaitForVehicleState);
-            }
-        }
+        if (waitingVehicle != null) return waitingVehicle;
+        if (obstruction != null) return obstruction;
+        
+        ScanAhead();
         
         float dist = Vector3.Distance(agent.transform.position, agent.GetCurrentDestination().transform.position);
 
