@@ -83,8 +83,6 @@ public class PedestrianAgent : BaseAgent {
         }
     }
 
-    protected override void AgentCollideEnter(Collision collision) {}
-    protected override void AgentCollideExit(Collision collision) {}
     protected override void AgentTriggerEnter(Collider other) {}
     protected override void AgentTriggerExit(Collider other) {}
 

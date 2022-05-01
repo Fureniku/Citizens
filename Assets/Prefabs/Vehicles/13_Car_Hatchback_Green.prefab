@@ -991,7 +991,7 @@ GameObject:
   - component: {fileID: -6865587171307897097}
   - component: {fileID: 1492855998863348767}
   - component: {fileID: 5634384566050660926}
-  - component: {fileID: -5291816033449703877}
+  - component: {fileID: -6599998888597997548}
   m_Layer: 8
   m_Name: 13_Car_Hatchback_Green
   m_TagString: Vehicle
@@ -1096,8 +1096,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.2676, y: 1.0172465, z: 2.298}
-  m_Center: {x: 0, y: 0.39004356, z: 0}
+  m_Size: {x: 1.2676, y: 0.9058502, z: 2.298}
+  m_Center: {x: 0, y: 0.4457419, z: 0}
 --- !u!114 &-6865587171307897097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1141,7 +1141,7 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0.4, z: 0.05}
   m_TimeToStationary: 0.5
---- !u!54 &-5291816033449703877
+--- !u!54 &-6599998888597997548
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

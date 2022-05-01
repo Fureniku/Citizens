@@ -661,7 +661,7 @@ GameObject:
   - component: {fileID: -6865587171307897097}
   - component: {fileID: -3760426566165938373}
   - component: {fileID: -3961178567762264183}
-  - component: {fileID: 7372556674835529674}
+  - component: {fileID: 2291175241099732121}
   m_Layer: 8
   m_Name: 19-Car_Convertable_Red
   m_TagString: Vehicle
@@ -766,8 +766,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.2676, y: 1.0172465, z: 2.298}
-  m_Center: {x: 0, y: 0.39004356, z: 0}
+  m_Size: {x: 1.2676, y: 0.9058502, z: 2.298}
+  m_Center: {x: 0, y: 0.4457419, z: 0}
 --- !u!114 &-6865587171307897097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -811,7 +811,7 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0.4, z: 0.05}
   m_TimeToStationary: 0.5
---- !u!54 &7372556674835529674
+--- !u!54 &2291175241099732121
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

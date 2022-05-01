@@ -1,8 +1,8 @@
 ﻿using System;
 
-public class CrashedState : AgentBaseState {
+public class CrashedState : VehicleBaseState {
 
-    public CrashedState(BaseAgent agent) {
+    public CrashedState(VehicleAgent agent) {
         this.stateName = "Crashed State";
         this.agent = agent;
     }
@@ -13,6 +13,7 @@ public class CrashedState : AgentBaseState {
 
     public override Type StateEnter() {
         agent.GetAgent().isStopped = true;
+        agent.SetParked();
         return null;
     }
 

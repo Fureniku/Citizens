@@ -615,7 +615,7 @@ GameObject:
   - component: {fileID: -6865587171307897097}
   - component: {fileID: -7207980625601864932}
   - component: {fileID: 8485921203537901727}
-  - component: {fileID: 7785004997845952907}
+  - component: {fileID: 5667408231461896945}
   m_Layer: 8
   m_Name: 20-Car_Convertable_Blue
   m_TagString: Vehicle
@@ -720,8 +720,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.2676, y: 1.0172465, z: 2.298}
-  m_Center: {x: 0, y: 0.39004356, z: 0}
+  m_Size: {x: 1.2676, y: 0.9058502, z: 2.298}
+  m_Center: {x: 0, y: 0.4457419, z: 0}
 --- !u!114 &-6865587171307897097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -765,7 +765,7 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0.4, z: 0.05}
   m_TimeToStationary: 0.5
---- !u!54 &7785004997845952907
+--- !u!54 &5667408231461896945
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -539,7 +539,7 @@ GameObject:
   - component: {fileID: -7587547507123696704}
   - component: {fileID: -6777786191364087708}
   - component: {fileID: -4077361482352277593}
-  - component: {fileID: -1584706094599282519}
+  - component: {fileID: 2134296509873463729}
   m_Layer: 8
   m_Name: 9-Car_Standard_Purple
   m_TagString: Vehicle
@@ -644,8 +644,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.2676, y: 1.0172465, z: 2.298}
-  m_Center: {x: 0, y: 0.39004356, z: 0}
+  m_Size: {x: 1.2676, y: 0.9058502, z: 2.298}
+  m_Center: {x: 0, y: 0.4457419, z: 0}
 --- !u!114 &-7587547507123696704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -689,7 +689,7 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0.4, z: 0.05}
   m_TimeToStationary: 0.5
---- !u!54 &-1584706094599282519
+--- !u!54 &2134296509873463729
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -337,16 +337,16 @@ public abstract class BaseAgent : MonoBehaviour {
     #endregion
     
     #region EVENTS
-    private void OnCollisionEnter(Collision collision) { AgentCollideEnter(collision); }
     private void OnTriggerEnter(Collider other) { AgentTriggerEnter(other); }
-    protected abstract void AgentCollideEnter(Collision collision);
-    protected abstract void AgentCollideExit(Collision collision);
+    private void OnTriggerExit(Collider other) { AgentTriggerExit(other); }
     protected abstract void AgentTriggerEnter(Collider other);
     protected abstract void AgentTriggerExit(Collider other);
     #endregion
     
     
     public void PrintText(string str) { Debug.Log("[Agent] " + gameObject.name + ": " + str); }
+    public void PrintWarn(string str) { Debug.LogWarning("[Agent] " + gameObject.name + ": " + str); }
+    public void PrintError(string str) { Debug.LogError("[Agent] " + gameObject.name + ": " + str); }
     
     public abstract void Init();
     protected abstract void AgentUpdate();

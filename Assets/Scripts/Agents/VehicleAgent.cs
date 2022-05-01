@@ -88,13 +88,7 @@ public class VehicleAgent : BaseAgent {
 
         for (int i = 0; i < aStarPath.Count; i++) {
             TileData td = World.Instance.GetChunkManager().GetTile(new TilePos(aStarPath[i].x, aStarPath[i].y));
-            if (i == aStarPath.Count - 2) {
-                Debug.Log(agent.name + "Penultimate aStar position: " + td.GetName() + " @ " + td.GetTilePos());
-            }
 
-            if (i == aStarPath.Count - 1) {
-                Debug.Log(agent.name + "Final aStar position: " + td.GetName() + " @ " + td.GetTilePos());
-            }
 
             bool junctFound = false;
             if (td.gameObject.GetComponent<VehicleJunctionController>() != null) {
@@ -107,7 +101,6 @@ public class VehicleAgent : BaseAgent {
 
                 if (entryTd == null) {
                     if (NodeInRange(i, aStarPath.Count+1)) entryTd = World.Instance.GetChunkManager().GetTile(TilePos.GetTilePosFromLocation(gameObject.transform.position));
-                    Debug.LogWarning(agent.name + ": Junction is very close to spawn point. Attempting current position instead of -1." + (entryTd == null ? " it's still null. " : " its not null!"));
                 }
 
                 if (entryTd != null && exitTd != null) {
@@ -120,18 +113,13 @@ public class VehicleAgent : BaseAgent {
                     dests.Add(entryGo);
                     dests.Add(exitGo);
                 } else {
-                    if (entryTd == null) {
-                        Debug.LogError(agent.name + "Junction was found, but entry was null");
-                        Debug.Log("We checked if node was in range. " + (i-1) + " is greater than zero and less than " + (aStarPath.Count+1));
-                    }
-                    if (exitTd == null) {
-                        Debug.LogError(agent.name + "Junction was found, but exit was null");
-                    }
+                    if (entryTd == null) Debug.LogError(agent.name + "Junction was found, but entry was null\n" + "We checked if node was in range. " + (i-1) + " is greater than zero and less than " + (aStarPath.Count+1));
+                    if (exitTd == null) Debug.LogError(agent.name + "Junction was found, but exit was null");
                 }
             }
 
             if (i == aStarPath.Count - 2 && !junctFound) {
-                Debug.LogError(agent.name + "Penultimate aStar position: " + td.GetName() + " but was NOT detected to be a junction");
+                Debug.LogError(agent.name + " penultimate aStar position: " + td.GetName() + " but was NOT detected to be a junction");
             }
         }
 
@@ -171,11 +159,9 @@ public class VehicleAgent : BaseAgent {
 
     public void ValidatePath() {
         if (currentDest+1 >= dests.Count) {
-            Debug.Log("Agent is at end of navigation. Attempting to re-force final path.");
             agent.path = paths.Last();
             return;
         }
-        Debug.Log("Attemping to validate path");
         Vector3 currentDestination = dests[currentDest].transform.position;
         Vector3 nextDestination = dests[currentDest+1].transform.position;
         Vector3 agentPosition = agent.transform.position;
@@ -184,11 +170,8 @@ public class VehicleAgent : BaseAgent {
         float agentToNext = Vector3.Distance(agentPosition, nextDestination);
 
         if (agentToNext < currentToNext) {
-            Debug.LogWarning(agent.name + " Has skipped over destination without triggering. Skipping to next destination.");
             IncrementDestination();
-        }
-        else {
-            Debug.LogWarning(agent.name + " has not skipped destination and is just stuck. Repathing current destination (or soon at least.)");
+        } else {
             agent.destination = dests[currentDest].transform.position;
         }
     }
@@ -257,7 +240,7 @@ public class VehicleAgent : BaseAgent {
     protected override void AgentUpdate() {
         if (!isParked && IsStuck()) {
             if (stuckCooldown == 0) {
-                Debug.LogWarning(agent.name + "help me step-agent i'm stuck");
+                Debug.LogWarning(agent.name + ": help me step-agent i'm stuck");
                 ValidatePath();
                 stuckCooldown = 60;
             } else {
@@ -275,7 +258,6 @@ public class VehicleAgent : BaseAgent {
     protected override void AgentNavigate() {}
 
     public override void IncrementDestination() {
-        Debug.Log("Incrementing. Current dest: " + currentDest + " , initial final: " + initialFinalDestinationId);
         if (currentDest == initialFinalDestinationId-1) { //current dest is zero based
             ReachedDestinationController();
         } else if (currentDest + 3 == initialFinalDestinationId) {
@@ -297,16 +279,18 @@ public class VehicleAgent : BaseAgent {
     }
 
     #region COLLISION_EVENTS
-    protected override void AgentCollideEnter(Collision collision) {
-        PrintText("Crashed into " + collision.collider.transform.gameObject.name);
-        stateMachine.SwitchToState(typeof(CrashedState));
-    }
-
-    protected override void AgentCollideExit(Collision collision) { }
 
     protected override void AgentTriggerEnter(Collider other) {
-        PrintText("Trigger enter into " + other.transform.gameObject.name);
-        stateMachine.SwitchToState(typeof(CrashedState));
+        if (!isParked) {
+            if (other.CompareTag("Vehicle")) {
+                PrintWarn("Trigger enter into " + other.transform.gameObject.name);
+                stateMachine.SwitchToState(typeof(CrashedState));
+            }
+        
+            if (other.CompareTag("Pedestrian")) {
+                PrintWarn("Hit a pedestrian! oh no hes dead. Trigger enter into " + other.transform.gameObject.name);
+            }
+        }
     }
     
     protected override void AgentTriggerExit(Collider other) { }
