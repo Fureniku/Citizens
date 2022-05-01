@@ -52,6 +52,11 @@ public abstract class AgentManager : GenerationSystem {
     public List<GameObject> GetAllAgents() {
         return agents;
     }
+
+    public void RemoveAgent(GameObject agent) {
+        agents.Remove(agent);
+        Destroy(agent);
+    }
     
     protected GameObject ReplaceAgentWithCustom<T>(Vector3 spawnPos) where T : PedestrianAgent {
         GameObject newAgent = Instantiate(testAgent, spawnPos, Quaternion.identity);

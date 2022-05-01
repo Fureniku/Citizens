@@ -33,6 +33,10 @@ public class WaitForVehicleState : VehicleBaseState {
                 float distanceModifier = currentDeltaDist / deltaDist;
                 float deltaSpeed = maxSpeed - minSpeed;
 
+                if (dist < 2.5) {
+                    agent.GetAgent().isStopped = true;
+                }
+                
                 agent.SetSpeed(deltaSpeed * distanceModifier);
             }
             else {
@@ -53,6 +57,7 @@ public class WaitForVehicleState : VehicleBaseState {
 
     public override Type StateExit() {
         agent.GetAgent().SetDestination(agent.GetCurrentDestination().transform.position);
+        agent.GetAgent().isStopped = false;
         return null;
     }
 

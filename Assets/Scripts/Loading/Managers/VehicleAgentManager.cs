@@ -41,6 +41,7 @@ public class VehicleAgentManager : AgentManager {
             agents[i].GetComponent<VehicleAgent>().SetAStar(aStarPlane.GetComponent<AStar>());
             agents[i].GetComponent<VehicleAgent>().Init();
             agents[i].GetComponent<VehicleAgent>().GetAgent().isStopped = true;
+            agents[i].GetComponent<VehicleAgent>().SetAgentManager(this);
 
             message = "Created vehicle " + i + " of " + initialAgents;
             yield return null;

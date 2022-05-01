@@ -37,6 +37,7 @@ public abstract class BaseAgent : MonoBehaviour {
     [SerializeField, ReadOnly] protected float objectDistance = 50;
     [SerializeField] private int seenDecay;
     [SerializeField] protected bool drawGizmos = false;
+    [SerializeField] private bool isStopped = false;
     [SerializeField] private bool pathPending = false;
     [SerializeField] private bool hasPath = false;
     [SerializeField] private NavMeshPathStatus pathStatus;
@@ -45,12 +46,11 @@ public abstract class BaseAgent : MonoBehaviour {
     [Space(20)]
 
     protected AgentStateMachine stateMachine;
+    protected AgentManager agentManager;
     protected Vector3 lookDirection;
     protected AStar aStar;
     protected bool initialized = false;
     
-    
-
     void Awake() {
         agent = GetComponent<NavMeshAgent>();
         dests = new List<GameObject>();
@@ -203,7 +203,7 @@ public abstract class BaseAgent : MonoBehaviour {
         return target.CompareTag("Vehicle") || target.CompareTag("Pedestrian");
     }
     #endregion
-    
+     
     #region DESTINATIONS
     public void AddNewDestination(GameObject newDestination) {
         AddNewPathCalculation(newDestination);
@@ -225,6 +225,11 @@ public abstract class BaseAgent : MonoBehaviour {
     }
 
     protected void SetAgentDestination(GameObject dest) {
+        if (dests.Count < 2) {
+            Debug.LogError("Agent spawning too close to destination for any reasonable impact. Removing.");
+            agentManager.RemoveAgent(gameObject);
+        }
+        
         currentDestGO = dest;
         agent.destination = dest.transform.position;
         if (dests.Contains(dest)) {
@@ -234,8 +239,7 @@ public abstract class BaseAgent : MonoBehaviour {
             } else {
                 Debug.Log("Path was null");
             }
-        }
-        else {
+        } else {
             Debug.Log("Destination was not in known list");
         }
     }
@@ -322,7 +326,8 @@ public abstract class BaseAgent : MonoBehaviour {
     public void SetEyePos(GameObject obj) { eyePos = obj; }
     public void SetCamPos(GameObject obj) { camPos = obj; }
     public AgentStateMachine GetStateMachine() { return stateMachine; }
-    
+    public void SetAgentManager(AgentManager am) { agentManager = am; }
+    public AgentManager GetAgentManager() { return agentManager; }
     protected abstract void InitStateMachine();
     public abstract string GetAgentTypeName();
     public abstract string GetAgentTagMessage();

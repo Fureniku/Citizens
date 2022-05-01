@@ -53,32 +53,33 @@ public class VehicleAgent : BaseAgent {
             seat.SetAgentOccupancy(passengerAgent);
         }
 
-        if (aStarPath.Count >= 2) { //Realign vehicle on the correct side of the road
-            TileData tdStart = World.Instance.GetChunkManager().GetTile(new TilePos(aStarPath[0].x, aStarPath[0].y));
-            TileData tdNext = World.Instance.GetChunkManager().GetTile(new TilePos(aStarPath[1].x, aStarPath[1].y));
+        if (aStarPath.Count >= 1) { //Realign vehicle on the correct side of the road
+            TileData tdStart = World.Instance.GetChunkManager().GetTile(TilePos.GetTilePosFromLocation(gameObject.transform.position));
+            TileData tdNext = World.Instance.GetChunkManager().GetTile(new TilePos(aStarPath[0].x, aStarPath[0].y));
 
             EnumDirection startingDirection = Direction.GetDirectionOffset(tdStart.GetTilePos(), tdNext.GetTilePos());
             
             switch (startingDirection) {
                 case EnumDirection.NORTH:
-                    transform.position += new Vector3(2f, 0, 0);
+                    transform.position += new Vector3(1.65f, 0, 0);
                     transform.rotation = Quaternion.Euler(0, 180, 0);
                     break;
                 case EnumDirection.EAST:
-                    transform.position += new Vector3(0, 0, 2f);
-                    transform.rotation = Quaternion.Euler(0, 180, 0);
+                    transform.position += new Vector3(0, 0, 1.65f);
+                    transform.rotation = Quaternion.Euler(0, 90, 0);
                     break;
                 case EnumDirection.SOUTH:
-                    transform.position += new Vector3(-2f, 0, 0);
+                    transform.position += new Vector3(-1.65f, 0, 0);
                     break;
                 case EnumDirection.WEST:
-                    transform.position += new Vector3(0, 0, -2f);
+                    transform.position += new Vector3(0, 0, -1.65f);
+                    transform.rotation = Quaternion.Euler(0, 270, 0);
                     break;
             }
             agent.Warp(transform.position);
         } else {
             Debug.LogError("Vehicle " + gameObject.name + " spawned too close to its destination. Destroying.");
-            Destroy(gameObject);
+            agentManager.RemoveAgent(gameObject);
         }
 
         for (int i = 0; i < aStarPath.Count; i++) {
@@ -134,6 +135,8 @@ public class VehicleAgent : BaseAgent {
         maxSpeed = agent.speed;
 
         initialized = true;
+        
+        SetLookDirection(Vector3.forward, false);
     }
     
     private void OnValidate() {
@@ -178,6 +181,7 @@ public class VehicleAgent : BaseAgent {
         stateMachine = GetComponent<AgentStateMachine>();
         Dictionary<Type, AgentBaseState> states = new Dictionary<Type, AgentBaseState>();
         
+        states.Add(typeof(SpawningState), new SpawningState(this)); //Vehicle is being spawned into the world
         states.Add(typeof(DriveState), new DriveState(this)); //Standard driving with observation in front
         states.Add(typeof(ObstructionSpottedState), new ObstructionSpottedState(this)); //Something ahead is blocking the vehicle
         states.Add(typeof(CrashedState), new CrashedState(this)); //Vehicle collided with something
