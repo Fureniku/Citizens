@@ -65,8 +65,6 @@ public static class LocationRegistration {
             LocationNodeController lnc = nodeControllers[i];
             TileData tileData = lnc.GetParentTile();
             if (!tileData.IsRegistryVersion()) {
-                Debug.Log("Adding " + tileData.GetName() + " at " + tileData.GetTilePos() + " with type " + lnc.GetLocationType() + " to destination registry");
-
 
                 switch (lnc.GetLocationType()) {
                     case LocationType.HOSPITAL:

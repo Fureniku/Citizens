@@ -642,9 +642,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentTile: {fileID: 486646361308398455}
-  spawnerNode: {fileID: 0}
-  startNode: {fileID: 0}
-  destinationNode: {fileID: 5979171825145251243}
+  spawnerNodePedestrian: {fileID: 0}
+  spawnerNodeVehicle: {fileID: 0}
+  destinationNodePedestrian: {fileID: 5979171825145251243}
+  destinationNodeVehicle: {fileID: 0}
   locationType: 1
 --- !u!114 &5979171825145251243
 MonoBehaviour:

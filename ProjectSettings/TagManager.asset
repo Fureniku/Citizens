@@ -13,6 +13,7 @@ TagManager:
   - DeleteOnCleanup
   - SkipCombine
   - ScenarioSpawner
+  - JunctionCheck
   layers:
   - Default
   - TransparentFX
@@ -27,7 +28,7 @@ TagManager:
   - CarPark
   - Grass
   - CP_Spaces
-  - 
+  - Junction
   - 
   - 
   - 

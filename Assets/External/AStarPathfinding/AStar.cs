@@ -12,18 +12,18 @@ using Debug = UnityEngine.Debug;
 
 public class AStar : MonoBehaviour {
 
-    [SerializeField, ReadOnly] private Node[,] grid;
-    [SerializeField, ReadOnly] private Vector2 gridSize;
-    [SerializeField, ReadOnly] private LayerMask roadLayer;
-    [SerializeField, ReadOnly] private float nodeSize = 50f;
-    [SerializeField, ReadOnly] private Heap<Node> openSet;
-    [SerializeField, ReadOnly] private HashSet<Node> closedSet;
-    [SerializeField, ReadOnly] private Node currentNode;
-    [SerializeField, ReadOnly] private Vector2 gridNodes;
-    [SerializeField, ReadOnly] private List<Node> path;
-    [SerializeField, ReadOnly] private bool pathFound;
-    [SerializeField, ReadOnly] private bool searching = false;
-    [SerializeField, ReadOnly] private Vector3 rootNodePos, goalNodePos;
+    [SerializeField] private Node[,] grid;
+    [SerializeField] private Vector2 gridSize;
+    [SerializeField] private LayerMask roadLayer;
+    [SerializeField] private float nodeSize = 50f;
+    [SerializeField] private Heap<Node> openSet;
+    [SerializeField] private HashSet<Node> closedSet;
+    [SerializeField] private Node currentNode;
+    [SerializeField] private Vector2 gridNodes;
+    [SerializeField] private List<Node> path;
+    [SerializeField] private bool pathFound;
+    [SerializeField] private bool searching = false;
+    [SerializeField] private Vector3 rootNodePos, goalNodePos;
 
     [SerializeField] private bool showGizmo = false;
 

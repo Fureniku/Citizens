@@ -28,7 +28,6 @@ public class WaitForVehicleState : VehicleBaseState {
 
             if (seenAgent.GetState() is WaitForVehicleState) {
                 if (seenAgent.GetLastSeenAgent() == agent) {
-                    Debug.LogError("Agents " + agent.name + " and " + seenAgent.name + " are having a showdown.");
                     float agentDist = Vector3.Distance(agent.transform.position, agent.GetCurrentDestination().transform.position);
                     float otherAgentDist = Vector3.Distance(seenAgent.transform.position, seenAgent.GetCurrentDestination().transform.position);
 

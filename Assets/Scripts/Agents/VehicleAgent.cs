@@ -33,13 +33,20 @@ public class VehicleAgent : BaseAgent {
     public override void Init() {
         vehicle = GetComponent<Vehicle>();
         GameObject finalDest = World.Instance.GetChunkManager().GetTile(LocationRegistration.allVehicleDestinationsRegistry.GetAtRandom()).gameObject;
-        destinationController = finalDest.GetComponent<LocationNodeController>();
         GameObject startPoint = gameObject;
 
         if (spawnController != null) {
             dests.Add(spawnController.GetSpawnerNodeVehicle().GetStartPointNode().gameObject);
             startPoint = spawnController.GetSpawnerNodeVehicle().GetStartPointNode().gameObject;
+            GameObject startTile = spawnController.gameObject;
+
+            while (finalDest == startTile) {
+                Debug.LogWarning("Randomly selected spawn point was the same as destination. Reselecting!");
+                finalDest = World.Instance.GetChunkManager().GetTile(LocationRegistration.allVehicleDestinationsRegistry.GetAtRandom()).gameObject;
+            }
         }
+        
+        destinationController = finalDest.GetComponent<LocationNodeController>();
         
         if (destinationController == null) {
             Debug.LogError("Vehicle pathing to " + finalDest.name + " which has no destination controller.");
@@ -269,9 +276,6 @@ public class VehicleAgent : BaseAgent {
                 shouldStop = node.GiveWay();
             }
         }
-        else {
-            Debug.LogWarning("Incremention out of range. " + currentDest + " is lower than " + (dests.Count - 1));
-        }
     }
     
     protected override void ApproachedDestinationController() {
@@ -283,8 +287,8 @@ public class VehicleAgent : BaseAgent {
 
     protected override void ReachedDestinationController() {
         if (destinationController != null && !reachedDestinationController) {
-            destinationController.ArriveAtDestination(this);
             reachedDestinationController = true;
+            destinationController.ArriveAtDestination(this);
         }
     }
 
@@ -305,5 +309,12 @@ public class VehicleAgent : BaseAgent {
     }
     
     protected override void AgentTriggerExit(Collider other) { }
+
+    public bool isInJunctionBox = false;
+    
+    private void OnTriggerStay(Collider other) {
+        isInJunctionBox = other.CompareTag("JunctionCheck");
+    }
+
     #endregion
 }

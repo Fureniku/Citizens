@@ -1,12 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Tiles.TileManagement;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.PlayerLoop;
 
 public abstract class BaseAgent : MonoBehaviour {
     
@@ -20,9 +17,9 @@ public abstract class BaseAgent : MonoBehaviour {
     [Header("Destinations")]
     [SerializeField] protected int currentDest = 0;
     [SerializeField] protected GameObject currentDestGO;
-    [SerializeField, ReadOnly] protected int totalDestinations;
-    [SerializeField, ReadOnly] protected int initialFinalDestinationId;
-    [SerializeField, ReadOnly] protected bool shouldStop = false;
+    [SerializeField] protected int totalDestinations;
+    [SerializeField] protected int initialFinalDestinationId;
+    [SerializeField] protected bool shouldStop = false;
     [SerializeField] protected LocationNodeController destinationController;
     [SerializeField] protected LocationNodeController spawnController;
     
@@ -35,7 +32,7 @@ public abstract class BaseAgent : MonoBehaviour {
     [SerializeField] private EnumDirection roadSide;
     [SerializeField] private string currentState;
     [SerializeField] private GameObject lastSeenObject;
-    [SerializeField, ReadOnly] protected float objectDistance = 50;
+    [SerializeField] protected float objectDistance = 50;
     [SerializeField] private int seenDecay;
     [SerializeField] protected bool drawGizmos = false;
     [SerializeField] private bool isStopped = false;
@@ -232,7 +229,7 @@ public abstract class BaseAgent : MonoBehaviour {
     protected void SetAgentDestination(GameObject dest) {
         currentDestGO = dest;
         agent.destination = dest.transform.position;
-        if (dests.Contains(dest)) {
+        if (dests.Contains(dest) && paths.Count > 0) {
             NavMeshPath path = currentDest > 0 ? GetPathToNextPoint() : paths[0];
             if (path != null) {
                 agent.SetPath(path);
@@ -244,8 +241,17 @@ public abstract class BaseAgent : MonoBehaviour {
 
     //force a new destination
     public void ForceAgentDestination(GameObject dest) {
+        if (currentDestGO != null) {
+            if (currentDestGO.GetComponent<TemporaryDestinationObject>() != null) {
+                DestroyImmediate(currentDestGO);
+            }
+        }
+        GameObject temp = Instantiate(dest);
+        temp.AddComponent<TemporaryDestinationObject>();
+        temp.transform.parent = transform.parent;
+        temp.name = agent.name + "'s destination";
         currentDestGO = dest;
-        agent.destination = dest.transform.position;
+        agent.destination = temp.transform.position;
     }
 
     public GameObject GetNextDestination() { return currentDest < dests.Count - 1 ? dests[currentDest + 1] : null; }

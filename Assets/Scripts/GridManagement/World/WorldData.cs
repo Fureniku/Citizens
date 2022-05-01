@@ -13,7 +13,7 @@ public class WorldData : MonoBehaviour {
     [SerializeField] private bool saving = false; //Whether saving is enabled
     [SerializeField] private int worldSize = 3; //World's size in chunks
 
-    [ReadOnly, SerializeField] private bool existingWorld = false; //Whether a world can be loaded
+    [SerializeField] private bool existingWorld = false; //Whether a world can be loaded
 
     void Awake() {
         if (_instance != null && _instance != this) {

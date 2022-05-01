@@ -34,7 +34,7 @@ public class VehicleAgentManager : AgentManager {
         }
         for (int i = 0; i < initialAgents; i++) {
             Vector3 spawnPos = initialSpawnerRegistry.GetAtRandom().GetWorldPos();
-            //CreateAgentInitial(spawnPos);
+            CreateAgentInitial(spawnPos);
 
             message = "Created vehicle " + i + " of " + initialAgents;
             yield return null;
@@ -76,14 +76,12 @@ public class VehicleAgentManager : AgentManager {
         if (World.Instance.IsWorldFullyLoaded()) {
             if (spawnCooldown > 0) {
                 spawnCooldown--;
-            }
-            else {
-                if (agents.Count < maxAgentCount) {
+            } else {
+                if (currentAgentCount < maxAgentCount) {
                     TilePos pos = LocationRegistration.worldEntryVehicle.GetAtRandom();
                     LocationNodeController lnc = World.Instance.GetChunkManager().GetTile(pos).GetComponent<LocationNodeController>();
                     CreateAgent(lnc);
-                    Debug.Log("Spawning fresh agent at " + pos);
-                    spawnCooldown = 120;
+                    spawnCooldown = 60;
                 }
             }
         }

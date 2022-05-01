@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.U2D.Sprites.Obsolete;
 using UnityEngine;
 
 public class PedestrianAgent : BaseAgent {

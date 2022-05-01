@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Diagnostics;
 using Tiles.TileManagement;
 using UnityEngine;
@@ -22,7 +21,7 @@ public class ChunkManager : GenerationSystem {
     private int currentChunks = 0;
     private int maxChunks = 0;
 
-    [ReadOnly, SerializeField] private GridManagerState state = GridManagerState.UNINITIALIZED;
+    [SerializeField] private GridManagerState state = GridManagerState.UNINITIALIZED;
 
     private Stopwatch stopWatch;
 

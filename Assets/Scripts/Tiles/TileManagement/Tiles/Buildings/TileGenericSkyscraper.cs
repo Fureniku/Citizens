@@ -13,7 +13,7 @@ public class TileGenericSkyscraper : TileBuilding {
     [SerializeField] private int minSegments = 1;
     [SerializeField] private int maxSegments = 3;
 
-    [ReadOnly, SerializeField] private int segments = 1;
+    [SerializeField] private int segments = 1;
     
     private GameObject[,] referenceTiles;
 

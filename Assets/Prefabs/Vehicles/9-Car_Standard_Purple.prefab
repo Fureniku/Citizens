@@ -627,6 +627,7 @@ MonoBehaviour:
   pathEndPosition: {x: 0, y: 0, z: 0}
   testAgent: {fileID: 4969062756450106854, guid: 60dac1133367e4f4999a4bafed426d8f,
     type: 3}
+  isInJunctionBox: 0
 --- !u!65 &2871879542755180315
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -24,9 +24,7 @@ namespace Scenarios.EasterEggHunt.Cooperative {
             float distFirst = 1000;
             GameObject candidateFirst = null;
             int lastShopId = 0;
-            
-            Debug.Log("Preparing to build optimized list. Starting with " + tempList.Count + " entries.");
-            
+
             for (int i = 0; i < tempList.Count; i++) {
                 //Find the shop closest to the spawn point
                 float distTemp = Vector3.Distance(startPoint.transform.position, tempList[i].transform.position);
@@ -38,8 +36,6 @@ namespace Scenarios.EasterEggHunt.Cooperative {
 
             orderedList.Add(candidateFirst);
             tempList.Remove(candidateFirst);
-
-            Debug.Log("First entry added successfully. Temp list now " + tempList.Count + " and new list " + orderedList.Count);
 
             //oh no this is probably gonna be slow but neccessary (only once per scenario)
             while (tempList.Count > 0) {
@@ -56,13 +52,7 @@ namespace Scenarios.EasterEggHunt.Cooperative {
                 orderedList.Add(candidate);
                 tempList.Remove(candidate);
                 lastShopId++;
-                Debug.Log("Next entry added successfully. Temp list now " + tempList.Count + " and new list " + orderedList.Count);
             }
-            
-            ////////////////////// TEMPORARY
-            orderedList.RemoveRange(100, orderedList.Count-100);
-            
-            Debug.Log("Ordered list finished compiling");
 
             searchDestinations = orderedList;
             totalLocations = searchDestinations.Count;

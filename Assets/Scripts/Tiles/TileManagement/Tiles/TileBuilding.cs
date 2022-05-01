@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using Tiles.TileManagement;
-using UnityEngine;
+﻿using UnityEngine;
 using Random = UnityEngine.Random;
 
 public abstract class TileBuilding : TileData {
@@ -16,7 +14,7 @@ public abstract class TileBuilding : TileData {
     [SerializeField] protected float minScale = 1.0f;
     [SerializeField] protected float maxScale = 1.0f;
     
-    [ReadOnly, SerializeField] protected int height = 30;
+    [SerializeField] protected int height = 30;
     
     protected bool generationComplete = false;
 

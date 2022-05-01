@@ -21,12 +21,10 @@ public class DespawningState : VehicleBaseState {
     
     public override Type StateEnter() {
         agent.SetSpeed(1000);
-        Debug.Log("Entering despawn state");
         return null;
     }
 
     public override Type StateExit() {
-        Debug.Log("exiting despawn state");
         return null;
     }
 }

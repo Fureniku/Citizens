@@ -31,7 +31,7 @@ public abstract class AgentManager : GenerationSystem {
     }
 
     void Update() {
-        currentAgentCount = agents.Count;
+        currentAgentCount = transform.childCount;
     }
 
     protected void EnableAgents() {

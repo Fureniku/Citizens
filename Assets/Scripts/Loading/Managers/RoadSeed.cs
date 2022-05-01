@@ -8,8 +8,8 @@ public class RoadSeed : GenerationSystem {
     private EnumGenerationStage roadGenStage = EnumGenerationStage.INITIALIZED;
 
     [SerializeField] private GameObject roadGenerator = null;
-    [ReadOnly, SerializeField] private int roadGeneratorInstances = 0;
-    [ReadOnly, SerializeField] private int roadGeneratorsComplete = 0;
+    [SerializeField] private int roadGeneratorInstances = 0;
+    [SerializeField] private int roadGeneratorsComplete = 0;
 
     public override void Initialize() {
         chunkManager = World.Instance.GetChunkManager();

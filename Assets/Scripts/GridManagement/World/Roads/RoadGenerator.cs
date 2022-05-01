@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using Tiles.TileManagement;
 using UnityEngine;
 
@@ -16,7 +15,7 @@ public class RoadGenerator : MonoBehaviour {
     private Tile road_pelican_crossing = TileRegistry.PELICAN_CROSSING_1x1;
     private Tile road_crossing_approach = TileRegistry.CROSSING_APPROACH_1x1;
 
-    [ReadOnly, SerializeField] private int nestLevel = 0;
+    [SerializeField] private int nestLevel = 0;
 
     [SerializeField] private int numberGenerate = 50;
     [SerializeField] private int junctionChance = 10; //as percentage
@@ -27,11 +26,11 @@ public class RoadGenerator : MonoBehaviour {
     [SerializeField] EnumDirection generatorDirection = EnumDirection.SOUTH;
     
     private TilePos lastPos;
-    [ReadOnly, SerializeField] private int tilesSinceBranch = 0;
-    [ReadOnly, SerializeField] private int tilesSinceCrossing = 0;
+    [SerializeField] private int tilesSinceBranch = 0;
+    [SerializeField] private int tilesSinceCrossing = 0;
 
-    [ReadOnly, SerializeField] private int maxBranches = 5;
-    [ReadOnly, SerializeField] private int branchesMade = 0;
+    [SerializeField] private int maxBranches = 5;
+    [SerializeField] private int branchesMade = 0;
 
     private int crossingProgress = -1;
 

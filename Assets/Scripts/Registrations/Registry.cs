@@ -21,7 +21,6 @@ public class Registry {
     }
 
     public TilePos GetAtRandom() {
-        Debug.Log("Getting random destination from list with size " + list.Count);
         if (list.Count == 1) {
             return GetFromList(0);
         }

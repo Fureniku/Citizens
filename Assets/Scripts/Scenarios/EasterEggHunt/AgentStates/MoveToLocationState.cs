@@ -30,7 +30,6 @@ namespace Scenarios.EasterEggHunt.AgentStates {
             }
 
             if (agent.IsStuck()) {
-                Debug.LogError("[" +  agent.GetFullName() + "]: Help! I'm stuck! Recalculating path...");
                 agent.ForceAgentDestination(agent.GetCurrentDestination());
             }
             return null;

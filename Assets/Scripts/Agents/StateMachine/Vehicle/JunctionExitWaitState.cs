@@ -41,6 +41,11 @@ public class JunctionExitWaitState : VehicleBaseState {
             }
         }
 
+        if (agent.isInJunctionBox) {
+            agent.PrintWarn("Vehicle is somehow in junction box when waiting for junction; moving to drive state.");
+            return typeof(DriveState);
+        }
+
         if (agent.GetSeenObject().transform != null) {
             if (agent.SeenAgent(agent.GetSeenObject().transform.gameObject)) {
                 float dist = Vector3.Distance(agent.transform.position, agent.GetSeenObject().transform.position);

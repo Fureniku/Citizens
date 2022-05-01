@@ -5,8 +5,8 @@ using UnityEngine;
 
 public abstract class TileData : MonoBehaviour {
 
-    [ReadOnly, SerializeField] protected String tileName = "Air";
-    [ReadOnly, SerializeField] protected int tileId = 0;
+    [SerializeField] protected String tileName = "Air";
+    [SerializeField] protected int tileId = 0;
     
     [SerializeField] protected int width = 1;
     [SerializeField] protected int length = 1;

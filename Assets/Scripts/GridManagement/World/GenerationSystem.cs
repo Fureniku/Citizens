@@ -2,9 +2,9 @@
 
 public abstract class GenerationSystem : MonoBehaviour {
 
-    [ReadOnly, SerializeField] protected int percentage = 0;
-    [ReadOnly, SerializeField] protected string message = "";
-    [ReadOnly, SerializeField] private bool complete = false;
+    [SerializeField] protected int percentage = 0;
+    [SerializeField] protected string message = "";
+    [SerializeField] private bool complete = false;
 
     public abstract int GetGenerationPercentage();
     public abstract string GetGenerationString();
