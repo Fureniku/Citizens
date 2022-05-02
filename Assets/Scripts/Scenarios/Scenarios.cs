@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Scenarios.EasterEggHunt;
+using Scenarios.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,7 @@ namespace Scenarios {
         }
 
         [SerializeField] private GameObject scenarioCanvas = null;
+        [SerializeField] private GameObject scenarioTrackerCanvas = null;
         [SerializeField] private GameObject scenarioConfigCanvas = null;
         [SerializeField] private GameObject scenarioStartingCanvas = null;
 
@@ -21,6 +23,8 @@ namespace Scenarios {
         [SerializeField] private InputField inputField;
         [SerializeField] private Text scenarioTitle;
         [SerializeField] private Text message;
+        
+        [SerializeField] private Text[] scenarioTracker;
 
         private GameObject scenario = null;
         private bool preparing = false;
@@ -42,49 +46,55 @@ namespace Scenarios {
             scenarios.Add(scenarioManager);
         }
 
-        public void PrepareScenario(int scenario) { PrepareScenario(scenarios[scenario]); }
-        public void BeginScenario(int scenario) { BeginScenario(scenarios[scenario]); }
-        public void ScenarioUpdate(int scenario) { ScenarioUpdate(scenarios[scenario]); }
-        public void CompleteScenario(int scenario) { CompleteScenario(scenarios[scenario]); }
-        public void CleanUpScenario(int scenario) { CleanUpScenario(scenarios[scenario]); }
+        public void PrepareScenario(ScenarioManager sm) {
+            Debug.Log("Preparing " + sm.GetScenarioName());
+            sm.PrepareScenario();
+        }
 
-        public void PrepareScenario(ScenarioManager scenario) {
-            Debug.Log("Preparing " + scenario.GetScenarioName());
-            scenario.PrepareScenario();
+        public void BeginScenario(ScenarioManager sm) {
+            scenarioTrackerCanvas.SetActive(true);
+            scenarioTracker[0].text = sm.GetScenarioName();
+            sm.SetStarted();
+            sm.BeginScenario();
         }
         
-        public void BeginScenario(ScenarioManager scenario) { scenario.BeginScenario(); }
-        public void ScenarioUpdate(ScenarioManager scenario) { scenario.ScenarioUpdate(); }
-        public void CompleteScenario(ScenarioManager scenario) { scenario.CompleteScenario(); }
-        public void CleanUpScenario(ScenarioManager scenario) { scenario.CleanUp(); }
+        public void ScenarioUpdate(ScenarioManager sm) { sm.ScenarioUpdate(); }
+        public void CompleteScenario(ScenarioManager sm) { sm.CompleteScenario(); }
+        public void CleanUpScenario(ScenarioManager sm) { sm.CleanUp(); }
 
         void FixedUpdate() {
             if (scenario != null && preparing) {
-                prepareTime++;
-
                 ScenarioManager scenarioManager = scenario.GetComponent<ScenarioManager>();
-
-                int remainTime = scenarioManager.prepareTime - prepareTime;
-                if (remainTime <= 0) {
-                    preparing = false;
-                    prepareTime = 0;
-                    began = false;
-                    scenarioStartingCanvas.SetActive(false);
-                    Cursor.lockState = CursorLockMode.Locked;
-                } else if (remainTime <= 60) {
-                    message.text = scenarioManager.GetScenarioName() + " \nStart!";
-                    if (!began) {
-                        BeginScenario(scenarioManager);
-                        began = true;
+                
+                if (preparing) {
+                    prepareTime++;
+                    
+                    int remainTime = scenarioManager.prepareTime - prepareTime;
+                    if (remainTime <= 0) {
+                        preparing = false;
+                        prepareTime = 0;
+                        began = false;
+                        scenarioStartingCanvas.SetActive(false);
+                        Cursor.lockState = CursorLockMode.Locked;
+                    } else if (remainTime <= 60) {
+                        message.text = scenarioManager.GetScenarioName() + " \nStart!";
+                        if (!began) {
+                            BeginScenario(scenarioManager);
+                            began = true;
+                        }
+                    } else if (remainTime <= 120) {
+                        message.text = scenarioManager.GetScenarioName() + " \n1...";
+                    } else if (remainTime <= 180) {
+                        message.text = scenarioManager.GetScenarioName() + " \n2...";
+                    } else if (remainTime <= 240) {
+                        message.text = scenarioManager.GetScenarioName() + " \n3...";
+                    } else {
+                        message.text = scenarioManager.GetScenarioName() + " \nPreparing...";
                     }
-                } else if (remainTime <= 120) {
-                    message.text = scenarioManager.GetScenarioName() + " \n1...";
-                } else if (remainTime <= 180) {
-                    message.text = scenarioManager.GetScenarioName() + " \n2...";
-                } else if (remainTime <= 240) {
-                    message.text = scenarioManager.GetScenarioName() + " \n3...";
-                } else {
-                    message.text = scenarioManager.GetScenarioName() + " \nPreparing...";
+                }
+
+                if (scenarioManager.HasStarted()) {
+                    ScenarioUpdate(scenarioManager);
                 }
             }
         }
@@ -105,6 +115,27 @@ namespace Scenarios {
             preparing = true;
             scenarioConfigCanvas.SetActive(false);
             scenarioStartingCanvas.SetActive(true);
+        }
+
+        public void SetInfo1(string title, string msg) {
+            Debug.Log("Setting info 1 to " + title + ", " + msg);
+            scenarioTracker[1].text = title;
+            scenarioTracker[2].text = msg;
+        }
+        
+        public void SetInfo2(string title, string msg) {
+            scenarioTracker[3].text = title;
+            scenarioTracker[4].text = msg;
+        }
+        
+        public void SetInfo3(string title, string msg) {
+            scenarioTracker[5].text = title;
+            scenarioTracker[6].text = msg;
+        }
+        
+        public void SetInfo4(string title, string msg) {
+            scenarioTracker[7].text = title;
+            scenarioTracker[8].text = msg;
         }
 
         public void SetSpawnerObject(GameObject obj) {

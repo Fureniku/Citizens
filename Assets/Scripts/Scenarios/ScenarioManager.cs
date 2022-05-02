@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using Scenarios.UI;
 using UnityEngine;
 
 namespace Scenarios {
@@ -10,6 +11,8 @@ namespace Scenarios {
         
         [SerializeField] protected float spawnRange;
         [SerializeField] protected int agentCount;
+
+        [SerializeField] private bool hasStarted = false;
 
         public int prepareTime = 300; //in ticks/60 per second
         
@@ -49,6 +52,14 @@ namespace Scenarios {
         
         public void SetDepositPoint(GameObject point) {
             depositPoint = point;
+        }
+
+        public void SetStarted() {
+            hasStarted = true;
+        }
+
+        public bool HasStarted() {
+            return hasStarted;
         }
     }
 }

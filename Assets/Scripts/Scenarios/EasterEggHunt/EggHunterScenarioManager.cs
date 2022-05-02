@@ -40,7 +40,7 @@ namespace Scenarios.EasterEggHunt {
             eggHolder.AddEggs(eggs);
             totalSpawnedEggs += eggs;
         }
-        
+
         public int GetMaxAgents() {
             return agentCount;
         }

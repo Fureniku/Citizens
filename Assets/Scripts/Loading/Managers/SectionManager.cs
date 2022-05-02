@@ -9,10 +9,14 @@ public class SectionManager : GenerationSystem {
     private int worldSize;
 
     private int progressZ;
+    private int progressGen;
 
     private bool scanComplete = false;
     private bool genStarted = false;
     private bool genComplete = false;
+
+    private int passes = 5;
+    private int currentPass = 1;
 
     private GenerateBuildingBase genLast = null;
 
@@ -68,7 +72,6 @@ public class SectionManager : GenerationSystem {
                 if (i < sections.Count) {
                     Section s = sections[i];
                     GenerateBuildingBase gen;
-                
                     int rng = Random.Range(0, 4);
 
                     List<GenerateBuildingBase> viableBuildings = new List<GenerateBuildingBase>();
@@ -84,7 +87,9 @@ public class SectionManager : GenerationSystem {
                     gen.Generate();
                     genLast = gen;
                 }
-            
+
+                progressGen++;
+                Debug.Log("Final building gen, progress gen: " + progressGen);
                 yield return null;
             }
         }
@@ -187,6 +192,7 @@ public class SectionManager : GenerationSystem {
         }
         
         sections.Clear();
+        currentPass++;
     }
 
     public IEnumerator Scan() {
@@ -202,6 +208,7 @@ public class SectionManager : GenerationSystem {
                     }
                 }
             }
+
             progressZ = col;
             yield return null;
         }
@@ -211,7 +218,6 @@ public class SectionManager : GenerationSystem {
     }
     
     Section NewSection(TilePos startPos) {
-        
         int maxX = worldSize - startPos.x;
         int maxZ = worldSize - startPos.z;
         int sizeX = 0;
@@ -354,11 +360,21 @@ public class SectionManager : GenerationSystem {
 #endregion
 
     public override int GetGenerationPercentage() {
-        return (int)(progressZ / (float)worldSize * 100);
+        float passPercent = 0.0f;
+        if (currentPass < passes) {
+            passPercent = (progressZ / (float) worldSize * 100) ;
+        } else {
+            passPercent = progressGen / (float) sections.Count * 100;
+            Debug.Log("Pass percent on final pass: " + passPercent);
+        }
+
+        float passValue = (1.0f / passes) * 100;
+        float additional = currentPass * passValue;
+        return (int) ((passPercent/passes + additional) - passValue);
     }
 
     public override string GetGenerationString() {
-        return "Generating building sections";
+        return "Generating building sections (Pass " + currentPass + " of " + passes + ")";
     }
 
     /*private void OnDrawGizmos() {

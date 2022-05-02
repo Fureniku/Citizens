@@ -21,7 +21,6 @@ namespace Scenarios.EasterEggHunt.AgentStates {
         }
         
         public override Type StateEnter() {
-            
             return null;
         }
 

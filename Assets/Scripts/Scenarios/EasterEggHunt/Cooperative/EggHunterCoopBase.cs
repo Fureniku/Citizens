@@ -41,6 +41,13 @@ namespace Scenarios.EasterEggHunt.Cooperative {
             searchDestinations.Remove(candidate);
             searchedLocations++;
         }
+        
+        public override void ScenarioUpdate() {
+            Scenarios.Instance.SetInfo1("Agents", agentCount.ToString());
+            Scenarios.Instance.SetInfo2("Eggs Found:", foundEggs + " / " + totalSpawnedEggs);
+            Scenarios.Instance.SetInfo3("Locations Checked:", searchedLocations + " / " + totalLocations);
+            Scenarios.Instance.SetInfo4("Time Remaining:", "unimplemented");
+        }
 
         public int RemainingDestinations() {
             return searchDestinations.Count;

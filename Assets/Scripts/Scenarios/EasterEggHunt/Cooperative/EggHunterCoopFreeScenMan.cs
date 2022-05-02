@@ -29,10 +29,6 @@ namespace Scenarios.EasterEggHunt.Cooperative {
             }
         }
 
-        public override void ScenarioUpdate() {
-            throw new System.NotImplementedException();
-        }
-
         public override void CompleteScenario() {
             Debug.Log("Scenario completed!");
             List<GameObject> agents = eggHunterAgentManager.GetAllAgents();

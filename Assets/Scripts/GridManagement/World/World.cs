@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using Loading.States;
 using UnityEngine;
-using UnityStandardAssets.Water;
 using Debug = UnityEngine.Debug;
 
 public class World : MonoBehaviour {
@@ -25,6 +24,7 @@ public class World : MonoBehaviour {
     [SerializeField] private bool skipPedestrianGen = false;
     [Space(20)]
     [SerializeField] private WaterController water;
+    [SerializeField] private ChatWindowController chatWindowController;
     
     private WorldData worldData = null;
     private bool isDirty = false;
@@ -98,6 +98,10 @@ public class World : MonoBehaviour {
         if (isDirty) {
             SaveWorld();
         }
+    }
+    
+    public void SendChatMessage(string sender, string message) {
+        chatWindowController.AddNewMessage(sender, message);
     }
 
     void SaveWorld() {

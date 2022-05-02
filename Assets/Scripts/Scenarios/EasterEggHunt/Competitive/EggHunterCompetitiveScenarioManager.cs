@@ -26,9 +26,12 @@ namespace Scenarios.EasterEggHunt.Competitive {
                 agents[i].GetComponent<EggHunterAgent>().Begin();
             }
         }
-
+        
         public override void ScenarioUpdate() {
-            throw new System.NotImplementedException();
+            Scenarios.Instance.SetInfo1("Agents", agentCount.ToString());
+            Scenarios.Instance.SetInfo2("Eggs Found:", foundEggs + " / " + totalSpawnedEggs);
+            Scenarios.Instance.SetInfo3("Locations Checked:", "N/A");
+            Scenarios.Instance.SetInfo4("Time Remaining:", "unimplemented");
         }
 
         public override void CompleteScenario() {
