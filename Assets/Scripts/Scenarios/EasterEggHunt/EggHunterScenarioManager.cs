@@ -46,6 +46,8 @@ namespace Scenarios.EasterEggHunt {
         }
         
         public AgentManager GetAgentManager() {
+            Debug.Log("Getting egg hunter agent manager");
+            if (eggHunterAgentManager == null) Debug.LogWarning("Egg hunter agent manager is null!!");
             return eggHunterAgentManager;
         }
         

@@ -41,6 +41,7 @@ public abstract class BaseAgent : MonoBehaviour {
     [SerializeField] private NavMeshPathStatus pathStatus;
     [SerializeField] private Vector3 nextPosition;
     [SerializeField] private Vector3 pathEndPosition;
+    [SerializeField] protected AgentManager agentManager;
     [Space(20)]
 
     protected AgentStateMachine stateMachine;
@@ -54,7 +55,7 @@ public abstract class BaseAgent : MonoBehaviour {
         dests = new List<GameObject>();
         objectDistance = visualRange;
         InitStateMachine();
-        
+        SetAgentManager();
         SetLookDirection(Vector3.forward, false);
     }
 
@@ -239,8 +240,26 @@ public abstract class BaseAgent : MonoBehaviour {
         }
     }
 
-    //force a new destination
+    //force a new destination. Will not calculate destination path straight away, instead adds to the back of the queue for new paths.
     public void ForceAgentDestination(GameObject dest) {
+        if (currentDestGO == dest) {
+            return;
+        }
+        /*if (currentDestGO != null) {
+            if (currentDestGO.GetComponent<TemporaryDestinationObject>() != null) {
+                DestroyImmediate(currentDestGO);
+            }
+        }
+        /*GameObject temp = Instantiate(dest);
+        temp.AddComponent<TemporaryDestinationObject>();
+        temp.transform.parent = transform.parent;
+        temp.name = agent.name + "'s destination";*/
+        currentDestGO = dest;
+        agentManager.AddToRepathQueue(this);
+    }
+
+    //Same as forcing but skips the queue. Mainly used for vehicles where they can be an obstruction to other agents.
+    public void ForceAgentDestinationImmediete(GameObject dest) {
         if (currentDestGO != null) {
             if (currentDestGO.GetComponent<TemporaryDestinationObject>() != null) {
                 DestroyImmediate(currentDestGO);
@@ -329,6 +348,7 @@ public abstract class BaseAgent : MonoBehaviour {
     public void SetCamPos(GameObject obj) { camPos = obj; }
     public AgentStateMachine GetStateMachine() { return stateMachine; }
     protected abstract void InitStateMachine();
+    public abstract void SetAgentManager();
     public abstract string GetAgentTypeName();
     public abstract string GetAgentTagMessage();
     #endregion

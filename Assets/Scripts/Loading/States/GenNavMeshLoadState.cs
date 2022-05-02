@@ -10,8 +10,6 @@ namespace Loading.States {
         private NavMeshSurface navMeshRoad;
         private NavMeshSurface navMeshSidewalk;
 
-        public static List<NavMeshSurface> extraMeshes = new List<NavMeshSurface>();
-        
         public GenNavMeshLoadState(int progressId, string name, Type nextState, AStar aStar, NavMeshSurface navMeshRoad, NavMeshSurface navMeshSidewalk, bool skip) {
             this.progressId = progressId;
             this.stateName = name;
@@ -32,12 +30,6 @@ namespace Loading.States {
             navMeshRoad.BuildNavMesh();
             navMeshSidewalk.BuildNavMesh();
 
-            for (int i = 0; i < extraMeshes.Count; i++) {
-                extraMeshes[i].BuildNavMesh();
-            }
-            
-            Debug.Log("Baked an additional " + extraMeshes.Count + " meshes");
-            
             return null;
         }
 

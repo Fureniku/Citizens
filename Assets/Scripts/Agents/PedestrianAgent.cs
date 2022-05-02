@@ -56,6 +56,10 @@ public class PedestrianAgent : BaseAgent {
         stateMachine.SetStates(states);
     }
     
+    public override void SetAgentManager() {
+        agentManager = World.Instance.GetLoadingManager().GetPedestrianAgentManager().GetComponent<PedestrianAgentManager>();
+    }
+    
     public new void SetLookDirection(Vector3 vec3, bool force) {
         if (GetLastSeenObject() != null && !force) {
             SetLookDirection();

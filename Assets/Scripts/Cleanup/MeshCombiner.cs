@@ -45,8 +45,6 @@ public class MeshCombiner : MonoBehaviour {
                 ((ArrayList) combiners[matArrayIndex]).Add(instance);
             }
         }
-        
-        Debug.Log("Combiners has " + combiners.Count + " entries");
 
         MeshFilter combinedMeshFilter = GetComponent<MeshFilter>();
         MeshRenderer combinedMeshRenderer = GetComponent<MeshRenderer>();
@@ -92,8 +90,6 @@ public class MeshCombiner : MonoBehaviour {
         //Move back to original location
         transform.rotation = initialRot;
         transform.position = initialPos;
-        
-        Debug.Log("Completed reducing meshes from " + initialSize + " to " + materials.Count);
     }
 
     //From https://answers.unity.com/questions/196649/combinemeshes-with-different-materials.html

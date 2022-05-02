@@ -231,6 +231,10 @@ public class VehicleAgent : BaseAgent {
         stateMachine.SetStates(states);
     }
 
+    public override void SetAgentManager() {
+        agentManager = World.Instance.GetLoadingManager().GetVehicleAgentManager().GetComponent<VehicleAgentManager>();
+    }
+
     public override string GetAgentTypeName() {
         return "Vehicle";
     }

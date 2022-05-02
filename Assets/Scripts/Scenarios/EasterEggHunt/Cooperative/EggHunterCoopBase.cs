@@ -21,7 +21,6 @@ namespace Scenarios.EasterEggHunt.Cooperative {
         }
 
         public void ClaimClosestAvailableDestination(EggHunterAgent agent) {
-            Debug.Log(agent.name + " Claiming closest destination");
             float dist = 1000;
             GameObject candidate = null;
 
@@ -32,9 +31,6 @@ namespace Scenarios.EasterEggHunt.Cooperative {
                     dist = distTemp;
                     candidate = searchDestinations[i];
                 }
-            }
-            if (eggLocations.Contains(candidate)) {
-                Debug.LogWarning("It's an egg location!!!");
             }
 
             agent.ForceAgentDestination(candidate);

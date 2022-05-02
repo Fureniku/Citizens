@@ -118,7 +118,6 @@ namespace Scenarios {
         }
 
         public void SetInfo1(string title, string msg) {
-            Debug.Log("Setting info 1 to " + title + ", " + msg);
             scenarioTracker[1].text = title;
             scenarioTracker[2].text = msg;
         }

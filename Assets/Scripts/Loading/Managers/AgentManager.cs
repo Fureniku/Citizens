@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -12,11 +13,14 @@ public abstract class AgentManager : GenerationSystem {
     [SerializeField] protected GameObject aStarPlane = null;
 
     protected List<GameObject> agents = new List<GameObject>();
+
+    [SerializeField] protected List<BaseAgent> repathQueue = new List<BaseAgent>();
     
     protected bool spawnAgentsCreated = false;
     private bool spawningAgentsValidated = false;
 
     public abstract IEnumerator GenAgents();
+    protected abstract void AgentUpdate();
 
     protected int AllAgentsReady() {
         if (!spawningAgentsValidated && spawningAgentsValidated) {
@@ -30,8 +34,39 @@ public abstract class AgentManager : GenerationSystem {
         return -1;
     }
 
-    void Update() {
+    private int pathCooldown = 0;
+    
+    void FixedUpdate() {
         currentAgentCount = transform.childCount;
+        if (pathCooldown == 0) {
+            SetPathForQueuedAgent();
+        } else {
+            pathCooldown--;
+        }
+    }
+
+    void SetPathForQueuedAgent() {
+        if (repathQueue.Count > 0) {
+            
+            BaseAgent agent = repathQueue[0];
+            Debug.Log("Pathing for " + agent.name);
+            //NavMeshPath path = new NavMeshPath();
+            //Vector3 targetPos = new Vector3(agent.GetCurrentDestination().transform.position.x, agent.transform.position.y, agent.GetCurrentDestination().transform.position.z);
+            //Debug.Log("Setting queued path for " + agent.name + " from " + agent.transform.position + " to " + targetPos);
+            //bool success = NavMesh.CalculatePath(agent.transform.position, targetPos, NavMesh.AllAreas, path);
+            //Debug.Log("Path success: " + success);
+            agent.GetAgent().destination = agent.GetCurrentDestination().transform.position;
+            repathQueue.RemoveAt(0);
+            //agent.GetAgent().SetPath(path);
+            pathCooldown = 10;
+        }
+    }
+
+    public void AddToRepathQueue(BaseAgent agent) {
+        if (repathQueue.Contains(agent)) {
+            repathQueue.Remove(agent);
+        }
+        repathQueue.Add(agent);
     }
 
     protected void EnableAgents() {

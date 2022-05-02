@@ -8412,8 +8412,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 22.828468, y: 1, z: 147.21797}
-  m_Center: {x: -2.0155373, y: 0, z: 3.965538}
+  m_Size: {x: 28.57742, y: 1, z: 147.21797}
+  m_Center: {x: -1.8979282, y: 0, z: 3.965538}
 --- !u!114 &4794579620423668010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9745,8 +9745,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6492457717681737912}
-  - component: {fileID: 4966786650430176949}
-  - component: {fileID: 3786442266718534546}
   m_Layer: 0
   m_Name: CarPark
   m_TagString: Untagged
@@ -9785,48 +9783,6 @@ Transform:
   m_Father: {fileID: 4287016563222153608}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4966786650430176949
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8215462970765252680}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AgentTypeID: -1372625422
-  m_CollectObjects: 0
-  m_Size: {x: 10, y: 10, z: 10}
-  m_Center: {x: 0, y: 2, z: 0}
-  m_LayerMask:
-    serializedVersion: 2
-    m_Bits: 1024
-  m_UseGeometry: 1
-  m_DefaultArea: 4
-  m_IgnoreNavMeshAgent: 1
-  m_IgnoreNavMeshObstacle: 1
-  m_OverrideTileSize: 0
-  m_TileSize: 256
-  m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
-  m_BuildHeightMesh: 0
-  m_NavMeshData: {fileID: 0}
---- !u!114 &3786442266718534546
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8215462970765252680}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 031aaa7e793241ffacec4d310b402c85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parentTile: {fileID: 5114275939037751526}
 --- !u!1 &8294946473159543217
 GameObject:
   m_ObjectHideFlags: 0

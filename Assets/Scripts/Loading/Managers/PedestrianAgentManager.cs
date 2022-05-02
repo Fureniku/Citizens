@@ -48,4 +48,6 @@ public class PedestrianAgentManager : AgentManager {
         spawnAgentsCreated = true;
         yield return null;
     }
+
+    protected override void AgentUpdate() {}
 }

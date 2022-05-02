@@ -121,6 +121,9 @@ namespace Scenarios.EasterEggHunt {
             agents[i].GetComponent<EggHunterAgent>().Init();
             agents[i].GetComponent<EggHunterAgent>().SetHunterID(i+1);
             agents[i].GetComponent<EggHunterAgent>().SetScenarioManager((EggHunterScenarioManager) sm);
+            agents[i].GetComponent<EggHunterAgent>().SetAgentManager();
         }
+        
+        protected override void AgentUpdate() {}
     }
 }

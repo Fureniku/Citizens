@@ -72,7 +72,7 @@ public class VehicleAgentManager : AgentManager {
         agents.Add(agent);
     }
 
-    void FixedUpdate() {
+    protected override void AgentUpdate() {
         if (World.Instance.IsWorldFullyLoaded()) {
             if (spawnCooldown > 0) {
                 spawnCooldown--;

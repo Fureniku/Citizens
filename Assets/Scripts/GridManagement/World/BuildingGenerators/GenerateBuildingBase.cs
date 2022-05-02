@@ -75,7 +75,6 @@ public abstract class GenerateBuildingBase {
     public void CombineMeshes() {
         TilePos placePos = new TilePos(startPos.x, startPos.z);
         GameObject go = World.Instance.GetChunkManager().GetTile(placePos).gameObject;
-        Debug.Log("Getting parent for building: " + go.transform.parent.name);
         if (go.transform.parent.GetComponent<MeshCombiner>() != null) {
             go.transform.parent.GetComponent<MeshCombiner>().CombineMeshes();
         }

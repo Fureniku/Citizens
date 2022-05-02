@@ -630,6 +630,7 @@ MonoBehaviour:
   pathStatus: 0
   nextPosition: {x: 0, y: 0, z: 0}
   pathEndPosition: {x: 0, y: 0, z: 0}
+  agentManager: {fileID: 0}
   testAgent: {fileID: 4969062756450106854, guid: 60dac1133367e4f4999a4bafed426d8f,
     type: 3}
   isInJunctionBox: 0

@@ -20,7 +20,7 @@ namespace Scenarios.EasterEggHunt {
 
         protected GameObject followTarget = null;
         protected float followDistance = 5.0f;
-        protected EggHunterScenarioManager scenarioManager;
+        [SerializeField] protected EggHunterScenarioManager scenarioManager;
 
         [SerializeField] protected bool returnToBase;
         
@@ -43,6 +43,13 @@ namespace Scenarios.EasterEggHunt {
                 timeSinceDestination++;
             }
         }
+        
+        public override void SetAgentManager() {
+            if (scenarioManager == null) {
+                return;
+            }
+            agentManager = scenarioManager.GetAgentManager();
+        } 
 
         public void SetHunterID(int id) => hunterId = id;
         public GameObject GetFollowTarget() { return followTarget; }
@@ -123,11 +130,9 @@ namespace Scenarios.EasterEggHunt {
                 } else {
                     World.Instance.SendChatMessage(GetFullName(), ParseString(GetRandomMessage(foundEggs), takeEggs, shopName));
                 }
-                Debug.Log("Took " + takeEggs + " eggs!");
                 return;
             }
             World.Instance.SendChatMessage(GetFullName(), ParseString(GetRandomMessage(foundNoEggs), 0, shopName));
-            Debug.Log("No eggs, moving on.");
         }
 
         public abstract void Begin();

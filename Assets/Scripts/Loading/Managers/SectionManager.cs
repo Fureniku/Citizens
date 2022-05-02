@@ -89,7 +89,6 @@ public class SectionManager : GenerationSystem {
                 }
 
                 progressGen++;
-                Debug.Log("Final building gen, progress gen: " + progressGen);
                 yield return null;
             }
         }
@@ -107,9 +106,10 @@ public class SectionManager : GenerationSystem {
             GenerateHospital gen = new GenerateHospital(chosenSection, tileId, EnumDirection.SOUTH, TileRegistry.GetTileFromID(tileId));
             gen.Generate();
             gen.PostGenerate();
-        }
-        else {
+        } else {
             Debug.LogError(tile.GetName() + " generation failed; no valid locations available.");
+            World.Instance.SendChatMessage("WorldBuilder", "Unable to find valid location to construct the Hospital.");
+            World.Instance.SendChatMessage("WorldBuilder", "This map will not have a Hospital location.");
         }
     }
     
@@ -122,9 +122,11 @@ public class SectionManager : GenerationSystem {
             GenerateTownHall gen = new GenerateTownHall(chosenSection, tileId, EnumDirection.SOUTH, TileRegistry.GetTileFromID(tileId));
             gen.Generate();
             gen.PostGenerate();
-        }
-        else {
+        } else {
             Debug.LogError(tile.GetName() + " generation failed; no valid locations available.");
+            World.Instance.SendChatMessage("WorldBuilder", "Unable to find valid location to construct the Town Hall.");
+            World.Instance.SendChatMessage("WorldBuilder", "This map will not have a Town Hall location.");
+            World.Instance.SendChatMessage("WorldBuilder", "If you were planning to run a scenario, please generate a new map.");
         }
     }
     
@@ -137,9 +139,10 @@ public class SectionManager : GenerationSystem {
             GenerateUniversity gen = new GenerateUniversity(chosenSection, tileId, EnumDirection.SOUTH, TileRegistry.GetTileFromID(tileId));
             gen.Generate();
             gen.PostGenerate();
-        }
-        else {
+        } else {
             Debug.LogError(tile.GetName() + " generation failed; no valid locations available.");
+            World.Instance.SendChatMessage("WorldBuilder", "Unable to find valid location to construct the University.");
+            World.Instance.SendChatMessage("WorldBuilder", "This map will not have a University location.");
         }
     }
 
@@ -212,7 +215,6 @@ public class SectionManager : GenerationSystem {
             progressZ = col;
             yield return null;
         }
-        Debug.Log("section scanning complete. Created " + sections.Count + " sections.");
         scanComplete = true;
         yield return null;
     }
@@ -249,9 +251,6 @@ public class SectionManager : GenerationSystem {
                     TileGrass grass = (TileGrass) tileData;
                     grass.AddToSection();
                 }
-                else {
-                    Debug.LogError("Tile " + tileData.name + " @ " + tilePos +  "was not grass; section is wrong!");
-                }
             }
         }
         
@@ -284,7 +283,6 @@ public class SectionManager : GenerationSystem {
         }
 
         if (list.Count >= 1) {
-            Debug.Log("Attempt 1 was valid");
             return list;
         }
         return null;
@@ -301,7 +299,6 @@ public class SectionManager : GenerationSystem {
         }
         
         if (list.Count >= 1) {
-            Debug.Log("Attempt 2 was valid");
             return list;
         }
         return null;
@@ -318,7 +315,6 @@ public class SectionManager : GenerationSystem {
         }
         
         if (list.Count >= 1) {
-            Debug.Log("Attempt 3 was valid");
             return list;
         }
         return null;
@@ -335,7 +331,6 @@ public class SectionManager : GenerationSystem {
         }
         
         if (list.Count >= 1) {
-            Debug.Log("Attempt 4 was valid");
             return list;
         }
         return null;
@@ -352,7 +347,6 @@ public class SectionManager : GenerationSystem {
         }
         
         if (list.Count >= 1) {
-            Debug.Log("Attempt 5 was valid");
             return list;
         }
         return null;
@@ -365,7 +359,6 @@ public class SectionManager : GenerationSystem {
             passPercent = (progressZ / (float) worldSize * 100) ;
         } else {
             passPercent = progressGen / (float) sections.Count * 100;
-            Debug.Log("Pass percent on final pass: " + passPercent);
         }
 
         float passValue = (1.0f / passes) * 100;
