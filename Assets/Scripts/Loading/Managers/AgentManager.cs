@@ -47,17 +47,9 @@ public abstract class AgentManager : GenerationSystem {
 
     void SetPathForQueuedAgent() {
         if (repathQueue.Count > 0) {
-            
             BaseAgent agent = repathQueue[0];
-            Debug.Log("Pathing for " + agent.name);
-            //NavMeshPath path = new NavMeshPath();
-            //Vector3 targetPos = new Vector3(agent.GetCurrentDestination().transform.position.x, agent.transform.position.y, agent.GetCurrentDestination().transform.position.z);
-            //Debug.Log("Setting queued path for " + agent.name + " from " + agent.transform.position + " to " + targetPos);
-            //bool success = NavMesh.CalculatePath(agent.transform.position, targetPos, NavMesh.AllAreas, path);
-            //Debug.Log("Path success: " + success);
             agent.GetAgent().destination = agent.GetCurrentDestination().transform.position;
             repathQueue.RemoveAt(0);
-            //agent.GetAgent().SetPath(path);
             pathCooldown = 10;
         }
     }

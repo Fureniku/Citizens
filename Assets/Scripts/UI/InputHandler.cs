@@ -40,6 +40,10 @@ public class InputHandler : MonoBehaviour {
             ClearSelection();
         }
 
+        if (Input.GetKey(KeyCode.KeypadEnter)) {
+            World.Instance.GetChatController().ShowChatWindow();
+        }
+
         if (Input.GetKeyDown(KeyCode.F1)) {
             Cursor.lockState = CursorLockMode.Locked;
         }

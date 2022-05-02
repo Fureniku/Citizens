@@ -1,4 +1,5 @@
 ﻿using System;
+using Scenarios.EasterEggHunt.Cooperative;
 using UnityEngine;
 
 namespace Scenarios.EasterEggHunt.AgentStates {
@@ -10,12 +11,16 @@ namespace Scenarios.EasterEggHunt.AgentStates {
         }
         
         public override Type StateUpdate() {
-            if (Vector3.Distance(agent.transform.position, agent.GetScenarioManager().GetDepositPoint().transform.position) < 5.0f) {
+            if (Vector3.Distance(agent.transform.position, agent.GetScenarioManager().GetDepositPoint().transform.position) < 3.0f) {
                 if (agent.EggCount() > 0) {
                     ((EggHunterScenarioManager) agent.GetScenarioManager()).DepositEggs(agent.EggCount());
                     agent.RemoveEggs(agent.EggCount());
                 }
-
+                
+                if (((EggHunterCoopBase) agent.GetScenarioManager()).RemainingDestinations() > 0) {
+                    ((EggHunterCoopBase) agent.GetScenarioManager()).ClaimClosestAvailableDestination(agent);
+                }
+                
                 return typeof(MoveToLocationState);
             }
 

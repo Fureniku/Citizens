@@ -104,6 +104,10 @@ public class World : MonoBehaviour {
         chatWindowController.AddNewMessage(sender, message);
     }
 
+    public ChatWindowController GetChatController() {
+        return chatWindowController;
+    }
+
     void SaveWorld() {
         if (SavingEnabled()) {
             Stopwatch stopWatch = Stopwatch.StartNew();

@@ -118,21 +118,26 @@ namespace Scenarios.EasterEggHunt {
 
         public void CheckForEggs() {
             EggHolder eggHolder = currentDestGO.GetComponent<EggHolder>();
-            string shopName = currentDestGO.GetComponent<TileData>().GetName();
-            if (eggHolder != null) {
-                int eggCount = eggHolder.GetEggCount();
-                int takeEggs = Mathf.Max(maxHeldEggs - eggCount, eggCount);
-                currentDestGO.GetComponent<EggHolder>().TakeEggs(this, takeEggs);
-                AddEggs(takeEggs);
+            if (currentDestGO.GetComponent<TileData>() != null) {
+                string shopName = currentDestGO.GetComponent<TileData>().GetName();
+                if (eggHolder != null) {
+                    int eggCount = eggHolder.GetEggCount();
+                    int takeEggs = Mathf.Max(maxHeldEggs - eggCount, eggCount);
+                    currentDestGO.GetComponent<EggHolder>().TakeEggs(this, takeEggs);
+                    AddEggs(takeEggs);
                 
-                if (takeEggs == 1) {
-                    World.Instance.SendChatMessage(GetFullName(), ParseString(GetRandomMessage(foundOneEgg), takeEggs, shopName));
-                } else {
-                    World.Instance.SendChatMessage(GetFullName(), ParseString(GetRandomMessage(foundEggs), takeEggs, shopName));
+                    if (takeEggs == 1) {
+                        World.Instance.SendChatMessage(GetFullName(), ParseString(GetRandomMessage(foundOneEgg), takeEggs, shopName));
+                    } else {
+                        World.Instance.SendChatMessage(GetFullName(), ParseString(GetRandomMessage(foundEggs), takeEggs, shopName));
+                    }
+                    return;
                 }
-                return;
+                World.Instance.SendChatMessage(GetFullName(), ParseString(GetRandomMessage(foundNoEggs), 0, shopName));
+            } else {
+                World.Instance.SendChatMessage(GetFullName(), ParseString(GetRandomMessage(depositingEggs), holdingEggs, "Base"));
             }
-            World.Instance.SendChatMessage(GetFullName(), ParseString(GetRandomMessage(foundNoEggs), 0, shopName));
+            
         }
 
         public abstract void Begin();
@@ -151,14 +156,14 @@ namespace Scenarios.EasterEggHunt {
             return str[Random.Range(0, str.Length)];
         }
 
-        public static string[] initMessages = {
+        private static readonly string[] initMessages = {
             "I'm ready to find some eggs!",
             "I'm gonna find the most eggs!",
             "I can't promise I wont eat the eggs I find...",
             "If I don't find any eggs I'm gonna cry :'(",
         };
         
-        public static string[] foundNoEggs = {
+        private static readonly string[] foundNoEggs = {
             "No eggs at %s.",
             "Not a single egg in %s!",
             "Found an egg at %s! Oh wait, nope, never mind.",
@@ -167,17 +172,21 @@ namespace Scenarios.EasterEggHunt {
             "EGG-HUNTER-BOT-3000 DID NOT DETECT EGGS IN THIS LOCATION: %s",
         };
         
-        public static string[] foundEggs = {
+        private static readonly string[] foundEggs = {
             "I found %e eggs at %s!",
             "%e more eggs from %s",
             "%e eggs courtesy of %s, bringing 'em home.",
             "Retrieved %e eggs from %s.",
         };
         
-        public static string[] foundOneEgg = {
+        private static readonly string[] foundOneEgg = {
             "I found an egg at %s!",
             "One more egg, located in %s.",
             "Add another to the pile! %s kindly gave me an egg!",
+        };
+        
+        private static readonly string[] depositingEggs = {
+            "Depoisted %e eggs at base",
         };
     }
 }
