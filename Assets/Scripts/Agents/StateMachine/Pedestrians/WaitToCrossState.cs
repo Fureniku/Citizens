@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Tiles.TileManagement;
 using UnityEngine;
 
@@ -9,6 +10,8 @@ public class WaitToCrossState : PedestrianBaseState {
     private int check = 0;
     private float agentDist = -1; //The distance to the agent saved from last frame
     private bool safeToCross = false;
+
+    private List<GameObject> ignoredVehicles = new List<GameObject>();
 
     public WaitToCrossState(PedestrianAgent agent) {
         this.stateName = "Wait To Cross State";
@@ -33,15 +36,24 @@ public class WaitToCrossState : PedestrianBaseState {
         }
 
         ScanCrossing();
-        
-        if (agent.GetSeenObject().transform != null) {
-            if (agent.GetSeenObject().transform.gameObject.CompareTag("Vehicle")) {
-                float dist = Vector3.Distance(agent.transform.position, agent.GetSeenObject().transform.position);
-                if (agentDist >= 0 && dist < agentDist) { //Only reset for approaching vehicles, not ones moving away or not moving.
-                    check = 0; //restart checking
-                }
 
-                agentDist = dist;
+        Transform seenObject = agent.GetSeenObject().transform;
+        
+        if (seenObject != null) {
+            if (seenObject.gameObject.CompareTag("Vehicle")) {
+                if (!ignoredVehicles.Contains(seenObject.gameObject)) {
+                    float dist = Vector3.Distance(agent.transform.position, seenObject.position);
+                    if (agentDist >= 0) {//Only reset for approaching vehicles, not ones moving away or not moving.
+                        if (dist < agentDist) {
+                            check = 0; //restart checking
+                        } else {
+                            //Vehicle is moving away (or more likely stationary). Add to ignore so we don't check it again later.
+                            Debug.Log("Ignoring " + seenObject.gameObject.name);
+                            ignoredVehicles.Add(seenObject.gameObject);
+                        }
+                    }
+                    agentDist = dist;
+                }
             }
         } else {
             agentDist = -1;
@@ -60,6 +72,7 @@ public class WaitToCrossState : PedestrianBaseState {
         agentDist = -1;
         safeToCross = false;
         agent.GetAgent().isStopped = true;
+        ignoredVehicles.Clear();
         return null;
     }
 
