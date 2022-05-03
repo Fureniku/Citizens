@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 2192969953717624350}
   m_Layer: 7
   m_Name: Top_Right_Sidewalk
-  m_TagString: Untagged
+  m_TagString: Sidewalk
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -345,7 +345,7 @@ GameObject:
   - component: {fileID: 7799435325689273322}
   m_Layer: 7
   m_Name: Bottom_Right_Sidewalk
-  m_TagString: Untagged
+  m_TagString: Sidewalk
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -455,7 +455,7 @@ GameObject:
   - component: {fileID: 7794283516894438859}
   m_Layer: 7
   m_Name: Left_Sidewalk
-  m_TagString: Untagged
+  m_TagString: Sidewalk
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

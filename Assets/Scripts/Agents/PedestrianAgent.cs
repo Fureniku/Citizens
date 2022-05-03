@@ -13,6 +13,7 @@ public class PedestrianAgent : BaseAgent {
     public override void Init() {
         GenerateDestination();
         CalculateAllPaths();
+        initialized = true;
     }
 
     private void GenerateDestination() {
@@ -80,7 +81,22 @@ public class PedestrianAgent : BaseAgent {
         }
     }
 
-    protected override void AgentUpdate() {}
+    protected override void AgentUpdate() {
+        Ray ray1 = new Ray(transform.position, Vector3.down);
+
+        bool onSidewalk = false;
+
+        if (Physics.Raycast(ray1, out RaycastHit hit1, 5.0f)) {
+            if (hit1.collider.CompareTag("Sidewalk")) {
+                onSidewalk = true;
+            }
+        }
+        
+        if (!onSidewalk) {
+            Debug.LogWarning("Walking on something not sidewalky!!");
+        }
+    }
+    
     protected override void AgentNavigate() {}
     
     public override void IncrementDestination() {

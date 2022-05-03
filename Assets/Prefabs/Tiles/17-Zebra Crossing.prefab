@@ -290,7 +290,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5468149809237041687}
   - component: {fileID: 1233373335044548919}
-  m_Layer: 7
+  m_Layer: 14
   m_Name: Crossing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -394,7 +394,6 @@ MonoBehaviour:
   rotation: 1
   enumTile: 17
   genDirection: 4
-  roadType: 7
 --- !u!65 &30601552220107495
 BoxCollider:
   m_ObjectHideFlags: 0

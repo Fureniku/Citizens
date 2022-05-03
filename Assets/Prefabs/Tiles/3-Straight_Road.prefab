@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2332521636901238018}
   m_Layer: 7
   m_Name: Left_Sidewalk
-  m_TagString: Untagged
+  m_TagString: Sidewalk
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -168,7 +168,7 @@ GameObject:
   - component: {fileID: 5971705490671714789}
   - component: {fileID: 1482546260119038542}
   - component: {fileID: 211649363999811924}
-  m_Layer: 7
+  m_Layer: 15
   m_Name: Road
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -263,8 +263,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 6.995912, y: 0.1, z: 5.0967536}
-  m_Center: {x: 0.0061805723, y: 0, z: -0.35697776}
+  m_Size: {x: 6.995912, y: 0.11652931, z: 5.0967536}
+  m_Center: {x: 0.0061805723, y: -0.048748594, z: -0.35697785}
 --- !u!114 &211649363999811924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -375,7 +375,7 @@ GameObject:
   - component: {fileID: 2453957689596804041}
   m_Layer: 7
   m_Name: Right_Sidewalk
-  m_TagString: Untagged
+  m_TagString: Sidewalk
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

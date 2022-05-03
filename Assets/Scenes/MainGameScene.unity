@@ -6350,7 +6350,7 @@ MonoBehaviour:
   percentage: 0
   message: 
   complete: 0
-  initialAgentCount: 15
+  initialAgentCount: 1
   currentAgentCount: 0
   maxAgentCount: 30
   testAgent: {fileID: 4969062756450106854, guid: 60dac1133367e4f4999a4bafed426d8f,
@@ -12418,9 +12418,9 @@ MonoBehaviour:
   percentage: 0
   message: 
   complete: 0
-  initialAgentCount: 20
+  initialAgentCount: 0
   currentAgentCount: 0
-  maxAgentCount: 30
+  maxAgentCount: 0
   testAgent: {fileID: 8945190466146426157, guid: 472c2a24ef19ddf49ad4228b79c2bbf8,
     type: 3}
   aStarPlane: {fileID: 1136820589}
@@ -15102,7 +15102,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 7296
+    m_Bits: 56448
   m_UseGeometry: 1
   m_DefaultArea: 3
   m_IgnoreNavMeshAgent: 1

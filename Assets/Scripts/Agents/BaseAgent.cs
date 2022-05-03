@@ -49,7 +49,7 @@ public abstract class BaseAgent : MonoBehaviour {
     protected AgentManager afgentManager;
     protected Vector3 lookDirection;
     protected AStar aStar;
-    protected bool initialized = false;
+    [SerializeField] protected bool initialized = false;
     
     void Awake() {
         agent = GetComponent<NavMeshAgent>();
