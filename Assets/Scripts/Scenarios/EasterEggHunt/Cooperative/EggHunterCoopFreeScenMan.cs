@@ -10,13 +10,15 @@ namespace Scenarios.EasterEggHunt.Cooperative {
         }
 
         public override void PrepareScenario() {
-            Registry registry = LocationRegistration.shopRegistryDestPedestrian;
-            for (int i = 0; i < registry.GetListSize(); i++) {
+            searchDestinations = CreateOptimisedList();
+            totalLocations = searchDestinations.Count;
+            
+            //Finally add eggs to our registry
+            for (int i = 0; i < searchDestinations.Count; i++) {
                 int rng = Random.Range(1, 101);
                 if (rng <= eggLocationChancePercent) {
-                    AddEggs(registry.GetFromList(i));
+                    AddEggs(searchDestinations[i].GetComponent<TileData>().GetTilePos());
                 }
-                searchDestinations.Add(World.Instance.GetChunkManager().GetTile(registry.GetFromList(i)).gameObject);
             }
 
             StartCoroutine(eggHunterAgentManager.GenerateAgentsCoopFreeSearch(startPoint.transform.position, spawnRange, agentCount, this));

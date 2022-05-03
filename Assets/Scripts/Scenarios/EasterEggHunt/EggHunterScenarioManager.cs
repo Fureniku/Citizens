@@ -68,7 +68,8 @@ namespace Scenarios.EasterEggHunt {
         public bool AllEggsFound() {
             return foundEggs == totalSpawnedEggs;
         }
-        
+
+        private float waitForReturn = 0;
         public override void CompleteScenario() {
             if (hasStarted) {
                 if (!isComplete) {
@@ -77,7 +78,7 @@ namespace Scenarios.EasterEggHunt {
                     for (int i = 0; i < agents.Count; i++) {
                         agents[i].GetComponent<EggHunterAgent>().GetStateMachine().ForceState(typeof(ReturnToBaseState));
                     }
-                    World.Instance.SendChatMessage("GAME", "Egg Hunter is now over! Everyone please come back to the Town Hall.");
+                    World.Instance.SendChatMessage("Game Manager", "Egg Hunter is now over! Everyone please come back to the Town Hall.");
                 }
 
                 if (!isClosing) {
@@ -89,11 +90,18 @@ namespace Scenarios.EasterEggHunt {
                         }
                     }
 
-                    if (returnedAgents < agents.Count) {
+                    waitForReturn += Time.deltaTime;
+
+                    if (returnedAgents < agents.Count && waitForReturn < 1800f) {
                         return;
                     }
+
+                    if (waitForReturn > 1800f) {
+                        int missingAgents = agents.Count - returnedAgents;
+                        World.Instance.SendChatMessage("Game Manager", "Oh no! I guess a few people got lost on their way back here... " + (missingAgents == 1 ? "1 person didn't return." : missingAgents + " people didn't return."));
+                    }
                     
-                    World.Instance.SendChatMessage("GAME", "Congratulations everyone! We found " + foundEggs + " out of " + totalSpawnedEggs + " eggs!");
+                    World.Instance.SendChatMessage("Game Manager", "Congratulations everyone! We found " + foundEggs + " out of " + totalSpawnedEggs + " eggs!");
                     Debug.Log("All agents have returned!");
 
                     isClosing = true;
@@ -105,6 +113,54 @@ namespace Scenarios.EasterEggHunt {
                     }
                 }
             }
+        }
+
+        public List<GameObject> CreateOptimisedList() {
+            Registry registry = LocationRegistration.shopRegistryDestPedestrian;
+            
+            //Filter list to be closest shop first. First, make a copy of the entire shop registry:
+            List<GameObject> tempList = new List<GameObject>();
+            for (int i = 0; i < registry.GetListSize(); i++) {
+                tempList.Add(World.Instance.GetChunkManager().GetTile(registry.GetFromList(i)).gameObject);
+            }
+            //The ordered list:
+            List<GameObject> orderedList = new List<GameObject>();
+            
+            //Do first entry manually because it's different:
+            float distFirst = 1000;
+            GameObject candidateFirst = null;
+            int lastShopId = 0;
+
+            for (int i = 0; i < tempList.Count; i++) {
+                //Find the shop closest to the spawn point
+                float distTemp = Vector3.Distance(startPoint.transform.position, tempList[i].transform.position);
+                if (distTemp < distFirst) {
+                    distFirst = distTemp;
+                    candidateFirst = tempList[i];
+                }
+            }
+
+            orderedList.Add(candidateFirst);
+            tempList.Remove(candidateFirst);
+
+            //oh no this is probably gonna be slow but neccessary (only once per scenario)
+            while (tempList.Count > 0) {
+                float distance = 1000;
+                GameObject candidate = null;
+                //Find the shop closest to the last shop
+                for (int i = 0; i < tempList.Count; i++) {
+                    float distTemp = Vector3.Distance(orderedList[lastShopId].transform.position, tempList[i].transform.position);
+                    if (distTemp < distance) {
+                        distance = distTemp;
+                        candidate = tempList[i];
+                    }
+                }
+                orderedList.Add(candidate);
+                tempList.Remove(candidate);
+                lastShopId++;
+            }
+
+            return orderedList;
         }
     }
 }
