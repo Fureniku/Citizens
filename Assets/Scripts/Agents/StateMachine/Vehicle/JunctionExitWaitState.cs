@@ -55,13 +55,17 @@ public class JunctionExitWaitState : VehicleBaseState {
 
                 agentDist = dist;
             }
-        }
-        else {
+        } else {
             agentDist = -1;
         }
 
         if (check > maxCheck) {
             return typeof(TurningState);
+        }
+
+        if (Vector3.Distance(agent.transform.position, agent.GetCurrentDestination().transform.position) > 15f) {
+            agent.PrintWarn("Agent was quite far from junction, resuming drive state.");
+            return typeof(DriveState);
         }
         return null;
     }
