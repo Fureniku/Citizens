@@ -23,7 +23,7 @@ namespace Scenarios.EasterEggHunt.AgentStates {
             if (Vector3.Distance(agent.transform.position, agent.GetCurrentDestination().transform.position) < 1.5f) {
                 return typeof(SearchLocationState);
             }
-            return null;
+            return EnteredRoad();
         }
         
         public override Type StateEnter() {

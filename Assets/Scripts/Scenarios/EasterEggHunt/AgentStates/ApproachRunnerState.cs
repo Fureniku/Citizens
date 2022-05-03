@@ -29,7 +29,7 @@ namespace Scenarios.EasterEggHunt.AgentStates {
                 agent.ForceAgentDestination(runner.gameObject);
             }
 
-            return null;
+            return EnteredRoad();
         }
         
         public override Type StateEnter() {

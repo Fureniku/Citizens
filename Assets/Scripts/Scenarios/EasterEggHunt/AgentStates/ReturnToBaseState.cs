@@ -20,7 +20,7 @@ namespace Scenarios.EasterEggHunt.AgentStates {
                 return typeof(CompleteState);
             }
 
-            return null;
+            return EnteredRoad();
         }
         
         public override Type StateEnter() {

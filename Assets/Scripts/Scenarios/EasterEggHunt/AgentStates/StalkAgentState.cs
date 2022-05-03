@@ -29,7 +29,7 @@ namespace Scenarios.EasterEggHunt.AgentStates {
                 return typeof(StalkerMoveToLocationState);
             }
 
-            return null;
+            return EnteredRoad();
         }
         
         public override Type StateEnter() {

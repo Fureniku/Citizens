@@ -14,6 +14,8 @@ namespace Scenarios.EasterEggHunt.Cooperative.Agents {
             states.Add(typeof(WaitingState), new WaitingState(this)); //Waiting to start the game
             states.Add(typeof(FollowSearcherState), new FollowSearcherState(this)); //Follow a target
             states.Add(typeof(TakeEggsToBaseState), new TakeEggsToBaseState(this)); //Return to base with eggs
+            states.Add(typeof(WaitToCrossState), new WaitToCrossState(this)); //Wait to safely cross the road
+            states.Add(typeof(CrossingState), new CrossingState(this)); //Crossing the road
 
             stateMachine.SetStates(states);
         }

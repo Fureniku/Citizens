@@ -6350,7 +6350,7 @@ MonoBehaviour:
   percentage: 0
   message: 
   complete: 0
-  initialAgentCount: 1
+  initialAgentCount: 10
   currentAgentCount: 0
   maxAgentCount: 30
   testAgent: {fileID: 4969062756450106854, guid: 60dac1133367e4f4999a4bafed426d8f,
@@ -12418,9 +12418,9 @@ MonoBehaviour:
   percentage: 0
   message: 
   complete: 0
-  initialAgentCount: 0
+  initialAgentCount: 20
   currentAgentCount: 0
-  maxAgentCount: 0
+  maxAgentCount: 30
   testAgent: {fileID: 8945190466146426157, guid: 472c2a24ef19ddf49ad4228b79c2bbf8,
     type: 3}
   aStarPlane: {fileID: 1136820589}

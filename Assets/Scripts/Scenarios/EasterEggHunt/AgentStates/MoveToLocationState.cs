@@ -32,7 +32,8 @@ namespace Scenarios.EasterEggHunt.AgentStates {
             if (agent.IsStuck()) {
                 agent.ForceAgentDestination(agent.GetCurrentDestination());
             }
-            return null;
+            
+            return EnteredRoad();
         }
         
         public override Type StateEnter() {

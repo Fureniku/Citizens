@@ -28,7 +28,7 @@ namespace Scenarios.EasterEggHunt.AgentStates {
                 return typeof(ReturnToBaseState); //If we're not following an agent we are redundant.
             }
 
-            return null;
+            return EnteredRoad();
         }
         
         public override Type StateEnter() {

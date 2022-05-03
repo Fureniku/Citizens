@@ -99,9 +99,7 @@ public class VehicleAgent : BaseAgent {
             
             if (startJC != null) {
                 dests.Add(startJC.GetInNodeRaw(EnumLocalDirection.UP));
-                Debug.Log("Getting vehicle spawning junction controller");
                 TileData exitTd = World.Instance.GetChunkManager().GetTile(new TilePos(aStarPath[0].x, aStarPath[0].y));
-                Debug.Log("Exit TD: " + exitTd.GetName());
 
                 EnumDirection exit = Direction.GetDirectionOffset(startJC.GetComponent<TileData>().GetTilePos(), exitTd.GetTilePos()); //current to exit
                 GameObject exitGo = startJC.GetOutNode(exit);
@@ -141,7 +139,6 @@ public class VehicleAgent : BaseAgent {
         VehicleJunctionController vjc = destinationController.GetComponent<VehicleJunctionController>();
         
         if (vjc != null) { //Add the final junction entry node before the destination, if the destination is on a junction.
-            Debug.Log("Finald est VJC was not null");
             TileData entryTd  = World.Instance.GetChunkManager().GetTile(new TilePos(aStarPath[aStarPath.Count-1].x, aStarPath[aStarPath.Count-1].y));
             EnumDirection entry = Direction.GetDirectionOffset(entryTd.GetTilePos(), TilePos.GetTilePosFromLocation(finalDest.transform.position));
             dests.Add(vjc.GetInNode(entry));

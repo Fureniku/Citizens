@@ -90,12 +90,8 @@ public abstract class AgentManager : GenerationSystem {
     }
 
     public void RemoveAgent(GameObject agent) {
-        Debug.Log("Attempting to remove " + agent.name);
         if (agents.Contains(agent)) {
             agents.Remove(agent);
-        }
-        else {
-            Debug.LogWarning("Unable to find or remove " + agent.name + " from list");
         }
         
         Destroy(agent);

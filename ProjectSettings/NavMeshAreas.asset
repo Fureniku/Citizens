@@ -22,7 +22,7 @@ NavMeshProjectSettings:
   - name: Grass
     cost: 10
   - name: Road_Dangerous
-    cost: 250
+    cost: 50
   - name: 
     cost: 1
   - name: 

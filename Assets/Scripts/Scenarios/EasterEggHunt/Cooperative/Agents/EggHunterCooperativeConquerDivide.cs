@@ -11,6 +11,8 @@ namespace Scenarios.EasterEggHunt.Cooperative.Agents {
             Dictionary<Type, AgentBaseState> states = new Dictionary<Type, AgentBaseState>();
         
             states.Add(typeof(WaitingState), new WaitingState(this)); //Waiting to start the game
+            states.Add(typeof(WaitToCrossState), new WaitToCrossState(this)); //Wait to safely cross the road
+            states.Add(typeof(CrossingState), new CrossingState(this)); //Crossing the road
 
             stateMachine.SetStates(states);
         }

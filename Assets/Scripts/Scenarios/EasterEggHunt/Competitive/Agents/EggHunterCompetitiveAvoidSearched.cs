@@ -14,6 +14,8 @@ namespace Scenarios.EasterEggHunt.Competitive.Agents {
             states.Add(typeof(SearchLocationState), new SearchLocationState(this)); //Search an egg location
             states.Add(typeof(ReturnToBaseState), new ReturnToBaseState(this)); //Return to start point
             states.Add(typeof(CompleteState), new CompleteState(this)); //Return to start point
+            states.Add(typeof(WaitToCrossState), new WaitToCrossState(this)); //Wait to safely cross the road
+            states.Add(typeof(CrossingState), new CrossingState(this)); //Crossing the road
 
             stateMachine.SetStates(states);
         }

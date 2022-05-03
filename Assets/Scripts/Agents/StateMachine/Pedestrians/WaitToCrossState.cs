@@ -60,7 +60,6 @@ public class WaitToCrossState : PedestrianBaseState {
         agentDist = -1;
         safeToCross = false;
         agent.GetAgent().isStopped = true;
-        //agent.GetAgent().Warp(agent.previousPosition);
         return null;
     }
 
@@ -83,7 +82,7 @@ public class WaitToCrossState : PedestrianBaseState {
                 lookOffset += lookSpeed;
             }
             
-            if (check > 2) {
+            if (check > 1) {
                 if (lookOffset < -lookSpeed) {
                     lookOffset += lookSpeed;
                 } else if (lookOffset > lookSpeed) {
