@@ -61,6 +61,17 @@ public class TileRegistry : GenerationSystem {
     public static readonly Tile ROAD_WORLD_EDGE_CORNER = new Tile(43, "Road World Edge Corner", TileType.ROAD);
     public static readonly Tile TOWN_HALL_8x8 = new Tile(44, "Road World Edge Corner", TileType.ROAD);
     public static readonly Tile UNIVERSITY_8x8 = new Tile(45, "Road World Edge Corner", TileType.ROAD);
+    public static readonly Tile SHOP_BESTCO = new Tile(46, "Best Co", TileType.BUILDING_SHOP);
+    public static readonly Tile SHOP_812 = new Tile(47, "8-Twelve", TileType.BUILDING_SHOP);
+    public static readonly Tile SHOP_WCDONALDS = new Tile(48, "WcDonald's", TileType.BUILDING_SHOP);
+    public static readonly Tile SHOP_BURGERQUEEN = new Tile(49, "Burger Queen", TileType.BUILDING_SHOP);
+    public static readonly Tile SHOP_SFC = new Tile(50, "SFC", TileType.BUILDING_SHOP);
+    public static readonly Tile SHOP_PIZZA_HOUSE = new Tile(51, "Pizza House", TileType.BUILDING_SHOP);
+    public static readonly Tile SHOP_TGITUESDAYS = new Tile(52, "TGI Tuesdays", TileType.BUILDING_SHOP);
+    public static readonly Tile SHOP_WAGAPAPA = new Tile(53, "wagapapa", TileType.BUILDING_SHOP);
+    public static readonly Tile SHOP_GRANDPADOS = new Tile(54, "Grandpado's", TileType.BUILDING_SHOP);
+    public static readonly Tile SHOP_TENGIRLS = new Tile(55, "Ten Girls Burgers & Fries", TileType.BUILDING_SHOP);
+    public static readonly Tile SHOP_DOMPATH = new Tile(56, "Dompath", TileType.BUILDING_SHOP);
     public static readonly Tile SKYSCRAPER_GENERIC_1 = new Tile(46, "Generic Skyscraper 1", TileType.BUILDING_PART);
 
     [SerializeField] private GameObject[] register = null;
@@ -137,6 +148,17 @@ public class TileRegistry : GenerationSystem {
         tileRegistry.Add(ROAD_WORLD_EDGE_CORNER);
         tileRegistry.Add(TOWN_HALL_8x8);
         tileRegistry.Add(UNIVERSITY_8x8);
+        tileRegistry.Add(SHOP_BESTCO);
+        tileRegistry.Add(SHOP_812);
+        tileRegistry.Add(SHOP_WCDONALDS);
+        tileRegistry.Add(SHOP_BURGERQUEEN);
+        tileRegistry.Add(SHOP_SFC);
+        tileRegistry.Add(SHOP_PIZZA_HOUSE);
+        tileRegistry.Add(SHOP_TGITUESDAYS);
+        tileRegistry.Add(SHOP_WAGAPAPA);
+        tileRegistry.Add(SHOP_GRANDPADOS);
+        tileRegistry.Add(SHOP_TENGIRLS);
+        tileRegistry.Add(SHOP_DOMPATH);
         tileRegistry.Add(SKYSCRAPER_GENERIC_1);
     }
 
@@ -282,6 +304,28 @@ public class TileRegistry : GenerationSystem {
                 return TOWN_HALL_8x8;
             case EnumTile.UNIVERSITY_8x8:     
                 return UNIVERSITY_8x8;
+            case EnumTile.SHOP_BESTCO:     
+                return SHOP_BESTCO;
+            case EnumTile.SHOP_812:     
+                return SHOP_812;
+            case EnumTile.SHOP_WCDONALDS:     
+                return SHOP_WCDONALDS;
+            case EnumTile.SHOP_BURGERQUEEN:     
+                return SHOP_BURGERQUEEN;
+            case EnumTile.SHOP_SFC:     
+                return SHOP_SFC;
+            case EnumTile.SHOP_PIZZA_HOUSE:     
+                return SHOP_PIZZA_HOUSE;
+            case EnumTile.SHOP_TGITUESDAYS:     
+                return SHOP_TGITUESDAYS;
+            case EnumTile.SHOP_WAGAPAPA:     
+                return SHOP_WAGAPAPA;
+            case EnumTile.SHOP_GRANDPADOS:     
+                return SHOP_GRANDPADOS;
+            case EnumTile.SHOP_TENGIRLS:     
+                return SHOP_TENGIRLS;
+            case EnumTile.SHOP_DOMPATH:     
+                return SHOP_DOMPATH;
             case EnumTile.SKYSCRAPER_GENERIC_1:
                 return SKYSCRAPER_GENERIC_1;
             default:
@@ -371,6 +415,17 @@ public enum EnumTile {
     ROAD_WORLD_EDGE_CORNER,
     TOWN_HALL_8x8,
     UNIVERSITY_8x8,
+    SHOP_BESTCO,
+    SHOP_812,
+    SHOP_WCDONALDS,
+    SHOP_BURGERQUEEN,
+    SHOP_SFC,
+    SHOP_PIZZA_HOUSE,
+    SHOP_TGITUESDAYS,
+    SHOP_WAGAPAPA,
+    SHOP_GRANDPADOS,
+    SHOP_TENGIRLS,
+    SHOP_DOMPATH,
     SKYSCRAPER_GENERIC_1
 }
 

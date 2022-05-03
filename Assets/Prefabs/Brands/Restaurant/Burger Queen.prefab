@@ -43,7 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed3e0a9e475d447ba8997bb10c6a61a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colour: {fileID: 2100000, guid: 538a691e77de900448222847706251ec, type: 2}
-  logo: {fileID: 2100000, guid: 32a472642e9dc4e4080aa7cd6085c158, type: 2}
+  brandName: Burger Queen
+  colour: {fileID: 2100000, guid: e053108904a68524b8a49822ad6267d0, type: 2}
+  logo: {fileID: 2100000, guid: bf0a21929fa22ba48892a01c36aa9c2c, type: 2}
   shopFillings: []
   shopType: 4

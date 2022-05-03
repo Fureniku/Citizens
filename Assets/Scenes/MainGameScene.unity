@@ -3663,9 +3663,9 @@ MonoBehaviour:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 28
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 2
-    m_MaxSize: 40
+    m_MaxSize: 28
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -4165,9 +4165,9 @@ MonoBehaviour:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 28
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 2
-    m_MaxSize: 40
+    m_MaxSize: 28
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -8493,9 +8493,9 @@ MonoBehaviour:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 20
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 2
-    m_MaxSize: 40
+    m_MaxSize: 20
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -8632,9 +8632,9 @@ MonoBehaviour:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 20
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 2
-    m_MaxSize: 40
+    m_MaxSize: 20
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -10031,9 +10031,9 @@ MonoBehaviour:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 28
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 2
-    m_MaxSize: 40
+    m_MaxSize: 28
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -12376,9 +12376,9 @@ MonoBehaviour:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 20
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 2
-    m_MaxSize: 40
+    m_MaxSize: 20
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -14254,9 +14254,9 @@ MonoBehaviour:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 28
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 2
-    m_MaxSize: 40
+    m_MaxSize: 28
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -16783,9 +16783,9 @@ MonoBehaviour:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 20
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 2
-    m_MaxSize: 40
+    m_MaxSize: 20
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -17246,7 +17246,7 @@ PrefabInstance:
     - target: {fileID: 8886422584635529012, guid: b1c55c16a896eac4aaf487b4b08bb3b6,
         type: 3}
       propertyPath: register.Array.size
-      value: 46
+      value: 57
       objectReference: {fileID: 0}
     - target: {fileID: 8886422584635529012, guid: b1c55c16a896eac4aaf487b4b08bb3b6,
         type: 3}
@@ -17277,6 +17277,72 @@ PrefabInstance:
       propertyPath: register.Array.data[45]
       value: 
       objectReference: {fileID: 446264828507051930, guid: 49c1f7a2f1403634e98eacf8d1e9a89c,
+        type: 3}
+    - target: {fileID: 8886422584635529012, guid: b1c55c16a896eac4aaf487b4b08bb3b6,
+        type: 3}
+      propertyPath: register.Array.data[46]
+      value: 
+      objectReference: {fileID: 446264828507051930, guid: 43ff89381eb5159429e1c3e73462864c,
+        type: 3}
+    - target: {fileID: 8886422584635529012, guid: b1c55c16a896eac4aaf487b4b08bb3b6,
+        type: 3}
+      propertyPath: register.Array.data[47]
+      value: 
+      objectReference: {fileID: 446264828507051930, guid: 52962d63be170724d869e25be19f0327,
+        type: 3}
+    - target: {fileID: 8886422584635529012, guid: b1c55c16a896eac4aaf487b4b08bb3b6,
+        type: 3}
+      propertyPath: register.Array.data[48]
+      value: 
+      objectReference: {fileID: 446264828507051930, guid: 244f2048cec968c488d20f1ce058189d,
+        type: 3}
+    - target: {fileID: 8886422584635529012, guid: b1c55c16a896eac4aaf487b4b08bb3b6,
+        type: 3}
+      propertyPath: register.Array.data[49]
+      value: 
+      objectReference: {fileID: 446264828507051930, guid: d9e0134f4da09154089dd08f79c71c48,
+        type: 3}
+    - target: {fileID: 8886422584635529012, guid: b1c55c16a896eac4aaf487b4b08bb3b6,
+        type: 3}
+      propertyPath: register.Array.data[50]
+      value: 
+      objectReference: {fileID: 446264828507051930, guid: 85406ca916f5b88479c48f78bfc4a77a,
+        type: 3}
+    - target: {fileID: 8886422584635529012, guid: b1c55c16a896eac4aaf487b4b08bb3b6,
+        type: 3}
+      propertyPath: register.Array.data[51]
+      value: 
+      objectReference: {fileID: 446264828507051930, guid: f9a44bbd3d60ec645b451c57b2a60bcb,
+        type: 3}
+    - target: {fileID: 8886422584635529012, guid: b1c55c16a896eac4aaf487b4b08bb3b6,
+        type: 3}
+      propertyPath: register.Array.data[52]
+      value: 
+      objectReference: {fileID: 446264828507051930, guid: 58bb192dd105a6d4392680fc624f6e1c,
+        type: 3}
+    - target: {fileID: 8886422584635529012, guid: b1c55c16a896eac4aaf487b4b08bb3b6,
+        type: 3}
+      propertyPath: register.Array.data[53]
+      value: 
+      objectReference: {fileID: 446264828507051930, guid: f07b67a1e02aba84e95624338b80d294,
+        type: 3}
+    - target: {fileID: 8886422584635529012, guid: b1c55c16a896eac4aaf487b4b08bb3b6,
+        type: 3}
+      propertyPath: register.Array.data[54]
+      value: 
+      objectReference: {fileID: 446264828507051930, guid: 8ba6b57c2866d674bb2ea08b94b222a2,
+        type: 3}
+    - target: {fileID: 8886422584635529012, guid: b1c55c16a896eac4aaf487b4b08bb3b6,
+        type: 3}
+      propertyPath: register.Array.data[55]
+      value: 
+      objectReference: {fileID: 446264828507051930, guid: 2a546e5b599454841996ce9444b63559,
+        type: 3}
+    - target: {fileID: 8886422584635529012, guid: b1c55c16a896eac4aaf487b4b08bb3b6,
+        type: 3}
+      propertyPath: register.Array.data[56]
+      value: 
+      objectReference: {fileID: 446264828507051930, guid: f4cc45bbc40c8a845bafe6ad3d4541d5,
         type: 3}
     - target: {fileID: 8886422584635529013, guid: b1c55c16a896eac4aaf487b4b08bb3b6,
         type: 3}

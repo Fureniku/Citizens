@@ -43,7 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed3e0a9e475d447ba8997bb10c6a61a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colour: {fileID: 2100000, guid: 538a691e77de900448222847706251ec, type: 2}
-  logo: {fileID: 2100000, guid: 32a472642e9dc4e4080aa7cd6085c158, type: 2}
+  brandName: TGI Tuesdays
+  colour: {fileID: 2100000, guid: 0db5e5cc0b0fa1443a9430466233ed6d, type: 2}
+  logo: {fileID: 2100000, guid: d572ebdb1deb81346b46fec68753a01a, type: 2}
   shopFillings: []
   shopType: 4

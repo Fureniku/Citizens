@@ -43,7 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed3e0a9e475d447ba8997bb10c6a61a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colour: {fileID: 2100000, guid: 538a691e77de900448222847706251ec, type: 2}
-  logo: {fileID: 2100000, guid: 32a472642e9dc4e4080aa7cd6085c158, type: 2}
+  brandName: Grandpado's
+  colour: {fileID: 2100000, guid: 7d234a149c7cf0140b0a8a32bfaa98fd, type: 2}
+  logo: {fileID: 2100000, guid: 3c36c94072d9e994cbe81edbb30d760c, type: 2}
   shopFillings: []
   shopType: 4

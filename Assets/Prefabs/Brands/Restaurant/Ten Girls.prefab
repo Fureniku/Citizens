@@ -43,7 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed3e0a9e475d447ba8997bb10c6a61a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colour: {fileID: 2100000, guid: 538a691e77de900448222847706251ec, type: 2}
-  logo: {fileID: 2100000, guid: 32a472642e9dc4e4080aa7cd6085c158, type: 2}
+  brandName: Ten Girls
+  colour: {fileID: 2100000, guid: 64c4e27955e9a5142ba22a83a3d0879f, type: 2}
+  logo: {fileID: 2100000, guid: 168c56f15b00550429b6dfb29b0826d4, type: 2}
   shopFillings: []
   shopType: 4

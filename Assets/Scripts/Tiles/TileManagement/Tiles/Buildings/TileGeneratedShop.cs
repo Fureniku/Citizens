@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class TileGeneratedShop : TileData {
 
@@ -41,6 +41,11 @@ public class TileGeneratedShop : TileData {
         
         CreateBase();
         //isRegistryEntry = false;
+    }
+
+    private void OnValidate() {
+        shopSignBack.GetComponent<MeshRenderer>().material = brand.GetColour();
+        shopSignFront.GetComponent<MeshRenderer>().material = brand.GetLogo();
     }
     //21.40625
     //0.15625

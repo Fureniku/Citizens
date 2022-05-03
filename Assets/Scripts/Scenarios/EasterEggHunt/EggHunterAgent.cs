@@ -166,14 +166,28 @@ namespace Scenarios.EasterEggHunt {
 
         public static readonly string[] initMessages = {
             "I'm ready to find some eggs!",
+            "Time to find some eggs!",
+            "I'll find all the eggs!",
             "I'm gonna find the most eggs!",
+            "Egg searching mode, activated!",
+            "Wait what are we supposed to be doing?",
+            "I'm hungry.",
             "I can't promise I wont eat the eggs I find...",
             "If I don't find any eggs I'm gonna cry :'(",
+            "The egg hunting game is fun and balanced!",
         };
         
         private static readonly string[] foundNoEggs = {
             "No eggs at %s.",
+            "Couldn't find any eggs at %s.",
+            "Didn't find any eggs at %s.",
+            "Zero eggs at %s.",
             "Not a single egg in %s!",
+            "Not one egg in %s!",
+            "Not one egg at %s",
+            "Not even one egg in %s!",
+            "All I wanted was an egg, but %s said no.",
+            "%s said they didn't have any eggs, but I think they're lying.",
             "Found an egg at %s! Oh wait, nope, never mind.",
             "I could tell you %s had 2000 eggs, but I'd be lying.",
             "Mom can you pick me up? There's no eggs at %s. Whoops wrong chat!",
@@ -182,19 +196,35 @@ namespace Scenarios.EasterEggHunt {
         
         private static readonly string[] foundEggs = {
             "I found %e eggs at %s!",
+            "Found %e eggs at %s.",
+            "I asked nicely, and %s gave me %e eggs.",
+            "Got %e eggs! Thanks, &s.",
             "%e more eggs from %s",
             "%e eggs courtesy of %s, bringing 'em home.",
             "Retrieved %e eggs from %s.",
+            "Can't believe someone would put %e eggs in %s.",
+            "Can't believe someone would leave %e eggs in %s.",
+            "Finding %e eggs in %s makes sense if you don’t think about it.",
         };
         
         private static readonly string[] foundOneEgg = {
             "I found an egg at %s!",
+            "A singular egg from %s.",
+            "I asked nicely, and %s gave me an egg",
+            "Got an egg! Thanks, %s",
             "One more egg, located in %s.",
             "Add another to the pile! %s kindly gave me an egg!",
+            "Can't believe someone would put an egg in %s.",
+            "Can't believe someone would leave an egg in %s.",
+            "Finding an egg in %s makes sense if you don’t think about it.",
         };
         
         private static readonly string[] depositingEggs = {
-            "Depoisted %e eggs at base",
+            "Depoisted %e eggs at base.",
+            "%e eggs safely in their new home.",
+            "%e eggs delivered.",
+            "%e eggs dropped off at base.",
+            "%e eggs dropped off at the town hall.",
         };
     }
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3259697193352392708}
   - component: {fileID: 4478827750531577748}
   m_Layer: 0
-  m_Name: Cowconsumer
+  m_Name: Dompath
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,7 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed3e0a9e475d447ba8997bb10c6a61a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colour: {fileID: 2100000, guid: 538a691e77de900448222847706251ec, type: 2}
-  logo: {fileID: 2100000, guid: 32a472642e9dc4e4080aa7cd6085c158, type: 2}
+  brandName: Dompath
+  colour: {fileID: 2100000, guid: d7ffb1b4fe7d935409bbb3f510ce84ef, type: 2}
+  logo: {fileID: 2100000, guid: bd6b0011c05361c4ca3cbe9a3cd8c1bf, type: 2}
   shopFillings: []
   shopType: 4
