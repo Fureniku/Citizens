@@ -23,8 +23,8 @@ public class TileReference : TileData {
 
         jObj.Add(new JProperty("id", data.GetId()));
         jObj.Add(new JProperty("rotation", data.GetRotation().GetRotation()));
-        jObj.Add(new JProperty("row", data.GetGridPos().x));
-        jObj.Add(new JProperty("col", data.GetGridPos().z));
+        jObj.Add(new JProperty("row", data.GetTilePos().x));
+        jObj.Add(new JProperty("col", data.GetTilePos().z));
 
         JObject referenceObj = new JObject();
         
@@ -46,6 +46,13 @@ public class TileReference : TileData {
         if (referenceObj != null) {
             SetMasterTile(new TilePos(ParseInt(referenceObj.GetValue("masterX")), ParseInt(referenceObj.GetValue("masterZ"))));
         }
-        
+    }
+    
+    public override void HideAfterRegistration() {
+        HideAfterRegistrationBase();
+    }
+
+    public override void CreateFromRegistry() {
+        CreateBase();
     }
 }

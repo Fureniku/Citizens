@@ -10,8 +10,8 @@ public class ChunkPos : Position{
 
     //Convert a Unity coordinate location into a tilepos location
     public static ChunkPos GetChunkPosFromLocation(Vector3 worldPos) {
-        Vector3 gridStartPos = World.Instance.GetGridManager().transform.position;
-        float tileSize = World.Instance.GetGridManager().GetGridTileSize();
+        Vector3 gridStartPos = World.Instance.GetChunkManager().transform.position;
+        float tileSize = World.Instance.GetChunkManager().GetGridTileSize();
 
         float xFinal = ((worldPos.x - gridStartPos.x) / tileSize) / Chunk.size;
         float zFinal = ((worldPos.z - gridStartPos.z) / tileSize) / Chunk.size;
@@ -20,7 +20,7 @@ public class ChunkPos : Position{
     }
 
     public static Vector3 GetChunkOrigin(ChunkPos pos) {
-        return new Vector3(pos.x * World.Instance.GetGridManager().GetGridTileSize(), 0, pos.z * World.Instance.GetGridManager().GetGridTileSize());
+        return new Vector3(pos.x * World.Instance.GetChunkManager().GetGridTileSize(), 0, pos.z * World.Instance.GetChunkManager().GetGridTileSize());
     }
 
     public int ChunkTileX(TilePos pos) {

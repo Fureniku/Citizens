@@ -3,7 +3,17 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Road
+  - Sidewalk
+  - Vehicle
+  - Pedestrian
+  - Building
+  - Fire
+  - DeleteOnCleanup
+  - SkipCombine
+  - ScenarioSpawner
+  - JunctionCheck
   layers:
   - Default
   - TransparentFX
@@ -11,16 +21,16 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Road
+  - Sidewalk
+  - Clickable
+  - Vehicle
+  - CarPark
+  - Grass
+  - CP_Spaces
+  - Junction
+  - PedestrianRoad
+  - PedestrianRoadDanger
   - 
   - 
   - 

@@ -2,12 +2,11 @@
 using Newtonsoft.Json.Linq;
 using Tiles.TileManagement;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public abstract class TileData : MonoBehaviour {
 
-    [ReadOnly, SerializeField] protected String tileName = "Air";
-    [ReadOnly, SerializeField] protected int tileId = 0;
+    [SerializeField] protected String tileName = "Air";
+    [SerializeField] protected int tileId = 0;
     
     [SerializeField] protected int width = 1;
     [SerializeField] protected int length = 1;
@@ -20,11 +19,13 @@ public abstract class TileData : MonoBehaviour {
     [SerializeField] protected ChunkPos parentChunk;
     [SerializeField] protected bool halfRotations = false;
 
-    [SerializeField] protected EnumTileDirection rotation = EnumTileDirection.NORTH;
+    [SerializeField] protected EnumDirection rotation = EnumDirection.NORTH;
     [SerializeField] protected EnumTile enumTile;
     protected Tile tile;
 
     [SerializeField] protected EnumGenerateDirection genDirection = EnumGenerateDirection.NONE;
+    
+    protected bool isRegistryEntry = false; //Whether this copy of the object is for registration, preventing procedural generations.
 
     public void Initialize() {
         tile = TileRegistry.GetTile(enumTile);
@@ -33,14 +34,14 @@ public abstract class TileData : MonoBehaviour {
     }
 
     public void SetInitialPos() {
-        TilePos tilePos = TilePos.GetGridPosFromLocation(transform.position);
+        TilePos tilePos = TilePos.GetTilePosFromLocation(transform.position);
         SetGridPos(tilePos);
         SetParentChunk(TilePos.GetParentChunk(tilePos));
         SetLocalPos(new LocalPos(parentChunk.ChunkTileX(tilePos), parentChunk.ChunkTileZ(tilePos)));
         transform.rotation = Quaternion.Euler(0, Direction.GetRotation(rotation), 0);
     }
     
-    public void SetRotation(EnumTileDirection rot, bool debug = false) {
+    public void SetRotation(EnumDirection rot, bool debug = false) {
         if (debug) Debug.Log("setting rotation from " + rotation + " to  " + rot);
         rotation = rot;
         transform.rotation = Quaternion.Euler(transform.rotation.x, rot.GetRotation(),  transform.rotation.z);
@@ -50,14 +51,14 @@ public abstract class TileData : MonoBehaviour {
     protected void SetLocalPos(LocalPos vec) => localPos = vec;
     protected void SetParentChunk(ChunkPos chunkPos) => parentChunk = chunkPos;
 
-    public TilePos GetGridPos() { return worldPos; }
+    public TilePos GetTilePos() { return worldPos; }
     public LocalPos GetLocalPos() { return localPos; }
 
     public bool IsHalfRotation() {
         return halfRotations;
     }
 
-    public bool RotationMatch(EnumTileDirection otherRot) {
+    public bool RotationMatch(EnumDirection otherRot) {
         if (rotation == otherRot) {
             return true;
         }
@@ -79,11 +80,6 @@ public abstract class TileData : MonoBehaviour {
 
         return null;
     }
-
-    private void OnDestroy() { //TODO just the chunk, not the whole grid.
-        World.Instance.GetGridManager().FlagForRecheck();
-    }
-    
     
     public int GetId() { return tileId; }
     public String GetName() { return tileName; }
@@ -92,7 +88,9 @@ public abstract class TileData : MonoBehaviour {
     protected void SetId(int idIn) => tileId = idIn;
     protected void SetName(string nameIn) => name = nameIn;
     public void SetGenerationDirection(EnumGenerateDirection dir) { genDirection = dir; }
-    public EnumTileDirection GetRotation() { return rotation; }
+    public EnumDirection GetRotation() { return rotation; }
+    public Tile GetTile() { return TileRegistry.GetTile(enumTile); }
+    public bool IsRegistryVersion() { return isRegistryEntry; }
 
     //////////////// Used for load/save
     
@@ -114,7 +112,22 @@ public abstract class TileData : MonoBehaviour {
         return result;
     }
 
-    public abstract JProperty SerializeTile(TileData td, int row, int col);
+    public void HideAfterRegistrationBase() {
+        if (GetComponent<MeshRenderer>() != null) {
+            GetComponent<MeshRenderer>().enabled = false;
+        }
+        isRegistryEntry = true;
+    }
 
+    public void CreateBase() {
+        if (GetComponent<MeshRenderer>() != null) {
+            GetComponent<MeshRenderer>().enabled = true;
+        }
+        isRegistryEntry = false;
+    }
+    
+    public abstract JProperty SerializeTile(TileData td, int row, int col);
     public abstract void DeserializeTile(JObject json);
+    public abstract void HideAfterRegistration();
+    public abstract void CreateFromRegistry();
 }
