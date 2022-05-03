@@ -15,6 +15,7 @@ public class ChatWindowController : MonoBehaviour {
     [SerializeField] private int fadeTime = 60;
     [SerializeField] private float boxTransparancy = 0.6f;
 
+    private bool fade = true;
     private int fadeTimer = 0;
 
     public void AddNewMessage(string sender, string msg) {
@@ -63,8 +64,6 @@ public class ChatWindowController : MonoBehaviour {
                 int deltaTime = fadeStartTime + fadeTime - fadeTimer;
                 float percent = deltaTime / (float) fadeTime;
                 
-                Debug.Log("Fading out chat box! Delta time: " + deltaTime + ", percent: " + percent + ", alpha: " + (boxTransparancy*percent));
-                
                 img.color = SetAlpha(img.color, boxTransparancy*percent);
 
                 if (deltaTime == 1) {
@@ -72,8 +71,17 @@ public class ChatWindowController : MonoBehaviour {
                 }
             }
 
-            fadeTimer++;
+            if (fade) fadeTimer++;
         }
+    }
+
+    public void DisableFade() {
+        fade = false;
+        fadeTimer = 0;
+    }
+
+    public void EnableFade() {
+        fade = true;
     }
 
     private Color SetAlpha(Color colour, float alpha) {

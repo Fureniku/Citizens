@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Tiles.TileManagement;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PedestrianAgent : BaseAgent {
 
@@ -16,6 +18,16 @@ public class PedestrianAgent : BaseAgent {
     private void GenerateDestination() {
         GameObject finalDest = World.Instance.GetChunkManager().GetTile(LocationRegistration.allPedestrianDestinationsRegistry.GetAtRandom()).gameObject;
         dests.Add(finalDest);
+
+        if (GetCurrentTile().GetTile() == TileRegistry.STRAIGHT_ROAD_1x1) {
+            float coinToss = Random.Range(0.0f, 1.0f);
+            float offset = coinToss < 0.5f ? 3.5f : -3.5f;
+            if (GetCurrentTile().GetRotation() == EnumDirection.NORTH || GetCurrentTile().GetRotation() == EnumDirection.SOUTH) {
+                transform.position += new Vector3(offset, 0, 0);
+            } else {
+                transform.position += new Vector3(0, 0, offset);
+            }
+        }
 
         SetAgentDestination(finalDest);
     }

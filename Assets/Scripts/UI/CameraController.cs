@@ -17,7 +17,7 @@ public class CameraController : MonoBehaviour {
 
     [Space]
 
-    [Range(0, 89)] public float MaxXAngle = 60f;
+    [Range(0, 89)] public float MaxXAngle = 85f;
 
     [Space]
 
@@ -45,25 +45,29 @@ public class CameraController : MonoBehaviour {
     }
 
     private void Update() {
-        if (Cursor.lockState == CursorLockMode.Locked) {
-            HandleMouseRotation();
+        if (World.Instance.IsWorldFullyLoaded()) {
+            if (Cursor.lockState == CursorLockMode.Locked) {
+                HandleMouseRotation();
+            }
         }
     }
     
     // Update is called once per frame
     private void FixedUpdate() {
-        if (Cursor.lockState == CursorLockMode.Locked) {
-            HandleKeyInput();
-        }
+        if (World.Instance.IsWorldFullyLoaded()) {
+            if (Cursor.lockState == CursorLockMode.Locked) {
+                HandleKeyInput();
+            }
 
-        // clamp the move speed
-        maxMove = sprint ? MaximumMovementSpeed * 4 : MaximumMovementSpeed;
-        
-        if(_moveSpeed.magnitude > maxMove) {
-            _moveSpeed = _moveSpeed.normalized * maxMove;
-        }
+            // clamp the move speed
+            maxMove = sprint ? MaximumMovementSpeed * 4 : MaximumMovementSpeed;
 
-        transform.Translate(_moveSpeed);
+            if (_moveSpeed.magnitude > maxMove) {
+                _moveSpeed = _moveSpeed.normalized * maxMove;
+            }
+
+            transform.Translate(_moveSpeed);
+        }
     }
 
     private void HandleKeyInput() {
@@ -81,35 +85,35 @@ public class CameraController : MonoBehaviour {
             keyDown = true;
             _moveSpeed.z -= 0.01f;
         } else {
-            if (_moveSpeed.z < 0) _moveSpeed.z += 0.02f;
+            if (_moveSpeed.z < 0) _moveSpeed.z += 0.02f * (sprint ? 4 : 1);;
         }
 
         if (Input.GetKey(Left)) {
             keyDown = true;
             _moveSpeed.x -= 0.01f;
         } else {
-            if (_moveSpeed.x < 0) _moveSpeed.x += 0.02f;
+            if (_moveSpeed.x < 0) _moveSpeed.x += 0.02f * (sprint ? 4 : 1);;
         }
 
         if (Input.GetKey(Right)) {
             keyDown = true;
             _moveSpeed.x += 0.01f;
         } else {
-            if (_moveSpeed.x > 0) _moveSpeed.x -= 0.02f;
+            if (_moveSpeed.x > 0) _moveSpeed.x -= 0.02f * (sprint ? 4 : 1);;
         }
 
         if (Input.GetKey(Up)) {
             keyDown = true;
             _moveSpeed.y += 0.01f;
         } else {
-            if (_moveSpeed.y > 0) _moveSpeed.y -= 0.02f;
+            if (_moveSpeed.y > 0) _moveSpeed.y -= 0.02f * (sprint ? 4 : 1);;
         }
 
         if (Input.GetKey(Down)) {
             keyDown = true;
             _moveSpeed.y -= 0.01f;
         } else {
-            if (_moveSpeed.y < 0) _moveSpeed.y += 0.02f;
+            if (_moveSpeed.y < 0) _moveSpeed.y += 0.02f * (sprint ? 4 : 1);;
         }
 
         if (Input.GetKey(Sprint)) {
@@ -129,8 +133,7 @@ public class CameraController : MonoBehaviour {
 
     private float _rotationX;
 
-    private void HandleMouseRotation()
-    {
+    private void HandleMouseRotation() {
         //mouse input
         var rotationHorizontal = XAxisSensitivity * Input.GetAxis("Mouse X");
         var rotationVertical = YAxisSensitivity * Input.GetAxis("Mouse Y");

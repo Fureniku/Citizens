@@ -24,9 +24,7 @@ public class LoadStateMachine : MonoBehaviour {
         return states;
     }
 
-    // Update is called once per frame
     void FixedUpdate() {
-
         if (CurrentState == null) {
             CurrentState = states.Values.First();
             CurrentState.StateEnter();
@@ -44,7 +42,7 @@ public class LoadStateMachine : MonoBehaviour {
 
     //Switch states, and update rule based system
     public void SwitchToState(Type nextState) {
-        Debug.Log("MOVING FROM STATE [" + CurrentState.GetName() + "] TO [" + states[nextState].GetName() + "].");
+        Debug.Log("LOAD STATE MACHINE: MOVING FROM STATE [" + CurrentState.GetName() + "] TO [" + states[nextState].GetName() + "].");
         if (!CurrentState.ShouldSkip()) CurrentState.StateExit();
         CurrentState = states[nextState];
         if (!CurrentState.ShouldSkip()) CurrentState.StateEnter();

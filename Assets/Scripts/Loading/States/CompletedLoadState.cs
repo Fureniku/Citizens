@@ -3,14 +3,11 @@ using UnityEngine;
 
 namespace Loading.States {
     public class CompletedLoadState : LoadBaseState {
-        
-        private GameObject loadingCanvas;
-        
-        public CompletedLoadState(int progressId, string name, Type nextState, GameObject loadingCanvas) {
+
+        public CompletedLoadState(int progressId, string name, Type nextState) {
             this.progressId = progressId;
             this.stateName = name;
             this.nextState = nextState;
-            this.loadingCanvas = loadingCanvas;
         }
 
         public override bool StateProgress() {
@@ -18,7 +15,6 @@ namespace Loading.States {
         }
 
         public override Type StateEnter() {
-            if (loadingCanvas != null) loadingCanvas.SetActive(false);
             return null;
         }
 

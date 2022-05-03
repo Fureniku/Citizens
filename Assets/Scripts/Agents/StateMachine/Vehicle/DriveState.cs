@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Numerics;
 using UnityEngine;
+using Vector3 = UnityEngine.Vector3;
 
 public class DriveState : VehicleBaseState {
-    
-    
 
     public DriveState(VehicleAgent agent) {
         this.stateName = "Drive State";
@@ -53,6 +53,9 @@ public class DriveState : VehicleBaseState {
         }
 
         if (dist < 1) {
+            agent.IncrementDestination();
+        } else if (Vector3.Distance(agent.transform.position, agent.GetAgent().destination) < 0.75f) {
+            agent.PrintWarn("Agent was close to agent destination, but not the registered destination. Suggests it was somehow skipped.");
             agent.IncrementDestination();
         }
 

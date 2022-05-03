@@ -28,24 +28,5 @@ namespace Scenarios.EasterEggHunt.Cooperative {
                 agents[i].GetComponent<EggHunterAgent>().Begin();
             }
         }
-
-        public override void CompleteScenario() {
-            Debug.Log("Scenario completed!");
-            List<GameObject> agents = eggHunterAgentManager.GetAllAgents();
-            for (int i = 0; i < agents.Count; i++) {
-                agents[i].GetComponent<EggHunterAgent>().GetStateMachine().ForceState(typeof(ReturnToBaseState));
-            }
-        }
-
-        public override void CleanUp() {
-            for (int i = 0; i < eggLocations.Count; i++) {
-                if (eggLocations[i] != null) {
-                    EggHolder eggHolder = eggLocations[i].GetComponent<EggHolder>();
-                    if (eggHolder != null) {
-                        Destroy(eggHolder);
-                    }
-                }
-            }
-        }
     }
 }

@@ -18,6 +18,8 @@ namespace Scenarios.EasterEggHunt {
         [SerializeField] protected float eggWeight = 0.25f;
         protected int hunterId = 0;
 
+        protected Vector3 spawnPoint;
+
         protected GameObject followTarget = null;
         protected float followDistance = 5.0f;
         [SerializeField] protected EggHunterScenarioManager scenarioManager;
@@ -28,7 +30,6 @@ namespace Scenarios.EasterEggHunt {
         [SerializeField] protected int timeSinceDestination = 0;
 
         public override void Init() {
-            World.Instance.SendChatMessage(GetFullName(), GetRandomMessage(initMessages));
             initialized = true;
         }
 
@@ -88,9 +89,14 @@ namespace Scenarios.EasterEggHunt {
         }
 
         public bool CanBegin() {
+            spawnPoint = transform.position;
             return begin;
         }
 
+        public Vector3 GetSpawnPoint() {
+            return spawnPoint;
+        }
+        
         public bool ReturnToBase() {
             return returnToBase;
         }
@@ -108,10 +114,6 @@ namespace Scenarios.EasterEggHunt {
             }
         }
 
-        public void TimeUp() {
-            stateMachine.ForceState(typeof(ReturnToBaseState));
-        }
-
         public GameObject GetPreviousDestination() {
             return timeSinceDestination < 180 ? previousDestination : null;
         }
@@ -125,17 +127,19 @@ namespace Scenarios.EasterEggHunt {
                     int takeEggs = Mathf.Max(maxHeldEggs - eggCount, eggCount);
                     currentDestGO.GetComponent<EggHolder>().TakeEggs(this, takeEggs);
                     AddEggs(takeEggs);
-                
-                    if (takeEggs == 1) {
-                        World.Instance.SendChatMessage(GetFullName(), ParseString(GetRandomMessage(foundOneEgg), takeEggs, shopName));
-                    } else {
-                        World.Instance.SendChatMessage(GetFullName(), ParseString(GetRandomMessage(foundEggs), takeEggs, shopName));
+
+                    if (scenarioManager.chatOnFoundEgg) {
+                        if (takeEggs == 1) {
+                            World.Instance.SendChatMessage(GetFullName(), ParseString(GetRandomMessage(foundOneEgg), takeEggs, shopName));
+                        } else {
+                            World.Instance.SendChatMessage(GetFullName(), ParseString(GetRandomMessage(foundEggs), takeEggs, shopName));
+                        }
                     }
                     return;
                 }
-                World.Instance.SendChatMessage(GetFullName(), ParseString(GetRandomMessage(foundNoEggs), 0, shopName));
+                if (scenarioManager.chatOnFailedSearch) World.Instance.SendChatMessage(GetFullName(), ParseString(GetRandomMessage(foundNoEggs), 0, shopName));
             } else {
-                World.Instance.SendChatMessage(GetFullName(), ParseString(GetRandomMessage(depositingEggs), holdingEggs, "Base"));
+                if (scenarioManager.chatOnDepositEgg) World.Instance.SendChatMessage(GetFullName(), ParseString(GetRandomMessage(depositingEggs), holdingEggs, "Base"));
             }
             
         }
@@ -156,7 +160,7 @@ namespace Scenarios.EasterEggHunt {
             return str[Random.Range(0, str.Length)];
         }
 
-        private static readonly string[] initMessages = {
+        public static readonly string[] initMessages = {
             "I'm ready to find some eggs!",
             "I'm gonna find the most eggs!",
             "I can't promise I wont eat the eggs I find...",

@@ -939,6 +939,7 @@ MonoBehaviour:
   approachingDestinationController: 0
   reachedDestinationController: 0
   roadSide: 0
+  agentDirection: 0
   currentState: 
   lastSeenObject: {fileID: 0}
   objectDistance: 50

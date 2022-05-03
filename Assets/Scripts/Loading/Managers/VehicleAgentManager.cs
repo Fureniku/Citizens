@@ -24,7 +24,6 @@ public class VehicleAgentManager : AgentManager {
     }
 
     public override IEnumerator GenAgents() {
-        Debug.Log("Starting vehicle generation");
         Registry initialSpawnerRegistry = LocationRegistration.RoadSpawnerRegistry;
         
         int initialAgents = initialAgentCount;

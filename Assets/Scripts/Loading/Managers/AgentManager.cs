@@ -9,10 +9,11 @@ public abstract class AgentManager : GenerationSystem {
     [SerializeField] protected int initialAgentCount;
     [SerializeField] protected int currentAgentCount;
     [SerializeField] protected int maxAgentCount;
-    [SerializeField] protected GameObject testAgent = null; //Change to using pedestrian registry later
+    [SerializeField] protected GameObject testAgent = null;
     [SerializeField] protected GameObject aStarPlane = null;
 
-    protected List<GameObject> agents = new List<GameObject>();
+    [SerializeField] protected List<GameObject> agents = new List<GameObject>();
+    [SerializeField] protected List<GameObject> agentsIdle = new List<GameObject>();
 
     [SerializeField] protected List<BaseAgent> repathQueue = new List<BaseAgent>();
     
@@ -43,6 +44,8 @@ public abstract class AgentManager : GenerationSystem {
         } else {
             pathCooldown--;
         }
+
+        AgentUpdate();
     }
 
     void SetPathForQueuedAgent() {
@@ -87,10 +90,28 @@ public abstract class AgentManager : GenerationSystem {
     }
 
     public void RemoveAgent(GameObject agent) {
-        agents.Remove(agent);
+        Debug.Log("Attempting to remove " + agent.name);
+        if (agents.Contains(agent)) {
+            agents.Remove(agent);
+        }
+        else {
+            Debug.LogWarning("Unable to find or remove " + agent.name + " from list");
+        }
+        
         Destroy(agent);
     }
+
+    public void MoveAgentToIdle(GameObject agent) {
+        agents.Remove(agent);
+        agentsIdle.Add(agent);
+    }
+
+    public void MoveAgentToActive(GameObject agent) {
+        agentsIdle.Remove(agent);
+        agents.Add(agent);
+    }
     
+    //Only used for scenarios to add custom agent types
     protected GameObject ReplaceAgentWithCustom<T>(Vector3 spawnPos) where T : PedestrianAgent {
         GameObject newAgent = Instantiate(testAgent, spawnPos, Quaternion.identity);
         GameObject eyePos = newAgent.GetComponent<PedestrianAgent>().GetEyePos();

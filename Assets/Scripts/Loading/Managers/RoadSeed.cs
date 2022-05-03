@@ -23,6 +23,35 @@ public class RoadSeed : GenerationSystem {
                 if (roadGeneratorInstances == roadGeneratorsComplete) {
                     ChunkManager chunkMan = World.Instance.GetChunkManager();
                     int maxPos = chunkMan.GetSize() * Chunk.size - 1;
+
+                    //Final verification of world edge roads
+                    for (int i = 1; i < chunkMan.GetSize() * Chunk.size - 1; i++) {
+                        TilePos pos1 = new TilePos(0, i);
+                        TilePos pos2 = new TilePos(maxPos, i);
+                        TilePos pos3 = new TilePos(i, 0);
+                        TilePos pos4 = new TilePos(i, maxPos);
+
+                        Tile tile1 = chunkMan.GetTile(pos1).GetTile();
+                        Tile tile2 = chunkMan.GetTile(pos2).GetTile();
+                        Tile tile3 = chunkMan.GetTile(pos3).GetTile();
+                        Tile tile4 = chunkMan.GetTile(pos4).GetTile();
+
+                        if (tile1 != TileRegistry.ROAD_WORLD_EDGE_STRAIGHT && tile1 != TileRegistry.ROAD_WORLD_EDGE_CORNER && tile1 != TileRegistry.ROAD_WORLD_EXIT) {
+                            chunkMan.SetTile(pos1, TileRegistry.ROAD_WORLD_EXIT.GetId(), EnumDirection.NORTH);
+                        }
+                        
+                        if (tile2 != TileRegistry.ROAD_WORLD_EDGE_STRAIGHT && tile2 != TileRegistry.ROAD_WORLD_EDGE_CORNER && tile2 != TileRegistry.ROAD_WORLD_EXIT) {
+                            chunkMan.SetTile(pos2, TileRegistry.ROAD_WORLD_EXIT.GetId(), EnumDirection.EAST);
+                        }
+                        
+                        if (tile3 != TileRegistry.ROAD_WORLD_EDGE_STRAIGHT && tile3 != TileRegistry.ROAD_WORLD_EDGE_CORNER && tile3 != TileRegistry.ROAD_WORLD_EXIT) {
+                            chunkMan.SetTile(pos3, TileRegistry.ROAD_WORLD_EXIT.GetId(), EnumDirection.SOUTH);
+                        }
+                        
+                        if (tile4 != TileRegistry.ROAD_WORLD_EDGE_STRAIGHT && tile4 != TileRegistry.ROAD_WORLD_EDGE_CORNER && tile4 != TileRegistry.ROAD_WORLD_EXIT) {
+                            chunkMan.SetTile(pos4, TileRegistry.ROAD_WORLD_EXIT.GetId(), EnumDirection.WEST);
+                        }
+                    }
                     
                     chunkMan.SetTile(new TilePos(0, 0), TileRegistry.ROAD_WORLD_EDGE_CORNER.GetId(), EnumDirection.WEST);
                     chunkMan.SetTile(new TilePos(0, maxPos), TileRegistry.ROAD_WORLD_EDGE_CORNER.GetId(), EnumDirection.NORTH);

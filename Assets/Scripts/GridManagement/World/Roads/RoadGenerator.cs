@@ -13,7 +13,6 @@ public class RoadGenerator : MonoBehaviour {
     private Tile road_world_exit = TileRegistry.ROAD_WORLD_EXIT;
     private Tile road_zebra_crossing = TileRegistry.ZEBRA_CROSSING_1x1;
     private Tile road_pelican_crossing = TileRegistry.PELICAN_CROSSING_1x1;
-    private Tile road_crossing_approach = TileRegistry.CROSSING_APPROACH_1x1;
 
     [SerializeField] private int nestLevel = 0;
 
@@ -115,11 +114,6 @@ public class RoadGenerator : MonoBehaviour {
                                 placeTile = road_crossroad_controlled;
                             }
 
-                            if (existingId == road_crossing_approach.GetId()) {
-                                placeTile = road_t_junct;
-                                placeRotation = generatorDirection.RotateCCW();
-                            }
-                            
                             if (existingId == road_zebra_crossing.GetId() || existingId == road_pelican_crossing.GetId()) {
                                 placeTile = road_t_junct;
                                 placeRotation = generatorDirection.RotateCCW();

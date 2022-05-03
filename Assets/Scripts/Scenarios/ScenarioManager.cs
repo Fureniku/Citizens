@@ -12,7 +12,9 @@ namespace Scenarios {
         [SerializeField] protected float spawnRange;
         [SerializeField] protected int agentCount;
 
-        [SerializeField] private bool hasStarted = false;
+        [SerializeField] protected float timeLimit;
+
+        [SerializeField] protected bool hasStarted = false;
 
         public int prepareTime = 300; //in ticks/60 per second
         
@@ -23,6 +25,13 @@ namespace Scenarios {
             }
         }
 
+        void Update() {
+            timeLimit -= Time.deltaTime;
+            if (timeLimit <= 0.0f) {
+                CompleteScenario();
+            }
+        }
+        
         public abstract string GetScenarioName();
         public abstract void PrepareScenario();
         public abstract void BeginScenario();
@@ -36,6 +45,15 @@ namespace Scenarios {
         
         public void SetAgentCount(int i) {
             agentCount = i;
+        }
+
+        public void SetTimeLimit(int i) {
+            timeLimit = i*60;
+        }
+
+        public string GetPrintableTime() {
+            TimeSpan time = TimeSpan.FromSeconds(timeLimit);
+            return time.ToString("mm':'ss");
         }
         
         public GameObject GetStartPoint() {

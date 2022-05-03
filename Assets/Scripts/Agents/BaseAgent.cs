@@ -29,7 +29,8 @@ public abstract class BaseAgent : MonoBehaviour {
     [SerializeField] protected bool reachedDestinationController = false;
     
     [Header("Debug")]
-    [SerializeField] private EnumDirection roadSide;
+    [SerializeField] protected EnumDirection roadSide;
+    [SerializeField] protected EnumDirection agentDirection;
     [SerializeField] private string currentState;
     [SerializeField] private GameObject lastSeenObject;
     [SerializeField] protected float objectDistance = 50;
@@ -57,6 +58,10 @@ public abstract class BaseAgent : MonoBehaviour {
         InitStateMachine();
         SetAgentManager();
         SetLookDirection(Vector3.forward, false);
+    }
+
+    public AgentManager GetAgentManager() {
+        return agentManager;
     }
 
     public void SetSpawnController(LocationNodeController lnc) {
@@ -168,19 +173,21 @@ public abstract class BaseAgent : MonoBehaviour {
             }
             Debug.DrawLine(eyePos.transform.position, hit.transform.position, Color.blue);
             seenDecay = 0;
-        }
-        else if (lastSeenObject != null) {
+        } else if (lastSeenObject != null) {
             if (seenDecay < 20) {
                 seenDecay++;
+                objectDistance = Vector3.Distance(eyePos.transform.position, lastSeenObject.transform.position);
                 Debug.DrawLine(eyePos.transform.position, lastSeenObject.transform.position, Color.blue);
             }
             else {
                 lastSeenObject = null;
                 objectDistance = visualRange;
             }
+        } else {
+            seenDecay = 0;
+            objectDistance = visualRange;
         }
         Debug.DrawRay(eyePos.transform.position, lookDirection*5, Color.magenta, 0);
-
     }
 
     public GameObject GetLastSeenObject() {
@@ -207,6 +214,13 @@ public abstract class BaseAgent : MonoBehaviour {
             objectDistance = visualRange;
         }
         return hit;
+    }
+
+    public void ForceClearSeenObject() {
+        seenDecay = 0;
+        lastSeenObject = null;
+        objectDistance = visualRange;
+        SetLookDirection();
     }
 
     public bool SeenAgent(GameObject target) {
@@ -240,37 +254,22 @@ public abstract class BaseAgent : MonoBehaviour {
         }
     }
 
+    public GameObject GetFinalKnownDestination() {
+        return dests.Last();
+    }
+
     //force a new destination. Will not calculate destination path straight away, instead adds to the back of the queue for new paths.
     public void ForceAgentDestination(GameObject dest) {
         if (currentDestGO == dest) {
             return;
         }
-        /*if (currentDestGO != null) {
-            if (currentDestGO.GetComponent<TemporaryDestinationObject>() != null) {
-                DestroyImmediate(currentDestGO);
-            }
-        }
-        /*GameObject temp = Instantiate(dest);
-        temp.AddComponent<TemporaryDestinationObject>();
-        temp.transform.parent = transform.parent;
-        temp.name = agent.name + "'s destination";*/
         currentDestGO = dest;
         agentManager.AddToRepathQueue(this);
     }
 
     //Same as forcing but skips the queue. Mainly used for vehicles where they can be an obstruction to other agents.
     public void ForceAgentDestinationImmediete(GameObject dest) {
-        if (currentDestGO != null) {
-            if (currentDestGO.GetComponent<TemporaryDestinationObject>() != null) {
-                DestroyImmediate(currentDestGO);
-            }
-        }
-        GameObject temp = Instantiate(dest);
-        temp.AddComponent<TemporaryDestinationObject>();
-        temp.transform.parent = transform.parent;
-        temp.name = agent.name + "'s destination";
         currentDestGO = dest;
-        agent.destination = temp.transform.position;
     }
 
     public GameObject GetNextDestination() { return currentDest < dests.Count - 1 ? dests[currentDest + 1] : null; }
@@ -303,6 +302,33 @@ public abstract class BaseAgent : MonoBehaviour {
         }
 
         return roadSide;
+    }
+    
+    public EnumDirection GetRoughFacingDirection() {
+        float rot = transform.rotation.eulerAngles.y;
+
+        while (rot > 360) rot -= 360;
+        while (rot < 0) rot += 360;
+
+        if (rot <= 45 || rot >= 315) {
+            return EnumDirection.NORTH;
+        }
+
+        if (45 <= rot && rot <= 135) {
+            return EnumDirection.EAST;
+        }
+        
+        if (135 <= rot && rot <= 225) {
+            return EnumDirection.SOUTH;
+        }
+        
+        if (225 <= rot && rot <= 315) {
+            return EnumDirection.WEST;
+        }
+
+        //bad
+        Debug.LogWarning("Failed to guestimate rotation");
+        return EnumDirection.NORTH;
     }
 
     public EnumDirection GetRoadSide() {

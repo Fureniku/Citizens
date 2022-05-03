@@ -14,7 +14,12 @@ public class VehicleSelectionInfo : MonoBehaviour {
     [SerializeField] private GameObject destPosX;
     [SerializeField] private GameObject destPosZ;
     
-    [SerializeField] private GameObject distance;
+    [SerializeField] private GameObject state;
+    
+    [SerializeField] private GameObject finalDestPosX;
+    [SerializeField] private GameObject finalDestPosZ;
+    [SerializeField] private GameObject finalDestName;
+    
 
 
     public void SetSelectionInfo(VehicleAgent agent) {
@@ -27,8 +32,19 @@ public class VehicleSelectionInfo : MonoBehaviour {
         TilePos pos = TilePos.GetTilePosFromLocation(agent.transform.position);
         SetText(tilePosX, pos.x);
         SetText(tilePosZ, pos.z);
-                
-        SetText(distance, TilePos.TileDistance(pos,destinationPos));
+        
+        SetText(state, agent.GetState().GetName());
+
+        TileData finalDestination = agent.GetFinalKnownDestination().GetComponent<TileData>();
+        if (finalDestination != null) {
+            SetText(finalDestPosX, finalDestination.GetTilePos().x);
+            SetText(finalDestPosZ, finalDestination.GetTilePos().z);
+            SetText(finalDestName, finalDestination.GetName());
+        } else {
+            SetText(finalDestPosX, "");
+            SetText(finalDestPosZ, "");
+            SetText(finalDestName, "Unknown");
+        }
     }
 
     private void SetText(GameObject go, string txt) {

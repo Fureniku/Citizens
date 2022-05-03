@@ -1,4 +1,5 @@
 ﻿using System;
+using Tiles.TileManagement;
 using UnityEngine;
 
 public abstract class VehicleBaseState : AgentBaseState {
@@ -12,7 +13,9 @@ public abstract class VehicleBaseState : AgentBaseState {
             VehicleAgent seenAgent = (VehicleAgent) agent.GetLastSeenAgent();
 
             if (seenAgent.GetState().IsWaitableState() && !agent.IsOppositeRoadSide(seenAgent.GetRoadSide())) {
-                return typeof(WaitForVehicleState);
+                if (agent.GetRoughFacingDirection().Opposite() != seenAgent.GetRoughFacingDirection()) {
+                    return typeof(WaitForVehicleState);
+                }
             }
         }
 
@@ -20,11 +23,14 @@ public abstract class VehicleBaseState : AgentBaseState {
     }
 
     public Type CheckObstructionVehicle() {
-        if (agent.GetLastSeenObject() != null) {
+        if (agent.GetLastSeenObject() != null && agent.GetLastSeenAgent() is VehicleAgent) {
+            VehicleAgent seenAgent = (VehicleAgent) agent.GetLastSeenAgent();
             agent.SetLookDirection();
             if (agent.GetSeenObject().distance < 10 && agent.GetSeenObject().distance > 0) {
                 if (!agent.IsOppositeRoadSide(agent.GetLastSeenAgent().GetRoadSide())) {
-                    return typeof(ObstructionSpottedState);
+                    if (agent.GetRoughFacingDirection().Opposite() != seenAgent.GetRoughFacingDirection()) {
+                        return typeof(ObstructionSpottedState);
+                    }
                 }
             }
         }

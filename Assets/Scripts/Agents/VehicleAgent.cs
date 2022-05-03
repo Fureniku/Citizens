@@ -33,11 +33,11 @@ public class VehicleAgent : BaseAgent {
     public override void Init() {
         vehicle = GetComponent<Vehicle>();
         GameObject finalDest = World.Instance.GetChunkManager().GetTile(LocationRegistration.allVehicleDestinationsRegistry.GetAtRandom()).gameObject;
-        GameObject startPoint = gameObject;
+       GameObject startPoint = gameObject;
 
         if (spawnController != null) {
             dests.Add(spawnController.GetSpawnerNodeVehicle().GetStartPointNode().gameObject);
-            startPoint = spawnController.GetSpawnerNodeVehicle().GetStartPointNode().gameObject;
+            startPoint = spawnController.gameObject;
             GameObject startTile = spawnController.gameObject;
 
             while (finalDest == startTile) {
@@ -53,7 +53,7 @@ public class VehicleAgent : BaseAgent {
         }
         finalDest = destinationController.GetDestinationNodeVehicle().gameObject;
 
-        List<Node> aStarPath = aStar.RequestPath(startPoint, finalDest);
+        List<Node> aStarPath = aStar.RequestPath(startPoint, destinationController.gameObject);
         
         int passengerAgents = Random.Range(1, vehicle.GetMaxSeats() + 1);
 
@@ -94,13 +94,25 @@ public class VehicleAgent : BaseAgent {
             Debug.LogError("Vehicle " + gameObject.name + " spawned too close to its destination. This is very bad!.");
         }
 
+        if (startPoint != gameObject && startPoint.GetComponent<VehicleJunctionController>() != null) {
+            VehicleJunctionController startJC = startPoint.GetComponent<VehicleJunctionController>();
+            
+            if (startJC != null) {
+                dests.Add(startJC.GetInNodeRaw(EnumLocalDirection.UP));
+                Debug.Log("Getting vehicle spawning junction controller");
+                TileData exitTd = World.Instance.GetChunkManager().GetTile(new TilePos(aStarPath[0].x, aStarPath[0].y));
+                Debug.Log("Exit TD: " + exitTd.GetName());
+
+                EnumDirection exit = Direction.GetDirectionOffset(startJC.GetComponent<TileData>().GetTilePos(), exitTd.GetTilePos()); //current to exit
+                GameObject exitGo = startJC.GetOutNode(exit);
+                dests.Add(exitGo);
+            }
+        }
+
         for (int i = 0; i < aStarPath.Count; i++) {
             TileData td = World.Instance.GetChunkManager().GetTile(new TilePos(aStarPath[i].x, aStarPath[i].y));
-
-
-            bool junctFound = false;
+            
             if (td.gameObject.GetComponent<VehicleJunctionController>() != null) {
-                junctFound = true;
                 VehicleJunctionController vjController = td.gameObject.GetComponent<VehicleJunctionController>();
                 TileData entryTd = null;
                 TileData exitTd = null;
@@ -126,15 +138,18 @@ public class VehicleAgent : BaseAgent {
             }
         }
 
-        VehicleJunctionController vjc = finalDest.GetComponent<VehicleJunctionController>();
+        VehicleJunctionController vjc = destinationController.GetComponent<VehicleJunctionController>();
         
         if (vjc != null) { //Add the final junction entry node before the destination, if the destination is on a junction.
-            TileData entryTd  = World.Instance.GetChunkManager().GetTile(new TilePos(aStarPath[aStarPath.Count-2].x, aStarPath[aStarPath.Count-2].y));
+            Debug.Log("Finald est VJC was not null");
+            TileData entryTd  = World.Instance.GetChunkManager().GetTile(new TilePos(aStarPath[aStarPath.Count-1].x, aStarPath[aStarPath.Count-1].y));
             EnumDirection entry = Direction.GetDirectionOffset(entryTd.GetTilePos(), TilePos.GetTilePosFromLocation(finalDest.transform.position));
             dests.Add(vjc.GetInNode(entry));
+            dests.Add(destinationController.GetComponent<VehicleJunctionController>().GetOutNodeRaw(EnumLocalDirection.UP));
         }
 
         if (destinationController != null) {
+            
             dests.Add(destinationController.GetDestinationNodeVehicle().gameObject);
         } else {
             dests.Add(finalDest);
@@ -244,6 +259,7 @@ public class VehicleAgent : BaseAgent {
     }
 
     private int stuckCooldown = 0;
+    private int wrongSideCooldown = 0;
     protected override void AgentUpdate() {
         if (!isParked && IsStuck()) {
             if (stuckCooldown == 0) {
@@ -255,6 +271,48 @@ public class VehicleAgent : BaseAgent {
         } else {
             stuckCooldown = 0;
         }
+
+        if (!ValidateRoadSide()) {
+            wrongSideCooldown++;
+
+            if (wrongSideCooldown > 300) {
+                PrintError("On the wrong side of the road!!!!!");
+            }
+        }
+    }
+
+    private bool ValidateRoadSide() {
+        TileData currentTile = GetCurrentTile();
+        agentDirection = GetRoughFacingDirection();
+        if (currentTile != null) {
+            if (currentTile.GetTile() == TileRegistry.STRAIGHT_ROAD_1x1) {
+                switch (agentDirection) {
+                    case EnumDirection.NORTH:
+                        if (roadSide == EnumDirection.EAST) {
+                            return false;
+                        }
+                        break;
+                    case EnumDirection.EAST:
+                        if (roadSide == EnumDirection.SOUTH) {
+                            return false;
+                        }
+                        break;
+                    case EnumDirection.SOUTH:
+                        if (roadSide == EnumDirection.WEST) {
+                            return false;
+                        }
+                        break;
+                    case EnumDirection.WEST:
+                        if (roadSide == EnumDirection.NORTH) {
+                            return false;
+                        }
+                        break;
+                }
+            }
+        }
+
+        wrongSideCooldown = 0;
+        return true;
     }
 
     public void SetParked() {

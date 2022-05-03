@@ -180,7 +180,16 @@ public class VehicleJunctionController : MonoBehaviour {
 
     public GameObject GetInNode(EnumDirection dir) {
         EnumLocalDirection localDir = GetLocalFromEntryPoint(dir, GetComponent<TileData>().GetRotation());
-        switch (localDir) {
+        return GetInNodeRaw(localDir);
+    }
+    
+    public GameObject GetOutNode(EnumDirection dir) {
+        EnumLocalDirection localDir = GetLocalFromExitPoint(dir, GetComponent<TileData>().GetRotation());
+        return GetOutNodeRaw(localDir);
+    }
+    
+    public GameObject GetInNodeRaw(EnumLocalDirection dir) {
+        switch (dir) {
             case EnumLocalDirection.UP:
                 return upIn;
             case EnumLocalDirection.RIGHT:
@@ -194,9 +203,8 @@ public class VehicleJunctionController : MonoBehaviour {
         return upIn;
     }
     
-    public GameObject GetOutNode(EnumDirection dir) {
-        EnumLocalDirection localDir = GetLocalFromExitPoint(dir, GetComponent<TileData>().GetRotation());
-        switch (localDir) {
+    public GameObject GetOutNodeRaw(EnumLocalDirection dir) {
+        switch (dir) {
             case EnumLocalDirection.UP:
                 return upOut;
             case EnumLocalDirection.RIGHT:
@@ -207,7 +215,7 @@ public class VehicleJunctionController : MonoBehaviour {
                 return leftOut;
         }
 
-        return upOut;
+        return upIn;
     }
 
     private GameObject GetOpposingNode(VehicleJunctionNode nodeIn) {

@@ -47,8 +47,9 @@ public class SectionSubdivider : GenerateBuildingBase {
         if (existingTile.GetTileType() == TileType.ROAD) {
             if (existingTile == TileRegistry.T_JUNCT_ROAD_1x1) {
                 chunkManager.SetTile(offset, TileRegistry.CROSSROAD_ROAD_1x1.GetId(), EnumDirection.NORTH);
-            }
-            else {
+            } else if (existingTile == TileRegistry.ROAD_WORLD_EDGE_STRAIGHT) {
+                chunkManager.SetTile(offset, TileRegistry.ROAD_WORLD_EDGE_T.GetId(), direction.RotateCCW());
+            } else {
                 chunkManager.SetTile(offset, TileRegistry.T_JUNCT_ROAD_1x1.GetId(), direction.RotateCCW());
             }
         }

@@ -20,6 +20,7 @@ public class LoadingManager : MonoBehaviour {
     [SerializeField] private GameObject roadNavMesh = null;
     [SerializeField] private GameObject sidewalkNavMesh = null;
     [SerializeField] private GameObject aStarGrid = null;
+    [SerializeField] private GameObject camera = null;
     
     [Space(20)]
     
@@ -85,8 +86,9 @@ public class LoadingManager : MonoBehaviour {
         states.Add(typeof(GenNavMeshLoadState), new GenNavMeshLoadState(5, "NavMesh Generation", typeof(PopulateRegistryLoadState), aStar, roadMesh, sidewalkMesh, skipNavMesh));
         states.Add(typeof(PopulateRegistryLoadState), new PopulateRegistryLoadState(6, "Populate Registries", typeof(GenVehicleLoadState), vehicleRegistryComponent, brandRegistryComponent));
         states.Add(typeof(GenVehicleLoadState), new GenVehicleLoadState(7, "Generate Vehicles", typeof(GenPedestriansLoadState), vehicleAgentManagerComponent, World.Instance.SkipVehicleGen()));
-        states.Add(typeof(GenPedestriansLoadState), new GenPedestriansLoadState(8, "Generate Pedestrians", typeof(CompletedLoadState), pedestrianAgentManagerComponent, World.Instance.SkipPedestrianGen()));
-        states.Add(typeof(CompletedLoadState), new CompletedLoadState(9, "Completed", typeof(CompletedLoadState), loadingCanvas));
+        states.Add(typeof(GenPedestriansLoadState), new GenPedestriansLoadState(8, "Generate Pedestrians", typeof(MoveCameraState), pedestrianAgentManagerComponent, World.Instance.SkipPedestrianGen()));
+        states.Add(typeof(MoveCameraState), new MoveCameraState(9, "Moving Camera", typeof(CompletedLoadState), loadingCanvas, camera));
+        states.Add(typeof(CompletedLoadState), new CompletedLoadState(9, "Completed", typeof(CompletedLoadState)));
         
         stateMachine.SetStates(states);
     }

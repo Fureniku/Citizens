@@ -115,13 +115,16 @@ namespace Scenarios.EasterEggHunt {
         }
 
         private void FinalizeAgent(GameObject agent, int i, ScenarioManager sm) {
+            EggHunterScenarioManager eggSM = (EggHunterScenarioManager) sm;
             agents[i].transform.parent = transform;
             agents[i].name = "Egg-Hunter Agent " + (i + 1);
             agents[i].GetComponent<EggHunterAgent>().SetAStar(aStarPlane.GetComponent<AStar>());
             agents[i].GetComponent<EggHunterAgent>().Init();
             agents[i].GetComponent<EggHunterAgent>().SetHunterID(i+1);
-            agents[i].GetComponent<EggHunterAgent>().SetScenarioManager((EggHunterScenarioManager) sm);
+            agents[i].GetComponent<EggHunterAgent>().SetScenarioManager(eggSM);
             agents[i].GetComponent<EggHunterAgent>().SetAgentManager();
+            
+            if (eggSM.chatOnStart) World.Instance.SendChatMessage(agents[i].GetComponent<EggHunterAgent>().GetFullName(), EggHunterAgent.GetRandomMessage(EggHunterAgent.initMessages));
         }
         
         protected override void AgentUpdate() {}

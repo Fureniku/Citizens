@@ -34,7 +34,7 @@ public class TileRegistry : GenerationSystem {
     public static readonly Tile ROAD_WORLD_EXIT = new Tile(16, "Road World Exit", TileType.ROAD);
     public static readonly Tile ZEBRA_CROSSING_1x1 = new Tile(17, "Zebra Crossing", TileType.ROAD);
     public static readonly Tile PELICAN_CROSSING_1x1 = new Tile(18, "Pelican Crossing", TileType.ROAD);
-    public static readonly Tile CROSSING_APPROACH_1x1 = new Tile(19, "Crossing Approach", TileType.ROAD);
+    public static readonly Tile ROAD_WORLD_EDGE_T = new Tile(19, "Road World Edge T", TileType.ROAD);
     public static readonly Tile OFFICE_1_CORNER_RECESSED_L = new Tile(20, "Office 1 Corner Recessed L", TileType.BUILDING_PART);
     public static readonly Tile OFFICE_1_CORNER_RECESSED_R = new Tile(21, "Office 1 Corner Recessed R", TileType.BUILDING_PART);
     public static readonly Tile OFFICE_1_CORNER_RECESSED = new Tile(22, "Office 1 Corner Recessed", TileType.BUILDING_PART);
@@ -110,7 +110,7 @@ public class TileRegistry : GenerationSystem {
         tileRegistry.Add(ROAD_WORLD_EXIT);
         tileRegistry.Add(ZEBRA_CROSSING_1x1);
         tileRegistry.Add(PELICAN_CROSSING_1x1);
-        tileRegistry.Add(CROSSING_APPROACH_1x1);
+        tileRegistry.Add(ROAD_WORLD_EDGE_T);
         tileRegistry.Add(OFFICE_1_CORNER_RECESSED_L);
         tileRegistry.Add(OFFICE_1_CORNER_RECESSED_R);
         tileRegistry.Add(OFFICE_1_CORNER_RECESSED);
@@ -228,8 +228,8 @@ public class TileRegistry : GenerationSystem {
                 return ZEBRA_CROSSING_1x1;
             case EnumTile.PELICAN_CROSSING_1x1:
                 return PELICAN_CROSSING_1x1;
-            case EnumTile.CROSSING_APPROACH_1x1:
-                return CROSSING_APPROACH_1x1;
+            case EnumTile.ROAD_WORLD_EDGE_T:
+                return ROAD_WORLD_EDGE_T;
             case EnumTile.OFFICE_1_CORNER_RECESSED_L:
                 return OFFICE_1_CORNER_RECESSED_L;
             case EnumTile.OFFICE_1_CORNER_RECESSED_R:
@@ -344,7 +344,7 @@ public enum EnumTile {
     ROAD_WORLD_EXIT,
     ZEBRA_CROSSING_1x1,
     PELICAN_CROSSING_1x1,
-    CROSSING_APPROACH_1x1,
+    ROAD_WORLD_EDGE_T,
     OFFICE_1_CORNER_RECESSED_L,
     OFFICE_1_CORNER_RECESSED_R,
     OFFICE_1_CORNER_RECESSED,

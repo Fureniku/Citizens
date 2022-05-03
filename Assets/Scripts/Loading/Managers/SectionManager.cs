@@ -363,7 +363,9 @@ public class SectionManager : GenerationSystem {
 
         float passValue = (1.0f / passes) * 100;
         float additional = currentPass * passValue;
-        return (int) ((passPercent/passes + additional) - passValue);
+        int final = (int) ((passPercent/passes + additional) - passValue);
+        if (final < 0) final = 80;
+        return final;
     }
 
     public override string GetGenerationString() {

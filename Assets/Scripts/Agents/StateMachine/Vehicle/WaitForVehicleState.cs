@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using Tiles.TileManagement;
 using UnityEngine;
 
 public class WaitForVehicleState : VehicleBaseState {
@@ -22,10 +23,13 @@ public class WaitForVehicleState : VehicleBaseState {
             return typeof(DriveState);
         }
         
-        
         if (agent.GetLastSeenAgent() != null && agent.GetLastSeenAgent() is VehicleAgent) {
             VehicleAgent seenAgent = (VehicleAgent) agent.GetLastSeenAgent();
 
+            if (agent.GetRoadSide().Opposite() == seenAgent.GetRoadSide() || agent.GetRoughFacingDirection().Opposite() == seenAgent.GetRoughFacingDirection()) {
+                return typeof(DriveState);
+            }
+            
             if (seenAgent.GetState() is WaitForVehicleState) {
                 if (seenAgent.GetLastSeenAgent() == agent) {
                     float agentDist = Vector3.Distance(agent.transform.position, agent.GetCurrentDestination().transform.position);

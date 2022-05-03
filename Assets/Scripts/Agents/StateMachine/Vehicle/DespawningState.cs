@@ -13,7 +13,7 @@ public class DespawningState : VehicleBaseState {
         float distance = Vector3.Distance(agent.transform.position, agent.GetCurrentDestination().transform.position);
 
         if (distance < 1) {
-            Object.Destroy(agent.gameObject);
+            agent.GetAgentManager().RemoveAgent(agent.gameObject);
         }
         
         return null;

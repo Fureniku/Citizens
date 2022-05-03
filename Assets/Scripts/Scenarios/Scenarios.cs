@@ -13,14 +13,21 @@ namespace Scenarios {
             get { return _instance; }
         }
 
-        [SerializeField] private GameObject scenarioCanvas = null;
+        [SerializeField] private GameObject scenarioMainCanvas = null;
+        [SerializeField] private GameObject scenarioListCanvas = null;
         [SerializeField] private GameObject scenarioTrackerCanvas = null;
         [SerializeField] private GameObject scenarioConfigCanvas = null;
         [SerializeField] private GameObject scenarioStartingCanvas = null;
 
         [SerializeField] private GameObject startPosition = null;
         [SerializeField] private GameObject depositPoint = null;
-        [SerializeField] private InputField inputField;
+        [SerializeField] private InputField agentCount;
+        [SerializeField] private InputField timeLimit;
+        //Ideally temporary, Scenarios shouldn't have anything specific to any scenario, but fine for now.
+        [SerializeField] private Toggle agentChatStart;
+        [SerializeField] private Toggle agentChatNoEgg;
+        [SerializeField] private Toggle agentChatEggFound;
+        [SerializeField] private Toggle agentChatDepositEgg;
         [SerializeField] private Text scenarioTitle;
         [SerializeField] private Text message;
         
@@ -51,6 +58,13 @@ namespace Scenarios {
             sm.PrepareScenario();
         }
 
+        public void Reset() {
+            preparing = false;
+            prepareTime = 0;
+            began = false;
+            scenario = null;
+        }
+
         public void BeginScenario(ScenarioManager sm) {
             scenarioTrackerCanvas.SetActive(true);
             scenarioTracker[0].text = sm.GetScenarioName();
@@ -60,10 +74,16 @@ namespace Scenarios {
         
         public void ScenarioUpdate(ScenarioManager sm) { sm.ScenarioUpdate(); }
         public void CompleteScenario(ScenarioManager sm) { sm.CompleteScenario(); }
-        public void CleanUpScenario(ScenarioManager sm) { sm.CleanUp(); }
+
+        public void CleanUpScenario(ScenarioManager sm) {
+            scenarioListCanvas.SetActive(true);
+            scenarioTrackerCanvas.SetActive(false);
+            scenarioMainCanvas.SetActive(false);
+            sm.CleanUp(); 
+        }
 
         void FixedUpdate() {
-            if (scenario != null && preparing) {
+            if (scenario != null) {
                 ScenarioManager scenarioManager = scenario.GetComponent<ScenarioManager>();
                 
                 if (preparing) {
@@ -103,14 +123,23 @@ namespace Scenarios {
             scenario = Instantiate(scenarios[id].gameObject, startPosition.transform, true);
             scenario.GetComponent<ScenarioManager>().SetStartPoint(startPosition);
             scenario.GetComponent<ScenarioManager>().SetDepositPoint(depositPoint);
-            scenarioCanvas.SetActive(false);
+            scenarioListCanvas.SetActive(false);
             scenarioTitle.text = scenario.GetComponent<ScenarioManager>().GetScenarioName();
             scenarioConfigCanvas.SetActive(true);
         }
 
         public void PrepareScenario() {
             ScenarioManager sm = scenario.GetComponent<ScenarioManager>();
-            sm.SetAgentCount(Int32.Parse(inputField.text));
+            sm.SetAgentCount(Int32.Parse(agentCount.text));
+            sm.SetTimeLimit(Int32.Parse(timeLimit.text));
+            if (sm is EggHunterScenarioManager) {
+                EggHunterScenarioManager eggHunter = (EggHunterScenarioManager) sm;
+                eggHunter.chatOnStart = agentChatStart.isOn;
+                eggHunter.chatOnFailedSearch = agentChatNoEgg.isOn;
+                eggHunter.chatOnFoundEgg = agentChatEggFound.isOn;
+                eggHunter.chatOnDepositEgg = agentChatDepositEgg.isOn;
+            }
+            
             PrepareScenario(sm);
             preparing = true;
             scenarioConfigCanvas.SetActive(false);

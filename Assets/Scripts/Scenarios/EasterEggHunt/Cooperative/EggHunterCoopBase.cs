@@ -11,10 +11,6 @@ namespace Scenarios.EasterEggHunt.Cooperative {
         public List<GameObject> searchDestinations = new List<GameObject>(); //Shared between all agents instead of individual list
         
         public void ClaimNextDestination(EggHunterAgent agent) {
-            Debug.Log(agent.name + " Claiming destination");
-            if (eggLocations.Contains(searchDestinations[0])) {
-                Debug.LogWarning("It's an egg location!!!");
-            }
             agent.ForceAgentDestination(searchDestinations[0]);
             searchDestinations.RemoveAt(0);
             searchedLocations++;
@@ -42,7 +38,16 @@ namespace Scenarios.EasterEggHunt.Cooperative {
             Scenarios.Instance.SetInfo1("Agents", agentCount.ToString());
             Scenarios.Instance.SetInfo2("Eggs Found:", foundEggs + " / " + totalSpawnedEggs);
             Scenarios.Instance.SetInfo3("Locations Checked:", searchedLocations + " / " + totalLocations);
-            Scenarios.Instance.SetInfo4("Time Remaining:", "unimplemented");
+ 
+            if (isComplete) {
+                Scenarios.Instance.SetInfo4("Returned agents:", returnedAgents.ToString());
+            } else {
+                Scenarios.Instance.SetInfo4("Time Remaining:", GetPrintableTime());
+            }
+
+            if (AllEggsFound() || searchedLocations == totalLocations) {
+                CompleteScenario();
+            }
         }
 
         public int RemainingDestinations() {
