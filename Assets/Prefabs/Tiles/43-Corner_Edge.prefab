@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 2927779251538935156}
   m_Layer: 7
   m_Name: Top_Sidewalk
-  m_TagString: Untagged
+  m_TagString: Sidewalk
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -485,7 +485,7 @@ GameObject:
   - component: {fileID: 2421082780841010110}
   m_Layer: 7
   m_Name: Right_Sidewalk
-  m_TagString: Untagged
+  m_TagString: Sidewalk
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1079,7 +1079,7 @@ GameObject:
   - component: {fileID: 5840017118580564748}
   m_Layer: 7
   m_Name: Left_Sidewalk
-  m_TagString: Untagged
+  m_TagString: Sidewalk
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1562,7 +1562,7 @@ GameObject:
   - component: {fileID: 7524676816966061749}
   m_Layer: 8
   m_Name: 43-Corner_Edge
-  m_TagString: Untagged
+  m_TagString: Road
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1627,7 +1627,6 @@ MonoBehaviour:
   rotation: 1
   enumTile: 43
   genDirection: 4
-  roadType: 1
 --- !u!65 &5422547799886574761
 BoxCollider:
   m_ObjectHideFlags: 0

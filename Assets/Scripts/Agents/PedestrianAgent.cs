@@ -10,6 +10,11 @@ public class PedestrianAgent : BaseAgent {
     [SerializeField] private GameObject legs;
     [SerializeField] private VehicleAgent vehicle;
 
+    //Crossing road detection things
+    private Type previousState;
+    private bool onRoad = true;
+    private bool enteredRoad = false;
+
     public override void Init() {
         GenerateDestination();
         CalculateAllPaths();
@@ -61,9 +66,8 @@ public class PedestrianAgent : BaseAgent {
         Dictionary<Type, AgentBaseState> states = new Dictionary<Type, AgentBaseState>();
         
         states.Add(typeof(WalkState), new WalkState(this)); //Standard walking
-        states.Add(typeof(ApproachZebraCrossingState), new ApproachZebraCrossingState(this)); //Approach a zebra crossing
-        states.Add(typeof(WaitZebraCrossingState), new WaitZebraCrossingState(this)); //Wait at a zebra crossing
-        states.Add(typeof(CrossingState), new CrossingState(this)); //Crossing the road (as to not switch back into an approach state)
+        states.Add(typeof(WaitToCrossState), new WaitToCrossState(this)); //Wait to safely cross the road
+        states.Add(typeof(CrossingState), new CrossingState(this)); //Crossing the road
         states.Add(typeof(VehiclePassengerState), new VehiclePassengerState(this)); //Agent is in a vehicle
 
         stateMachine.SetStates(states);
@@ -74,27 +78,48 @@ public class PedestrianAgent : BaseAgent {
     }
     
     public new void SetLookDirection(Vector3 vec3, bool force) {
-        if (GetLastSeenObject() != null && !force) {
-            SetLookDirection();
-        } else {
-            head.transform.rotation = Quaternion.Euler(vec3);
-        }
+        head.transform.localRotation = Quaternion.Euler(vec3);
     }
 
     protected override void AgentUpdate() {
         Ray ray1 = new Ray(transform.position, Vector3.down);
 
-        bool onSidewalk = false;
+        if (!onRoad) {
+            if (IsOnRoad()) {
+                onRoad = true;
+                enteredRoad = true;
+            }
+        } else { //Only set to true for one frame
+            enteredRoad = false;
+            onRoad = IsOnRoad();
+        }
 
-        if (Physics.Raycast(ray1, out RaycastHit hit1, 5.0f)) {
-            if (hit1.collider.CompareTag("Sidewalk")) {
-                onSidewalk = true;
+
+        lookDirection = head.transform.rotation * Vector3.forward;
+    }
+
+    public bool HasEnteredRoad() {
+        return enteredRoad;
+    }
+
+
+    public bool IsOnRoad() {
+        Ray ray = new Ray(agent.nextPosition, Vector3.down);
+        if (Physics.Raycast(ray, out RaycastHit hit, 5.0f)) {
+            if (hit.collider.CompareTag("Road")) {
+                return true;
             }
         }
-        
-        if (!onSidewalk) {
-            Debug.LogWarning("Walking on something not sidewalky!!");
-        }
+
+        return false;
+    }
+
+    public void SetPreviousState(Type type) {
+        previousState = type;
+    }
+
+    public Type GetPreviousState() {
+        return previousState;
     }
     
     protected override void AgentNavigate() {}

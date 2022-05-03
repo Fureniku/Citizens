@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 211649363999811924}
   m_Layer: 15
   m_Name: Road
-  m_TagString: Untagged
+  m_TagString: Road
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -294,7 +294,7 @@ GameObject:
   - component: {fileID: 30601552220107495}
   m_Layer: 8
   m_Name: 3-Straight_Road
-  m_TagString: Untagged
+  m_TagString: Road
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

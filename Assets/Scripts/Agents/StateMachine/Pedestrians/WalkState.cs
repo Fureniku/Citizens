@@ -11,12 +11,10 @@ public class WalkState : PedestrianBaseState {
         if (agent.GetVehicle() != null) {
             return typeof(VehiclePassengerState);
         }
-        
-        if (agent.GetCurrentTile() != null && agent.GetCurrentTile().GetTile() == TileRegistry.ZEBRA_CROSSING_1x1) {
-            //TODO only switch states if they should actually cross here
-            //return typeof(ApproachZebraCrossingState);
-        }
-        return null;
+
+        agent.SetLookDirection();
+
+        return EnteredRoad();
     }
     
     public override Type StateEnter() {

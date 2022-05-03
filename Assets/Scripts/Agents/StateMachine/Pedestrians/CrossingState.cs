@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 public class CrossingState : PedestrianBaseState {
 
@@ -8,9 +9,10 @@ public class CrossingState : PedestrianBaseState {
     }
 
     public override Type StateUpdate() {
-        if (agent.GetCurrentTile().GetTile() != TileRegistry.ZEBRA_CROSSING_1x1) {
-            return typeof(WalkState);
+        if (!agent.IsOnRoad()) {
+            return agent.GetPreviousState();
         }
+        
         return null;
     }
 
