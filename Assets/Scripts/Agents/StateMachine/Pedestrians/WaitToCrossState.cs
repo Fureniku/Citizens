@@ -48,7 +48,6 @@ public class WaitToCrossState : PedestrianBaseState {
                             check = 0; //restart checking
                         } else {
                             //Vehicle is moving away (or more likely stationary). Add to ignore so we don't check it again later.
-                            Debug.Log("Ignoring " + seenObject.gameObject.name);
                             ignoredVehicles.Add(seenObject.gameObject);
                         }
                     }

@@ -51,7 +51,7 @@ namespace Scenarios {
             timeLimit = i*60;
         }
 
-        public string GetPrintableTime() {
+        protected string GetPrintableTime() {
             TimeSpan time = TimeSpan.FromSeconds(timeLimit);
             return time.ToString("mm':'ss");
         }

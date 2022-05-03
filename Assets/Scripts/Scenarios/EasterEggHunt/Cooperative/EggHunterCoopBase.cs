@@ -35,15 +35,17 @@ namespace Scenarios.EasterEggHunt.Cooperative {
         }
         
         public override void ScenarioUpdate() {
+            if (isComplete) {
+                Scenarios.Instance.SetInfo1("Returned agents:", returnedAgents + "/" + agentCount);
+                Scenarios.Instance.SetInfo4("Time To Return:", GetPrintableReturnTime());
+            } else {
+                Scenarios.Instance.SetInfo1("Agents", agentCount.ToString());
+                Scenarios.Instance.SetInfo4("Time Remaining:", GetPrintableTime());
+            }
+            
             Scenarios.Instance.SetInfo1("Agents", agentCount.ToString());
             Scenarios.Instance.SetInfo2("Eggs Found:", foundEggs + " / " + totalSpawnedEggs);
             Scenarios.Instance.SetInfo3("Locations Checked:", searchedLocations + " / " + totalLocations);
- 
-            if (isComplete) {
-                Scenarios.Instance.SetInfo4("Returned agents:", returnedAgents.ToString());
-            } else {
-                Scenarios.Instance.SetInfo4("Time Remaining:", GetPrintableTime());
-            }
 
             if (AllEggsFound() || searchedLocations == totalLocations) {
                 CompleteScenario();

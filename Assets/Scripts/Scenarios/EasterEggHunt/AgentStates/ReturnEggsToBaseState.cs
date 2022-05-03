@@ -16,11 +16,13 @@ namespace Scenarios.EasterEggHunt.AgentStates {
                     ((EggHunterScenarioManager) agent.GetScenarioManager()).DepositEggs(agent.EggCount());
                     agent.RemoveEggs(agent.EggCount());
                 }
-                
-                if (((EggHunterCoopBase) agent.GetScenarioManager()).RemainingDestinations() > 0) {
-                    ((EggHunterCoopBase) agent.GetScenarioManager()).ClaimClosestAvailableDestination(agent);
+
+                if (agent.GetScenarioManager() is EggHunterCoopBase) {
+                    if (((EggHunterCoopBase) agent.GetScenarioManager()).RemainingDestinations() > 0) {
+                        ((EggHunterCoopBase) agent.GetScenarioManager()).ClaimClosestAvailableDestination(agent);
+                    }
                 }
-                
+
                 return typeof(MoveToLocationState);
             }
 

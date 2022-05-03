@@ -29,10 +29,27 @@ namespace Scenarios.EasterEggHunt.Competitive {
         }
         
         public override void ScenarioUpdate() {
-            Scenarios.Instance.SetInfo1("Agents", agentCount.ToString());
+            string currentWinner = "N/A";
+            List<GameObject> agents = eggHunterAgentManager.GetAllAgents();
+            int maxEggs = 0;
+            for (int i = 0; i < agents.Count; i++) {
+                int eggs = agents[i].GetComponent<EggHunterAgent>().GetTotalEggs();
+                if (eggs > maxEggs) {
+                    currentWinner = agents[i].GetComponent<EggHunterAgent>().GetFullName() + $"({eggs})";
+                    maxEggs = eggs;
+                }
+            }
+
+            if (isComplete) {
+                Scenarios.Instance.SetInfo1("Returned agents:", returnedAgents + "/" + agentCount);
+                Scenarios.Instance.SetInfo4("Time To Return:", GetPrintableReturnTime());
+            } else {
+                Scenarios.Instance.SetInfo1("Agents", agentCount.ToString());
+                Scenarios.Instance.SetInfo4("Time Remaining:", GetPrintableTime());
+            }
+            
             Scenarios.Instance.SetInfo2("Eggs Found:", foundEggs + " / " + totalSpawnedEggs);
-            Scenarios.Instance.SetInfo3("Locations Checked:", "N/A");
-            Scenarios.Instance.SetInfo4("Time Remaining:", GetPrintableTime());
+            Scenarios.Instance.SetInfo3("Current Winner:", currentWinner);
         }
     }
 }

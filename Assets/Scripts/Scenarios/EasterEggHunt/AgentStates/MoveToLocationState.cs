@@ -13,9 +13,12 @@ namespace Scenarios.EasterEggHunt.AgentStates {
         
         public override Type StateUpdate() {
 
-            if (((EggHunterCoopBase) agent.GetScenarioManager()).RemainingDestinations() <= 0) {
-                return typeof(ReturnToBaseState);
+            if (agent.GetScenarioManager() is EggHunterCoopBase) {
+                if (((EggHunterCoopBase) agent.GetScenarioManager()).RemainingDestinations() <= 0) {
+                    return typeof(ReturnToBaseState);
+                }
             }
+            
             if (agent.EggCount() > 0) {
                 return typeof(ReturnEggsToBaseState);
             }

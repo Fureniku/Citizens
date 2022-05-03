@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Scenarios.EasterEggHunt.AgentStates;
 using Scenarios.EasterEggHunt.Competitive;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Scenarios.EasterEggHunt {
     public abstract class EggHunterScenarioManager : ScenarioManager {
@@ -69,7 +71,8 @@ namespace Scenarios.EasterEggHunt {
             return foundEggs == totalSpawnedEggs;
         }
 
-        private float waitForReturn = 0;
+        private float waitForReturn = 180;
+        
         public override void CompleteScenario() {
             if (hasStarted) {
                 if (!isComplete) {
@@ -92,11 +95,11 @@ namespace Scenarios.EasterEggHunt {
 
                     waitForReturn += Time.deltaTime;
 
-                    if (returnedAgents < agents.Count && waitForReturn < 1800f) {
+                    if (returnedAgents < agents.Count && waitForReturn > 0f) {
                         return;
                     }
 
-                    if (waitForReturn > 1800f) {
+                    if (waitForReturn < 0f) {
                         int missingAgents = agents.Count - returnedAgents;
                         World.Instance.SendChatMessage("Game Manager", "Oh no! I guess a few people got lost on their way back here... " + (missingAgents == 1 ? "1 person didn't return." : missingAgents + " people didn't return."));
                     }
@@ -113,6 +116,11 @@ namespace Scenarios.EasterEggHunt {
                     }
                 }
             }
+        }
+
+        protected string GetPrintableReturnTime() {
+            TimeSpan time = TimeSpan.FromSeconds(waitForReturn);
+            return time.ToString("mm':'ss");
         }
 
         public List<GameObject> CreateOptimisedList() {

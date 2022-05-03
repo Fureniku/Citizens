@@ -68,7 +68,12 @@ namespace Scenarios.EasterEggHunt {
         }
 
         public void AddEggs(int eggs) {
+            Debug.Log("Adding eggs");
             holdingEggs += eggs;
+        }
+
+        public int GetTotalEggs() {
+            return totalEggsFound;
         }
 
         public void RemoveEggs(int eggs) {
@@ -126,7 +131,6 @@ namespace Scenarios.EasterEggHunt {
                     int eggCount = eggHolder.GetEggCount();
                     int takeEggs = Mathf.Max(maxHeldEggs - eggCount, eggCount);
                     currentDestGO.GetComponent<EggHolder>().TakeEggs(this, takeEggs);
-                    AddEggs(takeEggs);
 
                     if (scenarioManager.chatOnFoundEgg) {
                         if (takeEggs == 1) {
