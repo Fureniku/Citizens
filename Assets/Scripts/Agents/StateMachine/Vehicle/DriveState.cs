@@ -36,7 +36,7 @@ public class DriveState : VehicleBaseState {
 
     protected Type Drive() {
         Type waitingVehicle = CheckWaitingVehicle();
-        Type obstruction = CheckObstructionVehicle();
+        Type obstruction = CheckObstruction();
 
         if (waitingVehicle != null) return waitingVehicle;
         if (obstruction != null) return obstruction;

@@ -15,7 +15,7 @@ public class TurningState : VehicleBaseState {
 
     public override Type StateUpdate() {
         Type waitingVehicle = CheckWaitingVehicle();
-        Type obstruction = CheckObstructionVehicle();
+        Type obstruction = CheckObstruction();
 
         if (waitingVehicle != null) return waitingVehicle;
         if (obstruction != null) return obstruction;

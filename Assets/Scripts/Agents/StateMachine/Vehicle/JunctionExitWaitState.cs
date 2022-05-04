@@ -92,7 +92,6 @@ public class JunctionExitWaitState : VehicleBaseState {
         }
 
         if (check > maxCheck) {
-            agent.PrintText("I've checked " + check + " out of " + maxCheck + " times, its safe to go.");
             return typeof(TurningState);
         }
 

@@ -22,13 +22,22 @@ public abstract class VehicleBaseState : AgentBaseState {
         return null;
     }
 
-    public Type CheckObstructionVehicle() {
-        if (agent.GetLastSeenObject() != null && agent.GetLastSeenAgent() is VehicleAgent) {
-            VehicleAgent seenAgent = (VehicleAgent) agent.GetLastSeenAgent();
-            agent.SetLookDirection();
-            if (agent.GetSeenObject().distance < 10 && agent.GetSeenObject().distance > 0) {
-                if (!agent.IsOppositeRoadSide(agent.GetLastSeenAgent().GetRoadSide())) {
-                    if (agent.GetRoughFacingDirection().Opposite() != seenAgent.GetRoughFacingDirection()) {
+    public Type CheckObstruction() {
+        if (agent.GetLastSeenObject() != null) {
+            if (agent.GetLastSeenAgent() is VehicleAgent) {
+                VehicleAgent seenAgent = (VehicleAgent) agent.GetLastSeenAgent();
+                agent.SetLookDirection();
+                if (agent.GetSeenObject().distance < 10 && agent.GetSeenObject().distance > 0) {
+                    if (!agent.IsOppositeRoadSide(agent.GetLastSeenAgent().GetRoadSide())) {
+                        if (agent.GetRoughFacingDirection().Opposite() != seenAgent.GetRoughFacingDirection()) {
+                            return typeof(ObstructionSpottedState);
+                        }
+                    }
+                }
+            } else if (agent.GetLastSeenAgent() is PedestrianAgent) {
+                PedestrianAgent seenAgent = (PedestrianAgent) agent.GetLastSeenAgent();
+                if (agent.GetSeenObject().distance < 10 && agent.GetSeenObject().distance > 0) {
+                    if (seenAgent.GetState() is CrossingState) {
                         return typeof(ObstructionSpottedState);
                     }
                 }
