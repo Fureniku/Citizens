@@ -11,8 +11,15 @@ public class DestinationNode : LocationNode {
                 Destroy(agent.gameObject);
                 break;
             case DestinationAction.MOVE_TO_DESTROY:
-                agent.IncrementDestination();
-                agent.GetStateMachine().ForceState(typeof(DespawningState));
+                if (agent is VehicleAgent) {
+                    agent.IncrementDestination();
+                    agent.GetStateMachine().ForceState(typeof(DespawningState));
+                } else {
+                    agent.ForceAgentDestination(despawnerNode.gameObject);
+                }
+                break;
+            case DestinationAction.ASK_AGENT:
+                agent.OnArrival();
                 break;
             default:
                 Debug.LogWarning("Destination type " + destinationAction + " not implemented.");

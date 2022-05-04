@@ -37,7 +37,8 @@ public class VehicleAgent : BaseAgent {
 
     public override void Init() {
         vehicle = GetComponent<Vehicle>();
-        GameObject finalDest = World.Instance.GetChunkManager().GetTile(LocationRegistration.allVehicleDestinationsRegistry.GetAtRandom()).gameObject;
+        TileData destTile = World.Instance.GetChunkManager().GetTile(LocationRegistration.allVehicleDestinationsRegistry.GetAtRandom());
+        GameObject finalDest = destTile.gameObject;
         GameObject startPoint = gameObject;
 
         if (spawnController != null) {
@@ -56,8 +57,13 @@ public class VehicleAgent : BaseAgent {
             Debug.LogError("Vehicle pathing to " + finalDest.name + " which has no destination controller.");
         }
         finalDest = destinationController.GetDestinationNodeVehicle().gameObject;
+        
+        List<Node> aStarPath = aStar.RequestPath(startPoint, destinationController.GetNodeLocation().gameObject);
 
-        List<Node> aStarPath = aStar.RequestPath(startPoint, destinationController.gameObject);
+        if (aStarPath == null) {
+            Debug.LogError("Failed to create aStar path between " + startPoint.gameObject + " and " + destinationController.gameObject + ". This vehicle will fail, removing.");
+            agentManager.RemoveAgent(gameObject);
+        }
         
         int passengerAgents = Random.Range(1, vehicle.GetMaxSeats() + 1);
 
@@ -213,6 +219,7 @@ public class VehicleAgent : BaseAgent {
                 if (node is ParkingEntranceNode) {
                     ParkingController parkingController = ((ParkingEntranceNode) node).GetParkingController();
                     passengerDest = parkingController.GetForwardingAgentDestination();
+                    
                 }
                 seat.ExitSeat(passengerDest);
             }
@@ -285,6 +292,10 @@ public class VehicleAgent : BaseAgent {
             }
         } else {
             wrongSideCooldown = 0;
+        }
+
+        if (GetLastSeenObject() != null) {
+            
         }
     }
 
@@ -376,6 +387,10 @@ public class VehicleAgent : BaseAgent {
                 PrintWarn("Hit a pedestrian! oh no hes dead. Trigger enter into " + other.transform.gameObject.name);
             }*/
         }
+    }
+    
+    public override void OnArrival() {
+        PrintError("Vehicle was asked what to do on arrival but has nothing set.");
     }
     
     protected override void AgentTriggerExit(Collider other) { }

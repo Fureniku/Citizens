@@ -106,6 +106,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4174873082303289238}
   - component: {fileID: 7774588870158382861}
+  - component: {fileID: 285089920884538457}
   m_Layer: 0
   m_Name: 38-Clothes_Verywet
   m_TagString: Untagged
@@ -125,9 +126,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1955242009554304655}
-  - {fileID: 7635183781596023853}
   - {fileID: 2291305221288371428}
   - {fileID: 2687299788965486239}
+  - {fileID: 9112575445038498600}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -169,6 +170,25 @@ MonoBehaviour:
   shopSignBack: {fileID: 9189708986131550500}
   shopSignFront: {fileID: 194674093339088761}
   brand: {fileID: 4478827750531577748, guid: 1bcc9b358476fdf44bbc8c1e0c16fa84, type: 3}
+--- !u!114 &285089920884538457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446264828507051930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3ae7ea1b9cb4640a29e7a14b1d82d3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentTile: {fileID: 7774588870158382861}
+  spawnerNodePedestrian: {fileID: 0}
+  spawnerNodeVehicle: {fileID: 0}
+  destinationNodePedestrian: {fileID: 4026417945555612845}
+  destinationNodeVehicle: {fileID: 0}
+  nodeLocation: {fileID: 0}
+  locationType: 3
 --- !u!1 &536661283137788289
 GameObject:
   m_ObjectHideFlags: 0
@@ -322,7 +342,7 @@ Transform:
   m_LocalScale: {x: 40, y: 0.25, z: 40}
   m_Children: []
   m_Father: {fileID: 4174873082303289238}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8612516588561134785
 MeshFilter:
@@ -419,8 +439,55 @@ Transform:
   - {fileID: 2618067910840160722}
   - {fileID: 970057569594880124}
   m_Father: {fileID: 4174873082303289238}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1649142687236993971
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9112575445038498600}
+  - component: {fileID: 4026417945555612845}
+  m_Layer: 0
+  m_Name: Destination
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9112575445038498600
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1649142687236993971}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4174873082303289238}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4026417945555612845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1649142687236993971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fe54427243a4381ad8f883e9611e056, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeController: {fileID: 285089920884538457}
+  gizmoCol: {r: 1, g: 0, b: 0, a: 1}
+  despawnerNode: {fileID: 0}
+  destinationAction: 5
 --- !u!1 &3942361028722877141
 GameObject:
   m_ObjectHideFlags: 0
@@ -482,72 +549,6 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
---- !u!1 &5559924453073124280
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7635183781596023853}
-  - component: {fileID: 4861383572094982903}
-  - component: {fileID: 7416616867403927274}
-  m_Layer: 0
-  m_Name: NodeController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7635183781596023853
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5559924453073124280}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4174873082303289238}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4861383572094982903
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5559924453073124280}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3ae7ea1b9cb4640a29e7a14b1d82d3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parentTile: {fileID: 7774588870158382861}
-  spawnerNodePedestrian: {fileID: 0}
-  spawnerNodeVehicle: {fileID: 0}
-  destinationNodePedestrian: {fileID: 7416616867403927274}
-  destinationNodeVehicle: {fileID: 0}
-  locationType: 3
---- !u!114 &7416616867403927274
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5559924453073124280}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fe54427243a4381ad8f883e9611e056, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nodeController: {fileID: 4861383572094982903}
-  gizmoCol: {r: 1, g: 0, b: 0, a: 1}
-  despawnerNode: {fileID: 0}
-  destinationAction: 5
 --- !u!1 &6226927821363589112
 GameObject:
   m_ObjectHideFlags: 0

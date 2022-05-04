@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4174873082303289238}
   - component: {fileID: 486646361308398455}
+  - component: {fileID: 8500791608490947541}
   m_Layer: 0
   m_Name: 32-Coffee_Shop
   m_TagString: Untagged
@@ -94,6 +95,24 @@ MonoBehaviour:
   materialObject2: {fileID: 0}
   materialObject3: {fileID: 0}
   materialObject4: {fileID: 0}
+--- !u!114 &8500791608490947541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446264828507051930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3ae7ea1b9cb4640a29e7a14b1d82d3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentTile: {fileID: 486646361308398455}
+  spawnerNodePedestrian: {fileID: 0}
+  spawnerNodeVehicle: {fileID: 0}
+  destinationNodePedestrian: {fileID: 5979171825145251243}
+  destinationNodeVehicle: {fileID: 0}
+  locationType: 3
 --- !u!1 &515151440990306304
 GameObject:
   m_ObjectHideFlags: 0
@@ -606,10 +625,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5169423033750835420}
-  - component: {fileID: 7154679304033253257}
   - component: {fileID: 5979171825145251243}
   m_Layer: 0
-  m_Name: NodeController
+  m_Name: DestinationNode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -629,24 +647,6 @@ Transform:
   m_Father: {fileID: 4174873082303289238}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7154679304033253257
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3711691748017453020}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3ae7ea1b9cb4640a29e7a14b1d82d3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parentTile: {fileID: 486646361308398455}
-  spawnerNodePedestrian: {fileID: 0}
-  spawnerNodeVehicle: {fileID: 0}
-  destinationNodePedestrian: {fileID: 5979171825145251243}
-  destinationNodeVehicle: {fileID: 0}
-  locationType: 3
 --- !u!114 &5979171825145251243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -659,7 +659,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fe54427243a4381ad8f883e9611e056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodeController: {fileID: 7154679304033253257}
+  nodeController: {fileID: 8500791608490947541}
   gizmoCol: {r: 1, g: 0, b: 0, a: 1}
   despawnerNode: {fileID: 0}
   destinationAction: 5

@@ -91,6 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4174873082303289238}
   - component: {fileID: 486646361308398455}
+  - component: {fileID: 5319891015244729032}
   m_Layer: 0
   m_Name: 28-Town_House_1
   m_TagString: Untagged
@@ -177,6 +178,24 @@ MonoBehaviour:
   materialObject2: {fileID: 290406653133671839}
   materialObject3: {fileID: 0}
   materialObject4: {fileID: 0}
+--- !u!114 &5319891015244729032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446264828507051930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3ae7ea1b9cb4640a29e7a14b1d82d3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentTile: {fileID: 486646361308398455}
+  spawnerNodePedestrian: {fileID: 9220532109202259795}
+  spawnerNodeVehicle: {fileID: 0}
+  destinationNodePedestrian: {fileID: 7689313360201097708}
+  destinationNodeVehicle: {fileID: 0}
+  locationType: 4
 --- !u!1 &619833555844793380
 GameObject:
   m_ObjectHideFlags: 0
@@ -269,9 +288,10 @@ GameObject:
   - component: {fileID: 3844484252879155258}
   - component: {fileID: 8881022853527871858}
   - component: {fileID: 4452145536174078761}
+  - component: {fileID: 3425885538481571383}
   m_Layer: 7
   m_Name: Stairs
-  m_TagString: DeleteOnCleanup
+  m_TagString: SkipCombine
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -286,7 +306,9 @@ Transform:
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
   m_LocalPosition: {x: 20, y: 2.6697555, z: 0.014191307}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1082629395062234160}
+  - {fileID: 3506356835015517490}
   m_Father: {fileID: 4174873082303289238}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -339,6 +361,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &3425885538481571383
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1165286129387971277}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4104380202958562290, guid: fc0f8dcf2b2dc0442b65cfc4ca2d6bbe, type: 3}
 --- !u!1 &1769669870272668258
 GameObject:
   m_ObjectHideFlags: 0
@@ -690,7 +726,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3255039455188906064}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.5}
+  m_LocalPosition: {x: -4.78, y: 0, z: -0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4288555386910471404}
@@ -708,7 +744,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d67bea923e1d4810b5e0f3899386e967, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodeController: {fileID: 417087602466315960}
+  nodeController: {fileID: 5319891015244729032}
   gizmoCol: {r: 0, g: 1, b: 0.34482765, a: 1}
   startPointNode: {fileID: 0}
 --- !u!1 &3281321231030680268
@@ -873,6 +909,50 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &5013869373312667721
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1082629395062234160}
+  - component: {fileID: 3226668650761561302}
+  m_Layer: 7
+  m_Name: Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1082629395062234160
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5013869373312667721}
+  m_LocalRotation: {x: 0, y: 0, z: 0.2164396, w: 0.97629607}
+  m_LocalPosition: {x: 0.86, y: 0.41, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3844484252879155258}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 25}
+--- !u!65 &3226668650761561302
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5013869373312667721}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 13.120658, y: 1, z: 9.014346}
+  m_Center: {x: -1.0231968, y: 0.000050917963, z: 0.0233388}
 --- !u!1 &5421644954081481849
 GameObject:
   m_ObjectHideFlags: 0
@@ -954,6 +1034,50 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &5716640083318311085
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3506356835015517490}
+  - component: {fileID: 2685380481981423799}
+  m_Layer: 7
+  m_Name: Collider (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3506356835015517490
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5716640083318311085}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 11.39, y: 2.73, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3844484252879155258}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2685380481981423799
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5716640083318311085}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 11.361405, y: 1, z: 9.014346}
+  m_Center: {x: -0.14356089, y: 0.00004708767, z: 0.023338795}
 --- !u!1 &6234192262836982252
 GameObject:
   m_ObjectHideFlags: 0
@@ -1060,7 +1184,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6316148978436892464}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.5}
+  m_LocalPosition: {x: -4.74, y: 0, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4288555386910471404}
@@ -1078,7 +1202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b087e3f7e2f45bc9a87aadaa10360d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodeController: {fileID: 417087602466315960}
+  nodeController: {fileID: 5319891015244729032}
   gizmoCol: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &7281905602304129271
 GameObject:
@@ -1089,10 +1213,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4288555386910471404}
-  - component: {fileID: 417087602466315960}
   - component: {fileID: 7689313360201097708}
   m_Layer: 0
-  m_Name: NodeController
+  m_Name: DestinationNode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1114,24 +1237,6 @@ Transform:
   m_Father: {fileID: 4174873082303289238}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &417087602466315960
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7281905602304129271}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3ae7ea1b9cb4640a29e7a14b1d82d3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parentTile: {fileID: 486646361308398455}
-  spawnerNodePedestrian: {fileID: 9220532109202259795}
-  spawnerNodeVehicle: {fileID: 0}
-  destinationNodePedestrian: {fileID: 958689863050454238}
-  destinationNodeVehicle: {fileID: 0}
-  locationType: 4
 --- !u!114 &7689313360201097708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1144,7 +1249,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fe54427243a4381ad8f883e9611e056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodeController: {fileID: 417087602466315960}
+  nodeController: {fileID: 5319891015244729032}
   gizmoCol: {r: 0, g: 0.24538708, b: 1, a: 1}
   despawnerNode: {fileID: 958689863050454238}
   destinationAction: 1

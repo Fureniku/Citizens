@@ -4,9 +4,6 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class VehicleAgentManager : AgentManager {
-
-    private int id; //Only used for naming!
-    private int spawnCooldown;
     
     public override void Initialize() {
         StartCoroutine(GenAgents());
@@ -107,7 +104,6 @@ public class VehicleAgentManager : AgentManager {
         GameObject agent = Instantiate(VehicleRegistry.GetRandomCar(), spawnPoint.transform.position, Quaternion.Euler(0, spawnPoint.GetRotation().GetRotation(), 0));
         spawnPoint.ClaimSpace();
         spawnPoint.OccupySpace();
-        Debug.Log("Creating idle agent at spawn point " + spawnPoint.name + ": " + spawnPoint.transform.position);
         agent.transform.parent = transform;
         agent.name = "VA_" + id + ": " + agent.GetComponent<Vehicle>().GetName() + " (" + agent.GetComponent<Vehicle>().GetColour() + ")";
         id++;
@@ -129,7 +125,7 @@ public class VehicleAgentManager : AgentManager {
                     TilePos pos = LocationRegistration.allVehicleSpawnersRegistry.GetAtRandom();
                     LocationNodeController lnc = World.Instance.GetChunkManager().GetTile(pos).GetComponent<LocationNodeController>();
                     CreateAgent(lnc);
-                    spawnCooldown = 60;
+                    spawnCooldown = maxSpawnCooldown;
                 }
             }
         }

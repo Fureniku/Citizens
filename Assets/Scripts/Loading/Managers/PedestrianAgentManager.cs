@@ -33,13 +33,7 @@ public class PedestrianAgentManager : AgentManager {
             TilePos spawnTilePos = initialSpawnerRegistry.GetAtRandom();
             Vector3 spawnPos = spawnTilePos.GetWorldPos();
             initialSpawnerRegistry.RemoveFromList(spawnTilePos);
-            float offset = World.Instance.GetChunkManager().GetGridTileSize() / 2;
-            agents.Add(Instantiate(testAgent, new Vector3(spawnPos.x + offset, spawnPos.y, spawnPos.z + offset), Quaternion.identity));
-            agents[i].transform.parent = transform;
-            agents[i].name = "Pedestrian Agent " + (i + 1);
-            agents[i].GetComponent<PedestrianAgent>().SetAStar(aStarPlane.GetComponent<AStar>());
-            agents[i].GetComponent<PedestrianAgent>().Init();
-
+            CreateInitialAgent(spawnPos);
             message = "Created pedestrian " + i + " of " + initialAgents;
             yield return null;
         }
@@ -47,6 +41,44 @@ public class PedestrianAgentManager : AgentManager {
         spawnAgentsCreated = true;
         yield return null;
     }
+    
+    private void CreateInitialAgent(Vector3 spawnPos) {
+        float offset = World.Instance.GetChunkManager().GetGridTileSize() / 2;
+        GameObject agent = Instantiate(testAgent, new Vector3(spawnPos.x + offset, spawnPos.y, spawnPos.z + offset), Quaternion.identity);
+        agent.transform.parent = transform;
+        agent.name = "PA_" + id + ": " + agent.GetComponent<AgentData>().GetFullName();
+        id++;
+        agent.GetComponent<PedestrianAgent>().SetAStar(aStarPlane.GetComponent<AStar>());
+        agent.GetComponent<PedestrianAgent>().Init();
 
-    protected override void AgentUpdate() {}
+        agents.Add(agent);
+    }
+    
+    private void CreateAgent(LocationNodeController spawnPoint) {
+        GameObject agent = Instantiate(testAgent, spawnPoint.GetSpawnerNodePedestrian().transform.position, Quaternion.identity);
+        agent.transform.parent = transform;
+        agent.name = "PA_" + id + ": " + agent.GetComponent<AgentData>().GetFullName();
+        id++;
+        agent.GetComponent<PedestrianAgent>().SetAStar(aStarPlane.GetComponent<AStar>());
+        agent.GetComponent<PedestrianAgent>().SetSpawnController(spawnPoint);
+        agent.GetComponent<PedestrianAgent>().Init();
+        agent.GetComponent<BaseAgent>().SetInitialized();
+
+        agents.Add(agent);
+    }
+
+    protected override void AgentUpdate() {
+        if (World.Instance.IsWorldFullyLoaded()) {
+            if (spawnCooldown > 0) {
+                spawnCooldown--;
+            } else {
+                if (currentAgentCount < maxAgentCount) {
+                    TilePos pos = LocationRegistration.allPedestrianSpawnersRegistry.GetAtRandom();
+                    LocationNodeController lnc = World.Instance.GetChunkManager().GetTile(pos).GetComponent<LocationNodeController>();
+                    CreateAgent(lnc);
+                    spawnCooldown = maxSpawnCooldown;
+                }
+            }
+        }
+    }
 }

@@ -163,28 +163,26 @@ public abstract class BaseAgent : MonoBehaviour {
     }
     
     public void CheckForObjects() {
-        RaycastHit hit;
-        if (Physics.Raycast(eyePos.transform.position, lookDirection, out hit, visualRange)) {
+        if (Physics.Raycast(eyePos.transform.position, lookDirection, out RaycastHit hit, visualRange)) {
             if (SeenAgent(hit.transform.gameObject)) {
                 objectDistance = hit.distance;
                 if (hit.transform.gameObject != gameObject) { //Don't look at self.
                     lastSeenObject = hit.transform.gameObject;
+                    Debug.DrawLine(eyePos.transform.position, hit.transform.position, Color.cyan);
+                    seenDecay = 60;
                 }
             }
-            Debug.DrawLine(eyePos.transform.position, hit.transform.position, Color.blue);
-            seenDecay = 0;
         } else if (lastSeenObject != null) {
-            if (seenDecay < 20) {
-                seenDecay++;
+            if (seenDecay < 60) {
                 objectDistance = Vector3.Distance(eyePos.transform.position, lastSeenObject.transform.position);
                 Debug.DrawLine(eyePos.transform.position, lastSeenObject.transform.position, Color.blue);
             }
-            else {
-                lastSeenObject = null;
-                objectDistance = visualRange;
-            }
+        }
+
+        if (seenDecay > 0) {
+            seenDecay--;
         } else {
-            seenDecay = 0;
+            lastSeenObject = null;
             objectDistance = visualRange;
         }
         Debug.DrawRay(eyePos.transform.position, lookDirection*5, Color.magenta, 0);
@@ -375,6 +373,7 @@ public abstract class BaseAgent : MonoBehaviour {
     public AgentStateMachine GetStateMachine() { return stateMachine; }
     protected abstract void InitStateMachine();
     public abstract void SetAgentManager();
+    public abstract void OnArrival();
     public abstract string GetAgentTypeName();
     public abstract string GetAgentTagMessage();
     #endregion

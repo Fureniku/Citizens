@@ -9,6 +9,8 @@ public abstract class AgentManager : GenerationSystem {
     [SerializeField] protected int initialAgentCount;
     [SerializeField] protected int currentAgentCount;
     [SerializeField] protected int maxAgentCount;
+    [SerializeField] protected int maxSpawnCooldown = 60; //Agents will spawn every X game ticks until at maxAgentCount
+    protected int spawnCooldown;
     [SerializeField] protected GameObject testAgent = null;
     [SerializeField] protected GameObject aStarPlane = null;
 
@@ -19,6 +21,9 @@ public abstract class AgentManager : GenerationSystem {
     
     protected bool spawnAgentsCreated = false;
     private bool spawningAgentsValidated = false;
+    
+    
+    protected int id; //Only used for naming!
 
     public abstract IEnumerator GenAgents();
     protected abstract void AgentUpdate();

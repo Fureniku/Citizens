@@ -32,9 +32,9 @@ public static class LocationRegistration {
     public static Registry shopRegistryDestPedestrian = new Registry();
     public static Registry houseRegistryDestPedestrian = new Registry();
 
-    private static TilePos hospitalVehiclePos;
+    public static TilePos hospitalVehiclePos;
     private static TilePos hospitalPedestrianPos;
-    private static TilePos townHallVehiclePost;
+    public static TilePos townHallVehiclePos;
     private static TilePos townHallPedestrianPos;
     private static TilePos universityVehiclePos;
     private static TilePos universityPedestrianPos;
@@ -70,6 +70,10 @@ public static class LocationRegistration {
                     case LocationType.HOSPITAL:
                         if (lnc.GetSpawnerNodePedestrian() != null || lnc.GetDestinationNodePedestrian() != null) hospitalPedestrianPos = lnc.GetTilePosition();
                         if (lnc.GetDestinationNodeVehicle() != null) hospitalVehiclePos = lnc.GetTilePosition();
+                        break;
+                    case LocationType.TOWN_HALL:
+                        if (lnc.GetSpawnerNodePedestrian() != null || lnc.GetDestinationNodePedestrian() != null) townHallPedestrianPos = lnc.GetTilePosition();
+                        if (lnc.GetDestinationNodeVehicle() != null) townHallVehiclePos = lnc.GetTilePosition();
                         break;
                     case LocationType.SHOP:
                         if (lnc.GetSpawnerNodeVehicle() != null) shopRegistrySpawnerVehicle.AddToList(lnc.GetTilePosition());
@@ -114,7 +118,7 @@ public static class LocationRegistration {
 
     private static void RegisterAllVehicleDestinations() {
         if (hospitalVehiclePos != null) allVehicleDestinationsRegistry.AddToList(hospitalVehiclePos);
-        if (townHallVehiclePost != null) allVehicleDestinationsRegistry.AddToList(townHallVehiclePost);
+        if (townHallVehiclePos != null) allVehicleDestinationsRegistry.AddToList(townHallVehiclePos);
         if (universityVehiclePos != null) allVehicleDestinationsRegistry.AddToList(universityVehiclePos);
         foreach (TilePos pos in shopRegistryDestVehicle.GetList()) { allVehicleDestinationsRegistry.AddToList(pos); }
         foreach (TilePos pos in houseRegistryDestVehicle.GetList()) { allVehicleDestinationsRegistry.AddToList(pos); }

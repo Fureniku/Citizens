@@ -10,6 +10,8 @@ public class LocationNodeController : MonoBehaviour {
     [SerializeField] private LocationNode destinationNodePedestrian;
     [SerializeField] private LocationNode destinationNodeVehicle;
     [Space(10)]
+    [SerializeField] private GameObject nodeLocation;
+    [Space(10)]
     [SerializeField] private LocationType locationType;
 
     void Awake() {
@@ -27,7 +29,18 @@ public class LocationNodeController : MonoBehaviour {
     public void ApproachDestination(PedestrianAgent agent) { destinationNodePedestrian.PrepareNodeLogic(agent); }
 
     public TileData GetParentTile() {
+        if (parentTile == null) {
+            Debug.LogError("Couldn't get parent tile! Object: " + gameObject.name + ", direct parent: " + gameObject.transform.parent.name);
+        }
+
         return parentTile;
+    }
+
+    public GameObject GetNodeLocation() { //Needed for any tile bigger than 1x1 if the controller isn't on the destination tile
+        if (nodeLocation != null) {
+            return nodeLocation;
+        }
+        return gameObject;
     }
 
     public TilePos GetTilePosition() {

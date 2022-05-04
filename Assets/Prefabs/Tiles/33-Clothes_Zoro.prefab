@@ -71,6 +71,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4174873082303289238}
   - component: {fileID: 7774588870158382861}
+  - component: {fileID: 2929298634487183476}
   m_Layer: 0
   m_Name: 33-Clothes_Zoro
   m_TagString: Untagged
@@ -134,6 +135,25 @@ MonoBehaviour:
   shopSignBack: {fileID: 2512900178776087691}
   shopSignFront: {fileID: 4716729460937737068}
   brand: {fileID: 4478827750531577748, guid: 8ec9d2bd1d30ac241a925eb2cc440e71, type: 3}
+--- !u!114 &2929298634487183476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446264828507051930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3ae7ea1b9cb4640a29e7a14b1d82d3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentTile: {fileID: 7774588870158382861}
+  spawnerNodePedestrian: {fileID: 0}
+  spawnerNodeVehicle: {fileID: 0}
+  destinationNodePedestrian: {fileID: 7160587186216105878}
+  destinationNodeVehicle: {fileID: 0}
+  nodeLocation: {fileID: 0}
+  locationType: 3
 --- !u!1 &791312161820171173
 GameObject:
   m_ObjectHideFlags: 0
@@ -143,10 +163,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1262617995655480763}
-  - component: {fileID: 5644675798454858023}
   - component: {fileID: 7160587186216105878}
   m_Layer: 0
-  m_Name: NodeController
+  m_Name: Destination
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -166,24 +185,6 @@ Transform:
   m_Father: {fileID: 4174873082303289238}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5644675798454858023
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 791312161820171173}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3ae7ea1b9cb4640a29e7a14b1d82d3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parentTile: {fileID: 7774588870158382861}
-  spawnerNodePedestrian: {fileID: 0}
-  spawnerNodeVehicle: {fileID: 0}
-  destinationNodePedestrian: {fileID: 7160587186216105878}
-  destinationNodeVehicle: {fileID: 0}
-  locationType: 3
 --- !u!114 &7160587186216105878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,7 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fe54427243a4381ad8f883e9611e056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodeController: {fileID: 5644675798454858023}
+  nodeController: {fileID: 2929298634487183476}
   gizmoCol: {r: 1, g: 0, b: 0, a: 1}
   despawnerNode: {fileID: 0}
   destinationAction: 5

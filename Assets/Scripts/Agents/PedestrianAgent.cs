@@ -16,6 +16,7 @@ public class PedestrianAgent : BaseAgent {
     private bool enteredRoad = false;
 
     public override void Init() {
+        Debug.Log("Initializing...");
         GenerateDestination();
         CalculateAllPaths();
         initialized = true;
@@ -23,8 +24,15 @@ public class PedestrianAgent : BaseAgent {
 
     private void GenerateDestination() {
         GameObject finalDest = World.Instance.GetChunkManager().GetTile(LocationRegistration.allPedestrianDestinationsRegistry.GetAtRandom()).gameObject;
-        dests.Add(finalDest);
+        destinationController = finalDest.GetComponent<LocationNodeController>();
 
+        if (destinationController != null) {
+            finalDest = destinationController.GetDestinationNodePedestrian().gameObject;
+        }
+        
+        dests.Add(finalDest);
+        SetAgentDestination(finalDest);
+        
         if (GetCurrentTile().GetTile() == TileRegistry.STRAIGHT_ROAD_1x1) {
             float coinToss = Random.Range(0.0f, 1.0f);
             float offset = coinToss < 0.5f ? 3.5f : -3.5f;
@@ -34,8 +42,6 @@ public class PedestrianAgent : BaseAgent {
                 transform.position += new Vector3(0, 0, offset);
             }
         }
-
-        SetAgentDestination(finalDest);
     }
 
     public void EnterVehicle(VehicleAgent vehicleAgent, Seat seat) {
@@ -51,6 +57,9 @@ public class PedestrianAgent : BaseAgent {
         transform.parent = World.Instance.GetLoadingManager().GetPedestrianAgentManager().transform;
         legs.SetActive(true);
         if (destination != null) {
+            if (destination.GetComponent<LocationNode>() != null) {
+                destinationController = destination.GetComponent<LocationNode>().GetNodeController();
+            }
             SetAgentDestination(destination);
         } else {
             GenerateDestination();
@@ -125,31 +134,25 @@ public class PedestrianAgent : BaseAgent {
     protected override void AgentNavigate() {}
     
     public override void IncrementDestination() {
-        if (currentDest < dests.Count-1) { //count isn't zero-based
-            currentDest++;
-            SetAgentDestination(dests[currentDest]);
-
-            VehicleJunctionNode node = dests[currentDest].GetComponent<VehicleJunctionNode>();
-            if (node != null) {
-                shouldStop = node.GiveWay();
-            }
-        } else {
-            ReachedDestinationController();
-        }
+        ReachedDestinationController();
     }
     
-    protected override void ApproachedDestinationController() {
-        if (destinationController != null && !approachingDestinationController) {
-            destinationController.ApproachDestination(this);
-            approachingDestinationController = true;
-        }
-    }
+    protected override void ApproachedDestinationController() {}
 
     protected override void ReachedDestinationController() {
         if (destinationController != null && !reachedDestinationController) {
             destinationController.ArriveAtDestination(this);
             reachedDestinationController = true;
         }
+    }
+
+    public override void OnArrival() {
+        dests.Clear();
+        GameObject finalDest = World.Instance.GetChunkManager().GetTile(LocationRegistration.allPedestrianDestinationsRegistry.GetAtRandom()).gameObject;
+        dests.Add(finalDest);
+        destinationController = finalDest.GetComponent<LocationNodeController>();
+
+        SetAgentDestination(finalDest);
     }
 
     protected override void AgentTriggerEnter(Collider other) {}
