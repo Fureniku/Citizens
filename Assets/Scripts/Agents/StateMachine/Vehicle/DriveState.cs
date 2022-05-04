@@ -11,8 +11,16 @@ public class DriveState : VehicleBaseState {
     }
     
     public override Type StateUpdate() {
+        if (agent.IsParked()) {
+            return typeof(ParkedState);
+        }
+        
         if (agent.GetAgent().speed < agent.GetMaxSpeed() - 2.0f) {
             return typeof(AccelerateState);
+        }
+        
+        if (agent.GetCurrentDestination().GetComponent<DespawnerNode>() != null) {
+            return typeof(DespawningState);
         }
 
         return Drive();
@@ -55,7 +63,6 @@ public class DriveState : VehicleBaseState {
         if (dist < 1) {
             agent.IncrementDestination();
         } else if (Vector3.Distance(agent.transform.position, agent.GetAgent().destination) < 0.75f) {
-            agent.PrintWarn("Agent was close to agent destination, but not the registered destination. Suggests it was somehow skipped.");
             agent.IncrementDestination();
         }
 

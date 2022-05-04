@@ -18,7 +18,7 @@ namespace Scenarios.EasterEggHunt.Competitive {
                 }
             }
 
-            StartCoroutine(eggHunterAgentManager.GenerateAgentsCompFreeSearch(startPoint.transform.position, spawnRange, agentCount, this));
+            StartCoroutine(eggHunterAgentManager.GenerateAgentsCompFreeSearch(startPoint.transform.position, spawnRange, agentCount, this, 50, 50, 0));
         }
 
         public override void BeginScenario() {
@@ -35,7 +35,7 @@ namespace Scenarios.EasterEggHunt.Competitive {
             for (int i = 0; i < agents.Count; i++) {
                 int eggs = agents[i].GetComponent<EggHunterAgent>().GetTotalEggs();
                 if (eggs > maxEggs) {
-                    currentWinner = agents[i].GetComponent<EggHunterAgent>().GetFullName() + $"({eggs})";
+                    currentWinner = agents[i].GetComponent<EggHunterAgent>().GetFullName() + $" ({eggs})";
                     maxEggs = eggs;
                 }
             }

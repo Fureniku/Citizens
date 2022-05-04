@@ -38,7 +38,7 @@ public abstract class AgentManager : GenerationSystem {
     private int pathCooldown = 0;
     
     void FixedUpdate() {
-        currentAgentCount = transform.childCount;
+        currentAgentCount = agents.Count;
         if (pathCooldown == 0) {
             SetPathForQueuedAgent();
         } else {

@@ -48,9 +48,14 @@ public class ChatWindowController : MonoBehaviour {
                 message[i].text = chatMessages[i].GetMessage();
                 messageStamp[i].text = chatMessages[i].GetStamp();
 
-                message[i].color = SetAlpha(message[i].color, chatMessages[i].GetAlpha());
-                messageStamp[i].color = SetAlpha(messageStamp[i].color, chatMessages[i].GetAlpha());
-                chatMessages[i].Update();
+                if (fade) {
+                    message[i].color = SetAlpha(message[i].color, chatMessages[i].GetAlpha());
+                    messageStamp[i].color = SetAlpha(messageStamp[i].color, chatMessages[i].GetAlpha());
+                    chatMessages[i].Update();
+                } else {
+                    message[i].color = SetAlpha(message[i].color, 1);
+                    messageStamp[i].color = SetAlpha(messageStamp[i].color, 1);
+                }
             }
         }
     }

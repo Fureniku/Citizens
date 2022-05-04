@@ -21,36 +21,26 @@ namespace Scenarios.EasterEggHunt {
         public override IEnumerator GenAgents() { yield return null; }
         
         //Competitive
-        public IEnumerator GenerateAgentsCompFreeSearch(Vector3 spawnPos, float spawnRange, int agentCount, ScenarioManager scenarioManager) {
+        public IEnumerator GenerateAgentsCompFreeSearch(Vector3 spawnPos, float spawnRange, int agentCount, ScenarioManager scenarioManager, float freeSearchChance, float avoidSearchChance, float stalkerSearchChance) {
+            float chance = freeSearchChance + avoidSearchChance + stalkerSearchChance;
             for (int i = 0; i < agentCount; i++) {
+                float agentType = Random.Range(0, chance);
                 float spawnX = spawnPos.x + Random.Range(0, spawnRange * 2 + 1) - spawnRange;
                 float spawnZ = spawnPos.z + Random.Range(0, spawnRange * 2 + 1) - spawnRange;
                 Vector3 spawn = new Vector3(spawnX, 0, spawnZ);
-                agents.Add(ReplaceAgentWithCustom<EggHunterCompetitiveFreeSearch>(spawn));
-                FinalizeAgent(agents[i], i, scenarioManager);
-                message = "Created egg-hunter " + i + " of " + agentCount;
-                yield return null;
-            }
-        }
-        
-        public IEnumerator GenerateAgentsCompObservantSearch(Vector3 spawnPos, float spawnRange, int agentCount, ScenarioManager scenarioManager) {
-            for (int i = 0; i < agentCount; i++) {
-                float spawnX = spawnPos.x + Random.Range(0, spawnRange * 2 + 1) - spawnRange;
-                float spawnZ = spawnPos.z + Random.Range(0, spawnRange * 2 + 1) - spawnRange;
-                Vector3 spawn = new Vector3(spawnX, 0, spawnZ);
-                agents.Add(ReplaceAgentWithCustom<EggHunterCompetitiveAvoidSearched>(spawn));
-                FinalizeAgent(agents[i], i, scenarioManager);
-                message = "Created egg-hunter " + i + " of " + agentCount;
-                yield return null;
-            }
-        }
-        
-        public IEnumerator GenerateAgentsCompStalkerSearch(Vector3 spawnPos, float spawnRange, int agentCount, ScenarioManager scenarioManager) {
-            for (int i = 0; i < agentCount; i++) {
-                float spawnX = spawnPos.x + Random.Range(0, spawnRange * 2 + 1) - spawnRange;
-                float spawnZ = spawnPos.z + Random.Range(0, spawnRange * 2 + 1) - spawnRange;
-                Vector3 spawn = new Vector3(spawnX, 0, spawnZ);
-                agents.Add(ReplaceAgentWithCustom<EggHunterCompetitiveStalker>(spawn));
+
+                Debug.Log("Selected " + agentType + " from possible chance of " + chance + ". Free search: " + freeSearchChance + ", Avoid: " + avoidSearchChance + ", stalker: " + stalkerSearchChance);
+                if (agentType < freeSearchChance) {
+                    Debug.Log("Free search selected!");
+                    agents.Add(ReplaceAgentWithCustom<EggHunterCompetitiveFreeSearch>(spawn));
+                } else if (agentType < freeSearchChance + avoidSearchChance) {
+                    Debug.Log("Avoid selected!");
+                    agents.Add(ReplaceAgentWithCustom<EggHunterCompetitiveAvoidSearched>(spawn));
+                } else {
+                    Debug.Log("Stalker selected!");
+                    agents.Add(ReplaceAgentWithCustom<EggHunterCompetitiveStalker>(spawn));
+                }
+                
                 FinalizeAgent(agents[i], i, scenarioManager);
                 message = "Created egg-hunter " + i + " of " + agentCount;
                 yield return null;

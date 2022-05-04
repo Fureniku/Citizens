@@ -1,4 +1,5 @@
 ﻿using System;
+using Scenarios.EasterEggHunt.Competitive.Agents;
 
 namespace Scenarios.EasterEggHunt.AgentStates {
     public class SearchLocationState : EggHunterBaseState {
@@ -13,6 +14,10 @@ namespace Scenarios.EasterEggHunt.AgentStates {
                 agent.FinishedSearch();
                 if (agent.ReturnToBase()) {
                     return typeof(ReturnToBaseState);
+                }
+                
+                if (agent is EggHunterCompetitiveAvoidSearched) {
+                    return typeof(ObservantMoveToLocationState);
                 }
                 return typeof(MoveToLocationState);
             }

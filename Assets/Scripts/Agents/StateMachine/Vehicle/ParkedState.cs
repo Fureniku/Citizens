@@ -30,11 +30,14 @@ public class ParkedState : VehicleBaseState {
         agent.GetAgent().enabled = false;
         agent.GetComponent<NavMeshObstacle>().enabled = true;
 
-        ParkingSpaceNode node = agent.GetCurrentDestination().GetComponent<ParkingSpaceNode>();
-        if (node != null) {
-            node.OccupySpace();
+        if (agent.GetCurrentDestination() != null) { //Vehicles spawned into a parking state have no destination
+            ParkingSpaceNode node = agent.GetCurrentDestination().GetComponent<ParkingSpaceNode>();
+            if (node != null) {
+                node.OccupySpace();
+            }
+            agent.SetParked();
         }
-        agent.SetParked();
+        
         return null;
     }
 

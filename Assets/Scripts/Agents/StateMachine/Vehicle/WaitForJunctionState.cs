@@ -4,10 +4,12 @@ using UnityEngine;
 public class WaitForJunctionState : VehicleBaseState {
 
     private static float approachDistance = 10;
-    private float stopDistance = 1;
+    private float stopDistance = 2.5f;
 
     private float maxSpeed;
     private float minSpeed = 2.0f;
+
+    private int clearanceAttempts = 0; //Persistent; do not reset unless we clear a junction normally!!
 
     private int time = 0;
     private int maxTime = 600;
@@ -22,6 +24,15 @@ public class WaitForJunctionState : VehicleBaseState {
     public override Type StateUpdate() {
         if (agent.GetLastSeenObject() == null) {
             return typeof(ApproachJunctionState);
+        }
+
+        //Common to get stuck at world exit junctions, just force through to keep simulation running.
+        if (agent.GetCurrentDestination().GetComponent<DespawnerNode>() != null) {
+            return typeof(DriveState);
+        }
+        
+        if (agent.GetCurrentDestination().GetComponent<DestinationNode>() != null) {
+            return typeof(DriveState);
         }
 
         if (agent.GetLastSeenAgent() != null && agent.GetLastSeenAgent() is VehicleAgent) {
@@ -40,6 +51,7 @@ public class WaitForJunctionState : VehicleBaseState {
                     agent.GetAgent().isStopped = true;
                 }
             } else {
+                clearanceAttempts = 0;
                 return typeof(ApproachJunctionState);
             }
 
@@ -53,6 +65,7 @@ public class WaitForJunctionState : VehicleBaseState {
                         return typeof(ApproachJunctionState);
                     }
                 } else if (dist < 1.5f) { //must be clipping.
+                    agent.GetAgent().Warp(agent.GetAgent().destination);
                     return typeof(ApproachJunctionState);
                 }
             }
@@ -63,8 +76,14 @@ public class WaitForJunctionState : VehicleBaseState {
             //Although most of the time, they're already clipping. So not the end of the world.
             //Just have to hope the observer/player isn't watching when that happens...
             //I don't like this but if we don't fix it we end up with huge traffic jams.
-            agent.PrintWarn("Agent was possibly stuck in wait state. Forcing to approach.");
             agent.ForceClearSeenObject();
+            clearanceAttempts++;
+            agent.PrintWarn("Agent was possibly stuck in wait state. Forcing to approach. (Attempt: " + clearanceAttempts + ")");
+            if (clearanceAttempts >= 3) {
+                //It's really, really stuck and is probably causing issues for all other agents. Remove it.
+                agent.PrintError("Agent has now been stuck for 30 seconds. Deleting to clear world congestion.");
+                agent.GetAgentManager().RemoveAgent(agent.gameObject);
+            }
             return typeof(ApproachJunctionState);
         }
 

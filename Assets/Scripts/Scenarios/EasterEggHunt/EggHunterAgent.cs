@@ -129,7 +129,7 @@ namespace Scenarios.EasterEggHunt {
                 string shopName = currentDestGO.GetComponent<TileData>().GetName();
                 if (eggHolder != null) {
                     int eggCount = eggHolder.GetEggCount();
-                    int takeEggs = Mathf.Max(maxHeldEggs - eggCount, eggCount);
+                    int takeEggs = Mathf.Min(maxHeldEggs - holdingEggs, eggCount);
                     currentDestGO.GetComponent<EggHolder>().TakeEggs(this, takeEggs);
 
                     if (scenarioManager.chatOnFoundEgg) {
@@ -139,13 +139,11 @@ namespace Scenarios.EasterEggHunt {
                             World.Instance.SendChatMessage(GetFullName(), ParseString(GetRandomMessage(foundEggs), takeEggs, shopName));
                         }
                     }
+                    Debug.Log("Agent " + gameObject.name + " took " + takeEggs + " from " + shopName + " - they now hold " + eggCount + " eggs.");
                     return;
                 }
                 if (scenarioManager.chatOnFailedSearch) World.Instance.SendChatMessage(GetFullName(), ParseString(GetRandomMessage(foundNoEggs), 0, shopName));
-            } else {
-                if (scenarioManager.chatOnDepositEgg) World.Instance.SendChatMessage(GetFullName(), ParseString(GetRandomMessage(depositingEggs), holdingEggs, "Base"));
             }
-            
         }
 
         public abstract void Begin();
@@ -219,7 +217,7 @@ namespace Scenarios.EasterEggHunt {
             "Finding an egg in %s makes sense if you don’t think about it.",
         };
         
-        private static readonly string[] depositingEggs = {
+        public static readonly string[] depositingEggs = {
             "Depoisted %e eggs at base.",
             "%e eggs safely in their new home.",
             "%e eggs delivered.",

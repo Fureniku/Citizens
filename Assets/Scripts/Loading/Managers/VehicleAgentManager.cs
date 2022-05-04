@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Tiles.TileManagement;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -39,6 +40,10 @@ public class VehicleAgentManager : AgentManager {
             yield return null;
         }
 
+        for (int i = 0; i < initialAgents / 2; i++) {
+            CreateAgentIdle();
+        }
+
         spawnAgentsCreated = true;
         yield return null;
     }
@@ -70,6 +75,50 @@ public class VehicleAgentManager : AgentManager {
 
         agents.Add(agent);
     }
+    
+    private void CreateAgentIdle() {
+        ParkingSpaceNode spawnPoint = null;
+        int selectionAttempts = 0;
+
+        while (spawnPoint == null && selectionAttempts < 3) { //Try to select at random
+            spawnPoint = LocationRegistration.GetRandomParkingSpaceNode();
+            if (spawnPoint.IsOccupied()) {
+                spawnPoint = null;
+                selectionAttempts++;
+            }
+        }
+
+        if (spawnPoint == null) { //Random wasn't working, pick first available space
+            for (int i = 0; i < LocationRegistration.carParkSpaces.Count; i++) {
+                ParkingSpaceNode node = LocationRegistration.carParkSpaces[i];
+                if (!node.IsOccupied()) {
+                    spawnPoint = node;
+                    break;
+                }
+            }
+
+            if (spawnPoint == null) { //Every registered parking space on the map is full.
+                Debug.LogWarning("All car parks are full. Skipping parked vehicle generation.");
+                return;
+            }
+        }
+        
+        
+        GameObject agent = Instantiate(VehicleRegistry.GetRandomCar(), spawnPoint.transform.position, Quaternion.Euler(0, spawnPoint.GetRotation().GetRotation(), 0));
+        spawnPoint.ClaimSpace();
+        spawnPoint.OccupySpace();
+        Debug.Log("Creating idle agent at spawn point " + spawnPoint.name + ": " + spawnPoint.transform.position);
+        agent.transform.parent = transform;
+        agent.name = "VA_" + id + ": " + agent.GetComponent<Vehicle>().GetName() + " (" + agent.GetComponent<Vehicle>().GetColour() + ")";
+        id++;
+        agent.GetComponent<VehicleAgent>().SetAStar(aStarPlane.GetComponent<AStar>());
+
+        agent.GetComponent<VehicleAgent>().SetSpawnController(spawnPoint.GetParkingController().GetLocationNodeController());
+        agent.GetComponent<VehicleAgent>().InitIdle();
+        agent.GetComponent<BaseAgent>().SetInitialized();
+
+        agentsIdle.Add(agent);
+    }
 
     protected override void AgentUpdate() {
         if (World.Instance.IsWorldFullyLoaded()) {
@@ -77,7 +126,7 @@ public class VehicleAgentManager : AgentManager {
                 spawnCooldown--;
             } else {
                 if (currentAgentCount < maxAgentCount) {
-                    TilePos pos = LocationRegistration.worldEntryVehicle.GetAtRandom();
+                    TilePos pos = LocationRegistration.allVehicleSpawnersRegistry.GetAtRandom();
                     LocationNodeController lnc = World.Instance.GetChunkManager().GetTile(pos).GetComponent<LocationNodeController>();
                     CreateAgent(lnc);
                     spawnCooldown = 60;

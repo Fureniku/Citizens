@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Tiles.TileManagement;
 using UnityEngine;
 
 public class JunctionExitWaitState : VehicleBaseState {
@@ -7,7 +9,10 @@ public class JunctionExitWaitState : VehicleBaseState {
     private bool reverseDir = false;
     private int check = 0;
     private int maxCheck = 2;
-    private float agentDist = -1; //The distance to the agent saved from last frame
+
+    private List<GameObject> seenVehicles = new List<GameObject>();
+    private List<float> seenDistances = new List<float>();
+    private List<GameObject> ignoredVehicles = new List<GameObject>();
     
     public JunctionExitWaitState(VehicleAgent agent) {
         this.stateName = "Junction Exit Wait State";
@@ -39,6 +44,8 @@ public class JunctionExitWaitState : VehicleBaseState {
                     }
                 }
             }
+        } else {
+            return typeof(DriveState);
         }
 
         if (agent.isInJunctionBox) {
@@ -46,20 +53,46 @@ public class JunctionExitWaitState : VehicleBaseState {
             return typeof(DriveState);
         }
 
-        if (agent.GetSeenObject().transform != null) {
-            if (agent.SeenAgent(agent.GetSeenObject().transform.gameObject)) {
-                float dist = Vector3.Distance(agent.transform.position, agent.GetSeenObject().transform.position);
-                if (agentDist >= 0 && dist < agentDist) { //Only reset for approaching vehicles, not ones moving away.
-                    check = 0; //restart checking
-                }
+        Transform transform = agent.GetSeenObject().transform;
+        if (transform != null) {
+            if (transform.GetComponent<VehicleAgent>() != null) {
+                VehicleAgent vehicleAgent = transform.GetComponent<VehicleAgent>();
 
-                agentDist = dist;
+                if (!ignoredVehicles.Contains(vehicleAgent.gameObject)) { //Don't do anything with ignored vehicles.
+                    float dist = Vector3.Distance(agent.transform.position, transform.position);
+                    if (seenVehicles.Contains(vehicleAgent.gameObject)) { //Seen this one before
+                        int entry = seenVehicles.IndexOf(vehicleAgent.gameObject);
+                        float prevDist = seenDistances[entry];
+
+                        if (dist > prevDist) { //Vehicle is moving away. Add it to ignore.
+                            seenVehicles.RemoveAt(entry);
+                            seenDistances.RemoveAt(entry);
+                            ignoredVehicles.Add(vehicleAgent.gameObject);
+                        } else {
+                            if (vehicleAgent.GetState() is JunctionExitWaitState || vehicleAgent.GetState() is ApproachJunctionState || vehicleAgent.GetState() is WaitForJunctionState || vehicleAgent.GetState() is WaitForVehicleState) {
+                                if (agent.GetRoughFacingDirection() < vehicleAgent.GetRoughFacingDirection()) { //Priority based on facing direction
+                                    check = 0;
+                                } else if (agent.GetRoughFacingDirection() == vehicleAgent.GetRoughFacingDirection()) {
+                                    float nodeDist = Vector3.Distance(agent.transform.position, agent.GetCurrentDestination().transform.position);
+                                    float otherNodeDist = Vector3.Distance(vehicleAgent.transform.position, vehicleAgent.GetCurrentDestination().transform.position);
+                                    if (nodeDist > otherNodeDist) {
+                                        check = 0;
+                                    }
+                                }
+                            } else {
+                                check = 0;
+                            }
+                        }
+                    } else {
+                        seenVehicles.Add(vehicleAgent.gameObject);
+                        seenDistances.Add(dist);
+                    }
+                }
             }
-        } else {
-            agentDist = -1;
         }
 
         if (check > maxCheck) {
+            agent.PrintText("I've checked " + check + " out of " + maxCheck + " times, its safe to go.");
             return typeof(TurningState);
         }
 
@@ -101,8 +134,12 @@ public class JunctionExitWaitState : VehicleBaseState {
     public override Type StateEnter() {
         agent.IncrementDestination();
         agent.GetAgent().isStopped = true;
-        agentDist = -1;
         check = 0;
+        seenVehicles = new List<GameObject>();
+        seenDistances = new List<float>();
+        ignoredVehicles = new List<GameObject>();
+        
+        ignoredVehicles.Add(agent.gameObject);
         return null;
     }
 

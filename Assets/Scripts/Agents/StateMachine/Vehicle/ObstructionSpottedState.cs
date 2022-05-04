@@ -22,6 +22,17 @@ public class ObstructionSpottedState : AgentBaseState {
             if (seenAgent.GetStateType() == typeof(ApproachJunctionState) || seenAgent.GetStateType() == typeof(JunctionExitWaitState) || seenAgent.GetStateType() == typeof(WaitForJunctionState)) {
                 return typeof(WaitForJunctionState);
             }
+            
+            if (seenAgent.GetState() is WaitForVehicleState || seenAgent.GetState() is ObstructionSpottedState) {
+                if (seenAgent.GetLastSeenAgent() == agent) {
+                    float agentDist = Vector3.Distance(agent.transform.position, agent.GetCurrentDestination().transform.position);
+                    float otherAgentDist = Vector3.Distance(seenAgent.transform.position, seenAgent.GetCurrentDestination().transform.position);
+
+                    if (agentDist < otherAgentDist) { //Both agents will call this code so only the closer one will move to drive state. Other will continue waiting.
+                        return typeof(DriveState);
+                    }
+                }
+            }
         }
         
         float distance = agent.GetSeenObject().distance;

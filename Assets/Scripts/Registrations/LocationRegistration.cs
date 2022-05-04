@@ -31,7 +31,6 @@ public static class LocationRegistration {
     public static Registry worldExitPedestrian = new Registry();
     public static Registry shopRegistryDestPedestrian = new Registry();
     public static Registry houseRegistryDestPedestrian = new Registry();
-    
 
     private static TilePos hospitalVehiclePos;
     private static TilePos hospitalPedestrianPos;
@@ -42,6 +41,7 @@ public static class LocationRegistration {
     
 
     public static List<LocationNodeController> nodeControllers = new List<LocationNodeController>();
+    public static List<ParkingSpaceNode> carParkSpaces = new List<ParkingSpaceNode>();
 
 
     public static void BuildLists() {
@@ -97,6 +97,13 @@ public static class LocationRegistration {
         RegisterAllVehicleDestinations();
         RegisterAllPedestrianSpawners();
         RegisterAllPedestrianDestinations();
+        
+        Debug.Log("Location registrations complete. Generated lists with");
+        Debug.Log("    - " + allVehicleSpawnersRegistry.GetListSize() + " Vehicle Spawners");
+        Debug.Log("    - " + allVehicleDestinationsRegistry.GetListSize() + " Vehicle Destinations");
+        Debug.Log("    - " + allPedestrianSpawnersRegistry.GetListSize() + " Pedestrian Spawners");
+        Debug.Log("    - " + allPedestrianDestinationsRegistry.GetListSize() + " Pedestrian Destinations");
+        Debug.Log("    - " + carParkSpaces.Count + " Car parking space");
     }
 
     private static void RegisterAllVehicleSpawners() {
@@ -106,18 +113,27 @@ public static class LocationRegistration {
     }
 
     private static void RegisterAllVehicleDestinations() {
+        if (hospitalVehiclePos != null) allVehicleDestinationsRegistry.AddToList(hospitalVehiclePos);
+        if (townHallVehiclePost != null) allVehicleDestinationsRegistry.AddToList(townHallVehiclePost);
+        if (universityVehiclePos != null) allVehicleDestinationsRegistry.AddToList(universityVehiclePos);
         foreach (TilePos pos in shopRegistryDestVehicle.GetList()) { allVehicleDestinationsRegistry.AddToList(pos); }
         foreach (TilePos pos in houseRegistryDestVehicle.GetList()) { allVehicleDestinationsRegistry.AddToList(pos); }
         foreach (TilePos pos in worldExitVehicle.GetList()) { allVehicleDestinationsRegistry.AddToList(pos); }
     }
     
     private static void RegisterAllPedestrianSpawners() {
+        if (hospitalPedestrianPos != null) allPedestrianSpawnersRegistry.AddToList(hospitalPedestrianPos);
+        if (townHallPedestrianPos != null) allPedestrianSpawnersRegistry.AddToList(townHallPedestrianPos);
+        if (universityPedestrianPos != null) allPedestrianSpawnersRegistry.AddToList(universityPedestrianPos);
         foreach (TilePos pos in shopRegistrySpawnerPedestrian.GetList()) { allPedestrianSpawnersRegistry.AddToList(pos); }
         foreach (TilePos pos in houseRegistrySpawnerPedestrian.GetList()) { allPedestrianSpawnersRegistry.AddToList(pos); }
         foreach (TilePos pos in worldEntryPedestrian.GetList()) { allPedestrianSpawnersRegistry.AddToList(pos); }
     }
 
     private static void RegisterAllPedestrianDestinations() {
+        if (hospitalPedestrianPos != null) allPedestrianDestinationsRegistry.AddToList(hospitalPedestrianPos);
+        if (townHallPedestrianPos != null) allPedestrianDestinationsRegistry.AddToList(townHallPedestrianPos);
+        if (universityPedestrianPos != null) allPedestrianDestinationsRegistry.AddToList(universityPedestrianPos);
         foreach (TilePos pos in shopRegistryDestPedestrian.GetList()) { allPedestrianDestinationsRegistry.AddToList(pos); }
         foreach (TilePos pos in houseRegistryDestPedestrian.GetList()) { allPedestrianDestinationsRegistry.AddToList(pos); }
         foreach (TilePos pos in worldExitPedestrian.GetList()) { allPedestrianDestinationsRegistry.AddToList(pos); }
@@ -126,10 +142,16 @@ public static class LocationRegistration {
     public static void AddToList(LocationNodeController lnc) {
         nodeControllers.Add(lnc);
     }
+
+    public static ParkingSpaceNode GetRandomParkingSpaceNode() {
+        return carParkSpaces[Random.Range(0, carParkSpaces.Count)];
+    }
 }
 
 public enum LocationType {
     HOSPITAL,
+    TOWN_HALL,
+    UNIVERSITY,
     SHOP,
     HOUSE,
     WORLD_EXIT

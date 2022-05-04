@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 4015522522966291170}
   - component: {fileID: 6256883087173944572}
   m_Layer: 0
-  m_Name: BuisStop
+  m_Name: BusStop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -120,7 +120,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5561349426305759274, guid: fb1085044589d314189f03d59b0d2d44, type: 3}
+  - {fileID: 2100000, guid: 1275883e82c93f5489bbe89e0d58f499, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -510,8 +510,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5561349426305759274, guid: fb1085044589d314189f03d59b0d2d44, type: 3}
-  - {fileID: -3458534370256680092, guid: fb1085044589d314189f03d59b0d2d44, type: 3}
+  - {fileID: 2100000, guid: c13030080ef84784ba001bfb867ef39f, type: 2}
+  - {fileID: 2100000, guid: c13030080ef84784ba001bfb867ef39f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -592,8 +592,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3458534370256680092, guid: fb1085044589d314189f03d59b0d2d44, type: 3}
-  - {fileID: 5561349426305759274, guid: fb1085044589d314189f03d59b0d2d44, type: 3}
+  - {fileID: 2100000, guid: 08292058a5785d8498a9f1ad0343afcb, type: 2}
+  - {fileID: 2100000, guid: 08292058a5785d8498a9f1ad0343afcb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -662,6 +662,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 2
 --- !u!65 &8776180845735760570
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -768,7 +769,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentTile: {fileID: 5114275939037751526}
-  spawnerNodePedestrian: {fileID: 0}
+  spawnerNodePedestrian: {fileID: 3154307104123721120}
   spawnerNodeVehicle: {fileID: 0}
   destinationNodePedestrian: {fileID: 8319821628370805104}
   destinationNodeVehicle: {fileID: 5156776922959761361}
@@ -866,7 +867,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5561349426305759274, guid: fb1085044589d314189f03d59b0d2d44, type: 3}
+  - {fileID: 2100000, guid: 1275883e82c93f5489bbe89e0d58f499, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -947,9 +948,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3458534370256680092, guid: fb1085044589d314189f03d59b0d2d44, type: 3}
-  - {fileID: 5561349426305759274, guid: fb1085044589d314189f03d59b0d2d44, type: 3}
-  - {fileID: -1134714066672644336, guid: fb1085044589d314189f03d59b0d2d44, type: 3}
+  - {fileID: 2100000, guid: 1edf874dda03a964994eb1e0e0cb8104, type: 2}
+  - {fileID: 2100000, guid: 1edf874dda03a964994eb1e0e0cb8104, type: 2}
+  - {fileID: 2100000, guid: 1edf874dda03a964994eb1e0e0cb8104, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1018,6 +1019,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 2
 --- !u!65 &7891805461049196049
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1094,6 +1096,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 2
 --- !u!65 &3574640241085896400
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1368,8 +1371,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3458534370256680092, guid: fb1085044589d314189f03d59b0d2d44, type: 3}
-  - {fileID: 5561349426305759274, guid: fb1085044589d314189f03d59b0d2d44, type: 3}
+  - {fileID: 2100000, guid: 1edf874dda03a964994eb1e0e0cb8104, type: 2}
+  - {fileID: 2100000, guid: 1edf874dda03a964994eb1e0e0cb8104, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1438,6 +1441,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 2
 --- !u!65 &2595044303210671465
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1514,6 +1518,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 2
 --- !u!65 &3237400931358047845
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1590,6 +1595,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 3
 --- !u!65 &294665519070097383
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1666,6 +1672,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 2
 --- !u!65 &3481123900722005723
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1754,7 +1761,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8556262120643298411, guid: fb1085044589d314189f03d59b0d2d44, type: 3}
+  - {fileID: 2100000, guid: c840ffa17313372409df8ad1828956ca, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2068,6 +2075,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 2
 --- !u!65 &5130068722071645062
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2156,7 +2164,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8556262120643298411, guid: fb1085044589d314189f03d59b0d2d44, type: 3}
+  - {fileID: 2100000, guid: c840ffa17313372409df8ad1828956ca, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2239,7 +2247,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5561349426305759274, guid: fb1085044589d314189f03d59b0d2d44, type: 3}
+  - {fileID: 2100000, guid: 08292058a5785d8498a9f1ad0343afcb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2322,7 +2330,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeController: {fileID: 6379114399211202522}
-  gizmoCol: {r: 0, g: 0, b: 0, a: 0}
+  gizmoCol: {r: 0, g: 1, b: 0, a: 1}
   startPointNode: {fileID: 4988105244700592495}
 --- !u!1 &1686756315746741279
 GameObject:
@@ -2383,7 +2391,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8556262120643298411, guid: fb1085044589d314189f03d59b0d2d44, type: 3}
+  - {fileID: 2100000, guid: c840ffa17313372409df8ad1828956ca, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2452,6 +2460,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 3
 --- !u!65 &632455255750044997
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2584,8 +2593,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3458534370256680092, guid: fb1085044589d314189f03d59b0d2d44, type: 3}
-  - {fileID: 5561349426305759274, guid: fb1085044589d314189f03d59b0d2d44, type: 3}
+  - {fileID: 2100000, guid: 1edf874dda03a964994eb1e0e0cb8104, type: 2}
+  - {fileID: 2100000, guid: 1edf874dda03a964994eb1e0e0cb8104, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2964,6 +2973,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 0
 --- !u!65 &3511649401115507024
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3040,6 +3050,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 2
 --- !u!65 &6144544812257614276
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3242,6 +3253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 2
 --- !u!65 &1159839583420583296
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3450,6 +3462,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 2
 --- !u!65 &3911307631144211966
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3526,6 +3539,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 2
 --- !u!65 &3864534853416095803
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3861,7 +3875,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3458534370256680092, guid: fb1085044589d314189f03d59b0d2d44, type: 3}
+  - {fileID: 2100000, guid: 139e2e2242c914e4a92c0228e7315220, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4079,6 +4093,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 3
 --- !u!65 &319938228497886127
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4167,7 +4182,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8556262120643298411, guid: fb1085044589d314189f03d59b0d2d44, type: 3}
+  - {fileID: 2100000, guid: c840ffa17313372409df8ad1828956ca, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4317,6 +4332,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 0
 --- !u!65 &3294953643510297885
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4452,7 +4468,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8556262120643298411, guid: fb1085044589d314189f03d59b0d2d44, type: 3}
+  - {fileID: 2100000, guid: c840ffa17313372409df8ad1828956ca, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4646,6 +4662,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 3
 --- !u!65 &6927955162982451669
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4783,6 +4800,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 3
 --- !u!65 &1363924422789095187
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4956,6 +4974,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parkingNodes: []
+  locationNodeController: {fileID: 6379114399211202522}
   agentDestination: {fileID: 1940511130772457875}
 --- !u!1 &3898700768582196022
 GameObject:
@@ -5004,6 +5023,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 3
 --- !u!65 &8572740437877637428
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5175,6 +5195,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 2
 --- !u!65 &4421812874408941332
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5437,6 +5458,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 2
 --- !u!65 &8779508743961386730
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5570,6 +5592,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 2
 --- !u!65 &8369178046121216315
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5690,6 +5713,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 2
 --- !u!65 &7676574469300347323
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5905,6 +5929,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 0
 --- !u!65 &6179220646437163128
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5981,6 +6006,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 3
 --- !u!65 &1008124823242046945
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6057,6 +6083,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 0
 --- !u!65 &1294523402690794124
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6146,7 +6173,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5561349426305759274, guid: fb1085044589d314189f03d59b0d2d44, type: 3}
+  - {fileID: 2100000, guid: 08292058a5785d8498a9f1ad0343afcb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6276,6 +6303,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 3
 --- !u!65 &4819965389795596644
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6672,6 +6700,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 2
 --- !u!65 &5951612783579175100
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6748,6 +6777,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 0
 --- !u!65 &2303506227167022916
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6859,6 +6889,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 2
 --- !u!65 &6362364418061178096
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6935,6 +6966,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 2
 --- !u!65 &8911766199146734022
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7011,6 +7043,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 2
 --- !u!65 &4911730702981223932
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7087,6 +7120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 2
 --- !u!65 &1979753983027363879
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7207,6 +7241,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 0
 --- !u!65 &9215623456842533046
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7283,6 +7318,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 0
 --- !u!65 &5160100270888495994
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7359,6 +7395,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 2
 --- !u!65 &4175605523810826724
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7435,6 +7472,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 2
 --- !u!65 &3734935746291596520
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7511,6 +7549,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 3
 --- !u!65 &3213672473662270624
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7692,6 +7731,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 2
 --- !u!65 &3189303841795504939
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7780,8 +7820,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3458534370256680092, guid: fb1085044589d314189f03d59b0d2d44, type: 3}
-  - {fileID: -4356625605480810179, guid: fb1085044589d314189f03d59b0d2d44, type: 3}
+  - {fileID: 2100000, guid: bf8f99b829bc16a4c8cee1e8534e5a1a, type: 2}
+  - {fileID: 2100000, guid: bf8f99b829bc16a4c8cee1e8534e5a1a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7850,6 +7890,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 3
 --- !u!65 &8225522374287642000
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7926,6 +7967,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 2
 --- !u!65 &6447790609825082564
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8002,6 +8044,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 2
 --- !u!65 &5013687215120130790
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8078,6 +8121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 0
 --- !u!65 &7908249164343634625
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8154,6 +8198,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 2
 --- !u!65 &6859380494924169733
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8242,7 +8287,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8556262120643298411, guid: fb1085044589d314189f03d59b0d2d44, type: 3}
+  - {fileID: 2100000, guid: c840ffa17313372409df8ad1828956ca, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8477,6 +8522,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 2
 --- !u!65 &6467870569036948251
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8553,6 +8599,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 3
 --- !u!65 &7343263763971579579
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8629,6 +8676,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 3
 --- !u!65 &3655907730899012439
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8719,7 +8767,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5561349426305759274, guid: fb1085044589d314189f03d59b0d2d44, type: 3}
+  - {fileID: 2100000, guid: 08292058a5785d8498a9f1ad0343afcb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8886,6 +8934,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 0
 --- !u!65 &8334436601463782815
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9043,6 +9092,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 0
 --- !u!65 &1200574855162085816
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9349,6 +9399,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 3
 --- !u!65 &5555706355680126505
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9425,6 +9476,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 3
 --- !u!65 &7886484584976836813
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9501,6 +9553,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 3
 --- !u!65 &7765992786069636135
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9679,7 +9732,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5561349426305759274, guid: fb1085044589d314189f03d59b0d2d44, type: 3}
+  - {fileID: 2100000, guid: 08292058a5785d8498a9f1ad0343afcb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9842,7 +9895,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8556262120643298411, guid: fb1085044589d314189f03d59b0d2d44, type: 3}
+  - {fileID: 2100000, guid: c840ffa17313372409df8ad1828956ca, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10036,6 +10089,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 2
 --- !u!65 &7428929672573740753
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10335,6 +10389,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 3
 --- !u!65 &8438608306177007085
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10411,6 +10466,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 3
 --- !u!65 &2138526521081209232
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10487,6 +10543,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occupied: 0
   claimed: 0
+  direction: 3
 --- !u!65 &2147853164266617844
 BoxCollider:
   m_ObjectHideFlags: 0

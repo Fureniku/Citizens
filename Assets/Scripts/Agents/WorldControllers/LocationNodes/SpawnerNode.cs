@@ -7,7 +7,10 @@ public class SpawnerNode : LocationNode {
     public override void ProcessNodeLogic(BaseAgent agent) {}
     public override void PrepareNodeLogic(BaseAgent agent) {} //No need to prepare
 
-    public StartPointNode GetStartPointNode() {
-        return startPointNode;
+    public GameObject GetStartPointNode() {
+        if (startPointNode != null) {
+            return startPointNode.gameObject;
+        }
+        return gameObject;
     }
 }

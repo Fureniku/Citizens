@@ -1,4 +1,5 @@
 ﻿using System;
+using Scenarios.EasterEggHunt.Competitive.Agents;
 using Scenarios.EasterEggHunt.Cooperative;
 using UnityEngine;
 
@@ -13,7 +14,11 @@ namespace Scenarios.EasterEggHunt.AgentStates {
         public override Type StateUpdate() {
             if (Vector3.Distance(agent.transform.position, agent.GetScenarioManager().GetDepositPoint().transform.position) < 3.0f) {
                 if (agent.EggCount() > 0) {
-                    ((EggHunterScenarioManager) agent.GetScenarioManager()).DepositEggs(agent.EggCount());
+                    EggHunterScenarioManager eggHunterSM = (EggHunterScenarioManager) agent.GetScenarioManager();
+                    if (eggHunterSM.chatOnDepositEgg) {
+                        World.Instance.SendChatMessage(agent.GetFullName(), EggHunterAgent.ParseString(EggHunterAgent.GetRandomMessage(EggHunterAgent.depositingEggs), agent.EggCount(), "Base"));
+                    }
+                    eggHunterSM.DepositEggs(agent.EggCount());
                     agent.RemoveEggs(agent.EggCount());
                 }
 
@@ -23,6 +28,10 @@ namespace Scenarios.EasterEggHunt.AgentStates {
                     }
                 }
 
+                if (agent is EggHunterCompetitiveAvoidSearched) {
+                    return typeof(ObservantMoveToLocationState);
+                }
+                
                 return typeof(MoveToLocationState);
             }
 

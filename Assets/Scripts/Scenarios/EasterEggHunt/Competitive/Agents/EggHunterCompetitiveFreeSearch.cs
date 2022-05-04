@@ -53,6 +53,9 @@ namespace Scenarios.EasterEggHunt.Competitive.Agents {
 
         public override void FinishedSearch() {
             CheckForEggs();
+            previousDestination = dests[0];
+            timeSinceDestination = 0;
+            
             if (dests.Count > 1) {
                 RemoveDestination(dests[0]);
                 SetAgentDestination(dests[0]);

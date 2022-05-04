@@ -4,6 +4,7 @@ using UnityEngine;
 public class ParkingController : MonoBehaviour {
 
     [SerializeField] private List<ParkingSpaceNode> parkingNodes = new List<ParkingSpaceNode>();
+    [SerializeField] private LocationNodeController locationNodeController;
     [SerializeField] private GameObject agentDestination = null;
 
     void Awake() {
@@ -11,7 +12,10 @@ public class ParkingController : MonoBehaviour {
         for (int i = 0; i < transform.childCount; i++) {
             GameObject child = transform.GetChild(i).gameObject;
             if (child.GetComponent<ParkingSpaceNode>() != null) {
-                parkingNodes.Add(child.GetComponent<ParkingSpaceNode>());
+                if (!locationNodeController.GetParentTile().IsRegistryVersion()) {
+                    parkingNodes.Add(child.GetComponent<ParkingSpaceNode>());
+                    LocationRegistration.carParkSpaces.Add(child.GetComponent<ParkingSpaceNode>());
+                }
             }
         }
         
@@ -31,5 +35,9 @@ public class ParkingController : MonoBehaviour {
 
     public GameObject GetForwardingAgentDestination() {
         return agentDestination;
+    }
+
+    public LocationNodeController GetLocationNodeController() {
+        return locationNodeController;
     }
 }

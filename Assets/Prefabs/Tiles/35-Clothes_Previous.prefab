@@ -583,7 +583,7 @@ MonoBehaviour:
   spawnerNodeVehicle: {fileID: 0}
   destinationNodePedestrian: {fileID: 7390920443547324417}
   destinationNodeVehicle: {fileID: 0}
-  locationType: 1
+  locationType: 3
 --- !u!114 &7390920443547324417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -597,7 +597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeController: {fileID: 5313290074081626804}
-  gizmoCol: {r: 1, g: 0, b: 0, a: 0}
+  gizmoCol: {r: 1, g: 0, b: 0, a: 1}
   despawnerNode: {fileID: 0}
   destinationAction: 5
 --- !u!1 &8911379630898528586

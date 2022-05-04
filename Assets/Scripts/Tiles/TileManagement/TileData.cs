@@ -25,7 +25,7 @@ public abstract class TileData : MonoBehaviour {
 
     [SerializeField] protected EnumGenerateDirection genDirection = EnumGenerateDirection.NONE;
     
-    protected bool isRegistryEntry = false; //Whether this copy of the object is for registration, preventing procedural generations.
+    protected bool isRegistryEntry = true; //Whether this copy of the object is for registration, preventing procedural generations. Set to false when legitimately spawning.
 
     public void Initialize() {
         tile = TileRegistry.GetTile(enumTile);
@@ -90,7 +90,10 @@ public abstract class TileData : MonoBehaviour {
     public void SetGenerationDirection(EnumGenerateDirection dir) { genDirection = dir; }
     public EnumDirection GetRotation() { return rotation; }
     public Tile GetTile() { return TileRegistry.GetTile(enumTile); }
-    public bool IsRegistryVersion() { return isRegistryEntry; }
+
+    public bool IsRegistryVersion() {
+        return transform.root.GetComponent<TileRegistry>() != null;
+    }
 
     //////////////// Used for load/save
     
@@ -120,10 +123,10 @@ public abstract class TileData : MonoBehaviour {
     }
 
     public void CreateBase() {
+        isRegistryEntry = false;
         if (GetComponent<MeshRenderer>() != null) {
             GetComponent<MeshRenderer>().enabled = true;
         }
-        isRegistryEntry = false;
     }
     
     public abstract JProperty SerializeTile(TileData td, int row, int col);

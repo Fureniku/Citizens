@@ -589,7 +589,7 @@ MonoBehaviour:
   spawnerNodeVehicle: {fileID: 0}
   destinationNodePedestrian: {fileID: 3917392282079363866}
   destinationNodeVehicle: {fileID: 0}
-  locationType: 1
+  locationType: 3
 --- !u!114 &3917392282079363866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -603,7 +603,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeController: {fileID: 4982833357711404559}
-  gizmoCol: {r: 1, g: 0, b: 0, a: 0}
+  gizmoCol: {r: 1, g: 0, b: 0, a: 1}
   despawnerNode: {fileID: 0}
   destinationAction: 5
 --- !u!1 &7129780401912383153
@@ -761,7 +761,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0db5e5cc0b0fa1443a9430466233ed6d, type: 2}
+  - {fileID: 2100000, guid: 64c7da6f178c0744d9e15423446ebc75, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

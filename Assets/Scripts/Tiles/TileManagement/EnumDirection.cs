@@ -125,6 +125,26 @@ namespace Tiles.TileManagement {
 
             return EnumLocalDirection.RIGHT;
         }
+        
+        public static int GetRotation(this EnumLocalDirection dir) {
+            switch (dir) {
+                case EnumLocalDirection.DOWN: return 180;
+                case EnumLocalDirection.LEFT:  return 270;
+                case EnumLocalDirection.UP: return 0;
+                case EnumLocalDirection.RIGHT:  return 90;
+                default: return 0;
+            }
+        }
+        
+        public static EnumLocalDirection GetLocalDirection(int dir) {
+            switch (dir) {
+                case 180: return EnumLocalDirection.DOWN;
+                case 270: return EnumLocalDirection.LEFT;
+                case 0:   return EnumLocalDirection.UP;
+                case 90:  return EnumLocalDirection.RIGHT;
+                default: return EnumLocalDirection.UP;
+            }
+        }
     }
 
     public enum EnumDirection {

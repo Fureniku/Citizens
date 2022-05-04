@@ -11,6 +11,10 @@ namespace Scenarios.EasterEggHunt.AgentStates {
         
         public override Type StateUpdate() {
             EggHunterAgent otherAgent = SearchForOtherAgents();
+            
+            if (agent.EggCount() > 0) {
+                return typeof(ReturnEggsToBaseState);
+            }
 
             if (otherAgent != null) {
                 if (otherAgent.GetStateMachine().CurrentState.GetType() == typeof(SearchLocationState)) {
