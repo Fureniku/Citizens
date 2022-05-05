@@ -20,6 +20,8 @@ public class PedestrianSelectionInfo : MonoBehaviour {
     [SerializeField] private GameObject destPosX;
     [SerializeField] private GameObject destPosZ;
     
+    [SerializeField] private GameObject destName;
+    
     [SerializeField] private GameObject distance;
 
 
@@ -38,6 +40,9 @@ public class PedestrianSelectionInfo : MonoBehaviour {
         TilePos destinationPos = TilePos.GetTilePosFromLocation(agent.GetAgent().destination);
         SetText(destPosX, destinationPos.x);
         SetText(destPosZ, destinationPos.z);
+
+        TileData destination = World.Instance.GetChunkManager().GetTile(destinationPos);
+        SetText(destName, destination.GetName());
         
         TilePos pos = TilePos.GetTilePosFromLocation(agent.transform.position);
         SetText(tilePosX, pos.x);

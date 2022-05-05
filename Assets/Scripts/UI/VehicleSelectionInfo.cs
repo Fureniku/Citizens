@@ -35,8 +35,10 @@ public class VehicleSelectionInfo : MonoBehaviour {
         
         SetText(state, agent.GetState().GetName());
 
-        TileData finalDestination = agent.GetFinalKnownDestination().GetComponent<TileData>();
-        if (finalDestination != null) {
+        LocationNode finalNode = agent.GetFinalKnownDestination().GetComponent<LocationNode>();
+        if (finalNode != null) {
+            TileData finalDestination = finalNode.GetNodeController().GetParentTile();
+        
             SetText(finalDestPosX, finalDestination.GetTilePos().x);
             SetText(finalDestPosZ, finalDestination.GetTilePos().z);
             SetText(finalDestName, finalDestination.GetName());
