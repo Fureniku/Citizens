@@ -135,14 +135,16 @@ public class RoadGenerator : MonoBehaviour {
                             }
                             
                             if (genJunction) {
-                                //Check that there isn't a road in the next two tiles
+                                //Check that there isn't a road in the next three tiles
                                 bool canContinue = false;
                                 TilePos ahead1 = Direction.OffsetPos(generatorDirection, placePos);
                                 TilePos ahead2 = Direction.OffsetPos(generatorDirection, placePos, 2);
-                                if (chunkManager.IsValidTile(ahead1) && chunkManager.IsValidTile(ahead2)) {
+                                TilePos ahead3 = Direction.OffsetPos(generatorDirection, placePos, 3);
+                                if (chunkManager.IsValidTile(ahead1) && chunkManager.IsValidTile(ahead2) && chunkManager.IsValidTile(ahead3)) {
                                     TileData tileAt1 = chunkManager.GetTile(ahead1);
                                     TileData tileAt2 = chunkManager.GetTile(ahead2);
-                                    if (!(tileAt1 is TileRoad || tileAt2 is TileRoad)) {
+                                    TileData tileAt3 = chunkManager.GetTile(ahead3);
+                                    if (!(tileAt1 is TileRoad || tileAt2 is TileRoad || tileAt3 is TileRoad)) {
                                         canContinue = true;
                                     }
                                 }
@@ -153,7 +155,7 @@ public class RoadGenerator : MonoBehaviour {
                                     tilesSinceBranch = 0;
                                 }
                             } else if (genCrossing) {
-                                //Check that there isn't a road in the next three tiles
+                                //Check that there isn't a road in the next tile
                                 bool canContinue = false;
                                 TilePos ahead1 = Direction.OffsetPos(generatorDirection, placePos);
                                 if (chunkManager.IsValidTile(ahead1)) {
@@ -187,11 +189,10 @@ public class RoadGenerator : MonoBehaviour {
             } else {
                 if (!edgeBranch) {
                     GenerateRoad(road_world_exit, lastPos, generatorDirection.Opposite());
-                    TilePos branch1Pos = Direction.OffsetPos(generatorDirection.RotateCCW(), lastPos);
+                    /*TilePos branch1Pos = Direction.OffsetPos(generatorDirection.RotateCCW(), lastPos);
                     TilePos branch2Pos = Direction.OffsetPos(generatorDirection.RotateCW(), lastPos);
                     GenerateBranch(branch1Pos, generatorDirection.RotateCCW(), true, true);
-                    GenerateBranch(branch2Pos, generatorDirection.RotateCW(), true);
-                    
+                    GenerateBranch(branch2Pos, generatorDirection.RotateCW(), true);*/
                 }
                 break;
             }

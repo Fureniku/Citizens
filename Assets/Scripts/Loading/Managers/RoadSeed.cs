@@ -35,22 +35,11 @@ public class RoadSeed : GenerationSystem {
                         Tile tile2 = chunkMan.GetTile(pos2).GetTile();
                         Tile tile3 = chunkMan.GetTile(pos3).GetTile();
                         Tile tile4 = chunkMan.GetTile(pos4).GetTile();
-
-                        if (tile1 != TileRegistry.ROAD_WORLD_EDGE_STRAIGHT && tile1 != TileRegistry.ROAD_WORLD_EDGE_CORNER && tile1 != TileRegistry.ROAD_WORLD_EXIT) {
-                            chunkMan.SetTile(pos1, TileRegistry.ROAD_WORLD_EXIT.GetId(), EnumDirection.NORTH);
-                        }
                         
-                        if (tile2 != TileRegistry.ROAD_WORLD_EDGE_STRAIGHT && tile2 != TileRegistry.ROAD_WORLD_EDGE_CORNER && tile2 != TileRegistry.ROAD_WORLD_EXIT) {
-                            chunkMan.SetTile(pos2, TileRegistry.ROAD_WORLD_EXIT.GetId(), EnumDirection.EAST);
-                        }
-                        
-                        if (tile3 != TileRegistry.ROAD_WORLD_EDGE_STRAIGHT && tile3 != TileRegistry.ROAD_WORLD_EDGE_CORNER && tile3 != TileRegistry.ROAD_WORLD_EXIT) {
-                            chunkMan.SetTile(pos3, TileRegistry.ROAD_WORLD_EXIT.GetId(), EnumDirection.SOUTH);
-                        }
-                        
-                        if (tile4 != TileRegistry.ROAD_WORLD_EDGE_STRAIGHT && tile4 != TileRegistry.ROAD_WORLD_EDGE_CORNER && tile4 != TileRegistry.ROAD_WORLD_EXIT) {
-                            chunkMan.SetTile(pos4, TileRegistry.ROAD_WORLD_EXIT.GetId(), EnumDirection.WEST);
-                        }
+                        SetEdgeTile(tile1, pos1, EnumDirection.WEST);
+                        SetEdgeTile(tile2, pos2, EnumDirection.EAST);
+                        SetEdgeTile(tile3, pos3, EnumDirection.SOUTH);
+                        SetEdgeTile(tile4, pos4, EnumDirection.NORTH);
                     }
                     
                     chunkMan.SetTile(new TilePos(0, 0), TileRegistry.ROAD_WORLD_EDGE_CORNER.GetId(), EnumDirection.WEST);
@@ -65,6 +54,20 @@ public class RoadSeed : GenerationSystem {
             if (roadGenStage != EnumGenerationStage.STARTED) {
                 BeginRoadGeneration();
                 roadGenStage = EnumGenerationStage.STARTED;
+            }
+        }
+    }
+
+    private void SetEdgeTile(Tile tile, TilePos pos, EnumDirection direction) {
+        ChunkManager chunkMan = World.Instance.GetChunkManager();
+        
+        if (tile == TileRegistry.STRAIGHT_ROAD_1x1 || tile == TileRegistry.ZEBRA_CROSSING_1x1) {
+            chunkMan.SetTile(pos, TileRegistry.ROAD_WORLD_EDGE_STRAIGHT.GetId(), direction.RotateCCW());
+        } else if (tile != TileRegistry.ROAD_WORLD_EDGE_STRAIGHT && tile != TileRegistry.ROAD_WORLD_EDGE_CORNER && tile != TileRegistry.ROAD_WORLD_EXIT) {
+            if (tile == TileRegistry.GRASS) {
+                chunkMan.SetTile(pos, TileRegistry.ROAD_WORLD_EDGE_STRAIGHT.GetId(), direction.RotateCCW());        
+            } else {
+                chunkMan.SetTile(pos, TileRegistry.ROAD_WORLD_EXIT.GetId(), direction);
             }
         }
     }

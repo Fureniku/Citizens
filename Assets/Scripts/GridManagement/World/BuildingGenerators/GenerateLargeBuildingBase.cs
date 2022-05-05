@@ -53,15 +53,25 @@ public abstract class GenerateLargeBuildingBase : GenerateBuildingBase {
 
                 if (l == 0) {
                     TilePos offset = Direction.OffsetPos(EnumDirection.NORTH, pos);
-                    if (chunkManager.GetTile(offset).GetTile().GetTileType() == TileType.ROAD) {
-                        chunkManager.SetTile(offset, TileRegistry.T_JUNCT_ROAD_1x1.GetId(), EnumDirection.WEST);
+                    Tile tile = chunkManager.GetTile(offset).GetTile();
+                    if (tile.GetTileType() == TileType.ROAD) {
+                        if (tile == TileRegistry.T_JUNCT_ROAD_1x1) {
+                            chunkManager.SetTile(offset, TileRegistry.CROSSROAD_ROAD_1x1.GetId(), EnumDirection.WEST);
+                        } else {
+                            chunkManager.SetTile(offset, TileRegistry.T_JUNCT_ROAD_1x1.GetId(), EnumDirection.WEST);
+                        }
                     }
                 }
                 
                 if (l == length-1) {
                     TilePos offset = Direction.OffsetPos(EnumDirection.SOUTH, pos);
-                    if (chunkManager.GetTile(offset).GetTile().GetTileType() == TileType.ROAD) {
-                        chunkManager.SetTile(offset, TileRegistry.T_JUNCT_ROAD_1x1.GetId(), EnumDirection.EAST);
+                    Tile tile = chunkManager.GetTile(offset).GetTile();
+                    if (tile.GetTileType() == TileType.ROAD) {
+                        if (tile == TileRegistry.T_JUNCT_ROAD_1x1) {
+                            chunkManager.SetTile(offset, TileRegistry.CROSSROAD_ROAD_1x1.GetId(), EnumDirection.EAST);
+                        } else {
+                            chunkManager.SetTile(offset, TileRegistry.T_JUNCT_ROAD_1x1.GetId(), EnumDirection.EAST);
+                        }
                     }
                 }
             }
@@ -74,15 +84,25 @@ public abstract class GenerateLargeBuildingBase : GenerateBuildingBase {
 
                 if (w == 0) {
                     TilePos offset = Direction.OffsetPos(EnumDirection.EAST, pos);
-                    if (chunkManager.GetTile(offset).GetTile().GetTileType() == TileType.ROAD) {
-                        chunkManager.SetTile(offset, TileRegistry.T_JUNCT_ROAD_1x1.GetId(), EnumDirection.NORTH);
+                    Tile tile = chunkManager.GetTile(offset).GetTile();
+                    if (tile.GetTileType() == TileType.ROAD) {
+                        if (tile == TileRegistry.T_JUNCT_ROAD_1x1) {
+                            chunkManager.SetTile(offset, TileRegistry.CROSSROAD_ROAD_1x1.GetId(), EnumDirection.NORTH);
+                        } else {
+                            chunkManager.SetTile(offset, TileRegistry.T_JUNCT_ROAD_1x1.GetId(), EnumDirection.NORTH);
+                        }
                     }
                 }
 
                 if (w == width - 1) {
                     TilePos offset = Direction.OffsetPos(EnumDirection.WEST, pos);
-                    if (chunkManager.GetTile(offset).GetTile().GetTileType() == TileType.ROAD) {
-                        chunkManager.SetTile(offset, TileRegistry.T_JUNCT_ROAD_1x1.GetId(), EnumDirection.SOUTH);
+                    Tile tile = chunkManager.GetTile(offset).GetTile();
+                    if (tile.GetTileType() == TileType.ROAD) {
+                        if (tile == TileRegistry.T_JUNCT_ROAD_1x1) {
+                            chunkManager.SetTile(offset, TileRegistry.CROSSROAD_ROAD_1x1.GetId(), EnumDirection.SOUTH);
+                        } else {
+                            chunkManager.SetTile(offset, TileRegistry.T_JUNCT_ROAD_1x1.GetId(), EnumDirection.SOUTH);
+                        }
                     }
                 }
             }

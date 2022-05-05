@@ -63,37 +63,41 @@ public static class LocationRegistration {
 
         for (int i = 0; i < nodeControllers.Count; i++) {
             LocationNodeController lnc = nodeControllers[i];
-            TileData tileData = lnc.GetParentTile();
-            if (!tileData.IsRegistryVersion()) {
-
-                switch (lnc.GetLocationType()) {
-                    case LocationType.HOSPITAL:
-                        if (lnc.GetSpawnerNodePedestrian() != null || lnc.GetDestinationNodePedestrian() != null) hospitalPedestrianPos = lnc.GetTilePosition();
-                        if (lnc.GetDestinationNodeVehicle() != null) hospitalVehiclePos = lnc.GetTilePosition();
-                        break;
-                    case LocationType.TOWN_HALL:
-                        if (lnc.GetSpawnerNodePedestrian() != null || lnc.GetDestinationNodePedestrian() != null) townHallPedestrianPos = lnc.GetTilePosition();
-                        if (lnc.GetDestinationNodeVehicle() != null) townHallVehiclePos = lnc.GetTilePosition();
-                        break;
-                    case LocationType.SHOP:
-                        if (lnc.GetSpawnerNodeVehicle() != null) shopRegistrySpawnerVehicle.AddToList(lnc.GetTilePosition());
-                        if (lnc.GetDestinationNodeVehicle() != null) shopRegistryDestVehicle.AddToList(lnc.GetTilePosition());
-                        if (lnc.GetSpawnerNodePedestrian() != null) shopRegistrySpawnerPedestrian.AddToList(lnc.GetTilePosition());
-                        if (lnc.GetDestinationNodePedestrian() != null) shopRegistryDestPedestrian.AddToList(lnc.GetTilePosition());
-                        break;
-                    case LocationType.HOUSE:
-                        if (lnc.GetSpawnerNodeVehicle() != null) houseRegistrySpawnerVehicle.AddToList(lnc.GetTilePosition());
-                        if (lnc.GetDestinationNodeVehicle() != null) houseRegistryDestVehicle.AddToList(lnc.GetTilePosition());
-                        if (lnc.GetSpawnerNodePedestrian() != null) houseRegistrySpawnerPedestrian.AddToList(lnc.GetTilePosition());
-                        if (lnc.GetDestinationNodePedestrian() != null) houseRegistryDestPedestrian.AddToList(lnc.GetTilePosition());
-                        break;
-                    case LocationType.WORLD_EXIT:
-                        if (lnc.GetSpawnerNodeVehicle() != null) worldEntryVehicle.AddToList(lnc.GetTilePosition());
-                        if (lnc.GetDestinationNodeVehicle() != null) worldExitVehicle.AddToList(lnc.GetTilePosition());
-                        if (lnc.GetSpawnerNodePedestrian() != null) worldEntryPedestrian.AddToList(lnc.GetTilePosition());
-                        if (lnc.GetDestinationNodePedestrian() != null) worldExitPedestrian.AddToList(lnc.GetTilePosition());
-                        break;
+            if (lnc != null) {
+                TileData tileData = lnc.GetParentTile();
+                if (!tileData.IsRegistryVersion()) {
+    
+                    switch (lnc.GetLocationType()) {
+                        case LocationType.HOSPITAL:
+                            if (lnc.GetSpawnerNodePedestrian() != null || lnc.GetDestinationNodePedestrian() != null) hospitalPedestrianPos = lnc.GetTilePosition();
+                            if (lnc.GetDestinationNodeVehicle() != null) hospitalVehiclePos = lnc.GetTilePosition();
+                            break;
+                        case LocationType.TOWN_HALL:
+                            if (lnc.GetSpawnerNodePedestrian() != null || lnc.GetDestinationNodePedestrian() != null) townHallPedestrianPos = lnc.GetTilePosition();
+                            if (lnc.GetDestinationNodeVehicle() != null) townHallVehiclePos = lnc.GetTilePosition();
+                            break;
+                        case LocationType.SHOP:
+                            if (lnc.GetSpawnerNodeVehicle() != null) shopRegistrySpawnerVehicle.AddToList(lnc.GetTilePosition());
+                            if (lnc.GetDestinationNodeVehicle() != null) shopRegistryDestVehicle.AddToList(lnc.GetTilePosition());
+                            if (lnc.GetSpawnerNodePedestrian() != null) shopRegistrySpawnerPedestrian.AddToList(lnc.GetTilePosition());
+                            if (lnc.GetDestinationNodePedestrian() != null) shopRegistryDestPedestrian.AddToList(lnc.GetTilePosition());
+                            break;
+                        case LocationType.HOUSE:
+                            if (lnc.GetSpawnerNodeVehicle() != null) houseRegistrySpawnerVehicle.AddToList(lnc.GetTilePosition());
+                            if (lnc.GetDestinationNodeVehicle() != null) houseRegistryDestVehicle.AddToList(lnc.GetTilePosition());
+                            if (lnc.GetSpawnerNodePedestrian() != null) houseRegistrySpawnerPedestrian.AddToList(lnc.GetTilePosition());
+                            if (lnc.GetDestinationNodePedestrian() != null) houseRegistryDestPedestrian.AddToList(lnc.GetTilePosition());
+                            break;
+                        case LocationType.WORLD_EXIT:
+                            if (lnc.GetSpawnerNodeVehicle() != null) worldEntryVehicle.AddToList(lnc.GetTilePosition());
+                            if (lnc.GetDestinationNodeVehicle() != null) worldExitVehicle.AddToList(lnc.GetTilePosition());
+                            if (lnc.GetSpawnerNodePedestrian() != null) worldEntryPedestrian.AddToList(lnc.GetTilePosition());
+                            if (lnc.GetDestinationNodePedestrian() != null) worldExitPedestrian.AddToList(lnc.GetTilePosition());
+                            break;
+                    }
                 }
+            } else {
+                nodeControllers.RemoveAt(i);
             }
         }
         
