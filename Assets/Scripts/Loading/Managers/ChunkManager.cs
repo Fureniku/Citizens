@@ -13,7 +13,6 @@ public class ChunkManager : GenerationSystem {
 
     private float gridSlotSize = 10.0f;
     private float gridScale; // Should be gridSlotSize / 50 (the original size)
-    [SerializeField, Range(1, 200)] private int randomSeed = 10;
 
     [SerializeField] GameObject defaultChunk = null;
     [SerializeField] GameObject emptyChunk = null;
@@ -31,7 +30,7 @@ public class ChunkManager : GenerationSystem {
     
     void Start() {
         gridScale = gridSlotSize / 50.0f;
-        Random.InitState(randomSeed);
+        Random.InitState(World.Instance.GetWorldData().GetWorldSeed());
         size = WorldData.Instance.GetWorldSize();
         Debug.Log("Constructing world with size " + size);
 

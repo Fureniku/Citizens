@@ -71,7 +71,7 @@ namespace Scenarios.EasterEggHunt {
             return foundEggs == totalSpawnedEggs;
         }
 
-        private float waitForReturn = 180;
+        private float waitForReturn = 300;
         
         public override void CompleteScenario() {
             if (hasStarted) {
@@ -93,7 +93,7 @@ namespace Scenarios.EasterEggHunt {
                         }
                     }
 
-                    waitForReturn += Time.deltaTime;
+                    waitForReturn -= Time.deltaTime;
 
                     if (returnedAgents < agents.Count && waitForReturn > 0f) {
                         return;

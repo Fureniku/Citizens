@@ -20,7 +20,7 @@ public class ApproachJunctionState : VehicleBaseState {
         if (agent.GetLastSeenAgent() != null && agent.GetLastSeenAgent() is VehicleAgent) {
             VehicleAgent seenAgent = (VehicleAgent) agent.GetLastSeenAgent();
 
-            if (seenAgent.GetState().IsWaitableState()) {
+            if (seenAgent.GetState().IsWaitableState() && !(seenAgent.GetState() is ParkingState)) {
                 return typeof(WaitForJunctionState);
             }
         }

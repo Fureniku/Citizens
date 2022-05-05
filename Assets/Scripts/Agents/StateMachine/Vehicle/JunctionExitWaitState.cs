@@ -10,6 +10,8 @@ public class JunctionExitWaitState : VehicleBaseState {
     private int check = 0;
     private int maxCheck = 2;
 
+    private float stateTime;
+
     private List<GameObject> seenVehicles = new List<GameObject>();
     private List<float> seenDistances = new List<float>();
     private List<GameObject> ignoredVehicles = new List<GameObject>();
@@ -69,7 +71,9 @@ public class JunctionExitWaitState : VehicleBaseState {
                             seenDistances.RemoveAt(entry);
                             ignoredVehicles.Add(vehicleAgent.gameObject);
                         } else {
-                            if (vehicleAgent.GetState() is JunctionExitWaitState || vehicleAgent.GetState() is ApproachJunctionState || vehicleAgent.GetState() is WaitForJunctionState || vehicleAgent.GetState() is WaitForVehicleState) {
+                            if (vehicleAgent.GetState() is JunctionExitWaitState || vehicleAgent.GetState() is ApproachJunctionState
+                                                                                 || vehicleAgent.GetState() is WaitForJunctionState || vehicleAgent.GetState() is WaitForVehicleState
+                                                                                 || vehicleAgent.GetState() is ParkingState || vehicleAgent.GetState() is ParkedState) {
                                 if (agent.GetRoughFacingDirection() < vehicleAgent.GetRoughFacingDirection()) { //Priority based on facing direction
                                     check = 0;
                                 } else if (agent.GetRoughFacingDirection() == vehicleAgent.GetRoughFacingDirection()) {
@@ -99,6 +103,14 @@ public class JunctionExitWaitState : VehicleBaseState {
             agent.PrintWarn("Agent was quite far from junction, resuming drive state.");
             return typeof(DriveState);
         }
+
+        stateTime += Time.deltaTime;
+
+        if (stateTime > 30) {
+            Debug.LogError("Agent has been in junction exit wait state for over 30 seconds. Assuming stuck and deleting.");
+            agent.GetAgentManager().RemoveAgent(agent.gameObject);
+        }
+        
         return null;
     }
     
@@ -139,6 +151,8 @@ public class JunctionExitWaitState : VehicleBaseState {
         ignoredVehicles = new List<GameObject>();
         
         ignoredVehicles.Add(agent.gameObject);
+
+        stateTime = 0;
         return null;
     }
 

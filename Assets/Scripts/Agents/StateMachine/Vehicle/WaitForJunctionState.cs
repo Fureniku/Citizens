@@ -37,6 +37,11 @@ public class WaitForJunctionState : VehicleBaseState {
 
         if (agent.GetLastSeenAgent() != null && agent.GetLastSeenAgent() is VehicleAgent) {
             VehicleAgent seenAgent = (VehicleAgent) agent.GetLastSeenAgent();
+
+            if (seenAgent.GetState() is ParkedState || seenAgent.GetState() is ParkingState) {
+                return typeof(ApproachJunctionState);
+            }
+            
             float dist = Vector3.Distance(agent.transform.position, agent.GetLastSeenObject().transform.position);
                 
             if (seenAgent.GetState().IsWaitableState()) {

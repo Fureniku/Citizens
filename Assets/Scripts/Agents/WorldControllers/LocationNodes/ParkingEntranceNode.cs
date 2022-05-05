@@ -12,13 +12,16 @@ public class ParkingEntranceNode : LocationNode {
         if (parkingController != null) {
             //agent.SetAgentDestination(parkingController.GetFirstAvailableSpace().gameObject);
             agent.GetStateMachine().ForceState(typeof(ParkingState));
-            Debug.Log("Forcing into parking state");
         }
     }
     
     public override void PrepareNodeLogic(BaseAgent agent) {
         if (parkingController != null) {
-            agent.AddNewDestination(parkingController.GetFirstAvailableSpace().gameObject);
+            if (parkingController.GetFirstAvailableSpace() != null) {
+                agent.AddNewDestination(parkingController.GetFirstAvailableSpace().gameObject);
+            } else {
+                agent.GetAgentManager().RemoveAgent(agent.gameObject); //Delete agent if car park is full. Not nice but time constraints :( 
+            }
         }
     }
 }

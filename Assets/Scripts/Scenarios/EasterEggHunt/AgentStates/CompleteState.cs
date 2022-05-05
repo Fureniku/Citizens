@@ -9,7 +9,7 @@ namespace Scenarios.EasterEggHunt.AgentStates {
         }
         
         public override Type StateUpdate() {
-            return null;
+            return EnteredRoad();
         }
         
         public override Type StateEnter() {

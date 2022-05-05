@@ -106,7 +106,7 @@ public class LoadingManager : MonoBehaviour {
         // System      InitializeLoadState
         // System      GenChunksLoadState
         // System      GenRoadsLoadState
-        // NOT SYSTEM  GenBuildingsLoadState
+        // System  GenBuildingsLoadState
         // NOT SYSTEM  ComebineMeshLoadState
         // NOT SYSTEM  GenNavMeshLoadState
         // NOT SYSTEM  PopulateRegistryLoadState
@@ -135,7 +135,7 @@ public class LoadingManager : MonoBehaviour {
         overallPercent = part * stateMachine.CurrentState.GetProgressId();
 
         if (overallBar != null) { overallBar.GetComponent<Image>().fillAmount = (float) overallPercent / 100.0f; }
-        if (overallPercentText != null) { overallPercentText.GetComponent<Text>().text = stateMachine.GetStates().Count + "/11 (" + ((int)overallPercent) + "%)"; }
+        if (overallPercentText != null) { overallPercentText.GetComponent<Text>().text = stateMachine.CurrentState.GetProgressId() + "/11 (" + ((int)overallPercent) + "%)"; }
         if (overallText != null) { overallText.GetComponent<Text>().text = stateStr; }
     }
     

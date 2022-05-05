@@ -6,6 +6,8 @@ using UnityEngine.AI;
 public class VehicleAgentManager : AgentManager {
     
     public override void Initialize() {
+        initialAgentCount = WorldData.Instance.GetInitVehicles();
+        maxAgentCount = WorldData.Instance.GetMaxVehicles();
         StartCoroutine(GenAgents());
     }
     
@@ -99,9 +101,10 @@ public class VehicleAgentManager : AgentManager {
                 return;
             }
         }
+
+        Vector3 spawnPos = new Vector3(spawnPoint.transform.position.x, spawnPoint.transform.position.y + 0.25f, spawnPoint.transform.position.z);
         
-        
-        GameObject agent = Instantiate(VehicleRegistry.GetRandomCar(), spawnPoint.transform.position, Quaternion.Euler(0, spawnPoint.GetRotation().GetRotation(), 0));
+        GameObject agent = Instantiate(VehicleRegistry.GetRandomCar(), spawnPos, Quaternion.Euler(0, spawnPoint.GetRotation().GetRotation(), 0));
         spawnPoint.ClaimSpace();
         spawnPoint.OccupySpace();
         agent.transform.parent = transform;

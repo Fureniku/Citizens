@@ -15,8 +15,11 @@ public class WalkState : PedestrianBaseState {
 
         agent.SetLookDirection();
 
-        if (Vector3.Distance(agent.transform.position, agent.GetCurrentDestination().transform.position) < 2.0f) {
+        if (Vector3.Distance(agent.transform.position, agent.GetCurrentDestination().transform.position) < 3.0f) {
             if (agent.GetDestinationController() != null) {
+                if (agent.GetCurrentDestination().GetComponent<DespawnerNode>() != null) {
+                    agent.GetAgentManager().RemoveAgent(agent.gameObject);
+                }
                 agent.GetDestinationController().ArriveAtDestination(agent);
             }
         }

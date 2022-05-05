@@ -43,7 +43,6 @@ namespace Scenarios.EasterEggHunt.Cooperative {
                 Scenarios.Instance.SetInfo4("Time Remaining:", GetPrintableTime());
             }
             
-            Scenarios.Instance.SetInfo1("Agents", agentCount.ToString());
             Scenarios.Instance.SetInfo2("Eggs Found:", foundEggs + " / " + totalSpawnedEggs);
             Scenarios.Instance.SetInfo3("Locations Checked:", searchedLocations + " / " + totalLocations);
 

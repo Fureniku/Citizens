@@ -8,6 +8,8 @@ public class ObstructionSpottedState : AgentBaseState {
     
     private float maxSpeed;
     private float minSpeed = 2.0f;
+
+    private bool dontForceClear = false;
     
     public ObstructionSpottedState(BaseAgent agent) {
         this.stateName = "Obstruction Spotted State";
@@ -68,6 +70,7 @@ public class ObstructionSpottedState : AgentBaseState {
         
         float destDist = Vector3.Distance(agent.transform.position, agent.GetCurrentDestination().transform.position);
         if (destDist < 1) {
+            dontForceClear = true;
             agent.IncrementDestination();
         }
         
@@ -75,11 +78,16 @@ public class ObstructionSpottedState : AgentBaseState {
     }
 
     public override Type StateEnter() {
+        dontForceClear = false;
         return null;
     }
 
     public override Type StateExit() {
         agent.GetAgent().isStopped = false;
+        if (!dontForceClear) {
+            agent.ForceClearSeenObject();
+        }
+        
         return null;
     }
     

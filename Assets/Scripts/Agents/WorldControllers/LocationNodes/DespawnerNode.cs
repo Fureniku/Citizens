@@ -3,6 +3,7 @@
 public class DespawnerNode : LocationNode {
 
     public override void ProcessNodeLogic(BaseAgent agent) {
+        Debug.Log("Despawning " + agent.name);
         agent.GetAgentManager().RemoveAgent(agent.gameObject);
     }
     

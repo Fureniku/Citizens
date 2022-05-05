@@ -16,7 +16,6 @@ public class PedestrianAgent : BaseAgent {
     private bool enteredRoad = false;
 
     public override void Init() {
-        Debug.Log("Initializing...");
         GenerateDestination();
         CalculateAllPaths();
         initialized = true;

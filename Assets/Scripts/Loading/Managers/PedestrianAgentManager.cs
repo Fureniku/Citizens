@@ -5,6 +5,8 @@ using UnityEngine.AI;
 public class PedestrianAgentManager : AgentManager {
     
     public override void Initialize() {
+        initialAgentCount = WorldData.Instance.GetInitPeds();
+        maxAgentCount = WorldData.Instance.GetMaxPeds();
         StartCoroutine(GenAgents());
     }
 

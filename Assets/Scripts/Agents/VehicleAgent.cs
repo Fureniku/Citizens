@@ -295,7 +295,12 @@ public class VehicleAgent : BaseAgent {
         }
 
         if (GetLastSeenObject() != null) {
-            
+            if (GetLastSeenObject().GetComponent<VehicleAgent>() != null) {
+                VehicleAgent otherVehicle = GetLastSeenObject().GetComponent<VehicleAgent>();
+                if (otherVehicle.GetState() is DespawningState) {
+                    ForceClearSeenObject();
+                }
+            }
         }
     }
 
