@@ -96,6 +96,15 @@ public abstract class AgentManager : GenerationSystem {
 
     public void RemoveAgent(GameObject agent) {
         if (agents.Contains(agent)) {
+            GameObject camPos = agent.GetComponent<BaseAgent>().GetCamPos();
+            if (camPos.transform.childCount > 0) {
+                for (int i = 0; i < camPos.transform.childCount; i++) {
+                    if (camPos.transform.GetChild(i).GetComponent<CameraController>() != null) {
+                        camPos.transform.GetChild(i).GetComponent<CameraController>().ResetParent();
+                    }
+                }
+            }
+
             agents.Remove(agent);
         }
         

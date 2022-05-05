@@ -8824,6 +8824,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ecdbb2830a21b2408f4594d39aee686, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameProperties: {fileID: 1771189009}
   AccelerationMod: 1
   XAxisSensitivity: 1
   YAxisSensitivity: 1

@@ -5,7 +5,8 @@ using UnityEngine;
 public class CameraController : MonoBehaviour {
     //Class taken from public domain: https://stackoverflow.com/questions/58328209/how-to-make-a-free-fly-camera-script-in-unity-with-acceleration-and-decceleratio
     //Modified for use case
-    
+
+    [SerializeField] private GameProperties gameProperties;
     
     [Header("Constants")]
 
@@ -188,5 +189,9 @@ public class CameraController : MonoBehaviour {
                 _moveSpeed.z -= DecelerationMod * Mathf.Sign(_moveSpeed.z);
             }
         }
+    }
+
+    public void ResetParent() {
+        transform.parent = gameProperties.gameObject.transform;
     }
 }
