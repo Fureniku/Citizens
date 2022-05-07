@@ -32,7 +32,7 @@ public class PedestrianAgent : BaseAgent {
         dests.Add(finalDest);
         SetAgentDestination(finalDest);
         
-        if (GetCurrentTile().GetTile() == TileRegistry.STRAIGHT_ROAD_1x1) {
+        if (GetCurrentTile().GetTile() == TileRegistry.STRAIGHT_ROAD) {
             float coinToss = Random.Range(0.0f, 1.0f);
             float offset = coinToss < 0.5f ? 3.5f : -3.5f;
             if (GetCurrentTile().GetRotation() == EnumDirection.NORTH || GetCurrentTile().GetRotation() == EnumDirection.SOUTH) {

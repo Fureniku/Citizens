@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using Tiles.TileManagement;
 
 public class TileLargeBuilding : TileData {
     
@@ -20,13 +21,14 @@ public class TileLargeBuilding : TileData {
     
     public override void HideAfterRegistration() {
         HideAfterRegistrationBase();
-        //isRegistryEntry = true;
     }
 
     public override void CreateFromRegistry() {
         CreateBase();
 
         Generate();
-        //isRegistryEntry = false;
     }
+    
+    public override void UpdateTile() {}
+    public override void OnNeighbourChanged(EnumDirection neighbour) {}
 }

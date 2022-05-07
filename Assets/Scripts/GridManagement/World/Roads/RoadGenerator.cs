@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class RoadGenerator : MonoBehaviour {
     
-    private Tile road_straight = TileRegistry.STRAIGHT_ROAD_1x1;
-    private Tile road_straight_edge = TileRegistry.ROAD_WORLD_EDGE_STRAIGHT;
-    private Tile road_corner = TileRegistry.CORNER_ROAD_1x1;
-    private Tile road_t_junct = TileRegistry.T_JUNCT_ROAD_1x1;
-    private Tile road_crossroad = TileRegistry.CROSSROAD_ROAD_1x1;
-    private Tile road_crossroad_controlled = TileRegistry.CROSSROAD_CTRL_ROAD_1x1;
+    private Tile road_straight = TileRegistry.STRAIGHT_ROAD;
+    private Tile road_corner = TileRegistry.CORNER_ROAD;
+    private Tile road_t_junct = TileRegistry.T_JUNCT_ROAD;
+    private Tile road_crossroad = TileRegistry.CROSSROAD_ROAD;
+    private Tile road_crossroad_controlled = TileRegistry.CROSSROAD_ROAD_CONTROLLED;
     private Tile road_world_exit = TileRegistry.ROAD_WORLD_EXIT;
-    private Tile road_zebra_crossing = TileRegistry.ZEBRA_CROSSING_1x1;
-    private Tile road_pelican_crossing = TileRegistry.PELICAN_CROSSING_1x1;
+    private Tile road_zebra_crossing = TileRegistry.ZEBRA_CROSSING;
+    private Tile road_pelican_crossing = TileRegistry.PELICAN_CROSSING;
 
     [SerializeField] private int nestLevel = 0;
 
@@ -66,7 +65,7 @@ public class RoadGenerator : MonoBehaviour {
     }
     
     public void BeginRoadGeneration() {
-        GenerateRoad(edgeBranch ? road_straight_edge : road_straight, TilePos.GetTilePosFromLocation(transform.position), generatorDirection);
+        GenerateRoad(road_straight, TilePos.GetTilePosFromLocation(transform.position), generatorDirection);
         roadGenStage = EnumGenerationStage.IN_PROGRESS;
         StartCoroutine(GeneratorCoroutine());
     }
@@ -82,7 +81,7 @@ public class RoadGenerator : MonoBehaviour {
             if (TilePos.IsValid(placePos)) {
                 TileData tile = chunkManager.GetTile(placePos);
 
-                Tile placeTile = edgeBranch ? road_straight_edge : road_straight;
+                Tile placeTile = road_straight;
                 EnumDirection placeRotation = generatorDirection;
                 if (tile != null) {
                     int existingId = tile.GetId();

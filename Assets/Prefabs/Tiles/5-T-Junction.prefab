@@ -791,7 +791,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileName: Air
-  tileId: 0
+  tileId: 5
   width: 1
   length: 1
   worldPos:
@@ -807,6 +807,14 @@ MonoBehaviour:
   rotation: 2
   enumTile: 5
   genDirection: 4
+  streetLights: 0
+  edge_north: 0
+  edge_east: 0
+  edge_south: 0
+  edge_west: 0
+  edge_wall: {fileID: 8712018493455539631, guid: d438e0221c99abd40988c2d6619618f1,
+    type: 3}
+  edge_pillar: {fileID: 0}
 --- !u!65 &3263266475552311421
 BoxCollider:
   m_ObjectHideFlags: 0

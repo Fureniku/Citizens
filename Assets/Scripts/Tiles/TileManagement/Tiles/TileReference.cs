@@ -55,4 +55,7 @@ public class TileReference : TileData {
     public override void CreateFromRegistry() {
         CreateBase();
     }
+
+    public override void UpdateTile() {}
+    public override void OnNeighbourChanged(EnumDirection neighbour) {}
 }

@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileName: Air
-  tileId: 0
+  tileId: 1
   width: 1
   length: 1
   worldPos:

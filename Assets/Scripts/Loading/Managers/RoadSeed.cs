@@ -42,10 +42,10 @@ public class RoadSeed : GenerationSystem {
                         SetEdgeTile(tile4, pos4, EnumDirection.NORTH);
                     }
                     
-                    chunkMan.SetTile(new TilePos(0, 0), TileRegistry.ROAD_WORLD_EDGE_CORNER.GetId(), EnumDirection.WEST);
-                    chunkMan.SetTile(new TilePos(0, maxPos), TileRegistry.ROAD_WORLD_EDGE_CORNER.GetId(), EnumDirection.NORTH);
-                    chunkMan.SetTile(new TilePos(maxPos, maxPos), TileRegistry.ROAD_WORLD_EDGE_CORNER.GetId(), EnumDirection.EAST);
-                    chunkMan.SetTile(new TilePos(maxPos, 0), TileRegistry.ROAD_WORLD_EDGE_CORNER.GetId(), EnumDirection.SOUTH);
+                    chunkMan.SetTile(new TilePos(0, 0), TileRegistry.CORNER_ROAD.GetId(), EnumDirection.WEST);
+                    chunkMan.SetTile(new TilePos(0, maxPos), TileRegistry.CORNER_ROAD.GetId(), EnumDirection.NORTH);
+                    chunkMan.SetTile(new TilePos(maxPos, maxPos), TileRegistry.CORNER_ROAD.GetId(), EnumDirection.EAST);
+                    chunkMan.SetTile(new TilePos(maxPos, 0), TileRegistry.CORNER_ROAD.GetId(), EnumDirection.SOUTH);
                     
                     SetComplete();
                 }
@@ -61,11 +61,11 @@ public class RoadSeed : GenerationSystem {
     private void SetEdgeTile(Tile tile, TilePos pos, EnumDirection direction) {
         ChunkManager chunkMan = World.Instance.GetChunkManager();
         
-        if (tile == TileRegistry.STRAIGHT_ROAD_1x1 || tile == TileRegistry.ZEBRA_CROSSING_1x1) {
-            chunkMan.SetTile(pos, TileRegistry.ROAD_WORLD_EDGE_STRAIGHT.GetId(), direction.RotateCCW());
-        } else if (tile != TileRegistry.ROAD_WORLD_EDGE_STRAIGHT && tile != TileRegistry.ROAD_WORLD_EDGE_CORNER && tile != TileRegistry.ROAD_WORLD_EXIT) {
+        if (tile == TileRegistry.STRAIGHT_ROAD || tile == TileRegistry.ZEBRA_CROSSING) {
+            //chunkMan.SetTile(pos, TileRegistry.ROAD_WORLD_EDGE_STRAIGHT.GetId(), direction.RotateCCW());
+        } else if (tile != TileRegistry.ROAD_WORLD_EXIT) {
             if (tile == TileRegistry.GRASS) {
-                chunkMan.SetTile(pos, TileRegistry.ROAD_WORLD_EDGE_STRAIGHT.GetId(), direction.RotateCCW());        
+                chunkMan.SetTile(pos, TileRegistry.STRAIGHT_ROAD.GetId(), direction.RotateCCW());        
             } else {
                 chunkMan.SetTile(pos, TileRegistry.ROAD_WORLD_EXIT.GetId(), direction);
             }
@@ -82,7 +82,7 @@ public class RoadSeed : GenerationSystem {
         
         ChunkPos chunkPos = TilePos.GetParentChunk(pos);
         Chunk chunk = chunkManager.GetChunk(chunkPos);
-        chunk.FillChunkCell(TileRegistry.CROSSROAD_ROAD_1x1.GetId(), LocalPos.FromTilePos(pos), EnumDirection.NORTH);
+        chunk.FillChunkCell(TileRegistry.CROSSROAD_ROAD.GetId(), LocalPos.FromTilePos(pos), EnumDirection.NORTH);
     }
 
     private void IndividualPoint(EnumDirection dir, TilePos currentPos) {

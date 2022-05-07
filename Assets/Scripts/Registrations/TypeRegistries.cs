@@ -8,10 +8,12 @@ public class TypeRegistries {
     
     public static void PopulateRegistries() {
         foreach (Tile tile in TileRegistry.GetRegistry()) {
-            if (tile.GetTileType() == TileType.BUILDING_SHOP) {
-                SHOPS.AddEntry(tile);
-            } else if (tile.GetTileType() == TileType.BUILDING_HOUSE) {
-                HOUSES.AddEntry(tile);
+            if (tile != null) {
+                if (tile.GetTileType() == TileType.BUILDING_SHOP) {
+                    SHOPS.AddEntry(tile);
+                } else if (tile.GetTileType() == TileType.BUILDING_HOUSE) {
+                    HOUSES.AddEntry(tile);
+                }
             }
         }
     }

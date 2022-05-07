@@ -41,6 +41,9 @@ public class TileGrass : TileData {
     public bool IsInSection() {
         return inSection;
     }
+    
+    public override void UpdateTile() {}
+    public override void OnNeighbourChanged(EnumDirection neighbour) {}
 
     public void AddToSection() => inSection = true;
     public void RemoveFromSection() => inSection = false;

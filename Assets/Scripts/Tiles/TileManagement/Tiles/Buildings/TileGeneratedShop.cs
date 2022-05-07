@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using Tiles.TileManagement;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -49,4 +50,7 @@ public class TileGeneratedShop : TileData {
     }
     //21.40625
     //0.15625
+    
+    public override void UpdateTile() {}
+    public override void OnNeighbourChanged(EnumDirection neighbour) {}
 }

@@ -308,7 +308,7 @@ public class VehicleAgent : BaseAgent {
         TileData currentTile = GetCurrentTile();
         agentDirection = GetRoughFacingDirection();
         if (currentTile != null) {
-            if (currentTile.GetTile() == TileRegistry.STRAIGHT_ROAD_1x1) {
+            if (currentTile.GetTile() == TileRegistry.STRAIGHT_ROAD) {
                 switch (agentDirection) {
                     case EnumDirection.NORTH:
                         if (roadSide == EnumDirection.EAST) {

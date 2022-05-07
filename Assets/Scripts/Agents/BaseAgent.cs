@@ -105,7 +105,6 @@ public abstract class BaseAgent : MonoBehaviour {
     protected void CalculateAllPaths() {
         for (int i = 1; i < dests.Count; i++) {
             NavMeshPath path = new NavMeshPath();
-            Debug.Log("destination ");
             bool success = NavMesh.CalculatePath(dests[i - 1].transform.position, dests[i].transform.position, NavMesh.AllAreas, path);
             if (!success) {
                 Debug.LogError("Pathing failed at " + i + " - agent will not reach destination.");

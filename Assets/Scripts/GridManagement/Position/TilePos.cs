@@ -1,4 +1,5 @@
 ﻿using System;
+using Tiles.TileManagement;
 using UnityEngine;
 
 [System.Serializable]
@@ -58,5 +59,19 @@ public class TilePos : Position {
         if (z > size) z = size;
 
         return new TilePos(x, z);
+    }
+
+    public TilePos Offset(EnumDirection direction) {
+        return direction.OffsetPos(this);
+    }
+    
+    public TilePos Offset(EnumDirection direction, int count) {
+        return direction.OffsetPos(this, count);
+    }
+    
+    public bool IsValid() {
+        int size = World.Instance.GetChunkManager().GetSize() * Chunk.size;
+        if (x < 0 || z < 0 || x > size-1 || z > size-1) return false;
+        return true;
     }
 }

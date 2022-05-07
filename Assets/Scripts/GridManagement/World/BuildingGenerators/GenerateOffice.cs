@@ -2,15 +2,7 @@
 using Tiles.TileManagement;
 
 public class GenerateOffice : GenerateBuildingBase {
-    
-    private EnumTile entrance = EnumTile.OFFICE_1_EDGE_RECESSED_ENTRANCE;
-    private EnumTile edge = EnumTile.OFFICE_1_EDGE_RECESSED;
-    private EnumTile edge_side = EnumTile.OFFICE_1_EDGE;
-    private EnumTile corner_l = EnumTile.OFFICE_1_CORNER_RECESSED_L;
-    private EnumTile corner_r = EnumTile.OFFICE_1_CORNER_RECESSED_R;
-    private EnumTile garage = EnumTile.OFFICE_1_EDGE_RECESSED_GARAGE;
-    private EnumTile inner = EnumTile.OFFICE_1_INNER_ROOF;
-    
+
     protected override int SelectGameObject(int w, int l, ref EnumDirection rot) {
         //Most generator classes are relatively similar so this is copy-pasted with slight changes
         //Annoyingly things generate differently enough that most buildings need this custom written.
@@ -21,59 +13,59 @@ public class GenerateOffice : GenerateBuildingBase {
             if (width % 2 == 0) { //Even-width building
                 if (w == (width / 2) - 1) {
                     rot = EnumDirection.WEST;
-                    return TileRegistry.GetTile(entrance).GetId();
+                    return TileRegistry.OFFICE_1_EDGE_RECESSED_ENTRANCE.GetId();
                 }
             }
             else { //Odd-width building
                 if (w == (int)(width / 2.0)) {
                     rot = EnumDirection.WEST;
-                    return TileRegistry.GetTile(entrance).GetId();
+                    return TileRegistry.OFFICE_1_EDGE_RECESSED_ENTRANCE.GetId();
                 }
             }
 
             if (w == width - 2) {
                 rot = EnumDirection.WEST;
-                return TileRegistry.GetTile(garage).GetId();
+                return TileRegistry.OFFICE_1_EDGE_RECESSED_GARAGE.GetId();
             }
         }
 
         if (w == 0) {
             if (l == 0) {
                 rot = EnumDirection.WEST;
-                return TileRegistry.GetTile(corner_l).GetId();
+                return TileRegistry.OFFICE_1_CORNER_RECESSED_L.GetId();
             }
             if (l == length-1) {
                 rot = EnumDirection.EAST;
-                return TileRegistry.GetTile(corner_r).GetId();
+                return TileRegistry.OFFICE_1_CORNER_RECESSED_R.GetId();
             }
 
             rot = EnumDirection.NORTH;
-            return TileRegistry.GetTile(edge_side).GetId();
+            return TileRegistry.OFFICE_1_EDGE.GetId();
         }
         if (w == width-1) {
             if (l == 0) {
                 rot = EnumDirection.WEST;
-                return TileRegistry.GetTile(corner_r).GetId();
+                return TileRegistry.OFFICE_1_CORNER_RECESSED_R.GetId();
             }
             if (l == length-1) {
                 rot = EnumDirection.EAST;
-                return TileRegistry.GetTile(corner_l).GetId();
+                return TileRegistry.OFFICE_1_CORNER_RECESSED_L.GetId();
             }
             rot = EnumDirection.SOUTH;
-            return TileRegistry.GetTile(edge_side).GetId();
+            return TileRegistry.OFFICE_1_EDGE.GetId();
         }
 
         if (l == 0) {
             rot = EnumDirection.WEST;
-            return TileRegistry.GetTile(edge).GetId();
+            return TileRegistry.OFFICE_1_EDGE.GetId();
         }
 
         if (l == length - 1) {
             rot = EnumDirection.EAST;
-            return TileRegistry.GetTile(edge).GetId();
+            return TileRegistry.OFFICE_1_EDGE.GetId();
         }
 
-        return TileRegistry.GetTile(inner).GetId();
+        return TileRegistry.OFFICE_1_INNER_ROOF.GetId();
     }
     
     public override void PostGenerate() {}

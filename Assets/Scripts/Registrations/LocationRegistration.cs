@@ -52,7 +52,7 @@ public static class LocationRegistration {
                 TilePos tilePos = new TilePos(i, j);
                 TileData tileData = World.Instance.GetChunkManager().GetTile(tilePos);
                 if (tileData != null) {
-                    if (tileData.GetTile() == TileRegistry.STRAIGHT_ROAD_1x1) {
+                    if (tileData.GetTile() == TileRegistry.STRAIGHT_ROAD) {
                         RoadSpawnerRegistry.AddToList(tilePos);
                     }
                 }

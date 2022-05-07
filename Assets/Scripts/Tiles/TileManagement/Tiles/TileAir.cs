@@ -25,6 +25,7 @@ public class TileAir : TileData {
     }
     
     public override void HideAfterRegistration() {}
-
     public override void CreateFromRegistry() {}
+    public override void UpdateTile() {}
+    public override void OnNeighbourChanged(EnumDirection neighbour) {}
 }

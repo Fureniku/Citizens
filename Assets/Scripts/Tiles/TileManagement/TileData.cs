@@ -20,17 +20,14 @@ public abstract class TileData : MonoBehaviour {
     [SerializeField] protected bool halfRotations = false;
 
     [SerializeField] protected EnumDirection rotation = EnumDirection.NORTH;
-    [SerializeField] protected EnumTile enumTile;
-    protected Tile tile;
+
 
     [SerializeField] protected EnumGenerateDirection genDirection = EnumGenerateDirection.NONE;
     
     protected bool isRegistryEntry = true; //Whether this copy of the object is for registration, preventing procedural generations. Set to false when legitimately spawning.
 
     public void Initialize() {
-        tile = TileRegistry.GetTile(enumTile);
-        tileName = tile.GetName();
-        tileId = tile.GetId();
+        tileName = TileRegistry.GetTile(tileId).GetName();
     }
 
     public void SetInitialPos() {
@@ -39,6 +36,8 @@ public abstract class TileData : MonoBehaviour {
         SetParentChunk(TilePos.GetParentChunk(tilePos));
         SetLocalPos(new LocalPos(parentChunk.ChunkTileX(tilePos), parentChunk.ChunkTileZ(tilePos)));
         transform.rotation = Quaternion.Euler(0, Direction.GetRotation(rotation), 0);
+        
+        UpdateTile();
     }
     
     public void SetRotation(EnumDirection rot, bool debug = false) {
@@ -89,7 +88,10 @@ public abstract class TileData : MonoBehaviour {
     protected void SetName(string nameIn) => name = nameIn;
     public void SetGenerationDirection(EnumGenerateDirection dir) { genDirection = dir; }
     public EnumDirection GetRotation() { return rotation; }
-    public Tile GetTile() { return TileRegistry.GetTile(enumTile); }
+
+    public Tile GetTile() {
+        return TileRegistry.GetTile(tileId);
+    }
 
     public bool IsRegistryVersion() {
         return transform.root.GetComponent<TileRegistry>() != null;
@@ -128,6 +130,22 @@ public abstract class TileData : MonoBehaviour {
             GetComponent<MeshRenderer>().enabled = true;
         }
     }
+
+    public void OnChanged() {
+        ChunkManager chunkMan = World.Instance.GetChunkManager();
+        TileData north = chunkMan.GetTile(worldPos.Offset(EnumDirection.NORTH));
+        TileData east = chunkMan.GetTile(worldPos.Offset(EnumDirection.EAST));
+        TileData south = chunkMan.GetTile(worldPos.Offset(EnumDirection.SOUTH));
+        TileData west = chunkMan.GetTile(worldPos.Offset(EnumDirection.WEST));
+        
+        north.OnNeighbourChanged(EnumDirection.SOUTH);
+        east.OnNeighbourChanged(EnumDirection.WEST);
+        south.OnNeighbourChanged(EnumDirection.NORTH);
+        west.OnNeighbourChanged(EnumDirection.EAST);
+    }
+
+    public abstract void UpdateTile(); //Called when the tile should be checked for updates, NOT frame based!!
+    public abstract void OnNeighbourChanged(EnumDirection neighbour);
     
     public abstract JProperty SerializeTile(TileData td, int row, int col);
     public abstract void DeserializeTile(JObject json);

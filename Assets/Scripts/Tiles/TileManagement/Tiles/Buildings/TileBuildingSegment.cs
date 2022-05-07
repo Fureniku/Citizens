@@ -98,4 +98,7 @@ public class TileBuildingSegment : TileData {
         CreateBase();
         //isRegistryEntry = false;
     }
+    
+    public override void UpdateTile() {}
+    public override void OnNeighbourChanged(EnumDirection neighbour) {}
 }

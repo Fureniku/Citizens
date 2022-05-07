@@ -92,7 +92,6 @@ public class TileSmallBuilding : TileData {
 
     public override void HideAfterRegistration() {
         HideAfterRegistrationBase();
-        //isRegistryEntry = true;
     }
 
     public override void CreateFromRegistry() {
@@ -104,6 +103,8 @@ public class TileSmallBuilding : TileData {
         SetMaterialToObject(materialObject4, materials4);
 
         Generate();
-        //isRegistryEntry = false;
     }
+    
+    public override void UpdateTile() {}
+    public override void OnNeighbourChanged(EnumDirection neighbour) {}
 }

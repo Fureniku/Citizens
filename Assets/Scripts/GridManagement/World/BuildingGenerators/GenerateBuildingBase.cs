@@ -123,12 +123,12 @@ public abstract class GenerateBuildingBase {
         ChunkManager chunkManager = World.Instance.GetChunkManager();
         TileData tile = chunkManager.GetTile(placePos);
         
-        if (tile.GetId() == TileRegistry.CROSSROAD_ROAD_1x1.GetId() || tile.GetId() == TileRegistry.CROSSROAD_CTRL_ROAD_1x1.GetId()) {
+        if (tile.GetId() == TileRegistry.CROSSROAD_ROAD.GetId() || tile.GetId() == TileRegistry.CROSSROAD_ROAD_CONTROLLED.GetId()) {
             chunkManager.SetTile(placePos, tile.GetId(), dir);
-        } else if (tile.GetId() == TileRegistry.T_JUNCT_ROAD_1x1.GetId()) {
-            chunkManager.SetTile(placePos, TileRegistry.CROSSROAD_ROAD_1x1.GetId(), dir);
+        } else if (tile.GetId() == TileRegistry.T_JUNCT_ROAD.GetId()) {
+            chunkManager.SetTile(placePos, TileRegistry.CROSSROAD_ROAD.GetId(), dir);
         } else {
-            chunkManager.SetTile(placePos, TileRegistry.T_JUNCT_ROAD_1x1.GetId(), dir);
+            chunkManager.SetTile(placePos, TileRegistry.T_JUNCT_ROAD.GetId(), dir);
         }
     }
     
@@ -136,12 +136,12 @@ public abstract class GenerateBuildingBase {
         ChunkManager chunkManager = World.Instance.GetChunkManager();
         TileData tile = chunkManager.GetTile(placePos);
         
-        if (tile.GetId() == TileRegistry.CROSSROAD_ROAD_1x1.GetId() || tile.GetId() == TileRegistry.CROSSROAD_CTRL_ROAD_1x1.GetId()) {
+        if (tile.GetId() == TileRegistry.CROSSROAD_ROAD.GetId() || tile.GetId() == TileRegistry.CROSSROAD_ROAD_CONTROLLED.GetId()) {
             //do nothing
-        } else if (tile.GetId() == TileRegistry.T_JUNCT_ROAD_1x1.GetId()) {
+        } else if (tile.GetId() == TileRegistry.T_JUNCT_ROAD.GetId()) {
             //do nothing
         } else {
-            chunkManager.SetTile(placePos, TileRegistry.ZEBRA_CROSSING_1x1.GetId(), dir);
+            chunkManager.SetTile(placePos, TileRegistry.ZEBRA_CROSSING.GetId(), dir);
         }
     }
 

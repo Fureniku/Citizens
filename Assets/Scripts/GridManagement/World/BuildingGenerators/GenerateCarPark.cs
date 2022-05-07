@@ -7,12 +7,6 @@ using Random = UnityEngine.Random;
 
 public class GenerateCarPark : GenerateBuildingBase {
     
-    private EnumTile entrance = EnumTile.CAR_PARK_ENTRANCE;
-    private EnumTile edge = EnumTile.CAR_PARK_EDGE_BASE;
-    private EnumTile corner = EnumTile.CAR_PARK_CORNER_BASE;
-    private EnumTile inner = EnumTile.CAR_PARK_INNER_BASE;
-    private EnumTile ramp = EnumTile.CAR_PARK_RAMP_BASE;
-    
     protected override int SelectGameObject(int w, int l, ref EnumDirection rot) {
         //Most generator classes are relatively similar so this is copy-pasted with slight changes
         //Annoyingly things generate differently enough that most buildings need this custom written.
@@ -23,13 +17,13 @@ public class GenerateCarPark : GenerateBuildingBase {
             if (width % 2 == 0) { //Even-width building
                 if (w == width / 2 || w == width / 2 - 1) {
                     rot = EnumDirection.WEST;
-                    return TileRegistry.GetTile(entrance).GetId();
+                    return TileRegistry.MULTI_CAR_PARK_ENTRANCE.GetId();
                 }
             }
             else { //Odd-width building
                 if (w == (int)Math.Floor(width / 2.0)) {
                     rot = EnumDirection.WEST;
-                    return TileRegistry.GetTile(entrance).GetId();
+                    return TileRegistry.MULTI_CAR_PARK_ENTRANCE.GetId();
                 }
             }
         }
@@ -38,13 +32,13 @@ public class GenerateCarPark : GenerateBuildingBase {
             if (width % 2 == 0) { //Even-width building
                 if (w == width / 2 || w == width / 2 - 1) {
                     rot = EnumDirection.WEST;
-                    return TileRegistry.GetTile(ramp).GetId();
+                    return TileRegistry.MULTI_CAR_PARK_RAMP.GetId();
                 }
             }
             else { //Odd-width building
                 if (w == (int)Math.Floor(width / 2.0)) {
                     rot = EnumDirection.WEST;
-                    return TileRegistry.GetTile(ramp).GetId();
+                    return TileRegistry.MULTI_CAR_PARK_RAMP.GetId();
                 }
             }
         }
@@ -52,40 +46,40 @@ public class GenerateCarPark : GenerateBuildingBase {
         if (w == 0) {
             if (l == 0) {
                 rot = EnumDirection.WEST;
-                return TileRegistry.GetTile(corner).GetId();
+                return TileRegistry.MULTI_CAR_PARK_CORNER.GetId();
             }
             if (l == length-1) {
                 rot = EnumDirection.NORTH;
-                return TileRegistry.GetTile(corner).GetId();
+                return TileRegistry.MULTI_CAR_PARK_CORNER.GetId();
             }
 
             rot = EnumDirection.NORTH;
-            return TileRegistry.GetTile(edge).GetId();
+            return TileRegistry.MULTI_CAR_PARK_EDGE.GetId();
         }
         if (w == width-1) {
             if (l == 0) {
                 rot = EnumDirection.SOUTH;
-                return TileRegistry.GetTile(corner).GetId();
+                return TileRegistry.MULTI_CAR_PARK_CORNER.GetId();
             }
             if (l == length-1) {
                 rot = EnumDirection.EAST;
-                return TileRegistry.GetTile(corner).GetId();
+                return TileRegistry.MULTI_CAR_PARK_CORNER.GetId();
             }
             rot = EnumDirection.SOUTH;
-            return TileRegistry.GetTile(edge).GetId();
+            return TileRegistry.MULTI_CAR_PARK_EDGE.GetId();
         }
 
         if (l == 0) {
             rot = EnumDirection.WEST;
-            return TileRegistry.GetTile(edge).GetId();
+            return TileRegistry.MULTI_CAR_PARK_EDGE.GetId();
         }
 
         if (l == length - 1) {
             rot = EnumDirection.EAST;
-            return TileRegistry.GetTile(edge).GetId();
+            return TileRegistry.MULTI_CAR_PARK_EDGE.GetId();
         }
         
-        return TileRegistry.GetTile(inner).GetId();
+        return TileRegistry.MULTI_CAR_PARK_INNER.GetId();
     }
     
     public override void PostGenerate() {}
