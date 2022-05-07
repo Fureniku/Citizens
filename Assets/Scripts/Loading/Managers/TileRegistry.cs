@@ -167,8 +167,6 @@ public class TileRegistry : GenerationSystem {
         yield return null;
     }
 
-
-
     public static Tile GetTile(int id) {
         if (tileRegistry[id] == null) {
             Debug.Log("Tile at " + id + " is null!");
@@ -234,96 +232,7 @@ public class Tile {
     public int GetId() { return id; }
     public string GetName() { return name; }
     public TileType GetTileType() { return tileType; }
-}/*
-
-public enum EnumTile {
-    /* 000 #1# AIR,
-    /* 001 #1# GRASS,
-    /* 002 #1# REFERENCE,
-    /* 003 #1# STRAIGHT_ROAD,
-    /* 004 #1# CORNER_ROAD,
-    /* 005 #1# T_JUNCT_ROAD,
-    /* 006 #1# T_JUNCT_ROAD_CONTROLLED,
-    /* 007 #1# CROSSROAD_ROAD,
-    /* 008 #1# CROSSROAD_ROAD_CONTROLLED,
-    /* 009 #1# T_JUNCT_ROAD_SINGLE_IN,
-    /* 010 #1# T_JUNCT_ROAD_SINGLE_OUT, 
-    /* 011 #1# ZEBRA_CROSSING,
-    /* 012 #1# PELICAN_CROSSING,
-    /* 013 #1# ROAD_WORLD_EXIT,
-    /* 014 #1# 
-    /* 015 #1# MULTI_CAR_PARK_RAMP,
-    /* 016 #1# MULTI_CAR_PARK_EDGE,
-    /* 017 #1# MULTI_CAR_PARK_CORNER,
-    /* 018 #1# MULTI_CAR_PARK_INNER,
-    /* 019 #1# MULTI_CAR_PARK_EXIT,
-    /* 020 #1# 
-    /* 021 #1# 
-    /* 022 #1# 
-    /* 023 #1# 
-    /* 024 #1# 
-    /* 025 #1# 
-    /* 026 #1# 
-    /* 027 #1# 
-    /* 028 #1# 
-    /* 029 #1# 
-    /* 030 #1# MULTI_CAR_PARK_ENTRANCE,
-    /* 031 #1# 
-    /* 032 #1# 
-    /* 033 #1# 
-    /* 034 #1# 
-    /* 035 #1# 
-    /* 036 #1# 
-    /* 037 #1# 
-    /* 038 #1# 
-    /* 039 #1# 
-    /* 04 #1# 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    OFFICE_1_CORNER_RECESSED_L,
-    OFFICE_1_CORNER_RECESSED_R,
-    OFFICE_1_CORNER_RECESSED,
-    OFFICE_1_EDGE_RECESSED,
-    OFFICE_1_EDGE_RECESSED_ENTRANCE,
-    OFFICE_1_EDGE_RECESSED_GARAGE,
-    OFFICE_1_EDGE,
-    OFFICE_1_INNER_ROOF,
-    TOWN_HOUSE_1,
-    TOWN_HOUSE_2,
-    TOWN_HOUSE_3,
-    TOWN_HOUSE_4,
-    COFFEE_SHOP_1,
-    ZORO,
-    PRIDAVE,
-    PREVIOUS,
-    RURAL_COSTUMERS,
-    G_AND_L,
-    VERYWET,
-    LAKE_CONTINENT,
-    OLD_SOUND,
-    HOSPITAL_8x8,
-    TOWN_HALL_8x8,
-    UNIVERSITY_8x8,
-    SHOP_BESTCO,
-    SHOP_812,
-    SHOP_WCDONALDS,
-    SHOP_BURGERQUEEN,
-    SHOP_SFC,
-    SHOP_PIZZA_HOUSE,
-    SHOP_TGITUESDAYS,
-    SHOP_WAGAPAPA,
-    SHOP_GRANDPADOS,
-    SHOP_TENGIRLS,
-    SHOP_DOMPATH,
-    SKYSCRAPER_GENERIC_1
-}*/
+}
 
 public enum TileType {
     AIR,
