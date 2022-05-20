@@ -12,7 +12,7 @@ public class WorldData : MonoBehaviour {
     [SerializeField] private string worldName = "Default World"; //Name of the world
     [SerializeField] private bool saving = false; //Whether saving is enabled
     [SerializeField] private int worldSize = 3; //World's size in chunks
-    [SerializeField] private int worldSeed = 3; //World's size in chunks
+    [SerializeField] private int worldSeed = 20; //World's seed
     
     [SerializeField] private int initialVehicles = 20; //World's size in chunks
     [SerializeField] private int maxVehicles = 30; //World's size in chunks

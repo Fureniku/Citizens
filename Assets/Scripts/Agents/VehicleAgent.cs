@@ -53,9 +53,8 @@ public class VehicleAgent : BaseAgent {
         
         destinationController = finalDest.GetComponent<LocationNodeController>();
         
-        if (destinationController == null) {
-            Debug.LogError("Vehicle pathing to " + finalDest.name + " which has no destination controller.");
-        }
+        if (destinationController == null) { Debug.LogError("Vehicle pathing to " + finalDest.name + " which has no destination controller."); }
+        
         finalDest = destinationController.GetDestinationNodeVehicle().gameObject;
         
         List<Node> aStarPath = aStar.RequestPath(startPoint, destinationController.GetNodeLocation().gameObject);
@@ -65,6 +64,32 @@ public class VehicleAgent : BaseAgent {
             agentManager.RemoveAgent(gameObject);
         }
         
+        CreatePassengers();
+        InitialRoadAlignment(aStarPath, startPoint.transform.position);
+        InitializeStartJunctionController(aStarPath, startPoint);
+        InitializePathJunctionControllers(aStarPath, startPoint.transform.position);
+        InitializeFinalJunctionController(aStarPath);
+
+        if (destinationController != null) {
+            
+            dests.Add(destinationController.GetDestinationNodeVehicle().gameObject);
+        } else {
+            dests.Add(finalDest);
+        }
+
+        initialFinalDestinationId = dests.Count;
+
+        CalculateAllPaths();
+
+        currentDest = -1;
+        IncrementDestination();
+
+        maxSpeed = agent.speed;
+
+        SetLookDirection(Vector3.forward, false);
+    }
+
+    private void CreatePassengers() {
         int passengerAgents = Random.Range(1, vehicle.GetMaxSeats() + 1);
 
         for (int i = 0; i < passengerAgents; i++) {
@@ -75,9 +100,11 @@ public class VehicleAgent : BaseAgent {
             passengerAgent.GetComponent<NavMeshAgent>().enabled = false;
             seat.SetAgentOccupancy(passengerAgent);
         }
+    }
 
+    private void InitialRoadAlignment(List<Node> aStarPath, Vector3 startPos) {
         if (aStarPath.Count >= 1) { //Realign vehicle on the correct side of the road
-            TileData tdStart = World.Instance.GetChunkManager().GetTile(TilePos.GetTilePosFromLocation(startPoint.transform.position));
+            TileData tdStart = World.Instance.GetChunkManager().GetTile(TilePos.GetTilePosFromLocation(startPos));
             TileData tdNext = World.Instance.GetChunkManager().GetTile(new TilePos(aStarPath[0].x, aStarPath[0].y));
 
             EnumDirection startingDirection = Direction.GetDirectionOffset(tdStart.GetTilePos(), tdNext.GetTilePos());
@@ -103,20 +130,9 @@ public class VehicleAgent : BaseAgent {
         } else {
             Debug.LogError("Vehicle " + gameObject.name + " spawned too close to its destination. This is very bad!.");
         }
+    }
 
-        if (startPoint != gameObject && startPoint.GetComponent<VehicleJunctionController>() != null) {
-            VehicleJunctionController startJC = startPoint.GetComponent<VehicleJunctionController>();
-            
-            if (startJC != null) {
-                dests.Add(startJC.GetInNodeRaw(EnumLocalDirection.UP));
-                TileData exitTd = World.Instance.GetChunkManager().GetTile(new TilePos(aStarPath[0].x, aStarPath[0].y));
-
-                EnumDirection exit = Direction.GetDirectionOffset(startJC.GetComponent<TileData>().GetTilePos(), exitTd.GetTilePos()); //current to exit
-                GameObject exitGo = startJC.GetOutNode(exit);
-                dests.Add(exitGo);
-            }
-        }
-
+    private void InitializePathJunctionControllers(List<Node> aStarPath, Vector3 startPos) {
         for (int i = 0; i < aStarPath.Count; i++) {
             TileData td = World.Instance.GetChunkManager().GetTile(new TilePos(aStarPath[i].x, aStarPath[i].y));
             
@@ -128,7 +144,7 @@ public class VehicleAgent : BaseAgent {
                 if (NodeInRange(i + 1, aStarPath.Count)) exitTd = World.Instance.GetChunkManager().GetTile(new TilePos(aStarPath[i+1].x, aStarPath[i+1].y));
 
                 if (entryTd == null) {
-                    if (NodeInRange(i, aStarPath.Count+1)) entryTd = World.Instance.GetChunkManager().GetTile(TilePos.GetTilePosFromLocation(startPoint.transform.position));
+                    if (NodeInRange(i, aStarPath.Count+1)) entryTd = World.Instance.GetChunkManager().GetTile(TilePos.GetTilePosFromLocation(startPos));
                 }
 
                 if (entryTd != null && exitTd != null) {
@@ -145,34 +161,38 @@ public class VehicleAgent : BaseAgent {
                 }
             }
         }
+    }
 
+    private void InitializeStartJunctionController(List<Node> aStarPath, GameObject startPoint) {
+        if (startPoint != gameObject && startPoint.GetComponent<VehicleJunctionController>() != null) {
+            VehicleJunctionController startJC = startPoint.GetComponent<VehicleJunctionController>();
+            
+            if (startJC != null) {
+                dests.Add(startJC.GetInNodeRaw(EnumLocalDirection.UP));
+                TileData exitTd = World.Instance.GetChunkManager().GetTile(new TilePos(aStarPath[0].x, aStarPath[0].y));
+
+                EnumDirection exit = Direction.GetDirectionOffset(startJC.GetComponent<TileData>().GetTilePos(), exitTd.GetTilePos()); //current to exit
+                GameObject exitGo = startJC.GetOutNode(exit);
+                dests.Add(exitGo);
+            }
+        }
+    }
+
+    private void InitializeFinalJunctionController(List<Node> aStarPath) {
         VehicleJunctionController vjc = destinationController.GetComponent<VehicleJunctionController>();
-        
         if (vjc != null) { //Add the final junction entry node before the destination, if the destination is on a junction.
             TileData entryTd  = World.Instance.GetChunkManager().GetTile(new TilePos(aStarPath[aStarPath.Count-2].x, aStarPath[aStarPath.Count-2].y));
             EnumDirection entry = Direction.GetDirectionOffset(entryTd.GetTilePos(), TilePos.GetTilePosFromLocation(vjc.transform.position));
             dests.Add(vjc.GetInNode(entry));
             dests.Add(destinationController.GetComponent<VehicleJunctionController>().GetOutNodeRaw(EnumLocalDirection.UP));
         }
-
-        if (destinationController != null) {
-            
-            dests.Add(destinationController.GetDestinationNodeVehicle().gameObject);
-        } else {
-            dests.Add(finalDest);
-        }
-
-        initialFinalDestinationId = dests.Count;
-
-        CalculateAllPaths();
-
-        currentDest = -1;
-        IncrementDestination();
-
-        maxSpeed = agent.speed;
-
-        SetLookDirection(Vector3.forward, false);
     }
+
+
+
+
+
+
 
     private bool reattempted = false;
 

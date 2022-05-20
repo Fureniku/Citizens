@@ -41,8 +41,12 @@ public class WaitToCrossState : PedestrianBaseState {
         
         if (seenObject != null) {
             if (seenObject.gameObject.CompareTag("Vehicle")) {
+                
                 if (!ignoredVehicles.Contains(seenObject.gameObject)) {
                     float dist = Vector3.Distance(agent.transform.position, seenObject.position);
+                    if (agentDist <= -1.0) {
+                        check = 0;
+                    }
                     if (agentDist >= 0) {//Only reset for approaching vehicles, not ones moving away or not moving.
                         if (dist < agentDist) {
                             check = 0; //restart checking
